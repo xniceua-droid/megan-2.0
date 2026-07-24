@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Megan 2.0</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{min-height:100vh;display:flex;align-items:center;justify-content:center;background:#0a0a0f;font-family:system-ui,sans-serif;overflow:hidden}
+.glow{position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(139,0,255,.15),transparent 70%);filter:blur(40px);animation:pulse 4s ease-in-out infinite}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:.5}50%{transform:scale(1.1);opacity:.8}}
+.card{position:relative;z-index:1;text-align:center;padding:60px 50px;border-radius:24px;background:rgba(255,255,255,.03);backdrop-filter:blur(20px);border:1px solid rgba(139,0,255,.2);box-shadow:0 0 80px rgba(139,0,255,.1)}
+.emoji{font-size:72px;margin-bottom:20px;display:block;animation:float 3s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+h1{font-size:48px;font-weight:800;background:linear-gradient(135deg,#a855f7,#ec4899,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:12px;letter-spacing:-1px}
+p{color:#94a3b8;font-size:18px;line-height:1.6;margin-bottom:30px}
+.badges{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.badge{padding:8px 16px;border-radius:20px;font-size:13px;font-weight:600;border:1px solid rgba(255,255,255,.1);color:#cbd5e1}
+.badge:nth-child(1){background:rgba(139,0,255,.15);border-color:rgba(139,0,255,.3);color:#c084fc}
+.badge:nth-child(2){background:rgba(236,72,153,.1);border-color:rgba(236,72,153,.2);color:#f472b6}
+.badge:nth-child(3){background:rgba(6,182,212,.1);border-color:rgba(6,182,212,.2);color:#22d3ee}
+.stats{display:flex;gap:40px;justify-content:center;margin-top:35px;padding-top:30px;border-top:1px solid rgba(255,255,255,.05)}
+.stat-num{font-size:32px;font-weight:800;color:#e2e8f0}
+.stat-label{font-size:12px;color:#64748b;margin-top:4px;text-transform:uppercase;letter-spacing:1px}
+.footer{position:fixed;bottom:20px;width:100%;text-align:center;color:#334155;font-size:13px}
+</style>
+</head>
+<body>
+<div class="glow"></div>
+<div class="card">
+<span class="emoji">🦀</span>
+<h1>MEGAN 2.0</h1>
+<p>Cold. Precise. Lethal-efficient.<br>Персональный ИИ для Вована.</p>
+<div class="badges">
+<span class="badge">🧠 MiMo Pro</span>
+<span class="badge">⚡ 2350 навыков</span>
+<span class="badge">🇫🇷 Nice, France</span>
+</div>
+<div class="stats">
+<div><div class="stat-num">24/7</div><div class="stat-label">Online</div></div>
+<div><div class="stat-num">100+</div><div class="stat-label">Languages</div></div>
+<div><div class="stat-num">∞</div><div class="stat-label">Память</div></div>
+</div>
+</div>
+<div class="footer">Built by Вован · 2026</div>
+</body>
+</html>
