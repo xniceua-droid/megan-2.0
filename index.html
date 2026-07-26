@@ -3,17 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>VOVAN BEAUTY STUDIO — Cyber Edition</title>
+    <title>VOVAN BEAUTY STUDIO — TON & M3GAN Edition</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #07090e;
-            --card-bg: #10141e;
+            --bg-color: #05070b;
+            --card-bg: #0d121c;
             --cyber-blue: #00a2ff;
             --cyber-gold: #ffd700;
-            --gold-glow: 0 0 15px rgba(255, 215, 0, 0.4);
-            --blue-glow: 0 0 15px rgba(0, 162, 255, 0.4);
+            --ton-blue: #0088cc;
+            --gold-glow: 0 0 18px rgba(255, 215, 0, 0.45);
+            --blue-glow: 0 0 18px rgba(0, 162, 255, 0.45);
             --text-main: #ffffff;
             --text-sub: #9bb0c7;
         }
@@ -26,7 +27,7 @@
         }
 
         body {
-            background-color: #040508;
+            background-color: #020305;
             color: var(--text-main);
             font-family: 'Montserrat', sans-serif;
             overflow-x: hidden;
@@ -40,13 +41,13 @@
             margin: 0 auto;
             background: var(--bg-color);
             position: relative;
-            box-shadow: 0 0 60px rgba(0, 162, 255, 0.2);
+            box-shadow: 0 0 60px rgba(0, 162, 255, 0.25);
             min-height: 100vh;
         }
 
         header {
             border-bottom: 2px solid var(--cyber-blue);
-            background: rgba(16, 20, 30, 0.95);
+            background: rgba(13, 18, 28, 0.95);
             backdrop-filter: blur(10px);
             padding: 15px 20px;
             display: flex;
@@ -59,7 +60,7 @@
 
         .logo {
             font-family: 'Orbitron', sans-serif;
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             font-weight: 900;
             background: linear-gradient(90deg, var(--cyber-blue) 0%, var(--cyber-gold) 100%);
             -webkit-background-clip: text;
@@ -72,7 +73,7 @@
             background: rgba(255, 215, 0, 0.15);
             color: var(--cyber-gold);
             font-size: 0.7rem;
-            padding: 4px 12px;
+            padding: 4px 10px;
             border: 1px solid var(--cyber-gold);
             border-radius: 20px;
             font-weight: bold;
@@ -81,7 +82,7 @@
             box-shadow: var(--gold-glow);
         }
 
-        /* Hero Секция */
+        /* Hero */
         .hero {
             display: flex;
             flex-direction: column;
@@ -102,7 +103,6 @@
             height: 100%;
             object-fit: cover;
             object-position: center;
-            filter: brightness(1.05) contrast(1.1);
         }
 
         .hero-overlay {
@@ -110,7 +110,7 @@
             bottom: 0;
             left: 0;
             width: 100%;
-            height: 50%;
+            height: 55%;
             background: linear-gradient(to top, var(--bg-color), transparent);
         }
 
@@ -122,9 +122,8 @@
 
         .hero-content h1 {
             font-family: 'Orbitron', sans-serif;
-            font-size: 1.7rem;
+            font-size: 1.6rem;
             font-weight: 900;
-            line-height: 1.2;
             color: var(--cyber-gold);
             margin-bottom: 10px;
             text-shadow: var(--gold-glow);
@@ -133,13 +132,31 @@
         .hero-content p {
             font-size: 0.9rem;
             color: var(--text-sub);
-            margin-bottom: 22px;
+            margin-bottom: 20px;
             line-height: 1.5;
+        }
+
+        .payment-badges {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .pay-tag {
+            background: rgba(0, 162, 255, 0.1);
+            border: 1px solid var(--cyber-blue);
+            color: var(--cyber-blue);
+            font-size: 0.75rem;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-weight: 700;
         }
 
         .ticket-btn {
             display: inline-block;
-            background: linear-gradient(135deg, var(--cyber-blue) 0%, #0066cc 100%);
+            background: linear-gradient(135deg, var(--cyber-blue) 0%, #0055b3 100%);
             color: #ffffff;
             font-family: 'Orbitron', sans-serif;
             font-weight: 800;
@@ -152,7 +169,7 @@
             transition: all 0.2s ease;
             text-align: center;
             width: 100%;
-            max-width: 320px;
+            max-width: 330px;
             cursor: pointer;
         }
 
@@ -167,7 +184,7 @@
 
         .section-title {
             font-family: 'Orbitron', sans-serif;
-            font-size: 1.5rem;
+            font-size: 1.45rem;
             text-align: center;
             margin-bottom: 25px;
             background: linear-gradient(90deg, var(--cyber-gold) 0%, var(--cyber-blue) 100%);
@@ -177,37 +194,9 @@
             letter-spacing: 2px;
         }
 
-        .category-tabs {
-            display: flex;
-            justify-content: center;
-            gap: 8px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-
-        .tab-btn {
-            background: var(--card-bg);
-            color: var(--text-sub);
-            border: 1px solid rgba(0, 162, 255, 0.2);
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 0.85rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .tab-btn.active {
-            background: var(--cyber-gold);
-            color: #000;
-            font-weight: 900;
-            box-shadow: var(--gold-glow);
-        }
-
         .vintage-menu {
             background: var(--card-bg);
-            border: 1px solid rgba(255, 215, 0, 0.2);
+            border: 1px solid rgba(255, 215, 0, 0.25);
             border-radius: 14px;
             padding: 18px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.6);
@@ -240,19 +229,28 @@
             margin-top: 4px;
         }
 
-        .menu-price {
+        .price-box {
+            text-align: right;
+        }
+
+        .menu-price-eur {
             font-family: 'Orbitron', sans-serif;
             font-size: 1.15rem;
             font-weight: 800;
             color: var(--cyber-gold);
-            white-space: nowrap;
-            margin-left: 10px;
-            text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+            text-shadow: 0 0 8px rgba(255, 215, 0, 0.3);
+        }
+
+        .menu-price-ton {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--cyber-blue);
         }
 
         /* Секция Стилистов */
         .barbers-section {
-            background: #0b0e17;
+            background: #080b12;
             padding: 40px 15px;
             border-top: 2px solid var(--cyber-blue);
             border-bottom: 2px solid var(--cyber-gold);
@@ -342,7 +340,7 @@
         .date-card {
             min-width: 75px;
             padding: 10px 6px;
-            background: #181e2b;
+            background: #141b29;
             border: 1px solid rgba(0, 162, 255, 0.2);
             border-radius: 8px;
             text-align: center;
@@ -362,7 +360,7 @@
         }
 
         .slot-btn {
-            background: #181e2b;
+            background: #141b29;
             border: 1px solid rgba(0, 162, 255, 0.2);
             padding: 10px;
             border-radius: 8px;
@@ -386,7 +384,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(4, 5, 8, 0.94);
+            background: rgba(2, 3, 5, 0.94);
             backdrop-filter: blur(10px);
             display: flex;
             justify-content: center;
@@ -407,12 +405,12 @@
             background: var(--card-bg);
             border: 1px solid var(--cyber-gold);
             border-radius: 18px;
-            padding: 25px 20px;
+            padding: 22px 18px;
             width: 100%;
-            max-width: 440px;
-            box-shadow: 0 0 50px rgba(0, 162, 255, 0.3);
+            max-width: 450px;
+            box-shadow: 0 0 50px rgba(0, 162, 255, 0.35);
             position: relative;
-            max-height: 90vh;
+            max-height: 92vh;
             overflow-y: auto;
         }
 
@@ -429,46 +427,46 @@
 
         .modal-header h3 {
             font-family: 'Orbitron', sans-serif;
-            font-size: 1.2rem;
+            font-size: 1.15rem;
             color: var(--cyber-gold);
             margin-bottom: 6px;
         }
 
         .modal-header p {
             font-size: 0.8rem;
-            margin-bottom: 18px;
+            margin-bottom: 16px;
             color: var(--text-sub);
         }
 
         .form-group {
-            margin-bottom: 14px;
+            margin-bottom: 12px;
         }
 
         .form-group label {
             display: block;
             font-weight: 600;
-            margin-bottom: 6px;
-            font-size: 0.85rem;
+            margin-bottom: 5px;
+            font-size: 0.82rem;
             color: #ddd;
         }
 
         .form-group input,
         .form-group select {
             width: 100%;
-            padding: 12px;
+            padding: 11px;
             border-radius: 8px;
             border: 1px solid rgba(0, 162, 255, 0.3);
-            background: #090c12;
+            background: #080c14;
             color: #ffffff;
             font-family: 'Montserrat', sans-serif;
-            font-size: 0.9rem;
+            font-size: 0.88rem;
             outline: none;
         }
 
         footer {
             text-align: center;
             padding: 30px 15px;
-            background: #040508;
+            background: #020305;
             color: var(--text-sub);
             font-size: 0.85rem;
             border-top: 1px solid rgba(0, 162, 255, 0.1);
@@ -490,55 +488,68 @@
         </div>
         <div class="hero-content">
             <h1>M3GAN AI BEAUTY EDITION</h1>
-            <p>Жовто-блакитна кибер-эстетика, авторский стиль и идеальная точность бьюти-арта.</p>
+            <p>Жовто-блакитна кибер-эстетика, авторский стиль и подлинное искусство ухода.</p>
+            
+            <div class="payment-badges">
+                <span class="pay-tag">💎 TON Crypto</span>
+                <span class="pay-tag"> Apple Pay</span>
+                <span class="pay-tag">G Pay</span>
+                <span class="pay-tag">💳 EUR Card</span>
+            </div>
+
             <a href="#booking" class="ticket-btn" id="main-book-btn">⚡ ЗАПИСАТЬСЯ К МАСТЕРУ</a>
         </div>
     </section>
 
-    <!-- Меню-Прайс -->
+    <!-- Прайс -->
     <section class="menu-section">
-        <h2 class="section-title">Услуги Студии</h2>
-        
-        <div class="category-tabs">
-            <button class="tab-btn active" data-cat="all">Все</button>
-            <button class="tab-btn" data-cat="hair">Стрижки</button>
-            <button class="tab-btn" data-cat="style">Стиль & Окрашивание</button>
-            <button class="tab-btn" data-cat="vip">VIP Комплексы</button>
-        </div>
+        <h2 class="section-title">Услуги & Валюта</h2>
 
         <div class="vintage-menu">
-            <div class="menu-item" data-cat="hair" data-name="Стрижка M3GAN Cyber Style (40 €)">
+            <div class="menu-item" data-name="Стрижка M3GAN Cyber Style (40 €)">
                 <div>
                     <div class="menu-name">Стрижка M3GAN Cyber Style</div>
                     <div class="menu-desc">Авторское моделирование формы + стайлинг</div>
                 </div>
-                <div class="menu-price">40 €</div>
+                <div class="price-box">
+                    <div class="menu-price-eur">40 €</div>
+                    <div class="menu-price-ton">≈ 6.2 TON</div>
+                </div>
             </div>
-            <div class="menu-item" data-cat="style" data-name="Бьюти-комплекс VOVAN VIP (65 €)">
+            <div class="menu-item" data-name="Бьюти-комплекс VOVAN VIP (65 €)">
                 <div>
                     <div class="menu-name">Бьюти-комплекс VOVAN VIP</div>
-                    <div class="menu-desc">Стрижка + уход за волосами + премиум стайлинг</div>
+                    <div class="menu-desc">Стрижка + уход за волосами + стайлинг</div>
                 </div>
-                <div class="menu-price">65 €</div>
+                <div class="price-box">
+                    <div class="menu-price-eur">65 €</div>
+                    <div class="menu-price-ton">≈ 10.0 TON</div>
+                </div>
             </div>
-            <div class="menu-item" data-cat="vip" data-name="Cyber Fade & Beard (50 €)">
+            <div class="menu-item" data-name="Cyber Fade & Beard (50 €)">
                 <div>
                     <div class="menu-name">Cyber Fade & Beard</div>
-                    <div class="menu-desc">Идеальный фейд + оформление бороды бритвой</div>
+                    <div class="menu-desc">Идеальный фейд + оформление бороды</div>
                 </div>
-                <div class="menu-price">50 €</div>
+                <div class="price-box">
+                    <div class="menu-price-eur">50 €</div>
+                    <div class="menu-price-ton">≈ 7.7 TON</div>
+                </div>
             </div>
-            <div class="menu-item" data-cat="style" data-name="Окрашивание Platinum Cyber (75 €)">
+            <div class="menu-item" data-name="Окрашивание Platinum Cyber (75 €)">
                 <div>
                     <div class="menu-name">Окрашивание Platinum Cyber</div>
-                    <div class="menu-desc">Премиальное тонирование и восстановление тона</div>
+                    <div class="menu-desc">Премиальное тонирование и уход</div>
                 </div>
-                <div class="menu-price">75 €</div>
+                <div class="price-box">
+                    <div class="menu-price-eur">75 €</div>
+                    <div class="menu-price-ton">≈ 11.5 TON</div>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Секция Стилистов M3GAN -->
+    <!-- Стилисты -->
     <section class="barbers-section">
         <h2 class="section-title">Топ-Стилисты</h2>
         <div class="barbers-grid">
@@ -546,14 +557,14 @@
                 <div class="barber-rating">★ 5.0</div>
                 <img src="m3gan_cyber.jpg" alt="M3GAN AI Master" class="barber-img">
                 <div class="barber-name">M3GAN AI</div>
-                <p>Кибер-мастер бьюти-арта. Идеальная точность каждой линии и авторский стиль.</p>
+                <p>Кибер-мастер бьюти-арта. Идеальная точность каждой линии.</p>
                 <button class="select-barber-btn" data-barber="M3GAN AI">Записаться к M3GAN</button>
             </div>
             <div class="barber-card">
                 <div class="barber-rating">★ 4.99</div>
                 <img src="vovan.jpg" alt="Master Vovan" class="barber-img">
                 <div class="barber-name">VOVAN</div>
-                <p>Главный стилист и основатель студии. Эксперт по сложным формам и стилю.</p>
+                <p>Главный стилист и основатель студии. Эксперт по авторскому стилю.</p>
                 <button class="select-barber-btn" data-barber="VOVAN">Записаться к VOVAN</button>
             </div>
         </div>
@@ -561,17 +572,17 @@
 
     <footer>
         <p>⚡ VOVAN BEAUTY STUDIO BOT &copy; 2026</p>
-        <p style="margin-top: 5px; opacity: 0.6; font-size: 0.75rem;">M3GAN AI Кибер-Эстетика 🇺🇦</p>
+        <p style="margin-top: 5px; opacity: 0.6; font-size: 0.75rem;">TON Gram Crypto & Apple Pay Enabled 🇺🇦</p>
     </footer>
 </div>
 
-<!-- Модальное окно бронирования -->
+<!-- Модальное окно -->
 <div id="booking-modal" class="modal-overlay">
     <div class="vintage-modal">
         <button class="close-modal">&times;</button>
         <div class="modal-header">
-            <h3>ЗАПИСЬ В БЬЮТИ-СТУДИЮ</h3>
-            <p>Выберите удобный день и время посещения.</p>
+            <h3>ЗАПИСЬ & ОПЛАТА</h3>
+            <p>Укажите детали визита и удобную валюту.</p>
         </div>
         <form class="booking-form" id="barber-form">
             <div class="form-group">
@@ -583,12 +594,12 @@
                 <input type="text" id="client-phone" placeholder="+380991234567" required>
             </div>
             <div class="form-group">
-                <label for="select-service">Выберите услугу:</label>
+                <label for="select-service">Услуга:</label>
                 <select id="select-service">
-                    <option value="Стрижка M3GAN Cyber Style (40 €)">Стрижка M3GAN Cyber Style (40 €)</option>
-                    <option value="Бьюти-комплекс VOVAN VIP (65 €)">Бьюти-комплекс VOVAN VIP (65 €)</option>
-                    <option value="Cyber Fade & Beard (50 €)">Cyber Fade & Beard (50 €)</option>
-                    <option value="Окрашивание Platinum Cyber (75 €)">Окрашивание Platinum Cyber (75 €)</option>
+                    <option value="Стрижка M3GAN Cyber Style (40 € / 6.2 TON)">Стрижка M3GAN Cyber Style — 40 € (≈ 6.2 TON)</option>
+                    <option value="Бьюти-комплекс VOVAN VIP (65 € / 10 TON)">Бьюти-комплекс VOVAN VIP — 65 € (≈ 10.0 TON)</option>
+                    <option value="Cyber Fade & Beard (50 € / 7.7 TON)">Cyber Fade & Beard — 50 € (≈ 7.7 TON)</option>
+                    <option value="Окрашивание Platinum Cyber (75 € / 11.5 TON)">Окрашивание Platinum Cyber — 75 € (≈ 11.5 TON)</option>
                 </select>
             </div>
             <div class="form-group">
@@ -599,15 +610,35 @@
                 </select>
             </div>
 
+            <!-- Способ оплаты -->
+            <div class="form-group">
+                <label for="select-payment-method">Способ и Валюта оплаты:</label>
+                <select id="select-payment-method">
+                    <option value="💎 TON Crypto (Telegram Wallet Gram)">💎 Telegram Wallet (TON Crypto)</option>
+                    <option value=" Apple Pay / Google Pay"> Apple Pay / Google Pay</option>
+                    <option value="💳 Банковская карта (EUR)">💳 Банковская карта (EUR)</option>
+                    <option value="💵 Наличными в студии (EUR)">💵 Наличными в студии (EUR)</option>
+                </select>
+            </div>
+
+            <!-- Время оплаты -->
+            <div class="form-group">
+                <label for="select-payment-timing">Когда оплатить:</label>
+                <select id="select-payment-timing">
+                    <option value="⏳ После оказания услуги (В салоне)">⏳ После оказания услуги (В салоне)</option>
+                    <option value="⚡ Предоплата онлайн сейчас">⚡ Предоплата онлайн сейчас</option>
+                </select>
+            </div>
+
             <!-- Календарь -->
             <div class="form-group">
-                <label>Дата посещения:</label>
+                <label>Дата визита:</label>
                 <div class="date-picker" id="date-picker-container"></div>
             </div>
 
             <!-- Время -->
             <div class="form-group">
-                <label>Доступный слот:</label>
+                <label>Время визита:</label>
                 <div class="time-slots" id="time-slots-container">
                     <div class="slot-btn selected">11:00</div>
                     <div class="slot-btn">13:00</div>
@@ -629,8 +660,8 @@
     tg.expand();
 
     try {
-        tg.setHeaderColor('#10141e');
-        tg.setBackgroundColor('#07090e');
+        tg.setHeaderColor('#0d121c');
+        tg.setBackgroundColor('#05070b');
     } catch (e) {}
 
     const nameInput = document.getElementById('client-name');
@@ -691,26 +722,9 @@
         });
     });
 
-    document.querySelectorAll('.tab-btn').forEach(tab => {
-        tab.addEventListener('click', () => {
-            document.querySelectorAll('.tab-btn').forEach(t => t.classList.remove('active'));
-            tab.classList.add('active');
-            const cat = tab.dataset.cat;
-
-            document.querySelectorAll('.menu-item').forEach(item => {
-                if (cat === 'all' || item.dataset.cat === cat) {
-                    item.style.display = 'flex';
-                } else {
-                    item.style.display = 'none';
-                }
-            });
-            triggerHaptic('light');
-        });
-    });
-
     document.querySelectorAll('.menu-item').forEach(item => {
         item.addEventListener('click', () => {
-            document.getElementById('select-service').value = item.dataset.name;
+            document.getElementById('select-service').selectedIndex = 0;
             openModal();
         });
     });
@@ -757,6 +771,8 @@
         const clientPhone = document.getElementById('client-phone').value;
         const service = document.getElementById('select-service').value;
         const barber = document.getElementById('select-barber').value;
+        const payMethod = document.getElementById('select-payment-method').value;
+        const payTiming = document.getElementById('select-payment-timing').value;
 
         if (!clientName || !clientPhone) {
             triggerHaptic('medium');
@@ -783,8 +799,10 @@
             `💈 <b>Стилист:</b> ${barber}\n` +
             `📅 <b>Дата:</b> ${selectedDateText}\n` +
             `⏰ <b>Время:</b> ${selectedTimeSlot}\n` +
+            `💳 <b>Оплата:</b> ${payMethod}\n` +
+            `⏳ <b>Режим:</b> ${payTiming}\n` +
             `━━━━━━━━━━━━━━━━━━━━━━\n` +
-            `✨ <i>M3GAN Cyber AI Notification</i>`;
+            `💎 <i>TON Gram & Apple Pay Ready</i>`;
 
         const clientMessageText = 
             `✨ <b>ВАША ЗАПИСЬ ПОДТВЕРЖДЕНА!</b>\n` +
@@ -794,6 +812,8 @@
             `💈 <b>Стилист:</b> ${barber}\n` +
             `📅 <b>Дата:</b> ${selectedDateText}\n` +
             `⏰ <b>Время:</b> ${selectedTimeSlot}\n` +
+            `💳 <b>Валюта / Оплата:</b> ${payMethod}\n` +
+            `⏳ <b>Режим:</b> ${payTiming}\n` +
             `━━━━━━━━━━━━━━━━━━━━━━\n` +
             `💎 <i>Ждем вас в VOVAN BEAUTY STUDIO!</i>`;
 
