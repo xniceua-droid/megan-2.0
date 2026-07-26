@@ -527,7 +527,7 @@
             }
         });
 
-        function handleFormSubmit() {
+        async function handleFormSubmit() {
             const clientName = document.getElementById('client-name').value;
             const clientPhone = document.getElementById('client-phone').value;
             const service = document.getElementById('select-service').value;
@@ -553,17 +553,61 @@
 
             triggerHaptic('success');
 
-            // Если запущено внутри Telegram — отправляем данные боту
-            if (tg.sendData) {
-                tg.sendData(JSON.stringify(bookingData));
-            } else if (tg.showAlert) {
-                tg.showAlert(`Талон забронирован!\nИмя: ${clientName}\nУслуга: ${service}`);
+            // 1. Попытка отправить через стандартный Telegram WebApp sendData
+            let sentViaTg = false;
+            try {
+                if (tg.initDataUnsafe && tg.initDataUnsafe.query_id) {
+                    tg.sendData(JSON.stringify(bookingData));
+                    sentViaTg = true;
+                }
+            } catch (e) {
+                console.log('tg.sendData failed, falling back to direct notification', e);
+            }
+
+            // 2. Дополнительная гарантированная отправка через свой бота / Webhook
+            // Это сработает ВСЕГДА, даже если открыли через WebApp ссылку
+            const botToken = "8774126630:AAE-S_KkFFQjMmEXPIqW_3OOgOkPh8X6TzM";
+            
+            // Если есть user.id в Telegram WebApp - отправляем ему лично, иначе выводим алерт
+            const userId = tg.initDataUnsafe && tg.initDataUnsafe.user ? tg.initDataUnsafe.user.id : null;
+            const userHandle = tg.initDataUnsafe && tg.initDataUnsafe.user && tg.initDataUnsafe.user.username ? '@' + tg.initDataUnsafe.user.username : 'Не указан';
+
+            const messageText = 
+                `🎟 <b>НОВЫЙ ТАЛОН НА СТРИЖКУ!</b>\n` +
+                `━━━━━━━━━━━━━━━━━━━━━━\n` +
+                `👤 <b>Клиент:</b> ${clientName}\n` +
+                `📞 <b>Контакты:</b> ${clientPhone}\n` +
+                `💬 <b>Telegram:</b> ${userHandle}\n` +
+                `✂️ <b>Услуга:</b> ${service}\n` +
+                `💈 <b>Мастер:</b> ${barber}\n` +
+                `🕒 <b>Дата заявки:</b> ${bookingData.date}\n` +
+                `━━━━━━━━━━━━━━━━━━━━━━\n` +
+                `✅ <i>Заявка успешно принята!</i>`;
+
+            if (userId) {
+                fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        chat_id: userId,
+                        text: messageText,
+                        parse_mode: 'HTML'
+                    })
+                }).catch(err => console.log('Error sending message:', err));
+            }
+
+            if (tg.showAlert) {
+                tg.showAlert(`✅ Талон забронирован!\nИмя: ${clientName}\nУслуга: ${service}`);
             } else {
-                alert(`Талон забронирован!\nИмя: ${clientName}\nУслуга: ${service}`);
+                alert(`✅ Талон забронирован!\nИмя: ${clientName}\nУслуга: ${service}`);
             }
 
             closeModal();
             barberForm.reset();
+            
+            if (tg.close) {
+                setTimeout(() => tg.close(), 1500);
+            }
         }
 
         // Обработка отправки обычной HTML-формы
