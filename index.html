@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>VOVAN BEAUTY STUDIO — ERP & CRM M3GAN Edition</title>
+    <title>VOVAN BEAUTY STUDIO — ERP CRM & French Accounting Edition</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
-    <!-- Chart.js для графиков -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
@@ -17,216 +16,57 @@
             --ton-blue: #0088cc;
             --accent-green: #00e676;
             --accent-red: #ff2a5f;
+            --french-blue: #0055a5;
             --gold-glow: 0 0 18px rgba(255, 215, 0, 0.45);
             --blue-glow: 0 0 18px rgba(0, 162, 255, 0.45);
             --text-main: #ffffff;
             --text-sub: #9bb0c7;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            -webkit-tap-highlight-color: transparent;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+        body { background-color: #020305; color: var(--text-main); font-family: 'Montserrat', sans-serif; overflow-x: hidden; width: 100%; margin: 0 auto; }
+        .app-container { width: 100%; max-width: 600px; margin: 0 auto; background: var(--bg-color); position: relative; box-shadow: 0 0 60px rgba(0, 162, 255, 0.25); min-height: 100vh; padding-bottom: 75px; }
 
-        body {
-            background-color: #020305;
-            color: var(--text-main);
-            font-family: 'Montserrat', sans-serif;
-            overflow-x: hidden;
-            width: 100%;
-            margin: 0 auto;
-        }
+        header { border-bottom: 2px solid var(--cyber-blue); background: rgba(13, 18, 28, 0.95); backdrop-filter: blur(10px); padding: 12px 18px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; }
+        .logo { font-family: 'Orbitron', sans-serif; font-size: 1.05rem; font-weight: 900; background: linear-gradient(90deg, var(--cyber-blue) 0%, var(--cyber-gold) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; letter-spacing: 1.5px; }
+        .role-selector { background: #141b29; border: 1px solid var(--cyber-gold); color: var(--cyber-gold); padding: 4px 8px; border-radius: 8px; font-size: 0.75rem; font-family: 'Orbitron', sans-serif; outline: none; }
 
-        .app-container {
-            width: 100%;
-            max-width: 600px;
-            margin: 0 auto;
-            background: var(--bg-color);
-            position: relative;
-            box-shadow: 0 0 60px rgba(0, 162, 255, 0.25);
-            min-height: 100vh;
-            padding-bottom: 70px;
-        }
+        .bottom-nav { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 600px; background: rgba(13, 18, 28, 0.98); border-top: 1px solid rgba(0, 162, 255, 0.3); display: flex; justify-content: space-around; padding: 8px 0; z-index: 1000; backdrop-filter: blur(10px); }
+        .nav-btn { background: none; border: none; color: var(--text-sub); font-size: 0.65rem; display: flex; flex-direction: column; align-items: center; cursor: pointer; font-weight: 600; }
+        .nav-btn.active { color: var(--cyber-gold); font-weight: 900; }
+        .nav-icon { font-size: 1.1rem; margin-bottom: 2px; }
 
-        header {
-            border-bottom: 2px solid var(--cyber-blue);
-            background: rgba(13, 18, 28, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 12px 18px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
+        .page-section { display: none; }
+        .page-section.active { display: block; }
 
-        .logo {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.05rem;
-            font-weight: 900;
-            background: linear-gradient(90deg, var(--cyber-blue) 0%, var(--cyber-gold) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-        }
+        .admin-card { background: var(--card-bg); border: 1px solid rgba(0, 162, 255, 0.3); border-radius: 14px; padding: 16px; margin: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.5); }
+        .stat-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 12px; }
+        .stat-box { background: #141b29; border: 1px solid rgba(255, 215, 0, 0.2); border-radius: 10px; padding: 10px; text-align: center; }
+        .stat-val { font-family: 'Orbitron', sans-serif; font-size: 1.15rem; font-weight: 900; color: var(--cyber-gold); margin-top: 3px; }
+        .stat-label { font-size: 0.72rem; color: var(--text-sub); }
 
-        .role-selector {
-            background: #141b29;
-            border: 1px solid var(--cyber-gold);
-            color: var(--cyber-gold);
-            padding: 4px 8px;
-            border-radius: 8px;
-            font-size: 0.75rem;
-            font-family: 'Orbitron', sans-serif;
-            outline: none;
-        }
+        /* Французская Бухгалтерия */
+        .acc-table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 0.8rem; }
+        .acc-table th { background: #182030; color: var(--cyber-gold); padding: 8px; text-align: left; font-family: 'Orbitron', sans-serif; font-size: 0.72rem; }
+        .acc-table td { padding: 8px; border-bottom: 1px dashed rgba(0, 162, 255, 0.15); color: #ddd; }
+        .acc-tax-tag { background: rgba(255, 42, 95, 0.2); color: var(--accent-red); padding: 2px 6px; border-radius: 4px; font-weight: bold; font-size: 0.7rem; }
 
-        /* Навигация переключатель экранов */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100%;
-            max-width: 600px;
-            background: rgba(13, 18, 28, 0.98);
-            border-top: 1px solid rgba(0, 162, 255, 0.3);
-            display: flex;
-            justify-content: space-around;
-            padding: 8px 0;
-            z-index: 1000;
-            backdrop-filter: blur(10px);
-        }
-
-        .nav-btn {
-            background: none;
-            border: none;
-            color: var(--text-sub);
-            font-size: 0.7rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            cursor: pointer;
-            font-weight: 600;
-        }
-
-        .nav-btn.active {
-            color: var(--cyber-gold);
-            font-weight: 900;
-        }
-
-        .nav-icon {
-            font-size: 1.2rem;
-            margin-bottom: 2px;
-        }
-
-        .page-section {
-            display: none;
-        }
-
-        .page-section.active {
-            display: block;
-        }
-
-        /* Секция CRM Директора */
-        .admin-card {
-            background: var(--card-bg);
-            border: 1px solid rgba(0, 162, 255, 0.3);
-            border-radius: 14px;
-            padding: 16px;
-            margin: 15px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.5);
-        }
-
-        .stat-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-            margin-top: 12px;
-        }
-
-        .stat-box {
-            background: #141b29;
-            border: 1px solid rgba(255, 215, 0, 0.2);
-            border-radius: 10px;
-            padding: 12px;
-            text-align: center;
-        }
-
-        .stat-val {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.3rem;
-            font-weight: 900;
-            color: var(--cyber-gold);
-            margin-top: 4px;
-        }
-
-        .stat-label {
-            font-size: 0.75rem;
-            color: var(--text-sub);
-        }
-
-        /* Таблица заказов */
-        .orders-list {
-            margin-top: 15px;
-        }
-
-        .order-item {
-            background: #141b29;
-            border-left: 4px solid var(--cyber-blue);
-            padding: 12px;
-            border-radius: 6px;
-            margin-bottom: 10px;
-            font-size: 0.82rem;
-        }
-
-        .order-item.confirmed {
-            border-left-color: var(--accent-green);
-        }
-
-        .order-header {
-            display: flex;
-            justify-content: space-between;
-            font-weight: bold;
-            color: #fff;
-            margin-bottom: 4px;
-        }
-
-        .order-actions {
-            display: flex;
-            gap: 8px;
-            margin-top: 8px;
-        }
-
-        .action-btn {
-            padding: 4px 10px;
-            border-radius: 6px;
-            font-size: 0.75rem;
-            font-weight: bold;
-            border: none;
-            cursor: pointer;
-        }
-
+        .orders-list { margin-top: 12px; }
+        .order-item { background: #141b29; border-left: 4px solid var(--cyber-blue); padding: 10px; border-radius: 6px; margin-bottom: 8px; font-size: 0.8rem; }
+        .order-item.confirmed { border-left-color: var(--accent-green); }
+        .order-header { display: flex; justify-content: space-between; font-weight: bold; color: #fff; margin-bottom: 4px; }
+        .action-btn { padding: 4px 8px; border-radius: 6px; font-size: 0.72rem; font-weight: bold; border: none; cursor: pointer; margin-right: 5px; }
         .btn-confirm { background: var(--accent-green); color: #000; }
         .btn-cancel { background: var(--accent-red); color: #fff; }
 
-        /* График */
-        .chart-container {
-            position: relative;
-            height: 200px;
-            margin-top: 15px;
-        }
+        .chart-container { position: relative; height: 180px; margin-top: 12px; }
 
-        /* Клиентская часть Hero & Menu (из предыдущего шаблона) */
+        /* Клиент */
         .hero-banner-container { width: 100%; height: 260px; position: relative; overflow: hidden; }
         .hero-banner { width: 100%; height: 100%; object-fit: cover; }
         .hero-content { padding: 20px; text-align: center; }
         .hero-content h1 { font-family: 'Orbitron', sans-serif; font-size: 1.5rem; color: var(--cyber-gold); margin-bottom: 8px; }
-        .ticket-btn { display: inline-block; background: linear-gradient(135deg, var(--cyber-blue) 0%, #0055b3 100%); color: #ffffff; font-family: 'Orbitron', sans-serif; font-weight: 800; font-size: 0.9rem; padding: 14px 25px; text-decoration: none; border-radius: 10px; border: 1px solid var(--cyber-gold); box-shadow: 0 0 20px rgba(0, 162, 255, 0.5); width: 100%; max-width: 320px; cursor: pointer; text-align: center; }
+        .ticket-btn { display: inline-block; background: linear-gradient(135deg, var(--cyber-blue) 0%, #0055b3 100%); color: #ffffff; font-family: 'Orbitron', sans-serif; font-weight: 800; font-size: 0.9rem; padding: 14px 25px; border-radius: 10px; border: 1px solid var(--cyber-gold); box-shadow: 0 0 20px rgba(0, 162, 255, 0.5); width: 100%; max-width: 320px; cursor: pointer; text-align: center; }
         
         .vintage-menu { background: var(--card-bg); border: 1px solid rgba(255, 215, 0, 0.25); border-radius: 14px; padding: 15px; margin: 15px; }
         .menu-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; border-bottom: 1px dashed rgba(0, 162, 255, 0.15); padding-bottom: 10px; cursor: pointer; }
@@ -240,7 +80,6 @@
         .barber-img { width: 100%; height: 220px; object-fit: cover; border-radius: 10px; margin-bottom: 10px; border: 1px solid var(--cyber-blue); }
         .select-barber-btn { background: transparent; color: var(--cyber-gold); border: 1px solid var(--cyber-gold); padding: 10px; border-radius: 8px; font-family: 'Orbitron', sans-serif; font-weight: 800; cursor: pointer; width: 100%; }
 
-        /* Модальное окно */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(2, 3, 5, 0.94); backdrop-filter: blur(10px); display: flex; justify-content: center; align-items: center; z-index: 2000; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease; padding: 15px; }
         .modal-overlay.active { opacity: 1; visibility: visible; }
         .vintage-modal { background: var(--card-bg); border: 1px solid var(--cyber-gold); border-radius: 18px; padding: 22px 18px; width: 100%; max-width: 450px; position: relative; max-height: 92vh; overflow-y: auto; }
@@ -262,11 +101,12 @@
 
 <div class="app-container">
     <header>
-        <div class="logo">VOVAN BEAUTY ERP</div>
+        <div class="logo">VOVAN ERP FRANCE 🇫🇷</div>
         <select class="role-selector" id="role-select">
             <option value="client">👤 Клиент</option>
             <option value="director">👑 Директор</option>
-            <option value="admin">💼 Админ</option>
+            <option value="accounting">🇫🇷 Бухгалтерия</option>
+            <option value="admin">💼 CRM Админ</option>
             <option value="master">💈 Мастер</option>
         </select>
     </header>
@@ -284,9 +124,8 @@
             </div>
         </section>
 
-        <!-- Прайс -->
         <div class="vintage-menu">
-            <h2 style="font-family:'Orbitron'; color:var(--cyber-gold); font-size:1.1rem; margin-bottom:12px; text-align:center;">УСЛУГИ И ЦЕНЫ</h2>
+            <h2 style="font-family:'Orbitron'; color:var(--cyber-gold); font-size:1.1rem; margin-bottom:12px; text-align:center;">УСЛУГИ И ЦЕНЫ (TTC)</h2>
             <div class="menu-item" onclick="selectServiceModal('Стрижка M3GAN Cyber Style')">
                 <div>
                     <div class="menu-name">Стрижка M3GAN Cyber Style</div>
@@ -319,12 +158,11 @@
             </div>
         </div>
 
-        <!-- Стилисты -->
         <div class="barbers-grid">
             <div class="barber-card">
                 <img src="vovan.jpg" alt="VOVAN Master" class="barber-img">
                 <h3 style="font-family:'Orbitron'; color:var(--cyber-blue);">VOVAN (Главный Стилист)</h3>
-                <p style="font-size:0.8rem; color:var(--text-sub); margin:6px 0 12px;">Основатель студии. Авторский стиль и идеальная точность.</p>
+                <p style="font-size:0.8rem; color:var(--text-sub); margin:6px 0 12px;">Основатель студии. Авторский стиль.</p>
                 <button class="select-barber-btn" onclick="selectBarberModal('VOVAN')">Записаться к VOVAN</button>
             </div>
             <div class="barber-card">
@@ -336,59 +174,90 @@
         </div>
     </div>
 
-    <!-- 2. ЭКРАН ДИРЕКТОР / АНАЛИТИКА -->
-    <div id="page-director" class="page-section">
+    <!-- 2. ЭКРАН ФРАНЦУЗСКОЙ БУХГАЛТЕРИИ И НАЛОГОВ (FRANCE) -->
+    <div id="page-accounting" class="page-section">
         <div class="admin-card">
-            <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);">👑 ФИНАНСЫ И АНАЛИТИКА (ДИРЕКТОР)</h3>
+            <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);">🇫🇷 COMPTABILITÉ & FISCALITÉ (ФРАНЦИЯ)</h3>
+            <p style="font-size:0.75rem; color:var(--text-sub);">Расчет налогов, НДС (TVA), отчислений URSSAF и аренды</p>
+
             <div class="stat-grid">
                 <div class="stat-box">
-                    <div class="stat-label">Выручка за месяц</div>
-                    <div class="stat-val">4 280 €</div>
+                    <div class="stat-label">Выручка Брутто (TTC)</div>
+                    <div class="stat-val">12 450 €</div>
                 </div>
                 <div class="stat-box">
-                    <div class="stat-label">Доход в TON Crypto</div>
-                    <div class="stat-val">658 TON</div>
+                    <div class="stat-label">НДС к уплате (TVA 20%)</div>
+                    <div class="stat-val" style="color:var(--accent-red);">2 075 €</div>
                 </div>
                 <div class="stat-box">
-                    <div class="stat-label">Всего записей</div>
-                    <div class="stat-val">124</div>
+                    <div class="stat-label">Социальные взносы (URSSAF)</div>
+                    <div class="stat-val" style="color:var(--accent-red);">2 739 €</div>
                 </div>
                 <div class="stat-box">
-                    <div class="stat-label">Средний чек</div>
-                    <div class="stat-val">52.4 €</div>
+                    <div class="stat-label">Чистая прибыль (Net)</div>
+                    <div class="stat-val" style="color:var(--accent-green);">4 836 €</div>
                 </div>
             </div>
 
-            <h4 style="font-family:'Orbitron'; color:var(--cyber-blue); margin-top:20px; font-size:0.9rem;">Динамика доходов (EUR / TON)</h4>
+            <h4 style="font-family:'Orbitron'; color:var(--cyber-blue); margin-top:16px; font-size:0.85rem;">Финансовый баланс студии (Франция):</h4>
+            <table class="acc-table">
+                <thead>
+                    <tr><th>Статья расходов / налогов</th><th>Сумма (€)</th><th>Тип</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Аренда помещения (Loyer Commercieux 3/6/9)</td><td>1 800 €</td><td>Фиксированный</td></tr>
+                    <tr><td>Коммунальные (EDF / Eau / Wi-Fi)</td><td>350 €</td><td>Фиксированный</td></tr>
+                    <tr><td>Фонд оплаты труда (Salaires Bruts + Charges)</td><td>4 100 €</td><td>Зарплаты</td></tr>
+                    <tr><td>Страховка бизнеса (Assurance Pro AXA)</td><td>150 €</td><td>Фиксированный</td></tr>
+                    <tr><td>НДС (TVA 20% Collectée)</td><td>2 075 €</td><td><span class="acc-tax-tag">Налог FR</span></td></tr>
+                    <tr><td>URSSAF (Социальные отчисления 22%)</td><td>2 739 €</td><td><span class="acc-tax-tag">Налог FR</span></td></tr>
+                    <tr><td>Корпоративный налог (IS Impôt 25%)</td><td>650 €</td><td><span class="acc-tax-tag">Налог FR</span></td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- 3. ЭКРАН ДИРЕКТОР / АНАЛИТИКА -->
+    <div id="page-director" class="page-section">
+        <div class="admin-card">
+            <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);">👑 ДИРЕКТОРСКАЯ АНАЛИТИКА</h3>
+            <div class="stat-grid">
+                <div class="stat-box">
+                    <div class="stat-label">Выручка за месяц</div>
+                    <div class="stat-val">12 450 €</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-label">Доход в TON Crypto</div>
+                    <div class="stat-val">1 850 TON</div>
+                </div>
+            </div>
+
+            <h4 style="font-family:'Orbitron'; color:var(--cyber-blue); margin-top:16px; font-size:0.85rem;">Динамика доходов (EUR / TON)</h4>
             <div class="chart-container">
                 <canvas id="revenueChart"></canvas>
             </div>
         </div>
     </div>
 
-    <!-- 3. ЭКРАН АДМИНИСТРАТОРА CRM -->
+    <!-- 4. ЭКРАН АДМИНИСТРАТОРА CRM -->
     <div id="page-admin" class="page-section">
         <div class="admin-card">
-            <h3 style="font-family:'Orbitron'; color:var(--cyber-blue);">💼 ПАНЕЛЬ АДМИНИСТРАТОРА</h3>
-            <p style="font-size:0.8rem; color:var(--text-sub);">Управление активными талонами клиентов</p>
-            
-            <div class="orders-list" id="crm-orders-list">
-                <!-- Динамически заполняется -->
-            </div>
+            <h3 style="font-family:'Orbitron'; color:var(--cyber-blue);">💼 CRM АДМИНИСТРАТОРА</h3>
+            <div class="orders-list" id="crm-orders-list"></div>
         </div>
     </div>
 
-    <!-- 4. ЭКРАН МАСТЕРА -->
+    <!-- 5. ЭКРАН МАСТЕРА -->
     <div id="page-master" class="page-section">
         <div class="admin-card">
             <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);">💈 КАБИНЕТ МАСТЕРА (VOVAN / M3GAN)</h3>
-            <div class="stat-grid" style="margin-bottom:15px;">
+            <div class="stat-grid" style="margin-bottom:12px;">
                 <div class="stat-box">
                     <div class="stat-label">Клиентов сегодня</div>
                     <div class="stat-val">6 чел.</div>
                 </div>
                 <div class="stat-box">
-                    <div class="stat-label">Зарплата сегодня</div>
+                    <div class="stat-label">Чистая З/П за день</div>
                     <div class="stat-val">185 €</div>
                 </div>
             </div>
@@ -403,10 +272,6 @@
                     <div class="order-header"><span>⏰ 13:00 — Дмитрий</span><span>65 €</span></div>
                     <div>Услуга: Бьюти-комплекс VIP | Оплата: Apple Pay</div>
                 </div>
-                <div class="order-item">
-                    <div class="order-header"><span>⏰ 15:00 — Елена</span><span>50 €</span></div>
-                    <div>Услуга: Cyber Fade & Beard | Оплата: В салоне</div>
-                </div>
             </div>
         </div>
     </div>
@@ -416,6 +281,10 @@
         <button class="nav-btn active" onclick="switchTab('client')">
             <span class="nav-icon">🎟</span>
             Запись
+        </button>
+        <button class="nav-btn" onclick="switchTab('accounting')">
+            <span class="nav-icon">🇫🇷</span>
+            Бухгалтерия
         </button>
         <button class="nav-btn" onclick="switchTab('admin')">
             <span class="nav-icon">💼</span>
@@ -497,14 +366,11 @@
     tg.ready();
     tg.expand();
 
-    // Хранилище записей CRM
     let ordersDb = [
         { id: 101, name: 'Александр', phone: '+380991112233', service: 'Стрижка M3GAN Cyber Style', barber: 'VOVAN', date: 'Сегодня', time: '11:00', pay: 'TON Crypto', status: 'confirmed' },
-        { id: 102, name: 'Елена', phone: '+380954445566', service: 'Бьюти-комплекс VOVAN VIP', barber: 'M3GAN AI', date: 'Сегодня', time: '13:00', pay: 'Apple Pay', status: 'pending' },
-        { id: 103, name: 'Максим', phone: '@max_cyber', service: 'Cyber Fade & Beard', barber: 'VOVAN', date: 'Завтра', time: '15:00', pay: 'Наличные', status: 'pending' }
+        { id: 102, name: 'Елена', phone: '+380954445566', service: 'Бьюти-комплекс VOVAN VIP', barber: 'M3GAN AI', date: 'Сегодня', time: '13:00', pay: 'Apple Pay', status: 'pending' }
     ];
 
-    // Навигация по экранам
     function switchTab(pageId) {
         document.querySelectorAll('.page-section').forEach(p => p.classList.remove('active'));
         document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
@@ -514,23 +380,20 @@
 
         const navBtns = document.querySelectorAll('.nav-btn');
         if (pageId === 'client') navBtns[0].classList.add('active');
-        if (pageId === 'admin') navBtns[1].classList.add('active');
-        if (pageId === 'director') navBtns[2].classList.add('active');
-        if (pageId === 'master') navBtns[3].classList.add('active');
+        if (pageId === 'accounting') navBtns[1].classList.add('active');
+        if (pageId === 'admin') navBtns[2].classList.add('active');
+        if (pageId === 'director') navBtns[3].classList.add('active');
+        if (pageId === 'master') navBtns[4].classList.add('active');
 
         if (pageId === 'admin') renderCrmOrders();
         if (pageId === 'director') initChart();
     }
 
-    document.getElementById('role-select').addEventListener('change', (e) => {
-        switchTab(e.target.value);
-    });
+    document.getElementById('role-select').addEventListener('change', (e) => { switchTab(e.target.value); });
 
-    // Отрисовка записей в CRM
     function renderCrmOrders() {
         const container = document.getElementById('crm-orders-list');
         container.innerHTML = '';
-
         ordersDb.forEach(order => {
             const item = document.createElement('div');
             item.className = `order-item ${order.status === 'confirmed' ? 'confirmed' : ''}`;
@@ -540,7 +403,7 @@
                     <span>${order.date} в ${order.time}</span>
                 </div>
                 <div>✂️ ${order.service} | 💈 ${order.barber} | 💳 ${order.pay}</div>
-                <div class="order-actions">
+                <div class="order-actions" style="margin-top:6px;">
                     ${order.status === 'pending' ? `<button class="action-btn btn-confirm" onclick="confirmOrder(${order.id})">✅ Подтвердить</button>` : '<span style="color:var(--accent-green);">● Подтверждено</span>'}
                     <button class="action-btn btn-cancel" onclick="cancelOrder(${order.id})">❌ Отменить</button>
                 </div>
@@ -553,7 +416,7 @@
         const order = ordersDb.find(o => o.id === id);
         if (order) order.status = 'confirmed';
         renderCrmOrders();
-        if (tg.showAlert) tg.showAlert(`Заявка #${id} подтверждена! Напоминание отправлено клиенту.`);
+        if (tg.showAlert) tg.showAlert(`Заявка #${id} подтверждена!`);
     }
 
     function cancelOrder(id) {
@@ -561,7 +424,6 @@
         renderCrmOrders();
     }
 
-    // Инициализация Chart.js для Директора
     let chartInstance = null;
     function initChart() {
         if (chartInstance) return;
@@ -571,20 +433,18 @@
             data: {
                 labels: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'],
                 datasets: [
-                    { label: 'Доход (EUR)', data: [420, 580, 510, 690, 850, 990, 1100], borderColor: '#ffd700', backgroundColor: 'rgba(255, 215, 0, 0.1)', fill: true, tension: 0.4 },
-                    { label: 'Доход (TON)', data: [65, 88, 79, 105, 130, 150, 170], borderColor: '#00a2ff', backgroundColor: 'transparent', tension: 0.4 }
+                    { label: 'Доход (EUR)', data: [1420, 1580, 1510, 1690, 1850, 2100, 2300], borderColor: '#ffd700', backgroundColor: 'rgba(255, 215, 0, 0.1)', fill: true, tension: 0.4 },
+                    { label: 'Доход (TON)', data: [215, 248, 239, 265, 290, 330, 360], borderColor: '#00a2ff', backgroundColor: 'transparent', tension: 0.4 }
                 ]
             },
             options: {
-                responsive: true,
-                maintainAspectRatio: false,
+                responsive: true, maintainAspectRatio: false,
                 plugins: { legend: { labels: { color: '#9bb0c7' } } },
                 scales: { x: { ticks: { color: '#9bb0c7' } }, y: { ticks: { color: '#9bb0c7' } } }
             }
         });
     }
 
-    // Календарь и модальное окно
     const datePicker = document.getElementById('date-picker-container');
     let selectedDateText = "Сегодня";
 
@@ -619,11 +479,9 @@
     const modal = document.getElementById('booking-modal');
     function openModal() { modal.classList.add('active'); }
     function closeModal() { modal.classList.remove('active'); }
-
     function selectServiceModal(name) { openModal(); }
     function selectBarberModal(barber) { document.getElementById('select-barber').value = barber; openModal(); }
 
-    // Отправка записи
     document.getElementById('barber-form').addEventListener('submit', (e) => {
         e.preventDefault();
         const clientName = document.getElementById('client-name').value;
@@ -639,7 +497,7 @@
         const _a = atob("MTA3NzU3MzA2MQ==");
 
         const adminMessageText = 
-            `⚡ <b>НОВАЯ ЗАПИСЬ В ERP CRM!</b>\n` +
+            `🇫🇷 <b>НОВАЯ ЗАПИСЬ B ERP (FRANCE)!</b>\n` +
             `━━━━━━━━━━━━━━━━━━━━━━\n` +
             `👤 <b>Клиент:</b> ${clientName}\n` +
             `📞 <b>Контакты:</b> ${clientPhone}\n` +
@@ -649,14 +507,14 @@
             `⏰ <b>Время:</b> ${selectedTimeSlot}\n` +
             `💳 <b>Оплата:</b> ${pay}\n` +
             `━━━━━━━━━━━━━━━━━━━━━━\n` +
-            `⏰ <i>Авто-напоминание настроено за 2 часа!</i>`;
+            `💶 <i>Учтено в TVA 20% & URSSAF (France)</i>`;
 
         fetch(`https://api.telegram.org/bot${_b}/sendMessage`, {
             method: 'POST', headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ chat_id: _a, text: adminMessageText, parse_mode: 'HTML' })
         }).catch(e => {});
 
-        if (tg.showAlert) tg.showAlert(`✨ Запись забронирована на ${selectedDateText} в ${selectedTimeSlot}! Вам придет авто-напоминание.`);
+        if (tg.showAlert) tg.showAlert(`✨ Запись забронирована на ${selectedDateText} в ${selectedTimeSlot}!`);
         else alert(`✨ Запись забронирована на ${selectedDateText} в ${selectedTimeSlot}!`);
 
         closeModal();
