@@ -447,9 +447,28 @@
         const tg = window.Telegram.WebApp;
         tg.ready();
         tg.expand(); // Разворачиваем мини-приложение на весь экран
-        
-        // Опционально: настраиваем тему или цвет хедера под стиль барбершопа
-        tg.setHeaderColor('#f3eee2');
+
+        // Настройка цветовой гаммы хедера под стиль барбершопа
+        try {
+            tg.setHeaderColor('#f3eee2');
+            tg.setBackgroundColor('#f3eee2');
+        } catch (e) {
+            console.log('Header color setting error:', e);
+        }
+
+        // Авто-заполнение имени из Telegram, если доступно
+        const nameInput = document.getElementById('client-name');
+        const phoneInput = document.getElementById('client-phone');
+        if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
+            const user = tg.initDataUnsafe.user;
+            const fullName = [user.first_name, user.last_name].filter(Boolean).join(' ');
+            if (fullName && nameInput) {
+                nameInput.value = fullName;
+            }
+            if (user.username && phoneInput) {
+                phoneInput.value = '@' + user.username;
+            }
+        }
 
         // Логика модального окна
         const modal = document.getElementById('booking-modal');
@@ -457,47 +476,105 @@
         const closeModalBtn = document.querySelector('.close-modal');
         const barberForm = document.getElementById('barber-form');
 
+        // Вспомогательная функция для виброотклика (Haptic Feedback)
+        function triggerHaptic(type = 'light') {
+            if (tg.HapticFeedback) {
+                if (type === 'success') tg.HapticFeedback.notificationOccurred('success');
+                else if (type === 'medium') tg.HapticFeedback.impactOccurred('medium');
+                else tg.HapticFeedback.impactOccurred('light');
+            }
+        }
+
+        function openModal() {
+            modal.classList.add('active');
+            triggerHaptic('medium');
+
+            // Настройка родной кнопки Telegram MainButton
+            if (tg.MainButton) {
+                tg.MainButton.setText("🎟 ОТПРАВИТЬ ТАЛОН");
+                tg.MainButton.setParams({
+                    color: '#b22222',
+                    text_color: '#ffffff'
+                });
+                tg.MainButton.onClick(handleFormSubmit);
+                tg.MainButton.show();
+            }
+        }
+
+        function closeModal() {
+            modal.classList.remove('active');
+            triggerHaptic('light');
+            if (tg.MainButton) {
+                tg.MainButton.hide();
+                tg.MainButton.offClick(handleFormSubmit);
+            }
+        }
+
         ticketButtons.forEach(btn => {
             btn.addEventListener('click', (e) => {
                 e.preventDefault();
-                modal.classList.add('active');
+                openModal();
             });
         });
 
         closeModalBtn.addEventListener('click', () => {
-            modal.classList.remove('active');
+            closeModal();
         });
 
         modal.addEventListener('click', (e) => {
             if (e.target === modal) {
-                modal.classList.remove('active');
+                closeModal();
             }
         });
 
-        // Отправка данных через Telegram Mini App API
-        barberForm.addEventListener('submit', (e) => {
-            e.preventDefault();
+        function handleFormSubmit() {
             const clientName = document.getElementById('client-name').value;
             const clientPhone = document.getElementById('client-phone').value;
             const service = document.getElementById('select-service').value;
             const barber = document.getElementById('select-barber').value;
 
+            if (!clientName || !clientPhone) {
+                triggerHaptic('medium');
+                if (tg.showAlert) {
+                    tg.showAlert('Пожалуйста, заполните имя и контактные данные!');
+                } else {
+                    alert('Пожалуйста, заполните имя и контактные данные!');
+                }
+                return;
+            }
+
             const bookingData = {
                 name: clientName,
                 phone: clientPhone,
                 service: service,
-                barber: barber
+                barber: barber,
+                date: new Date().toLocaleString('ru-RU')
             };
 
-            // Если запущено внутри Telegram — отправляем данные боту и закрываем приложение
-            if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
+            triggerHaptic('success');
+
+            // Если запущено внутри Telegram — отправляем данные боту
+            if (tg.sendData) {
                 tg.sendData(JSON.stringify(bookingData));
+            } else if (tg.showAlert) {
+                tg.showAlert(`Талон забронирован!\nИмя: ${clientName}\nУслуга: ${service}`);
             } else {
-                // Тестовый режим в обычном браузере
-                tg.showAlert(`Талон забронирован! Имя: ${clientName}, Услуга: ${service}`);
-                modal.classList.remove('active');
-                barberForm.reset();
+                alert(`Талон забронирован!\nИмя: ${clientName}\nУслуга: ${service}`);
             }
+
+            closeModal();
+            barberForm.reset();
+        }
+
+        // Обработка отправки обычной HTML-формы
+        barberForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            handleFormSubmit();
+        });
+
+        // Добавляем виброотклик при выборе элементов в селектах
+        document.querySelectorAll('select').forEach(select => {
+            select.addEventListener('change', () => triggerHaptic('light'));
         });
 
         // Three.js 3D Барбер-пол для мобильного экрана
