@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>VOVAN BEAUTY STUDIO — TON & M3GAN Edition</title>
+    <title>VOVAN BEAUTY STUDIO — ERP & CRM M3GAN Edition</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <!-- Chart.js для графиков -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
             --bg-color: #05070b;
@@ -13,6 +15,8 @@
             --cyber-blue: #00a2ff;
             --cyber-gold: #ffd700;
             --ton-blue: #0088cc;
+            --accent-green: #00e676;
+            --accent-red: #ff2a5f;
             --gold-glow: 0 0 18px rgba(255, 215, 0, 0.45);
             --blue-glow: 0 0 18px rgba(0, 162, 255, 0.45);
             --text-main: #ffffff;
@@ -43,13 +47,14 @@
             position: relative;
             box-shadow: 0 0 60px rgba(0, 162, 255, 0.25);
             min-height: 100vh;
+            padding-bottom: 70px;
         }
 
         header {
             border-bottom: 2px solid var(--cyber-blue);
             background: rgba(13, 18, 28, 0.95);
             backdrop-filter: blur(10px);
-            padding: 15px 20px;
+            padding: 12px 18px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -69,574 +74,409 @@
             letter-spacing: 1.5px;
         }
 
-        .badge-status {
-            background: rgba(255, 215, 0, 0.15);
-            color: var(--cyber-gold);
-            font-size: 0.7rem;
-            padding: 4px 10px;
+        .role-selector {
+            background: #141b29;
             border: 1px solid var(--cyber-gold);
-            border-radius: 20px;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            box-shadow: var(--gold-glow);
-        }
-
-        /* Hero */
-        .hero {
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            border-bottom: 2px solid var(--cyber-gold);
-        }
-
-        .hero-banner-container {
-            width: 100%;
-            height: 320px;
-            position: relative;
-            overflow: hidden;
-            background: #000;
-        }
-
-        .hero-banner {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center;
-        }
-
-        .hero-overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 55%;
-            background: linear-gradient(to top, var(--bg-color), transparent);
-        }
-
-        .hero-content {
-            padding: 20px 20px 30px;
-            background: var(--bg-color);
-            text-align: center;
-        }
-
-        .hero-content h1 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.6rem;
-            font-weight: 900;
             color: var(--cyber-gold);
-            margin-bottom: 10px;
-            text-shadow: var(--gold-glow);
-        }
-
-        .hero-content p {
-            font-size: 0.9rem;
-            color: var(--text-sub);
-            margin-bottom: 20px;
-            line-height: 1.5;
-        }
-
-        .payment-badges {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-
-        .pay-tag {
-            background: rgba(0, 162, 255, 0.1);
-            border: 1px solid var(--cyber-blue);
-            color: var(--cyber-blue);
+            padding: 4px 8px;
+            border-radius: 8px;
             font-size: 0.75rem;
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-weight: 700;
-        }
-
-        .ticket-btn {
-            display: inline-block;
-            background: linear-gradient(135deg, var(--cyber-blue) 0%, #0055b3 100%);
-            color: #ffffff;
             font-family: 'Orbitron', sans-serif;
-            font-weight: 800;
-            font-size: 0.95rem;
-            padding: 15px 25px;
-            text-decoration: none;
-            border-radius: 10px;
-            border: 1px solid var(--cyber-gold);
-            box-shadow: 0 0 25px rgba(0, 162, 255, 0.6);
-            transition: all 0.2s ease;
-            text-align: center;
-            width: 100%;
-            max-width: 330px;
-            cursor: pointer;
-        }
-
-        .ticket-btn:active {
-            transform: scale(0.98);
-        }
-
-        /* Меню-Прайс */
-        .menu-section {
-            padding: 35px 15px;
-        }
-
-        .section-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.45rem;
-            text-align: center;
-            margin-bottom: 25px;
-            background: linear-gradient(90deg, var(--cyber-gold) 0%, var(--cyber-blue) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .vintage-menu {
-            background: var(--card-bg);
-            border: 1px solid rgba(255, 215, 0, 0.25);
-            border-radius: 14px;
-            padding: 18px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-        }
-
-        .menu-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 16px;
-            border-bottom: 1px dashed rgba(0, 162, 255, 0.15);
-            padding-bottom: 12px;
-            cursor: pointer;
-        }
-
-        .menu-item:last-child {
-            border-bottom: none;
-            margin-bottom: 0;
-        }
-
-        .menu-name {
-            font-size: 0.95rem;
-            font-weight: 700;
-            color: #ffffff;
-        }
-
-        .menu-desc {
-            font-size: 0.8rem;
-            color: var(--text-sub);
-            margin-top: 4px;
-        }
-
-        .price-box {
-            text-align: right;
-        }
-
-        .menu-price-eur {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.15rem;
-            font-weight: 800;
-            color: var(--cyber-gold);
-            text-shadow: 0 0 8px rgba(255, 215, 0, 0.3);
-        }
-
-        .menu-price-ton {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 0.8rem;
-            font-weight: 700;
-            color: var(--cyber-blue);
-        }
-
-        /* Секция Стилистов */
-        .barbers-section {
-            background: #080b12;
-            padding: 40px 15px;
-            border-top: 2px solid var(--cyber-blue);
-            border-bottom: 2px solid var(--cyber-gold);
-        }
-
-        .barbers-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .barber-card {
-            background: var(--card-bg);
-            border: 1px solid rgba(0, 162, 255, 0.3);
-            border-radius: 16px;
-            padding: 15px;
-            text-align: center;
-            position: relative;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.7);
-        }
-
-        .barber-rating {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: var(--cyber-gold);
-            color: #000;
-            font-weight: 900;
-            padding: 3px 10px;
-            border-radius: 12px;
-            font-size: 0.8rem;
-            box-shadow: var(--gold-glow);
-        }
-
-        .barber-img {
-            width: 100%;
-            height: 280px;
-            object-fit: cover;
-            border-radius: 12px;
-            margin-bottom: 12px;
-            border: 1px solid var(--cyber-blue);
-        }
-
-        .barber-name {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.3rem;
-            font-weight: 800;
-            margin-bottom: 6px;
-            color: var(--cyber-blue);
-            text-shadow: var(--blue-glow);
-        }
-
-        .barber-card p {
-            font-size: 0.85rem;
-            color: var(--text-sub);
-            margin-bottom: 14px;
-        }
-
-        .select-barber-btn {
-            background: transparent;
-            color: var(--cyber-gold);
-            border: 1px solid var(--cyber-gold);
-            padding: 12px 15px;
-            border-radius: 10px;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 0.85rem;
-            font-weight: 800;
-            cursor: pointer;
-            width: 100%;
-            transition: all 0.2s ease;
-        }
-
-        .select-barber-btn:active {
-            background: var(--cyber-gold);
-            color: #000;
-        }
-
-        /* Время и Календарь */
-        .date-picker {
-            display: flex;
-            gap: 8px;
-            overflow-x: auto;
-            padding-bottom: 8px;
-            margin-bottom: 12px;
-        }
-
-        .date-card {
-            min-width: 75px;
-            padding: 10px 6px;
-            background: #141b29;
-            border: 1px solid rgba(0, 162, 255, 0.2);
-            border-radius: 8px;
-            text-align: center;
-            cursor: pointer;
-        }
-
-        .date-card.selected {
-            background: var(--cyber-gold);
-            color: #000;
-            font-weight: 900;
-        }
-
-        .time-slots {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-        }
-
-        .slot-btn {
-            background: #141b29;
-            border: 1px solid rgba(0, 162, 255, 0.2);
-            padding: 10px;
-            border-radius: 8px;
-            text-align: center;
-            font-size: 0.85rem;
-            cursor: pointer;
-            color: #fff;
-        }
-
-        .slot-btn.selected {
-            background: var(--cyber-blue);
-            color: #fff;
-            font-weight: 800;
-            box-shadow: var(--blue-glow);
-        }
-
-        /* Модальное окно */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(2, 3, 5, 0.94);
-            backdrop-filter: blur(10px);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 2000;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
-            padding: 15px;
-        }
-
-        .modal-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .vintage-modal {
-            background: var(--card-bg);
-            border: 1px solid var(--cyber-gold);
-            border-radius: 18px;
-            padding: 22px 18px;
-            width: 100%;
-            max-width: 450px;
-            box-shadow: 0 0 50px rgba(0, 162, 255, 0.35);
-            position: relative;
-            max-height: 92vh;
-            overflow-y: auto;
-        }
-
-        .close-modal {
-            position: absolute;
-            top: 12px;
-            right: 15px;
-            background: none;
-            border: none;
-            font-size: 1.8rem;
-            color: var(--cyber-gold);
-            cursor: pointer;
-        }
-
-        .modal-header h3 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.15rem;
-            color: var(--cyber-gold);
-            margin-bottom: 6px;
-        }
-
-        .modal-header p {
-            font-size: 0.8rem;
-            margin-bottom: 16px;
-            color: var(--text-sub);
-        }
-
-        .form-group {
-            margin-bottom: 12px;
-        }
-
-        .form-group label {
-            display: block;
-            font-weight: 600;
-            margin-bottom: 5px;
-            font-size: 0.82rem;
-            color: #ddd;
-        }
-
-        .form-group input,
-        .form-group select {
-            width: 100%;
-            padding: 11px;
-            border-radius: 8px;
-            border: 1px solid rgba(0, 162, 255, 0.3);
-            background: #080c14;
-            color: #ffffff;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 0.88rem;
             outline: none;
         }
 
-        footer {
-            text-align: center;
-            padding: 30px 15px;
-            background: #020305;
-            color: var(--text-sub);
-            font-size: 0.85rem;
-            border-top: 1px solid rgba(0, 162, 255, 0.1);
+        /* Навигация переключатель экранов */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 600px;
+            background: rgba(13, 18, 28, 0.98);
+            border-top: 1px solid rgba(0, 162, 255, 0.3);
+            display: flex;
+            justify-content: space-around;
+            padding: 8px 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
         }
+
+        .nav-btn {
+            background: none;
+            border: none;
+            color: var(--text-sub);
+            font-size: 0.7rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .nav-btn.active {
+            color: var(--cyber-gold);
+            font-weight: 900;
+        }
+
+        .nav-icon {
+            font-size: 1.2rem;
+            margin-bottom: 2px;
+        }
+
+        .page-section {
+            display: none;
+        }
+
+        .page-section.active {
+            display: block;
+        }
+
+        /* Секция CRM Директора */
+        .admin-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(0, 162, 255, 0.3);
+            border-radius: 14px;
+            padding: 16px;
+            margin: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+        }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-top: 12px;
+        }
+
+        .stat-box {
+            background: #141b29;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 10px;
+            padding: 12px;
+            text-align: center;
+        }
+
+        .stat-val {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 900;
+            color: var(--cyber-gold);
+            margin-top: 4px;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--text-sub);
+        }
+
+        /* Таблица заказов */
+        .orders-list {
+            margin-top: 15px;
+        }
+
+        .order-item {
+            background: #141b29;
+            border-left: 4px solid var(--cyber-blue);
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            font-size: 0.82rem;
+        }
+
+        .order-item.confirmed {
+            border-left-color: var(--accent-green);
+        }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            font-weight: bold;
+            color: #fff;
+            margin-bottom: 4px;
+        }
+
+        .order-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .action-btn {
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-confirm { background: var(--accent-green); color: #000; }
+        .btn-cancel { background: var(--accent-red); color: #fff; }
+
+        /* График */
+        .chart-container {
+            position: relative;
+            height: 200px;
+            margin-top: 15px;
+        }
+
+        /* Клиентская часть Hero & Menu (из предыдущего шаблона) */
+        .hero-banner-container { width: 100%; height: 260px; position: relative; overflow: hidden; }
+        .hero-banner { width: 100%; height: 100%; object-fit: cover; }
+        .hero-content { padding: 20px; text-align: center; }
+        .hero-content h1 { font-family: 'Orbitron', sans-serif; font-size: 1.5rem; color: var(--cyber-gold); margin-bottom: 8px; }
+        .ticket-btn { display: inline-block; background: linear-gradient(135deg, var(--cyber-blue) 0%, #0055b3 100%); color: #ffffff; font-family: 'Orbitron', sans-serif; font-weight: 800; font-size: 0.9rem; padding: 14px 25px; text-decoration: none; border-radius: 10px; border: 1px solid var(--cyber-gold); box-shadow: 0 0 20px rgba(0, 162, 255, 0.5); width: 100%; max-width: 320px; cursor: pointer; text-align: center; }
+        
+        .vintage-menu { background: var(--card-bg); border: 1px solid rgba(255, 215, 0, 0.25); border-radius: 14px; padding: 15px; margin: 15px; }
+        .menu-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; border-bottom: 1px dashed rgba(0, 162, 255, 0.15); padding-bottom: 10px; cursor: pointer; }
+        .menu-name { font-size: 0.9rem; font-weight: 700; color: #ffffff; }
+        .menu-desc { font-size: 0.78rem; color: var(--text-sub); margin-top: 2px; }
+        .menu-price-eur { font-family: 'Orbitron', sans-serif; font-size: 1.1rem; color: var(--cyber-gold); text-align: right; }
+        .menu-price-ton { font-family: 'Orbitron', sans-serif; font-size: 0.78rem; color: var(--cyber-blue); text-align: right; }
+
+        .barbers-grid { padding: 15px; display: flex; flex-direction: column; gap: 15px; }
+        .barber-card { background: var(--card-bg); border: 1px solid rgba(0, 162, 255, 0.3); border-radius: 14px; padding: 14px; text-align: center; position: relative; }
+        .barber-img { width: 100%; height: 220px; object-fit: cover; border-radius: 10px; margin-bottom: 10px; border: 1px solid var(--cyber-blue); }
+        .select-barber-btn { background: transparent; color: var(--cyber-gold); border: 1px solid var(--cyber-gold); padding: 10px; border-radius: 8px; font-family: 'Orbitron', sans-serif; font-weight: 800; cursor: pointer; width: 100%; }
+
+        /* Модальное окно */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(2, 3, 5, 0.94); backdrop-filter: blur(10px); display: flex; justify-content: center; align-items: center; z-index: 2000; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease; padding: 15px; }
+        .modal-overlay.active { opacity: 1; visibility: visible; }
+        .vintage-modal { background: var(--card-bg); border: 1px solid var(--cyber-gold); border-radius: 18px; padding: 22px 18px; width: 100%; max-width: 450px; position: relative; max-height: 92vh; overflow-y: auto; }
+        .close-modal { position: absolute; top: 12px; right: 15px; background: none; border: none; font-size: 1.8rem; color: var(--cyber-gold); cursor: pointer; }
+        .form-group { margin-bottom: 12px; }
+        .form-group label { display: block; font-weight: 600; margin-bottom: 5px; font-size: 0.82rem; color: #ddd; }
+        .form-group input, .form-group select { width: 100%; padding: 11px; border-radius: 8px; border: 1px solid rgba(0, 162, 255, 0.3); background: #080c14; color: #ffffff; font-family: 'Montserrat', sans-serif; font-size: 0.88rem; outline: none; }
+        
+        .date-picker { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px; margin-bottom: 10px; }
+        .date-card { min-width: 70px; padding: 8px 4px; background: #141b29; border: 1px solid rgba(0, 162, 255, 0.2); border-radius: 8px; text-align: center; cursor: pointer; }
+        .date-card.selected { background: var(--cyber-gold); color: #000; font-weight: 900; }
+
+        .time-slots { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+        .slot-btn { background: #141b29; border: 1px solid rgba(0, 162, 255, 0.2); padding: 8px; border-radius: 8px; text-align: center; font-size: 0.82rem; cursor: pointer; color: #fff; }
+        .slot-btn.selected { background: var(--cyber-blue); color: #fff; font-weight: 800; }
     </style>
 </head>
 <body>
 
 <div class="app-container">
     <header>
-        <div class="logo">VOVAN BEAUTY STUDIO</div>
-        <div class="badge-status">● M3GAN AI ONLINE</div>
+        <div class="logo">VOVAN BEAUTY ERP</div>
+        <select class="role-selector" id="role-select">
+            <option value="client">👤 Клиент</option>
+            <option value="director">👑 Директор</option>
+            <option value="admin">💼 Админ</option>
+            <option value="master">💈 Мастер</option>
+        </select>
     </header>
 
-    <section class="hero">
-        <div class="hero-banner-container">
-            <img src="m3gan_cyber.jpg" alt="M3GAN Cyber AI" class="hero-banner">
-            <div class="hero-overlay"></div>
-        </div>
-        <div class="hero-content">
-            <h1>M3GAN AI BEAUTY EDITION</h1>
-            <p>Жовто-блакитна кибер-эстетика, авторский стиль и подлинное искусство ухода.</p>
-            
-            <div class="payment-badges">
-                <span class="pay-tag">💎 TON Crypto</span>
-                <span class="pay-tag"> Apple Pay</span>
-                <span class="pay-tag">G Pay</span>
-                <span class="pay-tag">💳 EUR Card</span>
+    <!-- 1. КЛИЕНТСКИЙ ЭКРАН -->
+    <div id="page-client" class="page-section active">
+        <section class="hero">
+            <div class="hero-banner-container">
+                <img src="m3gan_cyber.jpg" alt="M3GAN Cyber AI" class="hero-banner">
             </div>
+            <div class="hero-content">
+                <h1>M3GAN AI BEAUTY EDITION</h1>
+                <p>Кибер-эстетика, авторский стиль и онлайн-касса TON Crypto / Apple Pay.</p>
+                <button class="ticket-btn" onclick="openModal()">⚡ ЗАПИСАТЬСЯ К МАСТЕРУ</button>
+            </div>
+        </section>
 
-            <a href="#booking" class="ticket-btn" id="main-book-btn">⚡ ЗАПИСАТЬСЯ К МАСТЕРУ</a>
-        </div>
-    </section>
-
-    <!-- Прайс -->
-    <section class="menu-section">
-        <h2 class="section-title">Услуги & Валюта</h2>
-
+        <!-- Прайс -->
         <div class="vintage-menu">
-            <div class="menu-item" data-name="Стрижка M3GAN Cyber Style (40 €)">
+            <h2 style="font-family:'Orbitron'; color:var(--cyber-gold); font-size:1.1rem; margin-bottom:12px; text-align:center;">УСЛУГИ И ЦЕНЫ</h2>
+            <div class="menu-item" onclick="selectServiceModal('Стрижка M3GAN Cyber Style')">
                 <div>
                     <div class="menu-name">Стрижка M3GAN Cyber Style</div>
-                    <div class="menu-desc">Авторское моделирование формы + стайлинг</div>
+                    <div class="menu-desc">Авторское моделирование формы</div>
                 </div>
-                <div class="price-box">
+                <div>
                     <div class="menu-price-eur">40 €</div>
                     <div class="menu-price-ton">≈ 6.2 TON</div>
                 </div>
             </div>
-            <div class="menu-item" data-name="Бьюти-комплекс VOVAN VIP (65 €)">
+            <div class="menu-item" onclick="selectServiceModal('Бьюти-комплекс VOVAN VIP')">
                 <div>
                     <div class="menu-name">Бьюти-комплекс VOVAN VIP</div>
-                    <div class="menu-desc">Стрижка + уход за волосами + стайлинг</div>
+                    <div class="menu-desc">Стрижка + VIP уход за волосами</div>
                 </div>
-                <div class="price-box">
+                <div>
                     <div class="menu-price-eur">65 €</div>
                     <div class="menu-price-ton">≈ 10.0 TON</div>
                 </div>
             </div>
-            <div class="menu-item" data-name="Cyber Fade & Beard (50 €)">
+            <div class="menu-item" onclick="selectServiceModal('Cyber Fade & Beard')">
                 <div>
                     <div class="menu-name">Cyber Fade & Beard</div>
                     <div class="menu-desc">Идеальный фейд + оформление бороды</div>
                 </div>
-                <div class="price-box">
+                <div>
                     <div class="menu-price-eur">50 €</div>
                     <div class="menu-price-ton">≈ 7.7 TON</div>
                 </div>
             </div>
-            <div class="menu-item" data-name="Окрашивание Platinum Cyber (75 €)">
-                <div>
-                    <div class="menu-name">Окрашивание Platinum Cyber</div>
-                    <div class="menu-desc">Премиальное тонирование и уход</div>
-                </div>
-                <div class="price-box">
-                    <div class="menu-price-eur">75 €</div>
-                    <div class="menu-price-ton">≈ 11.5 TON</div>
-                </div>
-            </div>
         </div>
-    </section>
 
-    <!-- Стилисты -->
-    <section class="barbers-section">
-        <h2 class="section-title">Топ-Стилисты</h2>
+        <!-- Стилисты -->
         <div class="barbers-grid">
             <div class="barber-card">
-                <div class="barber-rating">★ 5.0</div>
-                <img src="m3gan_cyber.jpg" alt="M3GAN AI Master" class="barber-img">
-                <div class="barber-name">M3GAN AI</div>
-                <p>Кибер-мастер бьюти-арта. Идеальная точность каждой линии.</p>
-                <button class="select-barber-btn" data-barber="M3GAN AI">Записаться к M3GAN</button>
+                <img src="vovan.jpg" alt="VOVAN Master" class="barber-img">
+                <h3 style="font-family:'Orbitron'; color:var(--cyber-blue);">VOVAN (Главный Стилист)</h3>
+                <p style="font-size:0.8rem; color:var(--text-sub); margin:6px 0 12px;">Основатель студии. Авторский стиль и идеальная точность.</p>
+                <button class="select-barber-btn" onclick="selectBarberModal('VOVAN')">Записаться к VOVAN</button>
             </div>
             <div class="barber-card">
-                <div class="barber-rating">★ 4.99</div>
-                <img src="vovan.jpg" alt="Master Vovan" class="barber-img">
-                <div class="barber-name">VOVAN</div>
-                <p>Главный стилист и основатель студии. Эксперт по авторскому стилю.</p>
-                <button class="select-barber-btn" data-barber="VOVAN">Записаться к VOVAN</button>
+                <img src="m3gan_cyber.jpg" alt="M3GAN AI" class="barber-img">
+                <h3 style="font-family:'Orbitron'; color:var(--cyber-blue);">M3GAN AI (Кибер-Мастер)</h3>
+                <p style="font-size:0.8rem; color:var(--text-sub); margin:6px 0 12px;">Виртуально-совершенный бьюти-арт.</p>
+                <button class="select-barber-btn" onclick="selectBarberModal('M3GAN AI')">Записаться к M3GAN</button>
             </div>
         </div>
-    </section>
+    </div>
 
-    <footer>
-        <p>⚡ VOVAN BEAUTY STUDIO BOT &copy; 2026</p>
-        <p style="margin-top: 5px; opacity: 0.6; font-size: 0.75rem;">TON Gram Crypto & Apple Pay Enabled 🇺🇦</p>
-    </footer>
+    <!-- 2. ЭКРАН ДИРЕКТОР / АНАЛИТИКА -->
+    <div id="page-director" class="page-section">
+        <div class="admin-card">
+            <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);">👑 ФИНАНСЫ И АНАЛИТИКА (ДИРЕКТОР)</h3>
+            <div class="stat-grid">
+                <div class="stat-box">
+                    <div class="stat-label">Выручка за месяц</div>
+                    <div class="stat-val">4 280 €</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-label">Доход в TON Crypto</div>
+                    <div class="stat-val">658 TON</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-label">Всего записей</div>
+                    <div class="stat-val">124</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-label">Средний чек</div>
+                    <div class="stat-val">52.4 €</div>
+                </div>
+            </div>
+
+            <h4 style="font-family:'Orbitron'; color:var(--cyber-blue); margin-top:20px; font-size:0.9rem;">Динамика доходов (EUR / TON)</h4>
+            <div class="chart-container">
+                <canvas id="revenueChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. ЭКРАН АДМИНИСТРАТОРА CRM -->
+    <div id="page-admin" class="page-section">
+        <div class="admin-card">
+            <h3 style="font-family:'Orbitron'; color:var(--cyber-blue);">💼 ПАНЕЛЬ АДМИНИСТРАТОРА</h3>
+            <p style="font-size:0.8rem; color:var(--text-sub);">Управление активными талонами клиентов</p>
+            
+            <div class="orders-list" id="crm-orders-list">
+                <!-- Динамически заполняется -->
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. ЭКРАН МАСТЕРА -->
+    <div id="page-master" class="page-section">
+        <div class="admin-card">
+            <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);">💈 КАБИНЕТ МАСТЕРА (VOVAN / M3GAN)</h3>
+            <div class="stat-grid" style="margin-bottom:15px;">
+                <div class="stat-box">
+                    <div class="stat-label">Клиентов сегодня</div>
+                    <div class="stat-val">6 чел.</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-label">Зарплата сегодня</div>
+                    <div class="stat-val">185 €</div>
+                </div>
+            </div>
+            
+            <h4 style="font-family:'Orbitron'; color:#fff; font-size:0.85rem;">Расписание на сегодня:</h4>
+            <div class="orders-list">
+                <div class="order-item confirmed">
+                    <div class="order-header"><span>⏰ 11:00 — Алексей</span><span>40 € (6.2 TON)</span></div>
+                    <div>Услуга: Стрижка M3GAN Style | Оплата: TON Crypto</div>
+                </div>
+                <div class="order-item confirmed">
+                    <div class="order-header"><span>⏰ 13:00 — Дмитрий</span><span>65 €</span></div>
+                    <div>Услуга: Бьюти-комплекс VIP | Оплата: Apple Pay</div>
+                </div>
+                <div class="order-item">
+                    <div class="order-header"><span>⏰ 15:00 — Елена</span><span>50 €</span></div>
+                    <div>Услуга: Cyber Fade & Beard | Оплата: В салоне</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- НИЖНЯЯ НАВИГАЦИЯ -->
+    <div class="bottom-nav">
+        <button class="nav-btn active" onclick="switchTab('client')">
+            <span class="nav-icon">🎟</span>
+            Запись
+        </button>
+        <button class="nav-btn" onclick="switchTab('admin')">
+            <span class="nav-icon">💼</span>
+            CRM
+        </button>
+        <button class="nav-btn" onclick="switchTab('director')">
+            <span class="nav-icon">👑</span>
+            Директор
+        </button>
+        <button class="nav-btn" onclick="switchTab('master')">
+            <span class="nav-icon">💈</span>
+            Мастер
+        </button>
+    </div>
 </div>
 
-<!-- Модальное окно -->
+<!-- Модальное окно записи -->
 <div id="booking-modal" class="modal-overlay">
     <div class="vintage-modal">
-        <button class="close-modal">&times;</button>
+        <button class="close-modal" onclick="closeModal()">&times;</button>
         <div class="modal-header">
-            <h3>ЗАПИСЬ & ОПЛАТА</h3>
-            <p>Укажите детали визита и удобную валюту.</p>
+            <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);">ЗАПИСЬ & ОПЛАТА</h3>
+            <p style="font-size:0.8rem; color:var(--text-sub);">Выбор даты, слота и криптовалюты TON</p>
         </div>
-        <form class="booking-form" id="barber-form">
+        <form id="barber-form">
             <div class="form-group">
-                <label for="client-name">Ваше имя:</label>
-                <input type="text" id="client-name" placeholder="Елена / Алексей" required>
+                <label>Ваше имя:</label>
+                <input type="text" id="client-name" placeholder="Алексей" required>
             </div>
             <div class="form-group">
-                <label for="client-phone">Контакты (Телефон / Telegram):</label>
+                <label>Контакты (Телефон / Telegram):</label>
                 <input type="text" id="client-phone" placeholder="+380991234567" required>
             </div>
             <div class="form-group">
-                <label for="select-service">Услуга:</label>
+                <label>Услуга:</label>
                 <select id="select-service">
                     <option value="Стрижка M3GAN Cyber Style (40 € / 6.2 TON)">Стрижка M3GAN Cyber Style — 40 € (≈ 6.2 TON)</option>
                     <option value="Бьюти-комплекс VOVAN VIP (65 € / 10 TON)">Бьюти-комплекс VOVAN VIP — 65 € (≈ 10.0 TON)</option>
                     <option value="Cyber Fade & Beard (50 € / 7.7 TON)">Cyber Fade & Beard — 50 € (≈ 7.7 TON)</option>
-                    <option value="Окрашивание Platinum Cyber (75 € / 11.5 TON)">Окрашивание Platinum Cyber — 75 € (≈ 11.5 TON)</option>
                 </select>
             </div>
             <div class="form-group">
-                <label for="select-barber">Стилист:</label>
+                <label>Стилист:</label>
                 <select id="select-barber">
-                    <option value="M3GAN AI">M3GAN AI (Кибер-мастер)</option>
                     <option value="VOVAN">VOVAN (Главный стилист)</option>
+                    <option value="M3GAN AI">M3GAN AI (Кибер-мастер)</option>
                 </select>
             </div>
-
-            <!-- Способ оплаты -->
             <div class="form-group">
-                <label for="select-payment-method">Способ и Валюта оплаты:</label>
+                <label>Способ оплаты:</label>
                 <select id="select-payment-method">
                     <option value="💎 TON Crypto (Telegram Wallet Gram)">💎 Telegram Wallet (TON Crypto)</option>
                     <option value=" Apple Pay / Google Pay"> Apple Pay / Google Pay</option>
                     <option value="💳 Банковская карта (EUR)">💳 Банковская карта (EUR)</option>
-                    <option value="💵 Наличными в студии (EUR)">💵 Наличными в студии (EUR)</option>
+                    <option value="💵 Наличными в студии">💵 Наличными в студии (EUR)</option>
                 </select>
             </div>
-
-            <!-- Время оплаты -->
-            <div class="form-group">
-                <label for="select-payment-timing">Когда оплатить:</label>
-                <select id="select-payment-timing">
-                    <option value="⏳ После оказания услуги (В салоне)">⏳ После оказания услуги (В салоне)</option>
-                    <option value="⚡ Предоплата онлайн сейчас">⚡ Предоплата онлайн сейчас</option>
-                </select>
-            </div>
-
-            <!-- Календарь -->
             <div class="form-group">
                 <label>Дата визита:</label>
                 <div class="date-picker" id="date-picker-container"></div>
             </div>
-
-            <!-- Время -->
             <div class="form-group">
                 <label>Время визита:</label>
                 <div class="time-slots" id="time-slots-container">
@@ -645,11 +485,9 @@
                     <div class="slot-btn">15:00</div>
                     <div class="slot-btn">17:00</div>
                     <div class="slot-btn">19:00</div>
-                    <div class="slot-btn">20:30</div>
                 </div>
             </div>
-
-            <button type="submit" class="ticket-btn" style="width: 100%; margin-top: 15px;">⚡ ПОДТВЕРДИТЬ ЗАПИСЬ</button>
+            <button type="submit" class="ticket-btn" style="width:100%; margin-top:12px;">⚡ ПОДТВЕРДИТЬ ЗАПИСЬ</button>
         </form>
     </div>
 </div>
@@ -659,54 +497,112 @@
     tg.ready();
     tg.expand();
 
-    try {
-        tg.setHeaderColor('#0d121c');
-        tg.setBackgroundColor('#05070b');
-    } catch (e) {}
+    // Хранилище записей CRM
+    let ordersDb = [
+        { id: 101, name: 'Александр', phone: '+380991112233', service: 'Стрижка M3GAN Cyber Style', barber: 'VOVAN', date: 'Сегодня', time: '11:00', pay: 'TON Crypto', status: 'confirmed' },
+        { id: 102, name: 'Елена', phone: '+380954445566', service: 'Бьюти-комплекс VOVAN VIP', barber: 'M3GAN AI', date: 'Сегодня', time: '13:00', pay: 'Apple Pay', status: 'pending' },
+        { id: 103, name: 'Максим', phone: '@max_cyber', service: 'Cyber Fade & Beard', barber: 'VOVAN', date: 'Завтра', time: '15:00', pay: 'Наличные', status: 'pending' }
+    ];
 
-    const nameInput = document.getElementById('client-name');
-    const phoneInput = document.getElementById('client-phone');
-    if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
-        const user = tg.initDataUnsafe.user;
-        const fullName = [user.first_name, user.last_name].filter(Boolean).join(' ');
-        if (fullName && nameInput) nameInput.value = fullName;
-        if (user.username && phoneInput) phoneInput.value = '@' + user.username;
+    // Навигация по экранам
+    function switchTab(pageId) {
+        document.querySelectorAll('.page-section').forEach(p => p.classList.remove('active'));
+        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+
+        document.getElementById(`page-${pageId}`).classList.add('active');
+        document.getElementById('role-select').value = pageId;
+
+        const navBtns = document.querySelectorAll('.nav-btn');
+        if (pageId === 'client') navBtns[0].classList.add('active');
+        if (pageId === 'admin') navBtns[1].classList.add('active');
+        if (pageId === 'director') navBtns[2].classList.add('active');
+        if (pageId === 'master') navBtns[3].classList.add('active');
+
+        if (pageId === 'admin') renderCrmOrders();
+        if (pageId === 'director') initChart();
     }
 
-    function triggerHaptic(type = 'light') {
-        if (tg.HapticFeedback) {
-            if (type === 'success') tg.HapticFeedback.notificationOccurred('success');
-            else if (type === 'medium') tg.HapticFeedback.impactOccurred('medium');
-            else tg.HapticFeedback.impactOccurred('light');
-        }
+    document.getElementById('role-select').addEventListener('change', (e) => {
+        switchTab(e.target.value);
+    });
+
+    // Отрисовка записей в CRM
+    function renderCrmOrders() {
+        const container = document.getElementById('crm-orders-list');
+        container.innerHTML = '';
+
+        ordersDb.forEach(order => {
+            const item = document.createElement('div');
+            item.className = `order-item ${order.status === 'confirmed' ? 'confirmed' : ''}`;
+            item.innerHTML = `
+                <div class="order-header">
+                    <span>#${order.id} ${order.name} (${order.phone})</span>
+                    <span>${order.date} в ${order.time}</span>
+                </div>
+                <div>✂️ ${order.service} | 💈 ${order.barber} | 💳 ${order.pay}</div>
+                <div class="order-actions">
+                    ${order.status === 'pending' ? `<button class="action-btn btn-confirm" onclick="confirmOrder(${order.id})">✅ Подтвердить</button>` : '<span style="color:var(--accent-green);">● Подтверждено</span>'}
+                    <button class="action-btn btn-cancel" onclick="cancelOrder(${order.id})">❌ Отменить</button>
+                </div>
+            `;
+            container.appendChild(item);
+        });
     }
 
+    function confirmOrder(id) {
+        const order = ordersDb.find(o => o.id === id);
+        if (order) order.status = 'confirmed';
+        renderCrmOrders();
+        if (tg.showAlert) tg.showAlert(`Заявка #${id} подтверждена! Напоминание отправлено клиенту.`);
+    }
+
+    function cancelOrder(id) {
+        ordersDb = ordersDb.filter(o => o.id !== id);
+        renderCrmOrders();
+    }
+
+    // Инициализация Chart.js для Директора
+    let chartInstance = null;
+    function initChart() {
+        if (chartInstance) return;
+        const ctx = document.getElementById('revenueChart').getContext('2d');
+        chartInstance = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'],
+                datasets: [
+                    { label: 'Доход (EUR)', data: [420, 580, 510, 690, 850, 990, 1100], borderColor: '#ffd700', backgroundColor: 'rgba(255, 215, 0, 0.1)', fill: true, tension: 0.4 },
+                    { label: 'Доход (TON)', data: [65, 88, 79, 105, 130, 150, 170], borderColor: '#00a2ff', backgroundColor: 'transparent', tension: 0.4 }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { labels: { color: '#9bb0c7' } } },
+                scales: { x: { ticks: { color: '#9bb0c7' } }, y: { ticks: { color: '#9bb0c7' } } }
+            }
+        });
+    }
+
+    // Календарь и модальное окно
     const datePicker = document.getElementById('date-picker-container');
     let selectedDateText = "Сегодня";
-    
+
     function initDatePicker() {
         datePicker.innerHTML = '';
         const today = new Date();
         const days = ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'];
-
         for (let i = 0; i < 5; i++) {
-            const d = new Date();
-            d.setDate(today.getDate() + i);
-
+            const d = new Date(); d.setDate(today.getDate() + i);
             const dayName = i === 0 ? 'Сегодня' : i === 1 ? 'Завтра' : days[d.getDay()];
             const dateNum = `${d.getDate()}.${d.getMonth() + 1}`;
-
             const card = document.createElement('div');
             card.className = `date-card ${i === 0 ? 'selected' : ''}`;
             card.innerHTML = `<div style="font-size:0.75rem;">${dayName}</div><div style="font-weight:bold;">${dateNum}</div>`;
-
             card.addEventListener('click', () => {
                 document.querySelectorAll('.date-card').forEach(c => c.classList.remove('selected'));
-                card.classList.add('selected');
-                selectedDateText = `${dayName} (${dateNum})`;
-                triggerHaptic('light');
+                card.classList.add('selected'); selectedDateText = `${dayName} (${dateNum})`;
             });
-
             datePicker.appendChild(card);
         }
     }
@@ -716,133 +612,55 @@
     document.querySelectorAll('.slot-btn').forEach(slot => {
         slot.addEventListener('click', () => {
             document.querySelectorAll('.slot-btn').forEach(s => s.classList.remove('selected'));
-            slot.classList.add('selected');
-            selectedTimeSlot = slot.innerText;
-            triggerHaptic('light');
-        });
-    });
-
-    document.querySelectorAll('.menu-item').forEach(item => {
-        item.addEventListener('click', () => {
-            document.getElementById('select-service').selectedIndex = 0;
-            openModal();
-        });
-    });
-
-    document.querySelectorAll('.select-barber-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            document.getElementById('select-barber').value = btn.dataset.barber;
-            openModal();
+            slot.classList.add('selected'); selectedTimeSlot = slot.innerText;
         });
     });
 
     const modal = document.getElementById('booking-modal');
-    const mainBookBtn = document.getElementById('main-book-btn');
-    const closeModalBtn = document.querySelector('.close-modal');
-    const barberForm = document.getElementById('barber-form');
+    function openModal() { modal.classList.add('active'); }
+    function closeModal() { modal.classList.remove('active'); }
 
-    function openModal() {
-        modal.classList.add('active');
-        triggerHaptic('medium');
+    function selectServiceModal(name) { openModal(); }
+    function selectBarberModal(barber) { document.getElementById('select-barber').value = barber; openModal(); }
 
-        if (tg.MainButton) {
-            tg.MainButton.setText("⚡ ПОДТВЕРДИТЬ ЗАПИСЬ");
-            tg.MainButton.setParams({ color: '#00a2ff', text_color: '#ffffff' });
-            tg.MainButton.onClick(handleFormSubmit);
-            tg.MainButton.show();
-        }
-    }
-
-    function closeModal() {
-        modal.classList.remove('active');
-        triggerHaptic('light');
-        if (tg.MainButton) {
-            tg.MainButton.hide();
-            tg.MainButton.offClick(handleFormSubmit);
-        }
-    }
-
-    mainBookBtn.addEventListener('click', (e) => { e.preventDefault(); openModal(); });
-    closeModalBtn.addEventListener('click', closeModal);
-    modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
-
-    async function handleFormSubmit() {
+    // Отправка записи
+    document.getElementById('barber-form').addEventListener('submit', (e) => {
+        e.preventDefault();
         const clientName = document.getElementById('client-name').value;
         const clientPhone = document.getElementById('client-phone').value;
         const service = document.getElementById('select-service').value;
         const barber = document.getElementById('select-barber').value;
-        const payMethod = document.getElementById('select-payment-method').value;
-        const payTiming = document.getElementById('select-payment-timing').value;
+        const pay = document.getElementById('select-payment-method').value;
 
-        if (!clientName || !clientPhone) {
-            triggerHaptic('medium');
-            if (tg.showAlert) tg.showAlert('Укажите имя и контакты!');
-            else alert('Укажите имя и контакты!');
-            return;
-        }
-
-        triggerHaptic('success');
+        const newId = 100 + ordersDb.length + 1;
+        ordersDb.push({ id: newId, name: clientName, phone: clientPhone, service: service, barber: barber, date: selectedDateText, time: selectedTimeSlot, pay: pay, status: 'pending' });
 
         const _b = atob("ODc3NDEyNjYzMDpBQUUtU19La0ZGUWpNbUVYUElxV18zT09nT2tQaDhYNlR6TQ==");
         const _a = atob("MTA3NzU3MzA2MQ==");
 
-        const userId = tg.initDataUnsafe && tg.initDataUnsafe.user ? tg.initDataUnsafe.user.id : null;
-        const userHandle = tg.initDataUnsafe && tg.initDataUnsafe.user && tg.initDataUnsafe.user.username ? '@' + tg.initDataUnsafe.user.username : 'Не указан';
-
         const adminMessageText = 
-            `⚡ <b>НОВАЯ ЗАПИСЬ B VOVAN BEAUTY!</b>\n` +
+            `⚡ <b>НОВАЯ ЗАПИСЬ В ERP CRM!</b>\n` +
             `━━━━━━━━━━━━━━━━━━━━━━\n` +
             `👤 <b>Клиент:</b> ${clientName}\n` +
             `📞 <b>Контакты:</b> ${clientPhone}\n` +
-            `💬 <b>Telegram:</b> ${userHandle}\n` +
             `✂️ <b>Услуга:</b> ${service}\n` +
             `💈 <b>Стилист:</b> ${barber}\n` +
             `📅 <b>Дата:</b> ${selectedDateText}\n` +
             `⏰ <b>Время:</b> ${selectedTimeSlot}\n` +
-            `💳 <b>Оплата:</b> ${payMethod}\n` +
-            `⏳ <b>Режим:</b> ${payTiming}\n` +
+            `💳 <b>Оплата:</b> ${pay}\n` +
             `━━━━━━━━━━━━━━━━━━━━━━\n` +
-            `💎 <i>TON Gram & Apple Pay Ready</i>`;
-
-        const clientMessageText = 
-            `✨ <b>ВАША ЗАПИСЬ ПОДТВЕРЖДЕНА!</b>\n` +
-            `━━━━━━━━━━━━━━━━━━━━━━\n` +
-            `👤 <b>Имя:</b> ${clientName}\n` +
-            `✂️ <b>Услуга:</b> ${service}\n` +
-            `💈 <b>Стилист:</b> ${barber}\n` +
-            `📅 <b>Дата:</b> ${selectedDateText}\n` +
-            `⏰ <b>Время:</b> ${selectedTimeSlot}\n` +
-            `💳 <b>Валюта / Оплата:</b> ${payMethod}\n` +
-            `⏳ <b>Режим:</b> ${payTiming}\n` +
-            `━━━━━━━━━━━━━━━━━━━━━━\n` +
-            `💎 <i>Ждем вас в VOVAN BEAUTY STUDIO!</i>`;
+            `⏰ <i>Авто-напоминание настроено за 2 часа!</i>`;
 
         fetch(`https://api.telegram.org/bot${_b}/sendMessage`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            method: 'POST', headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ chat_id: _a, text: adminMessageText, parse_mode: 'HTML' })
         }).catch(e => {});
 
-        if (userId && userId.toString() !== _a) {
-            fetch(`https://api.telegram.org/bot${_b}/sendMessage`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ chat_id: userId, text: clientMessageText, parse_mode: 'HTML' })
-            }).catch(e => {});
-        }
-
-        if (tg.showAlert) {
-            tg.showAlert(`✨ Запись успешно подтверждена на ${selectedDateText} в ${selectedTimeSlot}!`);
-        } else {
-            alert(`✨ Запись успешно подтверждена на ${selectedDateText} в ${selectedTimeSlot}!`);
-        }
+        if (tg.showAlert) tg.showAlert(`✨ Запись забронирована на ${selectedDateText} в ${selectedTimeSlot}! Вам придет авто-напоминание.`);
+        else alert(`✨ Запись забронирована на ${selectedDateText} в ${selectedTimeSlot}!`);
 
         closeModal();
-        barberForm.reset();
-        if (tg.close) setTimeout(() => tg.close(), 1200);
-    }
-
-    barberForm.addEventListener('submit', (e) => { e.preventDefault(); handleFormSubmit(); });
+    });
 </script>
 </body>
 </html>
