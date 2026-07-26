@@ -1,47 +1,579 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Megan 2.0</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{min-height:100vh;display:flex;align-items:center;justify-content:center;background:#0a0a0f;font-family:system-ui,sans-serif;overflow:hidden}
-.glow{position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(139,0,255,.15),transparent 70%);filter:blur(40px);animation:pulse 4s ease-in-out infinite}
-@keyframes pulse{0%,100%{transform:scale(1);opacity:.5}50%{transform:scale(1.1);opacity:.8}}
-.card{position:relative;z-index:1;text-align:center;padding:60px 50px;border-radius:24px;background:rgba(255,255,255,.03);backdrop-filter:blur(20px);border:1px solid rgba(139,0,255,.2);box-shadow:0 0 80px rgba(139,0,255,.1)}
-.emoji{font-size:72px;margin-bottom:20px;display:block;animation:float 3s ease-in-out infinite}
-@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
-h1{font-size:48px;font-weight:800;background:linear-gradient(135deg,#a855f7,#ec4899,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:12px;letter-spacing:-1px}
-p{color:#94a3b8;font-size:18px;line-height:1.6;margin-bottom:30px}
-.badges{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
-.badge{padding:8px 16px;border-radius:20px;font-size:13px;font-weight:600;border:1px solid rgba(255,255,255,.1);color:#cbd5e1}
-.badge:nth-child(1){background:rgba(139,0,255,.15);border-color:rgba(139,0,255,.3);color:#c084fc}
-.badge:nth-child(2){background:rgba(236,72,153,.1);border-color:rgba(236,72,153,.2);color:#f472b6}
-.badge:nth-child(3){background:rgba(6,182,212,.1);border-color:rgba(6,182,212,.2);color:#22d3ee}
-.stats{display:flex;gap:40px;justify-content:center;margin-top:35px;padding-top:30px;border-top:1px solid rgba(255,255,255,.05)}
-.stat-num{font-size:32px;font-weight:800;color:#e2e8f0}
-.stat-label{font-size:12px;color:#64748b;margin-top:4px;text-transform:uppercase;letter-spacing:1px}
-.footer{position:fixed;bottom:20px;width:100%;text-align:center;color:#334155;font-size:13px}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Gentleman's Blade — Telegram Barbershop</title>
+    <!-- Официальный SDK Telegram Web App -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <!-- Шрифты 50-х годов -->
+    <link href="https://fonts.googleapis.com/css2?family=Rye&family=Special+Elite&display=swap" rel="stylesheet">
+    <!-- Three.js для 3D барбер-пола -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        :root {
+            --bg-color: #f3eee2;
+            --red-color: #b22222;
+            --blue-color: #0f2537;
+            --dark-color: #1a1a1a;
+            --white-color: #ffffff;
+            --border-thick: 4px solid var(--dark-color);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E");
+            color: var(--dark-color);
+            font-family: 'Special Elite', monospace;
+            overflow-x: hidden;
+            width: 100vw;
+        }
+
+        header {
+            border-bottom: var(--border-thick);
+            background: var(--white-color);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-family: 'Rye', serif;
+            font-size: 1.4rem;
+            color: var(--red-color);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 2px 2px 0px var(--dark-color);
+        }
+
+        /* Hero Секция */
+        .hero {
+            display: flex;
+            flex-direction: column;
+            border-bottom: var(--border-thick);
+        }
+
+        .hero-3d-container {
+            width: 100%;
+            height: 280px;
+            background: var(--blue-color);
+            position: relative;
+            border-bottom: var(--border-thick);
+        }
+
+        #webgl-container {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .hero-content {
+            padding: 30px 20px;
+            background: var(--bg-color);
+            text-align: center;
+        }
+
+        .hero-content h1 {
+            font-family: 'Rye', serif;
+            font-size: 2.4rem;
+            line-height: 1.2;
+            color: var(--blue-color);
+            margin-bottom: 15px;
+        }
+
+        .hero-content p {
+            font-size: 1rem;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        /* Кнопка-билетик */
+        .ticket-btn {
+            display: inline-block;
+            background: var(--red-color);
+            color: var(--white-color);
+            font-family: 'Rye', serif;
+            font-size: 1.2rem;
+            padding: 15px 30px;
+            text-decoration: none;
+            border: 3px dashed var(--white-color);
+            box-shadow: 5px 5px 0px var(--dark-color);
+            position: relative;
+            transition: transform 0.1s ease, box-shadow 0.1s ease;
+            text-align: center;
+            width: 100%;
+            max-width: 300px;
+            cursor: pointer;
+        }
+
+        .ticket-btn:active {
+            transform: translate(4px, 4px);
+            box-shadow: 1px 1px 0px var(--dark-color);
+        }
+
+        /* Меню-Прайс */
+        .menu-section {
+            padding: 40px 15px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-family: 'Rye', serif;
+            font-size: 2rem;
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--blue-color);
+            text-transform: uppercase;
+            border-bottom: 4px double var(--dark-color);
+            padding-bottom: 15px;
+        }
+
+        .vintage-menu {
+            background: var(--white-color);
+            border: var(--border-thick);
+            padding: 25px 20px;
+            box-shadow: 6px 6px 0px var(--red-color);
+        }
+
+        .menu-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            border-bottom: 2px dotted #aaa;
+            padding-bottom: 15px;
+        }
+
+        .menu-name {
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+
+        .menu-desc {
+            font-size: 0.8rem;
+            color: #555;
+            margin-top: 4px;
+        }
+
+        .menu-price {
+            font-family: 'Rye', serif;
+            font-size: 1.3rem;
+            color: var(--red-color);
+            white-space: nowrap;
+            margin-left: 10px;
+        }
+
+        /* Секция Барберов */
+        .barbers-section {
+            background: var(--blue-color);
+            color: var(--white-color);
+            padding: 50px 15px;
+            border-top: var(--border-thick);
+            border-bottom: var(--border-thick);
+        }
+
+        .barbers-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .barber-card {
+            background: var(--bg-color);
+            color: var(--dark-color);
+            border: var(--border-thick);
+            padding: 15px;
+            box-shadow: 6px 6px 0px var(--red-color);
+            text-align: center;
+        }
+
+        .barber-frame {
+            border: 4px solid var(--dark-color);
+            padding: 8px;
+            background: var(--white-color);
+            margin-bottom: 15px;
+        }
+
+        .barber-photo {
+            width: 100%;
+            height: 220px;
+            background-color: #333;
+            background-image: radial-gradient(circle, #666 0%, #111 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Rye', serif;
+            color: #fff;
+            font-size: 1.2rem;
+            filter: grayscale(100%) contrast(120%);
+        }
+
+        .barber-name {
+            font-family: 'Rye', serif;
+            font-size: 1.3rem;
+            margin-bottom: 8px;
+            color: var(--blue-color);
+        }
+
+        .barber-card p {
+            font-size: 0.85rem;
+        }
+
+        /* Модальное окно */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 37, 55, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            padding: 15px;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .vintage-modal {
+            background: var(--bg-color);
+            border: var(--border-thick);
+            padding: 25px 20px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 8px 8px 0px var(--red-color);
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            font-family: 'Rye', serif;
+            cursor: pointer;
+            color: var(--red-color);
+        }
+
+        .modal-header h3 {
+            font-family: 'Rye', serif;
+            font-size: 1.3rem;
+            color: var(--blue-color);
+            margin-bottom: 8px;
+        }
+
+        .modal-header p {
+            font-size: 0.8rem;
+            margin-bottom: 20px;
+            color: #444;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            font-size: 0.85rem;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 3px solid var(--dark-color);
+            background: var(--white-color);
+            font-family: 'Special Elite', monospace;
+            font-size: 0.95rem;
+            box-shadow: 2px 2px 0px var(--dark-color);
+            outline: none;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px 15px;
+            background: var(--dark-color);
+            color: var(--white-color);
+            font-size: 0.9rem;
+        }
+    </style>
 </head>
 <body>
-<div class="glow"></div>
-<div class="card">
-<span class="emoji">🦀</span>
-<h1>MEGAN 2.0</h1>
-<p>Cold. Precise. Lethal-efficient.<br>Персональный ИИ для Вована.</p>
-<div class="badges">
-<span class="badge">🧠 MiMo Pro</span>
-<span class="badge">⚡ 2350 навыков</span>
-<span class="badge">🇫🇷 Nice, France</span>
-</div>
-<div class="stats">
-<div><div class="stat-num">24/7</div><div class="stat-label">Online</div></div>
-<div><div class="stat-num">100+</div><div class="stat-label">Languages</div></div>
-<div><div class="stat-num">∞</div><div class="stat-label">Память</div></div>
-</div>
-</div>
-<div class="footer">Built by Вован · 2026</div>
+
+    <header>
+        <div class="logo">Gentleman's Blade</div>
+        <a href="#booking" class="ticket-btn" style="padding: 8px 14px; font-size: 0.85rem; max-width: none;">Записаться</a>
+    </header>
+
+    <section class="hero">
+        <div class="hero-3d-container">
+            <div id="webgl-container"></div>
+        </div>
+        <div class="hero-content">
+            <h1>Классика вне времени</h1>
+            <p>Настоящее американское ремесло стрижки и бритья опасной бритвой с 1954 года прямо в Telegram.</p>
+            <a href="#booking" class="ticket-btn">🎟 Забронировать место</a>
+        </div>
+    </section>
+
+    <section class="menu-section">
+        <h2 class="section-title">Прайс-лист</h2>
+        <div class="vintage-menu">
+            <div class="menu-item">
+                <div>
+                    <div class="menu-name">Классическая стрижка</div>
+                    <div class="menu-desc">Моделирование, укладка помадой</div>
+                </div>
+                <div class="menu-price">35 €</div>
+            </div>
+            <div class="menu-item">
+                <div>
+                    <div class="menu-name">Бритье опасной бритвой</div>
+                    <div class="menu-desc">Ритуал с горячим полотенцем</div>
+                </div>
+                <div class="menu-price">30 €</div>
+            </div>
+            <div class="menu-item">
+                <div>
+                    <div class="menu-name">Королевский комплекс</div>
+                    <div class="menu-desc">Стрижка волос + борода</div>
+                </div>
+                <div class="menu-price">55 €</div>
+            </div>
+            <div class="menu-item">
+                <div>
+                    <div class="menu-name">Коррекция бороды</div>
+                    <div class="menu-desc">Выравнивание триммером и бритвой</div>
+                </div>
+                <div class="menu-price">25 €</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="barbers-section">
+        <h2 class="section-title" style="color: var(--white-color); border-color: var(--white-color);">Мастера</h2>
+        <div class="barbers-grid">
+            <div class="barber-card">
+                <div class="barber-frame">
+                    <div class="barber-photo">JOHN "RAZOR"</div>
+                </div>
+                <div class="barber-name">Джон Смит</div>
+                <p>Старший мастер с 20-летним стажем. Британская классика и опасное бритье.</p>
+            </div>
+            <div class="barber-card">
+                <div class="barber-frame">
+                    <div class="barber-photo">BIG MIKE</div>
+                </div>
+                <div class="barber-name">Майкл Дженкинс</div>
+                <p>Мастер американской школы фейда и бород в стиле рокабилли.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 1954–2026 Gentleman's Blade TMA. Традиции превыше всего.</p>
+    </footer>
+
+    <!-- Модальное окно бронирования -->
+    <div id="booking-modal" class="modal-overlay">
+        <div class="vintage-modal">
+            <button class="close-modal">&times;</button>
+            <div class="modal-header">
+                <h3>ТАЛОН НА СТРИЖКУ</h3>
+                <p>Заполните форму для отправки данных вашему барберу.</p>
+            </div>
+            <form class="booking-form" id="barber-form">
+                <div class="form-group">
+                    <label for="client-name">Ваше имя:</label>
+                    <input type="text" id="client-name" placeholder="Генри" required>
+                </div>
+                <div class="form-group">
+                    <label for="client-phone">Телефон / Username:</label>
+                    <input type="text" id="client-phone" placeholder="+1 555 000-00" required>
+                </div>
+                <div class="form-group">
+                    <label for="select-service">Услуга:</label>
+                    <select id="select-service">
+                        <option value="Классическая стрижка (35 €)">Классическая стрижка (35 €)</option>
+                        <option value="Бритье опасной бритвой (30 €)">Бритье опасной бритвой (30 €)</option>
+                        <option value="Королевский комплекс (55 €)">Королевский комплекс (55 €)</option>
+                        <option value="Коррекция бороды (25 €)">Коррекция бороды (25 €)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="select-barber">Мастер:</label>
+                    <select id="select-barber">
+                        <option value="Джон Смит">Джон «Razor» Смит</option>
+                        <option value="Майкл Дженкинс">Майкл Дженкинс</option>
+                    </select>
+                </div>
+                <button type="submit" class="ticket-btn" style="width: 100%; margin-top: 5px;">🎟 Отправить талон</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Логика Telegram Web App и 3D анимации -->
+    <script>
+        // Инициализация Telegram Web App
+        const tg = window.Telegram.WebApp;
+        tg.ready();
+        tg.expand(); // Разворачиваем мини-приложение на весь экран
+        
+        // Опционально: настраиваем тему или цвет хедера под стиль барбершопа
+        tg.setHeaderColor('#f3eee2');
+
+        // Логика модального окна
+        const modal = document.getElementById('booking-modal');
+        const ticketButtons = document.querySelectorAll('.ticket-btn');
+        const closeModalBtn = document.querySelector('.close-modal');
+        const barberForm = document.getElementById('barber-form');
+
+        ticketButtons.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                modal.classList.add('active');
+            });
+        });
+
+        closeModalBtn.addEventListener('click', () => {
+            modal.classList.remove('active');
+        });
+
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.classList.remove('active');
+            }
+        });
+
+        // Отправка данных через Telegram Mini App API
+        barberForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const clientName = document.getElementById('client-name').value;
+            const clientPhone = document.getElementById('client-phone').value;
+            const service = document.getElementById('select-service').value;
+            const barber = document.getElementById('select-barber').value;
+
+            const bookingData = {
+                name: clientName,
+                phone: clientPhone,
+                service: service,
+                barber: barber
+            };
+
+            // Если запущено внутри Telegram — отправляем данные боту и закрываем приложение
+            if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
+                tg.sendData(JSON.stringify(bookingData));
+            } else {
+                // Тестовый режим в обычном браузере
+                tg.showAlert(`Талон забронирован! Имя: ${clientName}, Услуга: ${service}`);
+                modal.classList.remove('active');
+                barberForm.reset();
+            }
+        });
+
+        // Three.js 3D Барбер-пол для мобильного экрана
+        const container = document.getElementById('webgl-container');
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        
+        renderer.setSize(container.clientWidth, container.clientHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        container.appendChild(renderer.domElement);
+
+        const canvas = document.createElement('canvas');
+        canvas.width = 512;
+        canvas.height = 512;
+        const ctx = canvas.getContext('2d');
+        
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, 512, 512);
+        
+        const stripeWidth = 64;
+        for (let i = -512; i < 1024; i += stripeWidth * 3) {
+            ctx.fillStyle = '#b22222';
+            ctx.beginPath();
+            ctx.moveTo(i, 0);
+            ctx.lineTo(i + stripeWidth, 0);
+            ctx.lineTo(i + stripeWidth - 512, 512);
+            ctx.lineTo(i - 512, 512);
+            ctx.fill();
+
+            ctx.fillStyle = '#0f2537';
+            ctx.beginPath();
+            ctx.moveTo(i + stripeWidth * 2, 0);
+            ctx.lineTo(i + stripeWidth * 3, 0);
+            ctx.lineTo(i + stripeWidth * 3 - 512, 512);
+            ctx.lineTo(i + stripeWidth * 2 - 512, 512);
+            ctx.fill();
+        }
+
+        const texture = new THREE.CanvasTexture(canvas);
+        texture.wrapS = THREE.RepeatWrapping;
+        texture.wrapT = THREE.RepeatWrapping;
+        texture.repeat.set(1, 3);
+
+        const geometry = new THREE.CylinderGeometry(1.1, 1.1, 4.2, 32);
+        const material = new THREE.MeshStandardMaterial({ 
+            map: texture, 
+            roughness: 0.3,
+            metalness: 0.1
+        });
+        const cylinder = new THREE.Mesh(geometry, material);
+        scene.add(cylinder);
+
+        scene.add(new THREE.AmbientLight(0xffffff, 1.2));
+        const pointLight = new THREE.PointLight(0xffffff, 2);
+        pointLight.position.set(5, 5, 5);
+        scene.add(pointLight);
+
+        camera.position.z = 6;
+
+        function animate() {
+            requestAnimationFrame(animate);
+            cylinder.rotation.y += 0.015;
+            texture.offset.y -= 0.008;
+            renderer.render(scene, camera);
+        }
+
+        animate();
+
+        window.addEventListener('resize', () => {
+            const width = container.clientWidth;
+            const height = container.clientHeight;
+            camera.aspect = width / height;
+            camera.updateProjectionMatrix();
+            renderer.setSize(width, height);
+        });
+    </script>
 </body>
 </html>
