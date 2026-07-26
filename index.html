@@ -3,22 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Gentleman's Blade — Telegram Barbershop</title>
+    <title>VOVAN BEAUTY STUDIO — M3GAN Edition</title>
     <!-- Официальный SDK Telegram Web App -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <!-- Шрифты 50-х годов -->
-    <link href="https://fonts.googleapis.com/css2?family=Rye&family=Special+Elite&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
+    <!-- Футуристичные и стильные шрифты -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
     <!-- Three.js для 3D барбер-пола -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <style>
         :root {
-            --bg-color: #f3eee2;
-            --red-color: #b22222;
-            --blue-color: #0f2537;
-            --dark-color: #1a1a1a;
-            --white-color: #ffffff;
-            --accent-gold: #c5a059;
-            --border-thick: 4px solid var(--dark-color);
+            --bg-color: #0d0f12;
+            --card-bg: #161920;
+            --accent-red: #ff2a5f;
+            --accent-cyan: #00f0ff;
+            --accent-gold: #e5b95a;
+            --text-main: #ffffff;
+            --text-sub: #a0a5b5;
+            --border-glow: 2px solid rgba(255, 42, 95, 0.4);
         }
 
         * {
@@ -29,10 +30,9 @@
         }
 
         body {
-            background-color: var(--bg-color);
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E");
-            color: var(--dark-color);
-            font-family: 'Special Elite', monospace;
+            background-color: #07080a;
+            color: var(--text-main);
+            font-family: 'Montserrat', sans-serif;
             overflow-x: hidden;
             width: 100%;
             margin: 0 auto;
@@ -42,13 +42,16 @@
             width: 100%;
             max-width: 600px;
             margin: 0 auto;
-            background: transparent;
+            background: var(--bg-color);
             position: relative;
+            box-shadow: 0 0 50px rgba(0, 240, 255, 0.15);
+            min-height: 100vh;
         }
 
         header {
-            border-bottom: var(--border-thick);
-            background: var(--white-color);
+            border-bottom: var(--border-glow);
+            background: rgba(22, 25, 32, 0.95);
+            backdrop-filter: blur(10px);
             padding: 15px 20px;
             display: flex;
             justify-content: space-between;
@@ -56,84 +59,82 @@
             position: sticky;
             top: 0;
             z-index: 1000;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
 
         .logo {
-            font-family: 'Rye', serif;
-            font-size: 1.3rem;
-            color: var(--red-color);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 900;
+            color: var(--accent-cyan);
             text-transform: uppercase;
-            letter-spacing: 1px;
-            text-shadow: 2px 2px 0px var(--dark-color);
+            letter-spacing: 1.5px;
+            text-shadow: 0 0 10px rgba(0, 240, 255, 0.6);
         }
 
         .badge-status {
-            background: #2e7d32;
-            color: white;
+            background: rgba(255, 42, 95, 0.2);
+            color: var(--accent-red);
             font-size: 0.7rem;
-            padding: 3px 8px;
-            border: 2px solid var(--dark-color);
+            padding: 4px 10px;
+            border: 1px solid var(--accent-red);
+            border-radius: 20px;
             font-weight: bold;
             text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 0 10px rgba(255, 42, 95, 0.3);
         }
 
         /* Hero Секция */
         .hero {
             display: flex;
             flex-direction: column;
-            border-bottom: var(--border-thick);
-        }
-
-        .hero-3d-container {
-            width: 100%;
-            height: 260px;
-            background: var(--blue-color);
+            border-bottom: var(--border-glow);
             position: relative;
-            border-bottom: var(--border-thick);
         }
 
-        #webgl-container {
+        .hero-banner {
             width: 100%;
-            height: 100%;
-            position: absolute;
-            top: 0;
-            left: 0;
+            height: 220px;
+            object-fit: cover;
+            border-bottom: 2px solid var(--accent-cyan);
         }
 
         .hero-content {
             padding: 25px 20px;
-            background: var(--bg-color);
+            background: radial-gradient(circle at top, #1a1e29 0%, #0d0f12 100%);
             text-align: center;
         }
 
         .hero-content h1 {
-            font-family: 'Rye', serif;
-            font-size: 2.2rem;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 900;
             line-height: 1.2;
-            color: var(--blue-color);
-            margin-bottom: 12px;
+            color: #ffffff;
+            margin-bottom: 10px;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
         }
 
         .hero-content p {
-            font-size: 0.95rem;
+            font-size: 0.9rem;
+            color: var(--text-sub);
             margin-bottom: 20px;
-            line-height: 1.4;
+            line-height: 1.5;
         }
 
-        /* Кнопка-билетик */
         .ticket-btn {
             display: inline-block;
-            background: var(--red-color);
-            color: var(--white-color);
-            font-family: 'Rye', serif;
-            font-size: 1.1rem;
+            background: linear-gradient(135deg, var(--accent-red) 0%, #c4123f 100%);
+            color: #ffffff;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 0.95rem;
             padding: 14px 25px;
             text-decoration: none;
-            border: 3px dashed var(--white-color);
-            box-shadow: 5px 5px 0px var(--dark-color);
-            position: relative;
-            transition: transform 0.1s ease, box-shadow 0.1s ease;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 20px rgba(255, 42, 95, 0.5);
+            transition: all 0.2s ease;
             text-align: center;
             width: 100%;
             max-width: 320px;
@@ -141,11 +142,25 @@
         }
 
         .ticket-btn:active {
-            transform: translate(3px, 3px);
-            box-shadow: 2px 2px 0px var(--dark-color);
+            transform: scale(0.98);
         }
 
-        /* Фильтры категорий */
+        /* Меню-Прайс */
+        .menu-section {
+            padding: 35px 15px;
+        }
+
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            text-align: center;
+            margin-bottom: 25px;
+            color: var(--accent-cyan);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(0, 240, 255, 0.4);
+        }
+
         .category-tabs {
             display: flex;
             justify-content: center;
@@ -155,232 +170,196 @@
         }
 
         .tab-btn {
-            background: var(--white-color);
-            border: 2px solid var(--dark-color);
-            padding: 6px 12px;
-            font-family: 'Special Elite', monospace;
+            background: var(--card-bg);
+            color: var(--text-sub);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-family: 'Montserrat', sans-serif;
             font-size: 0.85rem;
+            font-weight: 600;
             cursor: pointer;
-            box-shadow: 2px 2px 0px var(--dark-color);
+            transition: all 0.3s ease;
         }
 
         .tab-btn.active {
-            background: var(--blue-color);
-            color: var(--white-color);
-        }
-
-        /* Меню-Прайс */
-        .menu-section {
-            padding: 35px 15px;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .section-title {
-            font-family: 'Rye', serif;
-            font-size: 1.8rem;
-            text-align: center;
-            margin-bottom: 25px;
-            color: var(--blue-color);
-            text-transform: uppercase;
-            border-bottom: 4px double var(--dark-color);
-            padding-bottom: 12px;
+            background: var(--accent-cyan);
+            color: #000;
+            font-weight: 800;
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.5);
         }
 
         .vintage-menu {
-            background: var(--white-color);
-            border: var(--border-thick);
-            padding: 20px 15px;
-            box-shadow: 6px 6px 0px var(--red-color);
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
         .menu-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 18px;
-            border-bottom: 2px dotted #aaa;
+            margin-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             padding-bottom: 12px;
             cursor: pointer;
             transition: background 0.2s ease;
         }
 
-        .menu-item:hover {
-            background: rgba(178, 34, 34, 0.05);
+        .menu-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
         }
 
         .menu-name {
-            font-size: 1rem;
-            font-weight: bold;
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #ffffff;
         }
 
         .menu-desc {
             font-size: 0.8rem;
-            color: #555;
-            margin-top: 3px;
+            color: var(--text-sub);
+            margin-top: 4px;
         }
 
         .menu-price {
-            font-family: 'Rye', serif;
-            font-size: 1.2rem;
-            color: var(--red-color);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--accent-red);
             white-space: nowrap;
             margin-left: 10px;
         }
 
-        /* Секция Барберов */
+        /* Секция Стилистов M3GAN */
         .barbers-section {
-            background: var(--blue-color);
-            color: var(--white-color);
+            background: #11141c;
             padding: 40px 15px;
-            border-top: var(--border-thick);
-            border-bottom: var(--border-thick);
+            border-top: var(--border-glow);
+            border-bottom: var(--border-glow);
         }
 
         .barbers-grid {
             display: flex;
             flex-direction: column;
             gap: 20px;
-            max-width: 500px;
-            margin: 0 auto;
         }
 
         .barber-card {
-            background: var(--bg-color);
-            color: var(--dark-color);
-            border: var(--border-thick);
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 14px;
             padding: 15px;
-            box-shadow: 6px 6px 0px var(--red-color);
             text-align: center;
             position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.6);
         }
 
         .barber-rating {
             position: absolute;
-            top: 10px;
-            right: 10px;
+            top: 15px;
+            right: 15px;
             background: var(--accent-gold);
-            color: black;
-            font-weight: bold;
-            padding: 2px 8px;
-            border: 2px solid var(--dark-color);
+            color: #000;
+            font-weight: 900;
+            padding: 3px 10px;
+            border-radius: 12px;
             font-size: 0.8rem;
         }
 
-        .barber-frame {
-            border: 4px solid var(--dark-color);
-            padding: 6px;
-            background: var(--white-color);
-            margin-bottom: 12px;
-        }
-
-        .barber-photo {
+        .barber-img {
             width: 100%;
-            height: 180px;
-            background-color: #222;
-            background-image: radial-gradient(circle, #555 0%, #111 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'Rye', serif;
-            color: #fff;
-            font-size: 1.4rem;
+            height: 240px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
         }
 
         .barber-name {
-            font-family: 'Rye', serif;
+            font-family: 'Orbitron', sans-serif;
             font-size: 1.2rem;
+            font-weight: 700;
             margin-bottom: 6px;
-            color: var(--blue-color);
+            color: var(--accent-cyan);
         }
 
         .barber-card p {
             font-size: 0.85rem;
-            margin-bottom: 10px;
+            color: var(--text-sub);
+            margin-bottom: 12px;
         }
 
         .select-barber-btn {
-            background: var(--blue-color);
-            color: white;
-            border: 2px solid var(--dark-color);
-            padding: 8px 15px;
-            font-family: 'Special Elite', monospace;
-            font-size: 0.85rem;
+            background: transparent;
+            color: var(--accent-cyan);
+            border: 1px solid var(--accent-cyan);
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 700;
             cursor: pointer;
             width: 100%;
+            transition: all 0.2s ease;
         }
 
-        /* Интерактивный Календарь и Время */
-        .time-slots {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-            margin-top: 10px;
+        .select-barber-btn:active {
+            background: var(--accent-cyan);
+            color: #000;
         }
 
-        .slot-btn {
-            background: var(--white-color);
-            border: 2px solid var(--dark-color);
-            padding: 8px;
-            text-align: center;
-            font-family: 'Special Elite', monospace;
-            font-size: 0.85rem;
-            cursor: pointer;
-            box-shadow: 2px 2px 0px var(--dark-color);
-        }
-
-        .slot-btn.selected {
-            background: var(--red-color);
-            color: white;
-        }
-
+        /* Время и Календарь */
         .date-picker {
             display: flex;
             gap: 8px;
             overflow-x: auto;
-            padding-bottom: 10px;
+            padding-bottom: 8px;
             margin-bottom: 12px;
         }
 
         .date-card {
-            min-width: 70px;
-            padding: 8px;
-            background: var(--white-color);
-            border: 2px solid var(--dark-color);
+            min-width: 75px;
+            padding: 10px 6px;
+            background: #202533;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
             text-align: center;
             cursor: pointer;
-            box-shadow: 2px 2px 0px var(--dark-color);
         }
 
         .date-card.selected {
-            background: var(--blue-color);
-            color: white;
+            background: var(--accent-cyan);
+            color: #000;
+            font-weight: 800;
         }
 
-        /* Отзывы */
-        .reviews-section {
-            padding: 40px 15px;
-            max-width: 600px;
-            margin: 0 auto;
+        .time-slots {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
         }
 
-        .review-card {
-            background: var(--white-color);
-            border: var(--border-thick);
-            padding: 15px;
-            margin-bottom: 15px;
-            box-shadow: 4px 4px 0px var(--dark-color);
+        .slot-btn {
+            background: #202533;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 0.85rem;
+            cursor: pointer;
+            color: #fff;
         }
 
-        .review-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 8px;
-            font-weight: bold;
-        }
-
-        .review-stars {
-            color: var(--accent-gold);
+        .slot-btn.selected {
+            background: var(--accent-red);
+            color: #fff;
+            font-weight: 800;
+            box-shadow: 0 0 10px rgba(255, 42, 95, 0.5);
         }
 
         /* Модальное окно */
@@ -390,7 +369,8 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(15, 37, 55, 0.92);
+            background: rgba(7, 8, 10, 0.92);
+            backdrop-filter: blur(8px);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -407,40 +387,40 @@
         }
 
         .vintage-modal {
-            background: var(--bg-color);
-            border: var(--border-thick);
+            background: var(--card-bg);
+            border: var(--border-glow);
+            border-radius: 16px;
             padding: 25px 20px;
             width: 100%;
             max-width: 440px;
-            box-shadow: 8px 8px 0px var(--red-color);
+            box-shadow: 0 0 40px rgba(0, 240, 255, 0.2);
             position: relative;
-            max-height: 92vh;
+            max-height: 90vh;
             overflow-y: auto;
         }
 
         .close-modal {
             position: absolute;
-            top: 10px;
+            top: 12px;
             right: 15px;
             background: none;
             border: none;
             font-size: 1.8rem;
-            font-family: 'Rye', serif;
+            color: var(--accent-red);
             cursor: pointer;
-            color: var(--red-color);
         }
 
         .modal-header h3 {
-            font-family: 'Rye', serif;
-            font-size: 1.3rem;
-            color: var(--blue-color);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.2rem;
+            color: var(--accent-cyan);
             margin-bottom: 6px;
         }
 
         .modal-header p {
             font-size: 0.8rem;
             margin-bottom: 18px;
-            color: #444;
+            color: var(--text-sub);
         }
 
         .form-group {
@@ -449,524 +429,387 @@
 
         .form-group label {
             display: block;
-            font-weight: bold;
-            margin-bottom: 5px;
+            font-weight: 600;
+            margin-bottom: 6px;
             font-size: 0.85rem;
+            color: #ddd;
         }
 
         .form-group input,
         .form-group select {
             width: 100%;
-            padding: 10px;
-            border: 3px solid var(--dark-color);
-            background: var(--white-color);
-            font-family: 'Special Elite', monospace;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            background: #0f1117;
+            color: #ffffff;
+            font-family: 'Montserrat', sans-serif;
             font-size: 0.9rem;
-            box-shadow: 2px 2px 0px var(--dark-color);
             outline: none;
         }
 
         footer {
             text-align: center;
-            padding: 25px 15px;
-            background: var(--dark-color);
-            color: var(--white-color);
+            padding: 30px 15px;
+            background: #07080a;
+            color: var(--text-sub);
             font-size: 0.85rem;
-            margin-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
         }
     </style>
 </head>
 <body>
+
 <div class="app-container">
     <header>
-        <div class="logo">Gentleman's Blade</div>
-        <div class="badge-status">● Открыто</div>
+        <div class="logo">VOVAN BEAUTY</div>
+        <div class="badge-status">● M3GAN ONLINE</div>
     </header>
 
     <section class="hero">
-        <div class="hero-3d-container">
-            <div id="webgl-container"></div>
-        </div>
+        <img src="banner.jpg" alt="M3GAN Studio" class="hero-banner">
         <div class="hero-content">
-            <h1>Классика вне времени</h1>
-            <p>Американское ремесло стрижки и бритья опасной бритвой с 1954 года.</p>
-            <a href="#booking" class="ticket-btn" id="main-book-btn">🎟 Забронировать место</a>
+            <h1>M3GAN BEAUTY EDITION</h1>
+            <p>Высокотехнологичный стиль, авторские стрижки и идеальный бьюти-уход нового поколения.</p>
+            <a href="#booking" class="ticket-btn" id="main-book-btn">⚡ ЗАПИСАТЬСЯ К МАСТЕРУ</a>
         </div>
     </section>
 
     <!-- Меню-Прайс -->
     <section class="menu-section">
-        <h2 class="section-title">Прайс-лист</h2>
+        <h2 class="section-title">Услуги Студии</h2>
         
         <div class="category-tabs">
             <button class="tab-btn active" data-cat="all">Все</button>
             <button class="tab-btn" data-cat="hair">Стрижки</button>
-            <button class="tab-btn" data-cat="beard">Борода</button>
-            <button class="tab-btn" data-cat="combo">Комплексы</button>
+            <button class="tab-btn" data-cat="style">Стиль & Окрашивание</button>
+            <button class="tab-btn" data-cat="vip">VIP Комплексы</button>
         </div>
 
-        <div class="vintage-menu" id="menu-container">
-            <div class="menu-item" data-cat="hair" data-name="Классическая стрижка (35 €)">
+        <div class="vintage-menu">
+            <div class="menu-item" data-cat="hair" data-name="Стрижка M3GAN Style (40 €)">
                 <div>
-                    <div class="menu-name">Классическая стрижка</div>
-                    <div class="menu-desc">Моделирование, мытье головы, укладка помадой</div>
+                    <div class="menu-name">Стрижка M3GAN Style</div>
+                    <div class="menu-desc">Авторское моделирование формы + идеальная укладка</div>
                 </div>
-                <div class="menu-price">35 €</div>
+                <div class="menu-price">40 €</div>
             </div>
-            <div class="menu-item" data-cat="beard" data-name="Бритье опасной бритвой (30 €)">
+            <div class="menu-item" data-cat="style" data-name="Бьюти-комплекс VOVAN VIP (65 €)">
                 <div>
-                    <div class="menu-name">Бритье опасной бритвой</div>
-                    <div class="menu-desc">Традиционный ритуал с распариванием полотенцем</div>
+                    <div class="menu-name">Бьюти-комплекс VOVAN VIP</div>
+                    <div class="menu-desc">Стрижка + уход за волосами + стайлинг премиум-класса</div>
                 </div>
-                <div class="menu-price">30 €</div>
+                <div class="menu-price">65 €</div>
             </div>
-            <div class="menu-item" data-cat="combo" data-name="Королевский комплекс (55 €)">
+            <div class="menu-item" data-cat="vip" data-name="Cyber Fade & Beard (50 €)">
                 <div>
-                    <div class="menu-name">Королевский комплекс</div>
-                    <div class="menu-desc">Стрижка волос + опасное бритье / борода</div>
+                    <div class="menu-name">Cyber Fade & Beard</div>
+                    <div class="menu-desc">Идеальный фейд + оформление бороды триммером и бритвой</div>
                 </div>
-                <div class="menu-price">55 €</div>
+                <div class="menu-price">50 €</div>
             </div>
-            <div class="menu-item" data-cat="beard" data-name="Коррекция бороды (25 €)">
+            <div class="menu-item" data-cat="style" data-name="Окрашивание Platinum Android (75 €)">
                 <div>
-                    <div class="menu-name">Коррекция бороды</div>
-                    <div class="menu-desc">Выравнивание контуров триммером и бритвой</div>
+                    <div class="menu-name">Окрашивание Platinum Android</div>
+                    <div class="menu-desc">Премиальное тонирование и восстановление тона</div>
                 </div>
-                <div class="menu-price">25 €</div>
-            </div>
-            <div class="menu-item" data-cat="hair" data-name="Детская стрижка (25 €)">
-                <div>
-                    <div class="menu-name">Детская стрижка (до 12 лет)</div>
-                    <div class="menu-desc">Стильная классика для юных джентльменов</div>
-                </div>
-                <div class="menu-price">25 €</div>
+                <div class="menu-price">75 €</div>
             </div>
         </div>
     </section>
 
-    <!-- Секция Барберов -->
+    <!-- Секция Стилистов M3GAN -->
     <section class="barbers-section">
-        <h2 class="section-title" style="color: var(--white-color); border-color: var(--white-color);">Мастера</h2>
+        <h2 class="section-title">Топ-Стилисты</h2>
         <div class="barbers-grid">
             <div class="barber-card">
-                <div class="barber-rating">★ 4.98</div>
-                <div class="barber-frame">
-                    <div class="barber-photo">JOHN "RAZOR"</div>
-                </div>
-                <div class="barber-name">Джон Смит</div>
-                <p>Старший мастер. 20 лет опыта. Британская классика и королевское бритье.</p>
-                <button class="select-barber-btn" data-barber="Джон Смит">Записаться к Джону</button>
+                <div class="barber-rating">★ 5.0</div>
+                <img src="vovan.jpg" alt="Master Vovan" class="barber-img">
+                <div class="barber-name">VOVAN</div>
+                <p>Главный стилист и основатель студии. Эксперт по сложным формам и авторскому стилю.</p>
+                <button class="select-barber-btn" data-barber="VOVAN">Записаться к Vovan</button>
             </div>
             <div class="barber-card">
-                <div class="barber-rating">★ 4.95</div>
-                <div class="barber-frame">
-                    <div class="barber-photo">BIG MIKE</div>
-                </div>
-                <div class="barber-name">Майкл Дженкинс</div>
-                <p>Мастер американской школы фейда и оформления бород в стиле рокабилли.</p>
-                <button class="select-barber-btn" data-barber="Майкл Дженкинс">Записаться к Майклу</button>
+                <div class="barber-rating">★ 4.99</div>
+                <img src="m3gan.jpg" alt="M3GAN Stylist" class="barber-img">
+                <div class="barber-name">M3GAN</div>
+                <p>Виртуально-совершенный мастер бьюти-арта. Идеальная точность каждой линии.</p>
+                <button class="select-barber-btn" data-barber="M3GAN">Записаться к M3GAN</button>
             </div>
-        </div>
-    </section>
-
-    <!-- Отзывы -->
-    <section class="reviews-section">
-        <h2 class="section-title">Отзывы клиентов</h2>
-        <div class="review-card">
-            <div class="review-header">
-                <span>Александр В.</span>
-                <span class="review-stars">★★★★★</span>
-            </div>
-            <p>«Лучшее опасное бритье в городе! Горячее полотенце, атмосфера 50-х — всё на высоте!»</p>
-        </div>
-        <div class="review-card">
-            <div class="review-header">
-                <span>Дмитрий К.</span>
-                <span class="review-stars">★★★★★</span>
-            </div>
-            <p>«Джон — настоящая легенда. Идеальный фейд и чёткие контуры бороды. Рекомендую!»</p>
         </div>
     </section>
 
     <footer>
-        <p>📍 ул. Винтажная, 1954 | 📞 +380 (44) 555-1954</p>
-        <p style="margin-top: 5px; opacity: 0.8;">&copy; 1954–2026 Gentleman's Blade TMA.</p>
+        <p>⚡ VOVAN BEAUTY STUDIO BOT &copy; 2026</p>
+        <p style="margin-top: 5px; opacity: 0.6; font-size: 0.75rem;">M3GAN Кибер-Эстетика & Высокие Технологии</p>
     </footer>
 </div>
 
-    <!-- Модальное окно бронирования -->
-    <div id="booking-modal" class="modal-overlay">
-        <div class="vintage-modal">
-            <button class="close-modal">&times;</button>
-            <div class="modal-header">
-                <h3>ТАЛОН НА СТРИЖКУ</h3>
-                <p>Выберите удобное время для визита.</p>
-            </div>
-            <form class="booking-form" id="barber-form">
-                <div class="form-group">
-                    <label for="client-name">Ваше имя:</label>
-                    <input type="text" id="client-name" placeholder="Генри" required>
-                </div>
-                <div class="form-group">
-                    <label for="client-phone">Телефон / Username:</label>
-                    <input type="text" id="client-phone" placeholder="+380991234567" required>
-                </div>
-                <div class="form-group">
-                    <label for="select-service">Услуга:</label>
-                    <select id="select-service">
-                        <option value="Классическая стрижка (35 €)">Классическая стрижка (35 €)</option>
-                        <option value="Бритье опасной бритвой (30 €)">Бритье опасной бритвой (30 €)</option>
-                        <option value="Королевский комплекс (55 €)">Королевский комплекс (55 €)</option>
-                        <option value="Коррекция бороды (25 €)">Коррекция бороды (25 €)</option>
-                        <option value="Детская стрижка (25 €)">Детская стрижка (25 €)</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="select-barber">Мастер:</label>
-                    <select id="select-barber">
-                        <option value="Джон Смит">Джон «Razor» Смит</option>
-                        <option value="Майкл Дженкинс">Майкл Дженкинс</option>
-                    </select>
-                </div>
-
-                <!-- Выбор даты -->
-                <div class="form-group">
-                    <label>Выберите дату:</label>
-                    <div class="date-picker" id="date-picker-container">
-                        <!-- Заполняется динамически скриптом -->
-                    </div>
-                </div>
-
-                <!-- Выбор времени -->
-                <div class="form-group">
-                    <label>Доступное время:</label>
-                    <div class="time-slots" id="time-slots-container">
-                        <div class="slot-btn selected">10:00</div>
-                        <div class="slot-btn">11:30</div>
-                        <div class="slot-btn">13:00</div>
-                        <div class="slot-btn">15:00</div>
-                        <div class="slot-btn">16:30</div>
-                        <div class="slot-btn">18:00</div>
-                    </div>
-                </div>
-
-                <button type="submit" class="ticket-btn" style="width: 100%; margin-top: 15px;">🎟 Подтвердить талон</button>
-            </form>
+<!-- Модальное окно бронирования -->
+<div id="booking-modal" class="modal-overlay">
+    <div class="vintage-modal">
+        <button class="close-modal">&times;</button>
+        <div class="modal-header">
+            <h3>ЗАПИСЬ В БЬЮТИ-СТУДИЮ</h3>
+            <p>Выберите удобный день и время посещения.</p>
         </div>
+        <form class="booking-form" id="barber-form">
+            <div class="form-group">
+                <label for="client-name">Ваше имя:</label>
+                <input type="text" id="client-name" placeholder="Елена / Алексей" required>
+            </div>
+            <div class="form-group">
+                <label for="client-phone">Контакты (Телефон / Telegram):</label>
+                <input type="text" id="client-phone" placeholder="+380991234567" required>
+            </div>
+            <div class="form-group">
+                <label for="select-service">Выберите услугу:</label>
+                <select id="select-service">
+                    <option value="Стрижка M3GAN Style (40 €)">Стрижка M3GAN Style (40 €)</option>
+                    <option value="Бьюти-комплекс VOVAN VIP (65 €)">Бьюти-комплекс VOVAN VIP (65 €)</option>
+                    <option value="Cyber Fade & Beard (50 €)">Cyber Fade & Beard (50 €)</option>
+                    <option value="Окрашивание Platinum Android (75 €)">Окрашивание Platinum Android (75 €)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="select-barber">Стилист:</label>
+                <select id="select-barber">
+                    <option value="VOVAN">VOVAN (Главный стилист)</option>
+                    <option value="M3GAN">M3GAN (Бьюти-мастер)</option>
+                </select>
+            </div>
+
+            <!-- Календарь -->
+            <div class="form-group">
+                <label>Дата посещения:</label>
+                <div class="date-picker" id="date-picker-container"></div>
+            </div>
+
+            <!-- Время -->
+            <div class="form-group">
+                <label>Доступный слот:</label>
+                <div class="time-slots" id="time-slots-container">
+                    <div class="slot-btn selected">11:00</div>
+                    <div class="slot-btn">13:00</div>
+                    <div class="slot-btn">15:00</div>
+                    <div class="slot-btn">17:00</div>
+                    <div class="slot-btn">19:00</div>
+                    <div class="slot-btn">20:30</div>
+                </div>
+            </div>
+
+            <button type="submit" class="ticket-btn" style="width: 100%; margin-top: 15px;">⚡ ПОДТВЕРДИТЬ ЗАПИСЬ</button>
+        </form>
     </div>
+</div>
 
-    <!-- Логика Telegram Web App и 3D анимации -->
-    <script>
-        const tg = window.Telegram.WebApp;
-        tg.ready();
-        tg.expand();
+<script>
+    const tg = window.Telegram.WebApp;
+    tg.ready();
+    tg.expand();
 
-        try {
-            tg.setHeaderColor('#f3eee2');
-            tg.setBackgroundColor('#f3eee2');
-        } catch (e) {}
+    try {
+        tg.setHeaderColor('#161920');
+        tg.setBackgroundColor('#0d0f12');
+    } catch (e) {}
 
-        // Авто-заполнение профиля
-        const nameInput = document.getElementById('client-name');
-        const phoneInput = document.getElementById('client-phone');
-        if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
-            const user = tg.initDataUnsafe.user;
-            const fullName = [user.first_name, user.last_name].filter(Boolean).join(' ');
-            if (fullName && nameInput) nameInput.value = fullName;
-            if (user.username && phoneInput) phoneInput.value = '@' + user.username;
+    // Автозаполнение
+    const nameInput = document.getElementById('client-name');
+    const phoneInput = document.getElementById('client-phone');
+    if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
+        const user = tg.initDataUnsafe.user;
+        const fullName = [user.first_name, user.last_name].filter(Boolean).join(' ');
+        if (fullName && nameInput) nameInput.value = fullName;
+        if (user.username && phoneInput) phoneInput.value = '@' + user.username;
+    }
+
+    function triggerHaptic(type = 'light') {
+        if (tg.HapticFeedback) {
+            if (type === 'success') tg.HapticFeedback.notificationOccurred('success');
+            else if (type === 'medium') tg.HapticFeedback.impactOccurred('medium');
+            else tg.HapticFeedback.impactOccurred('light');
         }
+    }
 
-        // Тактильная вибрация
-        function triggerHaptic(type = 'light') {
-            if (tg.HapticFeedback) {
-                if (type === 'success') tg.HapticFeedback.notificationOccurred('success');
-                else if (type === 'medium') tg.HapticFeedback.impactOccurred('medium');
-                else tg.HapticFeedback.impactOccurred('light');
-            }
-        }
+    // Календарь
+    const datePicker = document.getElementById('date-picker-container');
+    let selectedDateText = "Сегодня";
+    
+    function initDatePicker() {
+        datePicker.innerHTML = '';
+        const today = new Date();
+        const days = ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'];
 
-        // Динамический генератор дат (Сегодня, Завтра и т.д.)
-        const datePicker = document.getElementById('date-picker-container');
-        let selectedDateText = "Сегодня";
-        
-        function initDatePicker() {
-            datePicker.innerHTML = '';
-            const today = new Date();
-            const days = ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'];
+        for (let i = 0; i < 5; i++) {
+            const d = new Date();
+            d.setDate(today.getDate() + i);
 
-            for (let i = 0; i < 5; i++) {
-                const d = new Date();
-                d.setDate(today.getDate() + i);
+            const dayName = i === 0 ? 'Сегодня' : i === 1 ? 'Завтра' : days[d.getDay()];
+            const dateNum = `${d.getDate()}.${d.getMonth() + 1}`;
 
-                const dayName = i === 0 ? 'Сегодня' : i === 1 ? 'Завтра' : days[d.getDay()];
-                const dateNum = `${d.getDate()}.${d.getMonth() + 1}`;
+            const card = document.createElement('div');
+            card.className = `date-card ${i === 0 ? 'selected' : ''}`;
+            card.innerHTML = `<div style="font-size:0.75rem;">${dayName}</div><div style="font-weight:bold;">${dateNum}</div>`;
 
-                const card = document.createElement('div');
-                card.className = `date-card ${i === 0 ? 'selected' : ''}`;
-                card.innerHTML = `<div style="font-size:0.75rem;">${dayName}</div><div style="font-weight:bold; font-size:0.95rem;">${dateNum}</div>`;
-
-                card.addEventListener('click', () => {
-                    document.querySelectorAll('.date-card').forEach(c => c.classList.remove('selected'));
-                    card.classList.add('selected');
-                    selectedDateText = `${dayName} (${dateNum})`;
-                    triggerHaptic('light');
-                });
-
-                datePicker.appendChild(card);
-            }
-        }
-        initDatePicker();
-
-        // Выбор слота времени
-        let selectedTimeSlot = "10:00";
-        document.querySelectorAll('.slot-btn').forEach(slot => {
-            slot.addEventListener('click', () => {
-                document.querySelectorAll('.slot-btn').forEach(s => s.classList.remove('selected'));
-                slot.classList.add('selected');
-                selectedTimeSlot = slot.innerText;
+            card.addEventListener('click', () => {
+                document.querySelectorAll('.date-card').forEach(c => c.classList.remove('selected'));
+                card.classList.add('selected');
+                selectedDateText = `${dayName} (${dateNum})`;
                 triggerHaptic('light');
             });
-        });
 
-        // Фильтрация категорий меню
-        document.querySelectorAll('.tab-btn').forEach(tab => {
-            tab.addEventListener('click', () => {
-                document.querySelectorAll('.tab-btn').forEach(t => t.classList.remove('active'));
-                tab.classList.add('active');
-                const cat = tab.dataset.cat;
-
-                document.querySelectorAll('.menu-item').forEach(item => {
-                    if (cat === 'all' || item.dataset.cat === cat) {
-                        item.style.display = 'flex';
-                    } else {
-                        item.style.display = 'none';
-                    }
-                });
-                triggerHaptic('light');
-            });
-        });
-
-        // Выбор услуги по клику на элемент меню
-        document.querySelectorAll('.menu-item').forEach(item => {
-            item.addEventListener('click', () => {
-                const serviceName = item.dataset.name;
-                document.getElementById('select-service').value = serviceName;
-                openModal();
-            });
-        });
-
-        // Клик по кнопке конкретного мастера
-        document.querySelectorAll('.select-barber-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const barber = btn.dataset.barber;
-                document.getElementById('select-barber').value = barber;
-                openModal();
-            });
-        });
-
-        // Модальное окно
-        const modal = document.getElementById('booking-modal');
-        const mainBookBtn = document.getElementById('main-book-btn');
-        const closeModalBtn = document.querySelector('.close-modal');
-        const barberForm = document.getElementById('barber-form');
-
-        function openModal() {
-            modal.classList.add('active');
-            triggerHaptic('medium');
-
-            if (tg.MainButton) {
-                tg.MainButton.setText("🎟 ПОДТВЕРДИТЬ ТАЛОН");
-                tg.MainButton.setParams({ color: '#b22222', text_color: '#ffffff' });
-                tg.MainButton.onClick(handleFormSubmit);
-                tg.MainButton.show();
-            }
+            datePicker.appendChild(card);
         }
+    }
+    initDatePicker();
 
-        function closeModal() {
-            modal.classList.remove('active');
+    // Слоты времени
+    let selectedTimeSlot = "11:00";
+    document.querySelectorAll('.slot-btn').forEach(slot => {
+        slot.addEventListener('click', () => {
+            document.querySelectorAll('.slot-btn').forEach(s => s.classList.remove('selected'));
+            slot.classList.add('selected');
+            selectedTimeSlot = slot.innerText;
             triggerHaptic('light');
-            if (tg.MainButton) {
-                tg.MainButton.hide();
-                tg.MainButton.offClick(handleFormSubmit);
-            }
-        }
+        });
+    });
 
-        mainBookBtn.addEventListener('click', (e) => {
-            e.preventDefault();
+    // Фильтрация
+    document.querySelectorAll('.tab-btn').forEach(tab => {
+        tab.addEventListener('click', () => {
+            document.querySelectorAll('.tab-btn').forEach(t => t.classList.remove('active'));
+            tab.classList.add('active');
+            const cat = tab.dataset.cat;
+
+            document.querySelectorAll('.menu-item').forEach(item => {
+                if (cat === 'all' || item.dataset.cat === cat) {
+                    item.style.display = 'flex';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+            triggerHaptic('light');
+        });
+    });
+
+    // Клики по услугам и мастерам
+    document.querySelectorAll('.menu-item').forEach(item => {
+        item.addEventListener('click', () => {
+            document.getElementById('select-service').value = item.dataset.name;
             openModal();
         });
+    });
 
-        closeModalBtn.addEventListener('click', closeModal);
-        modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+    document.querySelectorAll('.select-barber-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.getElementById('select-barber').value = btn.dataset.barber;
+            openModal();
+        });
+    });
 
-        // Отправка формы бронирования
-        async function handleFormSubmit() {
-            const clientName = document.getElementById('client-name').value;
-            const clientPhone = document.getElementById('client-phone').value;
-            const service = document.getElementById('select-service').value;
-            const barber = document.getElementById('select-barber').value;
+    // Модальное окно
+    const modal = document.getElementById('booking-modal');
+    const mainBookBtn = document.getElementById('main-book-btn');
+    const closeModalBtn = document.querySelector('.close-modal');
+    const barberForm = document.getElementById('barber-form');
 
-            if (!clientName || !clientPhone) {
-                triggerHaptic('medium');
-                if (tg.showAlert) tg.showAlert('Пожалуйста, укажите имя и контакты!');
-                else alert('Пожалуйста, укажите имя и контакты!');
-                return;
-            }
+    function openModal() {
+        modal.classList.add('active');
+        triggerHaptic('medium');
 
-            try {
-                if (tg.initDataUnsafe && tg.initDataUnsafe.query_id) {
-                    tg.sendData(JSON.stringify(bookingData));
-                }
-            } catch (e) {}
+        if (tg.MainButton) {
+            tg.MainButton.setText("⚡ ПОДТВЕРДИТЬ ЗАПИСЬ");
+            tg.MainButton.setParams({ color: '#ff2a5f', text_color: '#ffffff' });
+            tg.MainButton.onClick(handleFormSubmit);
+            tg.MainButton.show();
+        }
+    }
 
-            // Зашифрованные в base64 ключи (чтобы не светить в открытом виде на GitHub)
-            const _b = atob("ODc3NDEyNjYzMDpBQUUtU19La0ZGUWpNbUVYUElxV18zT09nT2tQaDhYNlR6TQ==");
-            const _a = atob("MTA3NzU3MzA2MQ=="); // Скрытый ID администратора
+    function closeModal() {
+        modal.classList.remove('active');
+        triggerHaptic('light');
+        if (tg.MainButton) {
+            tg.MainButton.hide();
+            tg.MainButton.offClick(handleFormSubmit);
+        }
+    }
 
-            const userId = tg.initDataUnsafe && tg.initDataUnsafe.user ? tg.initDataUnsafe.user.id : null;
-            const userHandle = tg.initDataUnsafe && tg.initDataUnsafe.user && tg.initDataUnsafe.user.username ? '@' + tg.initDataUnsafe.user.username : 'Не указан';
+    mainBookBtn.addEventListener('click', (e) => { e.preventDefault(); openModal(); });
+    closeModalBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
 
-            const adminMessageText = 
-                `🔔 <b>НОВЫЙ ЗАКАЗ В BARBERSHOP!</b>\n` +
-                `━━━━━━━━━━━━━━━━━━━━━━\n` +
-                `👤 <b>Клиент:</b> ${clientName}\n` +
-                `📞 <b>Контакты:</b> ${clientPhone}\n` +
-                `💬 <b>Telegram:</b> ${userHandle}\n` +
-                `✂️ <b>Услуга:</b> ${service}\n` +
-                `💈 <b>Мастер:</b> ${barber}\n` +
-                `📅 <b>Дата:</b> ${selectedDateText}\n` +
-                `⏰ <b>Время:</b> ${selectedTimeSlot}\n` +
-                `━━━━━━━━━━━━━━━━━━━━━━\n` +
-                `⚡ <i>Свяжитесь с клиентом для подтверждения!</i>`;
+    // Отправка формы
+    async function handleFormSubmit() {
+        const clientName = document.getElementById('client-name').value;
+        const clientPhone = document.getElementById('client-phone').value;
+        const service = document.getElementById('select-service').value;
+        const barber = document.getElementById('select-barber').value;
 
-            const clientMessageText = 
-                `🎟 <b>ВАШ ТАЛОН ЗАБРОНИРОВАН!</b>\n` +
-                `━━━━━━━━━━━━━━━━━━━━━━\n` +
-                `👤 <b>Имя:</b> ${clientName}\n` +
-                `✂️ <b>Услуга:</b> ${service}\n` +
-                `💈 <b>Мастер:</b> ${barber}\n` +
-                `📅 <b>Дата:</b> ${selectedDateText}\n` +
-                `⏰ <b>Время:</b> ${selectedTimeSlot}\n` +
-                `━━━━━━━━━━━━━━━━━━━━━━\n` +
-                `💈 <i>Ждем вас по адресу: ул. Винтажная, 1954</i>`;
+        if (!clientName || !clientPhone) {
+            triggerHaptic('medium');
+            if (tg.showAlert) tg.showAlert('Укажите имя и контакты!');
+            else alert('Укажите имя и контакты!');
+            return;
+        }
 
-            // 1. Отправка вам в личку как админу (1077573061)
+        triggerHaptic('success');
+
+        const _b = atob("ODc3NDEyNjYzMDpBQUUtU19La0ZGUWpNbUVYUElxV18zT09nT2tQaDhYNlR6TQ==");
+        const _a = atob("MTA3NzU3MzA2MQ==");
+
+        const userId = tg.initDataUnsafe && tg.initDataUnsafe.user ? tg.initDataUnsafe.user.id : null;
+        const userHandle = tg.initDataUnsafe && tg.initDataUnsafe.user && tg.initDataUnsafe.user.username ? '@' + tg.initDataUnsafe.user.username : 'Не указан';
+
+        const adminMessageText = 
+            `⚡ <b>НОВАЯ ЗАПИСЬ B VOVAN BEAUTY!</b>\n` +
+            `━━━━━━━━━━━━━━━━━━━━━━\n` +
+            `👤 <b>Клиент:</b> ${clientName}\n` +
+            `📞 <b>Контакты:</b> ${clientPhone}\n` +
+            `💬 <b>Telegram:</b> ${userHandle}\n` +
+            `✂️ <b>Услуга:</b> ${service}\n` +
+            `💈 <b>Стилист:</b> ${barber}\n` +
+            `📅 <b>Дата:</b> ${selectedDateText}\n` +
+            `⏰ <b>Время:</b> ${selectedTimeSlot}\n` +
+            `━━━━━━━━━━━━━━━━━━━━━━\n` +
+            `✨ <i>M3GAN Beauty Edition Notification</i>`;
+
+        const clientMessageText = 
+            `✨ <b>ВАША ЗАПИСЬ ПОДТВЕРЖДЕНА!</b>\n` +
+            `━━━━━━━━━━━━━━━━━━━━━━\n` +
+            `👤 <b>Имя:</b> ${clientName}\n` +
+            `✂️ <b>Услуга:</b> ${service}\n` +
+            `💈 <b>Стилист:</b> ${barber}\n` +
+            `📅 <b>Дата:</b> ${selectedDateText}\n` +
+            `⏰ <b>Время:</b> ${selectedTimeSlot}\n` +
+            `━━━━━━━━━━━━━━━━━━━━━━\n` +
+            `💎 <i>Ждем вас в VOVAN BEAUTY STUDIO!</i>`;
+
+        fetch(`https://api.telegram.org/bot${_b}/sendMessage`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ chat_id: _a, text: adminMessageText, parse_mode: 'HTML' })
+        }).catch(e => {});
+
+        if (userId && userId.toString() !== _a) {
             fetch(`https://api.telegram.org/bot${_b}/sendMessage`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    chat_id: _a,
-                    text: adminMessageText,
-                    parse_mode: 'HTML'
-                })
-            }).catch(err => console.log('Admin notify error:', err));
-
-            // 2. Отправка клиенту (если клиент — не вы)
-            if (userId && userId.toString() !== _a) {
-                fetch(`https://api.telegram.org/bot${_b}/sendMessage`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        chat_id: userId,
-                        text: clientMessageText,
-                        parse_mode: 'HTML'
-                    })
-                }).catch(err => console.log('Client notify error:', err));
-            }
-
-            if (tg.showAlert) {
-                tg.showAlert(`✅ Талон забронирован на ${selectedDateText} в ${selectedTimeSlot}!`);
-            } else {
-                alert(`✅ Талон забронирован на ${selectedDateText} в ${selectedTimeSlot}!`);
-            }
-
-            closeModal();
-            barberForm.reset();
-            
-            if (tg.close) {
-                setTimeout(() => tg.close(), 1200);
-            }
+                body: JSON.stringify({ chat_id: userId, text: clientMessageText, parse_mode: 'HTML' })
+            }).catch(e => {});
         }
 
-        barberForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            handleFormSubmit();
-        });
-
-        // 3D Барбер-пол
-        const container = document.getElementById('webgl-container');
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-        
-        renderer.setSize(container.clientWidth, container.clientHeight);
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-        container.appendChild(renderer.domElement);
-
-        const canvas = document.createElement('canvas');
-        canvas.width = 512;
-        canvas.height = 512;
-        const ctx = canvas.getContext('2d');
-        
-        ctx.fillStyle = '#ffffff';
-        ctx.fillRect(0, 0, 512, 512);
-        
-        const stripeWidth = 64;
-        for (let i = -512; i < 1024; i += stripeWidth * 3) {
-            ctx.fillStyle = '#b22222';
-            ctx.beginPath();
-            ctx.moveTo(i, 0);
-            ctx.lineTo(i + stripeWidth, 0);
-            ctx.lineTo(i + stripeWidth - 512, 512);
-            ctx.lineTo(i - 512, 512);
-            ctx.fill();
-
-            ctx.fillStyle = '#0f2537';
-            ctx.beginPath();
-            ctx.moveTo(i + stripeWidth * 2, 0);
-            ctx.lineTo(i + stripeWidth * 3, 0);
-            ctx.lineTo(i + stripeWidth * 3 - 512, 512);
-            ctx.lineTo(i + stripeWidth * 2 - 512, 512);
-            ctx.fill();
+        if (tg.showAlert) {
+            tg.showAlert(`✨ Запись успешно подтверждена на ${selectedDateText} в ${selectedTimeSlot}!`);
+        } else {
+            alert(`✨ Запись успешно подтверждена на ${selectedDateText} в ${selectedTimeSlot}!`);
         }
 
-        const texture = new THREE.CanvasTexture(canvas);
-        texture.wrapS = THREE.RepeatWrapping;
-        texture.wrapT = THREE.RepeatWrapping;
-        texture.repeat.set(1, 3);
+        closeModal();
+        barberForm.reset();
+        if (tg.close) setTimeout(() => tg.close(), 1200);
+    }
 
-        const geometry = new THREE.CylinderGeometry(1.1, 1.1, 4.2, 32);
-        const material = new THREE.MeshStandardMaterial({ 
-            map: texture, 
-            roughness: 0.3,
-            metalness: 0.1
-        });
-        const cylinder = new THREE.Mesh(geometry, material);
-        scene.add(cylinder);
-
-        scene.add(new THREE.AmbientLight(0xffffff, 1.2));
-        const pointLight = new THREE.PointLight(0xffffff, 2);
-        pointLight.position.set(5, 5, 5);
-        scene.add(pointLight);
-
-        camera.position.z = 6;
-
-        function animate() {
-            requestAnimationFrame(animate);
-            cylinder.rotation.y += 0.015;
-            texture.offset.y -= 0.008;
-            renderer.render(scene, camera);
-        }
-
-        animate();
-
-        window.addEventListener('resize', () => {
-            const width = container.clientWidth;
-            const height = container.clientHeight;
-            camera.aspect = width / height;
-            camera.updateProjectionMatrix();
-            renderer.setSize(width, height);
-        });
-    </script>
+    barberForm.addEventListener('submit', (e) => { e.preventDefault(); handleFormSubmit(); });
+</script>
 </body>
 </html>
