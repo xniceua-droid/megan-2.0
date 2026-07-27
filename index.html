@@ -128,9 +128,28 @@
         .shop-card { background: #121926; border: 1px solid rgba(0,162,255,0.25); border-radius: 14px; padding: 14px; text-align: center; }
         .shop-title { font-size: 0.85rem; font-weight: bold; color: #fff; margin-top: 6px; }
         .shop-price { font-family: 'Orbitron', sans-serif; color: var(--cyber-gold); font-weight: 900; margin: 6px 0; font-size: 0.95rem; }
+
+        /* Preloader CSS */
+        #preloader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #010204; z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: opacity 0.5s ease; }
+        .boot-text { color: var(--accent-green); font-family: 'Courier New', Courier, monospace; font-size: 0.85rem; margin-top: 20px; text-align: left; width: 280px; text-shadow: 0 0 5px var(--accent-green); }
+        .typewriter { overflow: hidden; white-space: nowrap; margin: 0 auto; letter-spacing: 0.1em; animation: typing 2.0s steps(30, end); }
+        @keyframes typing { from { width: 0 } to { width: 100% } }
+        
+        /* Glitch overlay */
+        .glitch-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><filter id="noiseFilter"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23noiseFilter)"/></svg>'); opacity: 0.04; z-index: 100; mix-blend-mode: screen; }
     </style>
 </head>
 <body>
+
+<div id="preloader">
+    <div style="font-family:'Orbitron'; font-size:2rem; font-weight:900; color:var(--cyber-blue); text-shadow:var(--blue-glow);">M3GAN OS</div>
+    <div class="boot-text">
+        <div class="typewriter">Booting AI Core...</div>
+        <div class="typewriter" style="animation-delay: 0.5s; width:0; animation-fill-mode:forwards;">Decrypting modules...</div>
+        <div class="typewriter" style="animation-delay: 1.2s; width:0; animation-fill-mode:forwards;">Access Granted [200 OK]</div>
+    </div>
+</div>
+<div class="glitch-bg"></div>
 
 <div class="app-container">
     <header>
@@ -200,6 +219,17 @@
                     <button class="action-btn-sm btn-bolt-official" style="flex:1;" onclick="openConciergeModal('Bolt')">Bolt</button>
                 </div>
             </div>
+        </div>
+
+        <div class="admin-card" style="margin-top:15px; padding:15px;">
+            <div style="display:flex; justify-content:space-between; font-size:0.85rem; margin-bottom:8px;">
+                <span style="color:var(--text-main);" data-i18n="loyalty-status">VIP Прогрес (Бронза):</span>
+                <span style="color:var(--cyber-gold); font-weight:bold; font-family:'Orbitron';">12 / 50 €</span>
+            </div>
+            <div style="width:100%; height:8px; background:rgba(255,255,255,0.05); border-radius:4px; overflow:hidden;">
+                <div style="width:24%; height:100%; background:var(--cyber-gold); box-shadow:0 0 10px var(--cyber-gold);"></div>
+            </div>
+            <div style="font-size:0.7rem; color:var(--text-sub); margin-top:6px; text-align:right;">Залишилося 38 € до знижки 5%</div>
         </div>
 
         <div class="vintage-menu">
@@ -560,6 +590,16 @@
 <script>
     const tg = window.Telegram.WebApp;
     tg.ready(); tg.expand();
+    
+    window.addEventListener('load', () => {
+        setTimeout(() => {
+            const preloader = document.getElementById('preloader');
+            if(preloader) {
+                preloader.style.opacity = '0';
+                setTimeout(() => preloader.style.display = 'none', 500);
+            }
+        }, 2200);
+    });
 
     const translations = {
         'UA': {
@@ -993,6 +1033,7 @@
                         <div style="font-weight:bold; color:var(--cyber-gold);">${match.Client}</div>
                         <div style="font-size:0.75rem; color:var(--text-sub);">${match.Service}</div>
                         <div style="font-size:0.7rem; color:var(--accent-green); margin-top:2px;">Дохід: ${match.Master_Cut} €</div>
+                        <button class="action-btn-sm btn-payout" style="margin-top:6px; width:100%;" onclick="leaveTip('${match.Master}')">💸 Чайові (5€)</button>
                     </div>`;
             } else {
                 html += `<div class="slot-free">Вільний слот</div>`;
@@ -1117,11 +1158,45 @@
         }
     }
 
+    let audioCtx = null;
+    function playCyberBeep(freq, type, duration) {
+        try {
+            if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            if(audioCtx.state === 'suspended') audioCtx.resume();
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = type; osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+            gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+            osc.connect(gain); gain.connect(audioCtx.destination);
+            osc.start(); osc.stop(audioCtx.currentTime + duration);
+        } catch(e){}
+    }
+
     function triggerHaptic(type = 'light') {
         if (tg.HapticFeedback) {
             if (type === 'success') tg.HapticFeedback.notificationOccurred('success');
             else if (type === 'medium') tg.HapticFeedback.impactOccurred('medium');
             else tg.HapticFeedback.impactOccurred('light');
+        }
+        
+        if (type === 'success') playCyberBeep(880, 'square', 0.15);
+        else if (type === 'medium') playCyberBeep(440, 'triangle', 0.1);
+        else playCyberBeep(600, 'sine', 0.05);
+    }
+    
+    function leaveTip(master) {
+        triggerHaptic('success');
+        if (tg.showConfirm) {
+            tg.showConfirm(`Залишити 5€ чайових для ${master}?`, (res) => {
+                if(res) {
+                    if (tg.showAlert) tg.showAlert(`Дякуємо! 5€ додано до доходу майстра ${master}.`);
+                    sendBotNotification(`💸 <b>ЧАЙОВІ!</b>\nКлієнт залишив 5€ для майстра ${master}.`);
+                }
+            });
+        } else {
+            alert(`Дякуємо! 5€ додано до доходу майстра ${master}.`);
+            sendBotNotification(`💸 <b>ЧАЙОВІ!</b>\nКлієнт залишив 5€ для майстра ${master}.`);
         }
     }
 
