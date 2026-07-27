@@ -134,16 +134,16 @@
             
             <!-- 100% ВСЕ 10 РОЛЕЙ В МЕНЮ -->
             <select class="role-selector" id="role-select" onchange="switchTab(this.value)">
-                <option value="client" id="opt-client">👤 Клієнт</option>
-                <option value="bar" id="opt-bar">🍾 VIP Бар</option>
-                <option value="ai" id="opt-ai">🤖 AI Підбір</option>
-                <option value="chat" id="opt-chat">💬 AI Чат 24/7</option>
-                <option value="shop" id="opt-shop">🛍️ Маркет</option>
-                <option value="gifts" id="opt-gifts">🎁 Подарунки</option>
-                <option value="director" id="opt-director">👑 Директор</option>
-                <option value="accounting" id="opt-accounting">🇫🇷 Податки & Склад</option>
-                <option value="admin" id="opt-admin">💼 CRM</option>
-                <option value="master" id="opt-master">💈 Майстер</option>
+                <option value="client" id="opt-client" data-i18n="role-client">👤 Клієнт</option>
+                <option value="bar" id="opt-bar" data-i18n="role-bar">🍾 VIP Бар</option>
+                <option value="ai" id="opt-ai" data-i18n="role-ai">🤖 AI Підбір</option>
+                <option value="chat" id="opt-chat" data-i18n="role-chat">💬 AI Чат 24/7</option>
+                <option value="shop" id="opt-shop" data-i18n="role-shop">🛍️ Маркет</option>
+                <option value="gifts" id="opt-gifts" data-i18n="role-gifts">🎁 Подарунки</option>
+                <option value="director" id="opt-director" data-i18n="role-director">👑 Директор</option>
+                <option value="accounting" id="opt-accounting" data-i18n="role-accounting">🇫🇷 Податки & Склад</option>
+                <option value="admin" id="opt-admin" data-i18n="role-admin">💼 CRM</option>
+                <option value="master" id="opt-master" data-i18n="role-master">💈 Майстер</option>
             </select>
         </div>
     </header>
@@ -156,7 +156,7 @@
             </div>
             <div class="hero-content">
                 <h1 id="txt-hero-title">M3GAN AI BEAUTY EDITION</h1>
-                <p id="txt-hero-desc">Кібер-естетика на Лазурному Березі (Ніцца). Google Pay / Apple Pay / TON.</p>
+                <p id="txt-hero-desc" data-i18n="hero-desc">Кібер-естетика на Лазурному Березі (Ніцца). Google Pay / Apple Pay / TON.</p>
                 
                 <div class="pay-badges-row">
                     <div class="pay-badge-item"><span style="color:#4285F4; font-weight:900;">G</span>Pay</div>
@@ -165,7 +165,7 @@
                     <div class="pay-badge-item" style="color:var(--cyber-gold);">💳 Visa/MC</div>
                 </div>
 
-                <button class="ticket-btn" style="margin-top:15px;" onclick="openModal()" id="txt-hero-btn">⚡ ЗАПИСАТИСЯ ДО МАЙСТРА</button>
+                <button class="ticket-btn" style="margin-top:15px;" onclick="openModal()" id="txt-hero-btn" data-i18n="btn-book">⚡ ЗАПИСАТИСЯ ДО МАЙСТРА</button>
             </div>
         </section>
 
@@ -173,19 +173,19 @@
         <div class="admin-card" style="margin-top:0;">
             <div class="weather-card">
                 <div>
-                    <div style="font-size:0.75rem; color:var(--text-sub);">☀️ Погода у Ніцці (Côte d'Azur):</div>
+                    <div style="font-size:0.75rem; color:var(--text-sub);" data-i18n="weather-title">☀️ Погода у Ніцці (Côte d'Azur):</div>
                     <div style="font-family:'Orbitron'; font-size:1.1rem; color:var(--cyber-gold); font-weight:900;">+28°C | UV: 6</div>
                 </div>
-                <div style="font-size:0.72rem; color:var(--accent-green); text-align:right;">
+                <div style="font-size:0.72rem; color:var(--accent-green); text-align:right;" data-i18n="weather-ai">
                     M3GAN AI:<br>VIP Захист волосся ☀️
                 </div>
             </div>
 
             <div class="location-card">
-                <div class="location-title">📍 СТУДІЯ У НІЦЦІ (CÔTE D'AZUR)</div>
+                <div class="location-title" data-i18n="loc-title">📍 СТУДІЯ У НІЦЦІ (CÔTE D'AZUR)</div>
                 <p style="font-size:0.8rem; color:var(--text-sub); margin-top:4px;">15 Promenade des Anglais, 06000 Nice, France</p>
                 <div style="display:flex; gap:6px; margin-top:10px;">
-                    <button class="action-btn-sm btn-receipt" style="flex:1;" onclick="openNiceMap()">🗺 Maps</button>
+                    <button class="action-btn-sm btn-receipt" style="flex:1;" onclick="openNiceMap()" data-i18n="btn-maps">🗺 Maps</button>
                     <button class="action-btn-sm btn-uber-official" style="flex:1;" onclick="orderTaxiWithCoffee('Uber')">Uber</button>
                     <button class="action-btn-sm btn-bolt-official" style="flex:1;" onclick="orderTaxiWithCoffee('Bolt')">Bolt</button>
                 </div>
@@ -193,18 +193,18 @@
         </div>
 
         <div class="vintage-menu">
-            <h2 style="font-family:'Orbitron'; color:var(--cyber-gold); font-size:1.1rem; margin-bottom:12px; text-align:center;">ПОСЛУГИ ТА ЦІНИ (TTC)</h2>
+            <h2 style="font-family:'Orbitron'; color:var(--cyber-gold); font-size:1.1rem; margin-bottom:12px; text-align:center;" data-i18n="services-title">ПОСЛУГИ ТА ЦІНИ (TTC)</h2>
             <div class="menu-item" onclick="selectServiceModal('Стрижка M3GAN Cyber Style', 40)">
                 <div>
-                    <div class="menu-name">Стрижка M3GAN Cyber Style</div>
-                    <div class="menu-desc">Авторське моделювання форми</div>
+                    <div class="menu-name" data-i18n="srv-1-title">Стрижка M3GAN Cyber Style</div>
+                    <div class="menu-desc" data-i18n="srv-1-desc">Авторське моделювання форми</div>
                 </div>
                 <div><div class="menu-price-eur">40 €</div><div class="menu-price-ton">≈ 6.2 TON</div></div>
             </div>
             <div class="menu-item" onclick="selectServiceModal('Бьюти-комплекс VOVAN VIP', 65)">
                 <div>
-                    <div class="menu-name">Б'юті-комплекс VOVAN VIP</div>
-                    <div class="menu-desc">Стрижка + VIP догляд за волоссям</div>
+                    <div class="menu-name" data-i18n="srv-2-title">Б'юті-комплекс VOVAN VIP</div>
+                    <div class="menu-desc" data-i18n="srv-2-desc">Стрижка + VIP догляд за волоссям</div>
                 </div>
                 <div><div class="menu-price-eur">65 €</div><div class="menu-price-ton">≈ 10.0 TON</div></div>
             </div>
@@ -214,12 +214,12 @@
             <div class="barber-card">
                 <img src="vovan.jpg" alt="VOVAN Master" class="barber-img">
                 <h3 style="font-family:'Orbitron'; color:var(--cyber-blue);">VOVAN (Головний Стиліст)</h3>
-                <button class="select-barber-btn" onclick="selectBarberModal('VOVAN')">Записатися до VOVAN</button>
+                <button class="select-barber-btn" onclick="selectBarberModal('VOVAN')" data-i18n="btn-book-vovan">Записатися до VOVAN</button>
             </div>
             <div class="barber-card">
                 <img src="m3gan_cyber.jpg" alt="M3GAN AI" class="barber-img">
                 <h3 style="font-family:'Orbitron'; color:var(--cyber-blue);">M3GAN AI (Кібер-Майстер)</h3>
-                <button class="select-barber-btn" onclick="selectBarberModal('M3GAN AI')">Записатися до M3GAN</button>
+                <button class="select-barber-btn" onclick="selectBarberModal('M3GAN AI')" data-i18n="btn-book-megan">Записатися до M3GAN</button>
             </div>
         </div>
     </div>
@@ -227,10 +227,10 @@
     <!-- 2. VIP БАР -->
     <div id="page-bar" class="page-section">
         <div class="admin-card">
-            <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);">🍾 VIP БАР В КРІСЛО</h3>
+            <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);" data-i18n="bar-title">🍾 VIP БАР В КРІСЛО</h3>
             <div class="bar-grid">
-                <div class="bar-card"><div class="bar-title">Dom Pérignon</div><div class="bar-price">45 €</div><button class="action-btn-sm btn-confirm" style="width:100%;" onclick="orderDrink('Dom Pérignon')">🥂 Замовити в крісло</button></div>
-                <div class="bar-card"><div class="bar-title">Moët & Chandon</div><div class="bar-price">35 €</div><button class="action-btn-sm btn-confirm" style="width:100%;" onclick="orderDrink('Moët & Chandon')">🥂 Замовити в крісло</button></div>
+                <div class="bar-card"><div class="bar-title">Dom Pérignon</div><div class="bar-price">45 €</div><button class="action-btn-sm btn-confirm" style="width:100%;" onclick="orderDrink('Dom Pérignon')" data-i18n="btn-order-drink">🥂 Замовити в крісло</button></div>
+                <div class="bar-card"><div class="bar-title">Moët & Chandon</div><div class="bar-price">35 €</div><button class="action-btn-sm btn-confirm" style="width:100%;" onclick="orderDrink('Moët & Chandon')" data-i18n="btn-order-drink">🥂 Замовити в крісло</button></div>
             </div>
         </div>
     </div>
@@ -238,39 +238,39 @@
     <!-- 3. AI ПОДБОР -->
     <div id="page-ai" class="page-section">
         <div class="admin-card">
-            <h3 style="font-family:'Orbitron'; color:var(--cyber-blue);">🤖 M3GAN AI СКУЛЬПТОР СТИЛЮ</h3>
-            <button class="ticket-btn" style="margin-top:14px; font-size:0.8rem; width:100%;" onclick="runAiAnalysis()">⚡ ЗАПУСТИТИ AI СКАНЕР</button>
+            <h3 style="font-family:'Orbitron'; color:var(--cyber-blue);" data-i18n="ai-title">🤖 M3GAN AI СКУЛЬПТОР СТИЛЮ</h3>
+            <button class="ticket-btn" style="margin-top:14px; font-size:0.8rem; width:100%;" onclick="runAiAnalysis()" data-i18n="btn-ai-scan">⚡ ЗАПУСТИТИ AI СКАНЕР</button>
         </div>
     </div>
 
     <!-- 4. AI ЧАТ -->
     <div id="page-chat" class="page-section">
         <div class="admin-card">
-            <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);">💬 M3GAN AI ЧАТ 24/7</h3>
-            <div class="chat-box" id="chat-box-el"><div class="chat-msg bot">Bonjour! Я M3GAN AI. Чим можу допомогти? 😊</div></div>
+            <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);" data-i18n="chat-title">💬 M3GAN AI ЧАТ 24/7</h3>
+            <div class="chat-box" id="chat-box-el"><div class="chat-msg bot" data-i18n="chat-welcome">Bonjour! Я M3GAN AI. Чим можу допомогти? 😊</div></div>
         </div>
     </div>
 
     <!-- 5. ПОДАРУНКИ -->
     <div id="page-gifts" class="page-section">
         <div class="admin-card">
-            <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);">🎁 NFT ПОДАРУНКОВІ СЕРТИФІКАТИ</h3>
-            <button class="action-btn-sm btn-confirm" style="width:100%; margin-top:6px;" onclick="buyGiftCard('Silver VIP 50€')">🎁 Подарувати (50€)</button>
+            <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);" data-i18n="gifts-title">🎁 NFT ПОДАРУНКОВІ СЕРТИФІКАТИ</h3>
+            <button class="action-btn-sm btn-confirm" style="width:100%; margin-top:6px;" onclick="buyGiftCard('Silver VIP 50€')" data-i18n="btn-gift">🎁 Подарувати (50€)</button>
         </div>
     </div>
 
     <!-- 6. МАРКЕТ -->
     <div id="page-shop" class="page-section">
         <div class="admin-card">
-            <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);">🛍️ МАРКЕТПЛЕЙС</h3>
-            <div class="shop-card"><div class="shop-title">Помада M3GAN Matte</div><div class="shop-price">25 €</div><button class="action-btn-sm btn-confirm" style="width:100%;" onclick="buyShopItem('Помада M3GAN Matte')">🛒 У кошик</button></div>
+            <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);" data-i18n="shop-title">🛍️ МАРКЕТПЛЕЙС</h3>
+            <div class="shop-card"><div class="shop-title" data-i18n="shop-item">Помада M3GAN Matte</div><div class="shop-price">25 €</div><button class="action-btn-sm btn-confirm" style="width:100%;" onclick="buyShopItem('Помада M3GAN Matte')" data-i18n="btn-buy">🛒 У кошик</button></div>
         </div>
     </div>
 
     <!-- 7. ДИРЕКТОР -->
     <div id="page-director" class="page-section">
         <div class="admin-card">
-            <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);">👑 ДИРЕКТОРСЬКА АНАЛІТИКА</h3>
+            <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);" data-i18n="dir-title">👑 ДИРЕКТОРСЬКА АНАЛІТИКА</h3>
             <div class="stat-val">12 450 €</div>
         </div>
     </div>
@@ -278,7 +278,7 @@
     <!-- 8. БУХГАЛТЕРИЯ -->
     <div id="page-accounting" class="page-section">
         <div class="admin-card">
-            <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);">🇫🇷 ПОДАТКИ (FRANCE)</h3>
+            <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);" data-i18n="acc-title">🇫🇷 ПОДАТКИ (FRANCE)</h3>
             <div class="stat-val" style="color:var(--accent-red);">TVA 20%: 2 075 €</div>
         </div>
     </div>
@@ -286,7 +286,7 @@
     <!-- 9. CRM -->
     <div id="page-admin" class="page-section">
         <div class="admin-card">
-            <h3 style="font-family:'Orbitron'; color:var(--cyber-blue);">💼 CRM ВОРОНКА</h3>
+            <h3 style="font-family:'Orbitron'; color:var(--cyber-blue);" data-i18n="crm-title">💼 CRM ВОРОНКА</h3>
             <div id="crm-orders-list"></div>
         </div>
     </div>
@@ -294,18 +294,18 @@
     <!-- 10. МАСТЕР -->
     <div id="page-master" class="page-section">
         <div class="admin-card">
-            <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);">💈 КАБІНЕТ МАЙСТРА</h3>
+            <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);" data-i18n="master-title">💈 КАБІНЕТ МАЙСТРА</h3>
             <div id="master-schedule-list"></div>
         </div>
     </div>
 
     <!-- НИЖНЯЯ НАВИГАЦИЯ -->
     <div class="bottom-nav">
-        <button class="nav-btn active" onclick="switchTab('client')"><span class="nav-icon">🎟</span><span>Запис</span></button>
-        <button class="nav-btn" onclick="switchTab('bar')"><span class="nav-icon">🍾</span><span>VIP Бар</span></button>
-        <button class="nav-btn" onclick="switchTab('ai')"><span class="nav-icon">🤖</span><span>AI Скан</span></button>
-        <button class="nav-btn" onclick="switchTab('admin')"><span class="nav-icon">💼</span><span>CRM</span></button>
-        <button class="nav-btn" onclick="switchTab('director')"><span class="nav-icon">👑</span><span>Директор</span></button>
+        <button class="nav-btn active" data-tab="client" onclick="switchTab('client')"><span class="nav-icon">🎟</span><span data-i18n="nav-book">Запис</span></button>
+        <button class="nav-btn" data-tab="bar" onclick="switchTab('bar')"><span class="nav-icon">🍾</span><span data-i18n="nav-bar">VIP Бар</span></button>
+        <button class="nav-btn" data-tab="ai" onclick="switchTab('ai')"><span class="nav-icon">🤖</span><span data-i18n="nav-ai">AI Скан</span></button>
+        <button class="nav-btn" data-tab="admin" onclick="switchTab('admin')"><span class="nav-icon">💼</span><span data-i18n="nav-crm">CRM</span></button>
+        <button class="nav-btn" data-tab="director" onclick="switchTab('director')"><span class="nav-icon">👑</span><span data-i18n="nav-director">Директор</span></button>
     </div>
 </div>
 
@@ -313,39 +313,39 @@
 <div id="booking-modal" class="modal-overlay">
     <div class="vintage-modal">
         <button class="close-modal" onclick="closeModal()">&times;</button>
-        <div class="modal-header"><h3 style="font-family:'Orbitron'; color:var(--cyber-gold);">ЗАПИС ДО СТУДІЇ</h3></div>
+        <div class="modal-header"><h3 style="font-family:'Orbitron'; color:var(--cyber-gold);" data-i18n="modal-title">ЗАПИС ДО СТУДІЇ</h3></div>
         
         <form id="barber-form">
             <div class="form-group">
-                <label>Ваше ім'я (Telegram):</label>
+                <label data-i18n="lbl-name">Ваше ім'я (Telegram):</label>
                 <input type="text" id="client-name" placeholder="Олексій" required>
             </div>
             <div class="form-group">
-                <label>Телефон / Контакт:</label>
+                <label data-i18n="lbl-phone">Телефон / Контакт:</label>
                 <input type="text" id="client-phone" placeholder="+33 6 12 34 56 78" required>
             </div>
             <div class="form-group">
-                <label>Обрати послугу:</label>
+                <label data-i18n="lbl-service">Обрати послугу:</label>
                 <select id="select-service">
-                    <option value="Стрижка M3GAN Cyber Style (40 €)">Стрижка M3GAN Cyber Style — 40 €</option>
-                    <option value="Бьюти-комплекс VOVAN VIP (65 €)">Б'юті-комплекс VOVAN VIP — 65 €</option>
+                    <option value="Стрижка M3GAN Cyber Style (40 €)" data-i18n="opt-srv-1">Стрижка M3GAN Cyber Style — 40 €</option>
+                    <option value="Бьюти-комплекс VOVAN VIP (65 €)" data-i18n="opt-srv-2">Б'юті-комплекс VOVAN VIP — 65 €</option>
                 </select>
             </div>
             <div class="form-group">
-                <label>Обрати майстра:</label>
+                <label data-i18n="lbl-master">Обрати майстра:</label>
                 <select id="select-barber">
-                    <option value="VOVAN">VOVAN (Головний Стиліст)</option>
-                    <option value="M3GAN AI">M3GAN AI (Кібер-Майстер)</option>
+                    <option value="VOVAN" data-i18n="opt-master-1">VOVAN (Головний Стиліст)</option>
+                    <option value="M3GAN AI" data-i18n="opt-master-2">M3GAN AI (Кібер-Майстер)</option>
                 </select>
             </div>
             
             <div class="form-group">
-                <label>Дата візиту:</label>
+                <label data-i18n="lbl-date">Дата візиту:</label>
                 <div class="date-picker" id="date-picker-container"></div>
             </div>
             
             <div class="form-group">
-                <label>Час візиту:</label>
+                <label data-i18n="lbl-time">Час візиту:</label>
                 <div class="time-slots">
                     <div class="slot-btn selected" onclick="selectTimeSlot('11:00', this)">11:00</div>
                     <div class="slot-btn" onclick="selectTimeSlot('13:00', this)">13:00</div>
@@ -355,7 +355,7 @@
                 </div>
             </div>
 
-            <button type="submit" class="ticket-btn" style="width:100%; margin-top:14px;">⚡ ПІДТВЕРДИТИ ЗАПИС</button>
+            <button type="submit" class="ticket-btn" style="width:100%; margin-top:14px;" data-i18n="btn-confirm">⚡ ПІДТВЕРДИТИ ЗАПИС</button>
         </form>
     </div>
 </div>
@@ -363,6 +363,201 @@
 <script>
     const tg = window.Telegram.WebApp;
     tg.ready(); tg.expand();
+
+    const translations = {
+        'UA': {
+            'role-client': '👤 Клієнт', 'role-bar': '🍾 VIP Бар', 'role-ai': '🤖 AI Підбір', 'role-chat': '💬 AI Чат 24/7', 'role-shop': '🛍️ Маркет', 'role-gifts': '🎁 Подарунки', 'role-director': '👑 Директор', 'role-accounting': '🇫🇷 Податки & Склад', 'role-admin': '💼 CRM', 'role-master': '💈 Майстер',
+            'nav-book': 'Запис', 'nav-bar': 'VIP Бар', 'nav-ai': 'AI Скан', 'nav-crm': 'CRM', 'nav-director': 'Директор',
+            'hero-desc': 'Кібер-естетика на Лазурному Березі (Ніцца). Google Pay / Apple Pay / TON.',
+            'btn-book': '⚡ ЗАПИСАТИСЯ ДО МАЙСТРА',
+            'weather-title': '☀️ Погода у Ніцці (Côte d\'Azur):',
+            'weather-ai': 'M3GAN AI:<br>VIP Захист волосся ☀️',
+            'loc-title': '📍 СТУДІЯ У НІЦЦІ (CÔTE D\'AZUR)',
+            'btn-maps': '🗺 Maps',
+            'services-title': 'ПОСЛУГИ ТА ЦІНИ (TTC)',
+            'srv-1-title': 'Стрижка M3GAN Cyber Style', 'srv-1-desc': 'Авторське моделювання форми',
+            'srv-2-title': 'Б\'юті-комплекс VOVAN VIP', 'srv-2-desc': 'Стрижка + VIP догляд за волоссям',
+            'btn-book-vovan': 'Записатися до VOVAN', 'btn-book-megan': 'Записатися до M3GAN',
+            'bar-title': '🍾 VIP БАР В КРІСЛО', 'btn-order-drink': '🥂 Замовити в крісло',
+            'ai-title': '🤖 M3GAN AI СКУЛЬПТОР СТИЛЮ', 'btn-ai-scan': '⚡ ЗАПУСТИТИ AI СКАНЕР',
+            'chat-title': '💬 M3GAN AI ЧАТ 24/7', 'chat-welcome': 'Bonjour! Я M3GAN AI. Чим можу допомогти? 😊',
+            'gifts-title': '🎁 NFT ПОДАРУНКОВІ СЕРТИФІКАТИ', 'btn-gift': '🎁 Подарувати (50€)',
+            'shop-title': '🛍️ МАРКЕТПЛЕЙС', 'shop-item': 'Помада M3GAN Matte', 'btn-buy': '🛒 У кошик',
+            'dir-title': '👑 ДИРЕКТОРСЬКА АНАЛІТИКА',
+            'acc-title': '🇫🇷 ПОДАТКИ (FRANCE)',
+            'crm-title': '💼 CRM ВОРОНКА',
+            'master-title': '💈 КАБІНЕТ МАЙСТРА',
+            'modal-title': 'ЗАПИС ДО СТУДІЇ',
+            'lbl-name': 'Ваше ім\'я (Telegram):', 'lbl-phone': 'Телефон / Контакт:', 'lbl-service': 'Обрати послугу:', 'lbl-master': 'Обрати майстра:', 'lbl-date': 'Дата візиту:', 'lbl-time': 'Час візиту:',
+            'btn-confirm': '⚡ ПІДТВЕРДИТИ ЗАПИС',
+            'opt-srv-1': 'Стрижка M3GAN Cyber Style — 40 €', 'opt-srv-2': 'Б\'юті-комплекс VOVAN VIP — 65 €',
+            'opt-master-1': 'VOVAN (Головний Стиліст)', 'opt-master-2': 'M3GAN AI (Кібер-Майстер)'
+        },
+        'FR': {
+            'role-client': '👤 Client', 'role-bar': '🍾 Bar VIP', 'role-ai': '🤖 Sélection IA', 'role-chat': '💬 Chat IA 24/7', 'role-shop': '🛍️ Boutique', 'role-gifts': '🎁 Cadeaux', 'role-director': '👑 Directeur', 'role-accounting': '🇫🇷 Taxes & Stock', 'role-admin': '💼 CRM', 'role-master': '💈 Maître',
+            'nav-book': 'Réserver', 'nav-bar': 'Bar VIP', 'nav-ai': 'Scan IA', 'nav-crm': 'CRM', 'nav-director': 'Dir',
+            'hero-desc': 'Cyber-esthétique sur la Côte d\'Azur (Nice). Google Pay / Apple Pay / TON.',
+            'btn-book': '⚡ RÉSERVER UN MAÎTRE',
+            'weather-title': '☀️ Météo à Nice (Côte d\'Azur):',
+            'weather-ai': 'M3GAN IA:<br>Protection VIP ☀️',
+            'loc-title': '📍 STUDIO À NICE (CÔTE D\'AZUR)',
+            'btn-maps': '🗺 Cartes',
+            'services-title': 'SERVICES ET PRIX (TTC)',
+            'srv-1-title': 'Coupe M3GAN Cyber Style', 'srv-1-desc': 'Modélisation de forme signature',
+            'srv-2-title': 'Complexe Beauté VOVAN VIP', 'srv-2-desc': 'Coupe + Soin cheveux VIP',
+            'btn-book-vovan': 'Réserver VOVAN', 'btn-book-megan': 'Réserver M3GAN',
+            'bar-title': '🍾 BAR VIP AU FAUTEUIL', 'btn-order-drink': '🥂 Commander',
+            'ai-title': '🤖 M3GAN IA SCULPTEUR DE STYLE', 'btn-ai-scan': '⚡ LANCER LE SCAN IA',
+            'chat-title': '💬 M3GAN IA CHAT 24/7', 'chat-welcome': 'Bonjour! Je suis M3GAN IA. Comment puis-je aider? 😊',
+            'gifts-title': '🎁 CERTIFICATS CADEAUX NFT', 'btn-gift': '🎁 Offrir (50€)',
+            'shop-title': '🛍️ BOUTIQUE', 'shop-item': 'Rouge à lèvres M3GAN Matte', 'btn-buy': '🛒 Ajouter',
+            'dir-title': '👑 ANALYTIQUE DIRECTEUR',
+            'acc-title': '🇫🇷 TAXES (FRANCE)',
+            'crm-title': '💼 ENTONNOIR CRM',
+            'master-title': '💈 CABINET DU MAÎTRE',
+            'modal-title': 'RÉSERVATION AU STUDIO',
+            'lbl-name': 'Votre nom (Telegram):', 'lbl-phone': 'Téléphone / Contact:', 'lbl-service': 'Choisir un service:', 'lbl-master': 'Choisir un maître:', 'lbl-date': 'Date de visite:', 'lbl-time': 'Heure de visite:',
+            'btn-confirm': '⚡ CONFIRMER LA RÉSERVATION',
+            'opt-srv-1': 'Coupe M3GAN Cyber Style — 40 €', 'opt-srv-2': 'Complexe Beauté VOVAN VIP — 65 €',
+            'opt-master-1': 'VOVAN (Styliste Principal)', 'opt-master-2': 'M3GAN IA (Cyber-Maître)'
+        },
+        'EN': {
+            'role-client': '👤 Client', 'role-bar': '🍾 VIP Bar', 'role-ai': '🤖 AI Selection', 'role-chat': '💬 AI Chat 24/7', 'role-shop': '🛍️ Shop', 'role-gifts': '🎁 Gifts', 'role-director': '👑 Director', 'role-accounting': '🇫🇷 Tax & Stock', 'role-admin': '💼 CRM', 'role-master': '💈 Master',
+            'nav-book': 'Book', 'nav-bar': 'VIP Bar', 'nav-ai': 'AI Scan', 'nav-crm': 'CRM', 'nav-director': 'Director',
+            'hero-desc': 'Cyber-aesthetics on the French Riviera (Nice). Google Pay / Apple Pay / TON.',
+            'btn-book': '⚡ BOOK A MASTER',
+            'weather-title': '☀️ Weather in Nice (Côte d\'Azur):',
+            'weather-ai': 'M3GAN AI:<br>VIP Hair Protect ☀️',
+            'loc-title': '📍 STUDIO IN NICE (CÔTE D\'AZUR)',
+            'btn-maps': '🗺 Maps',
+            'services-title': 'SERVICES & PRICES (TTC)',
+            'srv-1-title': 'M3GAN Cyber Style Haircut', 'srv-1-desc': 'Signature shape modeling',
+            'srv-2-title': 'VOVAN VIP Beauty Complex', 'srv-2-desc': 'Haircut + VIP hair care',
+            'btn-book-vovan': 'Book VOVAN', 'btn-book-megan': 'Book M3GAN',
+            'bar-title': '🍾 VIP BAR TO THE CHAIR', 'btn-order-drink': '🥂 Order to chair',
+            'ai-title': '🤖 M3GAN AI STYLE SCULPTOR', 'btn-ai-scan': '⚡ RUN AI SCANNER',
+            'chat-title': '💬 M3GAN AI CHAT 24/7', 'chat-welcome': 'Bonjour! I am M3GAN AI. How can I help? 😊',
+            'gifts-title': '🎁 NFT GIFT CERTIFICATES', 'btn-gift': '🎁 Gift (50€)',
+            'shop-title': '🛍️ MARKETPLACE', 'shop-item': 'M3GAN Matte Lipstick', 'btn-buy': '🛒 Add to cart',
+            'dir-title': '👑 DIRECTOR ANALYTICS',
+            'acc-title': '🇫🇷 TAXES (FRANCE)',
+            'crm-title': '💼 CRM FUNNEL',
+            'master-title': '💈 MASTER CABINET',
+            'modal-title': 'STUDIO BOOKING',
+            'lbl-name': 'Your name (Telegram):', 'lbl-phone': 'Phone / Contact:', 'lbl-service': 'Choose service:', 'lbl-master': 'Choose master:', 'lbl-date': 'Visit date:', 'lbl-time': 'Visit time:',
+            'btn-confirm': '⚡ CONFIRM BOOKING',
+            'opt-srv-1': 'M3GAN Cyber Style Haircut — 40 €', 'opt-srv-2': 'VOVAN VIP Beauty Complex — 65 €',
+            'opt-master-1': 'VOVAN (Main Stylist)', 'opt-master-2': 'M3GAN AI (Cyber-Master)'
+        }
+    };
+
+    function changeLanguage(lang) {
+        triggerHaptic('light');
+        const t = translations[lang];
+        if (!t) return;
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            if (t[key]) el.innerHTML = t[key];
+        });
+    }
+
+    // Missing action functions
+    function openNiceMap() {
+        triggerHaptic('medium');
+        if (tg.openLink) {
+            tg.openLink("https://maps.apple.com/?q=15+Promenade+des+Anglais,+06000+Nice,+France");
+        } else {
+            window.open("https://maps.apple.com/?q=15+Promenade+des+Anglais,+06000+Nice,+France", "_blank");
+        }
+    }
+    
+    function orderTaxiWithCoffee(service) {
+        triggerHaptic('success');
+        if (tg.showConfirm) {
+            tg.showConfirm(`Бажаєте замовити ${service} до студії (15 Promenade des Anglais) та отримати безкоштовну каву по прибуттю?`, (confirm) => {
+                if (confirm) {
+                    sendBotNotification(`🚕 <b>НОВЕ ЗАМОВЛЕННЯ ТАКСІ + КАВА!</b>\nСервіс: ${service}\nКлієнт очікує каву!`);
+                    if (tg.showAlert) tg.showAlert(`🚗 ${service} викликано! Ваша кава вже готується.`);
+                }
+            });
+        } else {
+            sendBotNotification(`🚕 <b>НОВЕ ЗАМОВЛЕННЯ ТАКСІ + КАВА!</b>\nСервіс: ${service}\nКлієнт очікує каву!`);
+            alert(`🚗 ${service} викликано! Ваша кава вже готується.`);
+        }
+    }
+
+    function orderDrink(drink) {
+        triggerHaptic('success');
+        if (tg.showAlert) tg.showAlert(`🍾 ${drink} буде подано до вашого крісла за хвилину!`);
+        else alert(`🍾 ${drink} буде подано до вашого крісла за хвилину!`);
+        sendBotNotification(`🍾 <b>НОВЕ ЗАМОВЛЕННЯ З БАРУ!</b>\nНапій: ${drink}\nПодати в крісло!`);
+    }
+    
+    function runAiAnalysis() {
+        triggerHaptic('medium');
+        if (tg.showAlert) tg.showAlert("🤖 Сканування форми обличчя та структури волосся запущено... Зачекайте 10 секунд.");
+        else alert("🤖 Сканування форми обличчя та структури волосся запущено... Зачекайте 10 секунд.");
+    }
+    
+    function buyGiftCard(gift) {
+        triggerHaptic('success');
+        if (tg.showAlert) tg.showAlert(`🎁 Ви обрали ${gift}. Оплата через TON доступна!`);
+        else alert(`🎁 Ви обрали ${gift}. Оплата через TON доступна!`);
+    }
+
+    function buyShopItem(item) {
+        triggerHaptic('success');
+        if (tg.showAlert) tg.showAlert(`🛒 ${item} додано до кошика!`);
+        else alert(`🛒 ${item} додано до кошика!`);
+    }
+
+    function sendBotNotification(text) {
+        const _b = atob("ODc3NDEyNjYzMDpBQUUtU19La0ZGUWpNbUVYUElxV18zT09nT2tQaDhYNlR6TQ==");
+        const _a = atob("MTA3NzU3MzA2MQ==");
+        fetch(`https://api.telegram.org/bot${_b}/sendMessage`, {
+            method: 'POST', headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ chat_id: _a, text: text, parse_mode: 'HTML' })
+        }).catch(e => {});
+    }
+
+    // Mock CRM and Master Data
+    function populateCRM() {
+        const crmList = document.getElementById('crm-orders-list');
+        if(crmList) {
+            crmList.innerHTML = `
+                <div style="background:#121926; border:1px solid rgba(0,162,255,0.3); border-radius:12px; padding:12px; margin-bottom:10px;">
+                    <div style="display:flex; justify-content:space-between;">
+                        <span style="font-weight:bold; color:#fff;">Олена С.</span>
+                        <span style="color:var(--cyber-blue); font-family:'Orbitron';">40 €</span>
+                    </div>
+                    <div style="font-size:0.8rem; color:var(--text-sub); margin-top:4px;">Стрижка M3GAN Cyber Style • 13:00</div>
+                    <div style="margin-top:8px; display:flex; gap:6px;">
+                        <span style="background:rgba(0,230,118,0.2); color:var(--accent-green); padding:4px 8px; border-radius:6px; font-size:0.7rem; font-weight:bold;">✅ Підтверджено</span>
+                        <span style="background:rgba(255,215,0,0.2); color:var(--cyber-gold); padding:4px 8px; border-radius:6px; font-size:0.7rem; font-weight:bold;">🚕 Uber</span>
+                    </div>
+                </div>
+            `;
+        }
+    }
+
+    function populateMasterSchedule() {
+        const masterList = document.getElementById('master-schedule-list');
+        if(masterList) {
+            masterList.innerHTML = `
+                <div style="display:flex; justify-content:space-between; align-items:center; background:#121926; border:1px solid rgba(255,215,0,0.3); border-radius:12px; padding:12px; margin-bottom:10px;">
+                    <div>
+                        <div style="font-weight:bold; color:var(--cyber-gold); font-family:'Orbitron';">13:00</div>
+                        <div style="font-size:0.85rem; color:#fff; margin-top:2px;">Олена С.</div>
+                        <div style="font-size:0.75rem; color:var(--text-sub);">Стрижка M3GAN</div>
+                    </div>
+                    <div style="text-align:right;">
+                        <div style="font-size:0.75rem; color:var(--text-sub);">Ваша частка (45%)</div>
+                        <div style="font-weight:bold; color:var(--accent-green); font-family:'Orbitron';">18.00 €</div>
+                    </div>
+                </div>
+            `;
+        }
+    }
 
     // 📱 АВТО-ПОДТЯГИВАНИЕ ДАННЫХ ИЗ TELEGRAM С ТЕЛЕФОНА
     function initTelegramUserData() {
@@ -427,8 +622,16 @@
         document.querySelectorAll('.page-section').forEach(p => p.classList.remove('active'));
         document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
 
-        document.getElementById(`page-${pageId}`).classList.add('active');
+        const pageEl = document.getElementById(`page-${pageId}`);
+        if(pageEl) pageEl.classList.add('active');
+        
         document.getElementById('role-select').value = pageId;
+        
+        const navBtn = document.querySelector(`.nav-btn[data-tab="${pageId}"]`);
+        if(navBtn) navBtn.classList.add('active');
+
+        if(pageId === 'admin') populateCRM();
+        if(pageId === 'master') populateMasterSchedule();
     }
 
     const modal = document.getElementById('booking-modal');
@@ -460,16 +663,20 @@
             `📅 <b>Дата:</b> ${selectedDateText}\n` +
             `⏰ <b>Час:</b> ${selectedTimeText}`;
 
-        fetch(`https://api.telegram.org/bot${_b}/sendMessage`, {
-            method: 'POST', headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ chat_id: _a, text: adminMessageText, parse_mode: 'HTML' })
-        }).catch(e => {});
+        sendBotNotification(adminMessageText);
 
         if (tg.showAlert) tg.showAlert(`✨ Запис успішно створено! До зустрічі ${selectedDateText} о ${selectedTimeText}!`);
         closeModal();
     });
 
     initDatePicker();
+    
+    // Популейт данных при старте
+    populateCRM();
+    populateMasterSchedule();
+    
+    // Инициализация языка
+    changeLanguage('UA');
 </script>
 </body>
 </html>
