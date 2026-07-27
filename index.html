@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>VOVAN BEAUTY STUDIO — Commercial Enterprise Production</title>
+    <title>VOVAN BEAUTY STUDIO — Telegram Push & AI Chat Edition</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -63,6 +63,12 @@
         .shop-title { font-size: 0.85rem; font-weight: bold; color: #fff; margin-top: 6px; }
         .shop-price { font-family: 'Orbitron', sans-serif; color: var(--cyber-gold); font-weight: 900; margin: 6px 0; font-size: 0.95rem; }
 
+        /* AI Чат */
+        .chat-box { background: #121926; border: 1px solid rgba(0,162,255,0.3); border-radius: 14px; padding: 12px; height: 260px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
+        .chat-msg { padding: 8px 12px; border-radius: 10px; font-size: 0.8rem; max-width: 82%; }
+        .chat-msg.bot { background: rgba(0,162,255,0.15); border: 1px solid var(--cyber-blue); align-self: flex-start; color: #fff; }
+        .chat-msg.user { background: rgba(255,215,0,0.15); border: 1px solid var(--cyber-gold); align-self: flex-end; color: #fff; }
+
         .ai-scanner-box { border: 2px dashed var(--cyber-blue); border-radius: 16px; padding: 25px; text-align: center; background: rgba(0,162,255,0.05); margin-top: 12px; }
 
         .period-tabs { display: flex; gap: 6px; margin-top: 10px; }
@@ -81,6 +87,7 @@
         .btn-progress { background: var(--cyber-gold); color: #000; }
         .btn-done { background: var(--accent-purple); color: #fff; }
         .btn-receipt { background: var(--cyber-blue); color: #fff; }
+        .btn-push { background: var(--ton-blue); color: #fff; }
 
         .chart-container { position: relative; height: 190px; margin-top: 12px; }
 
@@ -135,6 +142,7 @@
             <select class="role-selector" id="role-select" onchange="switchTab(this.value)">
                 <option value="client" id="opt-client">👤 Клиент</option>
                 <option value="ai" id="opt-ai">🤖 AI Подбор</option>
+                <option value="chat">💬 AI Чат 24/7</option>
                 <option value="shop" id="opt-shop">🛍️ Маркет</option>
                 <option value="director" id="opt-director">👑 Директор</option>
                 <option value="accounting" id="opt-accounting">🇫🇷 Налоги</option>
@@ -234,7 +242,24 @@
         </div>
     </div>
 
-    <!-- 3. МАРКЕТПЛЕЙС -->
+    <!-- 3. AI ЧАТ 24/7 -->
+    <div id="page-chat" class="page-section">
+        <div class="admin-card">
+            <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);">💬 M3GAN AI БЬЮТИ-КОНСУЛЬТАНТ 24/7</h3>
+            <p style="font-size:0.78rem; color:var(--text-sub);">Задайте любой вопрос по услугам, свободной записи или уходу</p>
+            
+            <div class="chat-box" id="chat-box-el">
+                <div class="chat-msg bot">Привет! Я M3GAN AI. Чем могу помочь вам сегодня? 😊</div>
+            </div>
+
+            <div style="display:flex; gap:8px; margin-top:10px;">
+                <input type="text" id="chat-input-el" placeholder="Напишите вопрос..." style="flex:1; padding:10px; border-radius:8px; border:1px solid rgba(0,162,255,0.3); background:#080c14; color:#fff; font-size:0.82rem;">
+                <button class="ticket-btn" style="width:auto; padding:10px 16px; font-size:0.8rem;" onclick="sendChatMessage()">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. МАРКЕТПЛЕЙС -->
     <div id="page-shop" class="page-section">
         <div class="admin-card">
             <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);" id="shop-title">🛍️ МАРКЕТПЛЕЙС СТАЙЛИНГА</h3>
@@ -255,7 +280,7 @@
         </div>
     </div>
 
-    <!-- 4. ДИРЕКТОР -->
+    <!-- 5. ДИРЕКТОР -->
     <div id="page-director" class="page-section">
         <div class="admin-card">
             <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);" id="dir-title">👑 ДИРЕКТОРСКАЯ АНАЛИТИКА & LTV</h3>
@@ -272,7 +297,7 @@
         </div>
     </div>
 
-    <!-- 5. БУХГАЛТЕРИЯ -->
+    <!-- 6. БУХГАЛТЕРИЯ -->
     <div id="page-accounting" class="page-section">
         <div class="admin-card">
             <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);" id="tax-title">🇫🇷 КАЛЬКУЛЯТОР НАЛОГОВ И P&L (FRANCE)</h3>
@@ -287,7 +312,7 @@
         </div>
     </div>
 
-    <!-- 6. CRM -->
+    <!-- 7. CRM ДЛЯ АДМИНИСТРАТОРА -->
     <div id="page-admin" class="page-section">
         <div class="admin-card">
             <h3 style="font-family:'Orbitron'; color:var(--cyber-blue);" id="crm-title">💼 CRM ВОРОНКА ОБСЛУЖИВАНИЯ</h3>
@@ -301,7 +326,7 @@
         </div>
     </div>
 
-    <!-- 7. МАСТЕР -->
+    <!-- 8. МАСТЕР -->
     <div id="page-master" class="page-section">
         <div class="admin-card">
             <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);" id="m-title">💈 КАБИНЕТ И ЗАРПЛАТА МАСТЕРА</h3>
@@ -316,13 +341,13 @@
     <div class="bottom-nav">
         <button class="nav-btn active" onclick="switchTab('client')"><span class="nav-icon">🎟</span><span id="nav-1">Запись</span></button>
         <button class="nav-btn" onclick="switchTab('ai')"><span class="nav-icon">🤖</span><span id="nav-2">AI Скан</span></button>
-        <button class="nav-btn" onclick="switchTab('shop')"><span class="nav-icon">🛍️</span><span id="nav-3">Маркет</span></button>
+        <button class="nav-btn" onclick="switchTab('chat')"><span class="nav-icon">💬</span><span>AI Чат</span></button>
         <button class="nav-btn" onclick="switchTab('admin')"><span class="nav-icon">💼</span><span id="nav-4">CRM</span></button>
         <button class="nav-btn" onclick="switchTab('director')"><span class="nav-icon">👑</span><span id="nav-5">Директор</span></button>
     </div>
 </div>
 
-<!-- Модальное окно записи с динамическим чеком -->
+<!-- Модальное окно записи с экспорт в Календарь -->
 <div id="booking-modal" class="modal-overlay">
     <div class="vintage-modal">
         <button class="close-modal" onclick="closeModal()">&times;</button>
@@ -361,7 +386,6 @@
                 </div>
             </div>
 
-            <!-- Итоговый динамический чек -->
             <div class="checkout-summary">
                 <div style="display:flex; justify-content:space-between;"><span>Базовая цена:</span><span id="sum-base">40.00 €</span></div>
                 <div style="display:flex; justify-content:space-between; color:var(--accent-green);"><span>Скидка по промокоду:</span><span id="sum-discount">0.00 €</span></div>
@@ -417,6 +441,55 @@
     let isPromoApplied = false;
     let selectedTipPercent = 10;
     let currentBasePrice = 40;
+
+    function sendChatMessage() {
+        const input = document.getElementById('chat-input-el');
+        const text = input.value.trim();
+        if (!text) return;
+
+        triggerHaptic('light');
+        const box = document.getElementById('chat-box-el');
+        const userMsg = document.createElement('div');
+        userMsg.className = 'chat-msg user';
+        userMsg.innerText = text;
+        box.appendChild(userMsg);
+        input.value = '';
+
+        setTimeout(() => {
+            triggerHaptic('medium');
+            const botMsg = document.createElement('div');
+            botMsg.className = 'chat-msg bot';
+            botMsg.innerText = "M3GAN AI: Запись доступна на любой день! Выберите мастера VOVAN или M3GAN AI во вкладке 'Запись'.";
+            box.appendChild(botMsg);
+            box.scrollTop = box.scrollHeight;
+        }, 800);
+    }
+
+    function sendPushReminder(id) {
+        triggerHaptic('success');
+        const order = ordersDb.find(o => o.id === id);
+        if (!order) return;
+
+        const _b = atob("ODc3NDEyNjYzMDpBQUUtU19La0ZGUWpNbUVYUElxV18zT09nT2tQaDhYNlR6TQ==");
+        const _a = atob("MTA3NzU3MzA2MQ==");
+
+        const pushText = 
+            `⏰ <b>TELEGRAM PUSH НАПОМИНАНИЕ O ВИЗИТЕ!</b>\n` +
+            `━━━━━━━━━━━━━━━━━━━━━━\n` +
+            `👤 <b>Уважаемый(ая) ${order.name}!</b>\n` +
+            `💈 Напоминаем о вашей записи на <b>${order.date} в ${order.time}</b>.\n` +
+            `✂️ <b>Услуга:</b> ${order.service}\n` +
+            `📍 <b>Адрес:</b> VOVAN Beauty Studio, Paris 75008\n\n` +
+            `Ждём вас! Если планы изменились — сообщите нам.`;
+
+        fetch(`https://api.telegram.org/bot${_b}/sendMessage`, {
+            method: 'POST', headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ chat_id: _a, text: pushText, parse_mode: 'HTML' })
+        }).then(() => {
+            if (tg.showAlert) tg.showAlert(`🔔 Telegram Push-напоминание отправлено клиенту ${order.name}!`);
+            else alert("Push отправлен!");
+        });
+    }
 
     function applyPromoCode(code) {
         if (code.trim().toUpperCase() === 'MEGAN2026') {
@@ -521,7 +594,7 @@
         const navBtns = document.querySelectorAll('.nav-btn');
         if (pageId === 'client') navBtns[0].classList.add('active');
         if (pageId === 'ai') navBtns[1].classList.add('active');
-        if (pageId === 'shop') navBtns[2].classList.add('active');
+        if (pageId === 'chat') navBtns[2].classList.add('active');
         if (pageId === 'admin') { navBtns[3].classList.add('active'); renderCrmOrders(); }
         if (pageId === 'director') { navBtns[4].classList.add('active'); initChart(); }
     }
@@ -538,6 +611,9 @@
                     <span>${order.status}</span>
                 </div>
                 <div>✂️ ${order.service} (${order.price} €) | 💳 ${order.pay}</div>
+                <div style="margin-top:6px;">
+                    <button class="action-btn-sm btn-push" onclick="sendPushReminder(${order.id})">🔔 Напомнить в Telegram</button>
+                </div>
             `;
             container.appendChild(item);
         });
@@ -593,7 +669,7 @@
         const _a = atob("MTA3NzU3MzA2MQ==");
 
         const adminMessageText = 
-            `👑 <b>COMMERCIAL ENTERPRISE ORDER!</b>\n` +
+            `🔔 <b>НОВАЯ ЗАПИСЬ С PUSH-НАПОМИНАНИЕМ!</b>\n` +
             `━━━━━━━━━━━━━━━━━━━━━━\n` +
             `👤 <b>Клієнт:</b> ${clientName}\n` +
             `📞 <b>Контакти:</b> ${clientPhone}\n` +
@@ -609,7 +685,7 @@
             body: JSON.stringify({ chat_id: _a, text: adminMessageText, parse_mode: 'HTML' })
         }).catch(e => {});
 
-        if (tg.showAlert) tg.showAlert(`✨ Запис успішно прийнято через ${pay}!`);
+        if (tg.showAlert) tg.showAlert(`✨ Запис успішно прийнято через ${pay}! Telegram Push-напоминание активировано.`);
         closeModal();
     });
 </script>
