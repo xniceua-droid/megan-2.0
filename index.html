@@ -527,24 +527,25 @@
         try {
             videoStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } });
             video.srcObject = videoStream;
-            
-            // Имитация процесса сканирования 4 секунды
-            setTimeout(() => {
-                triggerHaptic('success');
-                if (videoStream) {
-                    videoStream.getTracks().forEach(track => track.stop());
-                }
-                container.style.display = 'none';
-                result.style.display = 'block';
-                btn.style.display = 'block';
-                btn.innerHTML = '🔄 ПОВТОРИТИ СКАНУВАННЯ';
-            }, 4000);
-            
         } catch (err) {
-            alert('Не вдалося отримати доступ до камери: ' + err.message);
-            btn.style.display = 'block';
-            container.style.display = 'none';
+            // Фолбэк, если камера заблокирована (Telegram WebApp iOS)
+            video.style.background = 'linear-gradient(45deg, #001f3f, #000)';
+            video.style.border = '1px solid var(--cyber-blue)';
+            video.style.opacity = '0.7';
+            console.log('Camera blocked, using fallback animation');
         }
+
+        // Имитация процесса сканирования 4 секунды
+        setTimeout(() => {
+            triggerHaptic('success');
+            if (videoStream) {
+                videoStream.getTracks().forEach(track => track.stop());
+            }
+            container.style.display = 'none';
+            result.style.display = 'block';
+            btn.style.display = 'block';
+            btn.innerHTML = '🔄 ПОВТОРИТИ СКАНУВАННЯ';
+        }, 4000);
     }
     
     function runAiAnalysis() {
@@ -559,9 +560,9 @@
         const chatId = tg.initDataUnsafe?.user?.id || atob("MTA3NzU3MzA2MQ==");
         
         try {
-            await fetch('http://localhost:3000/invoice', {
+            await fetch('https://small-masks-wash.loca.lt/invoice', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 'Content-Type': 'application/json', 'Bypass-Tunnel-Reminder': 'true' },
                 body: JSON.stringify({
                     chatId: chatId,
                     title: gift,
@@ -580,9 +581,9 @@
         const chatId = tg.initDataUnsafe?.user?.id || atob("MTA3NzU3MzA2MQ==");
         
         try {
-            await fetch('http://localhost:3000/invoice', {
+            await fetch('https://small-masks-wash.loca.lt/invoice', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 'Content-Type': 'application/json', 'Bypass-Tunnel-Reminder': 'true' },
                 body: JSON.stringify({
                     chatId: chatId,
                     title: item,
@@ -602,7 +603,7 @@
         }).catch(e => {});
     }
 
-    const GAS_URL = ""; // Сюда вставить URL вашего Google Apps Script
+    const GAS_URL = "https://small-masks-wash.loca.lt/api/orders"; // LocalTunnel API
 
     async function populateCRM() {
         const crmList = document.getElementById('crm-orders-list');
@@ -612,7 +613,7 @@
         
         try {
             if (!GAS_URL) throw new Error("No GAS_URL");
-            const res = await fetch(GAS_URL + "?sheet=Orders");
+            const res = await fetch(GAS_URL, { headers: { 'Bypass-Tunnel-Reminder': 'true' } });
             const json = await res.json();
             
             if (json.success && json.data.length > 0) {
@@ -656,7 +657,7 @@
         
         try {
             if (!GAS_URL) throw new Error("No GAS_URL");
-            const res = await fetch(GAS_URL + "?sheet=Orders");
+            const res = await fetch(GAS_URL, { headers: { 'Bypass-Tunnel-Reminder': 'true' } });
             const json = await res.json();
             
             if (json.success && json.data.length > 0) {
@@ -807,15 +808,14 @@
             try {
                 await fetch(GAS_URL, {
                     method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Bypass-Tunnel-Reminder': 'true' },
                     body: JSON.stringify({
-                        action: 'add',
-                        sheet: 'Orders',
                         clientName, clientPhone, service, master: barber,
                         date: selectedDateText + " " + selectedTimeText,
                         price: price
                     })
                 });
-            } catch(e) { console.log("GAS save error", e); }
+            } catch(e) { console.log("API save error", e); }
         }
 
         if (tg.showAlert) tg.showAlert(`✨ Запис успішно створено! До зустрічі ${selectedDateText} о ${selectedTimeText}!`);

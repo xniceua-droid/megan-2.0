@@ -3,6 +3,7 @@ const TelegramBotModule = require('node-telegram-bot-api');
 const TelegramBot = TelegramBotModule.default || TelegramBotModule;
 const express = require('express');
 const cors = require('cors');
+const fs = require('fs');
 
 const token = process.env.BOT_TOKEN;
 if (!token) {
@@ -17,7 +18,39 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-console.log("🤖 M3GAN Telegram Bot started...");
+const DB_FILE = 'db.json';
+
+// Initialize DB
+if (!fs.existsSync(DB_FILE)) {
+    fs.writeFileSync(DB_FILE, JSON.stringify({ orders: [] }));
+}
+
+function getDb() {
+    return JSON.parse(fs.readFileSync(DB_FILE, 'utf8'));
+}
+
+function saveDb(data) {
+    fs.writeFileSync(DB_FILE, JSON.stringify(data, null, 2));
+}
+
+console.log("🤖 M3GAN Telegram Bot & CRM Server started...");
+
+// CRM Endpoints
+app.get('/api/orders', (req, res) => {
+    const db = getDb();
+    res.json({ success: true, data: db.orders });
+});
+
+app.post('/api/orders', (req, res) => {
+    const db = getDb();
+    const order = req.body;
+    order.id = Date.now();
+    order.Master_Cut = (order.Price || 0) * 0.45;
+    order.Status = "✅ Підтверджено";
+    db.orders.push(order);
+    saveDb(db);
+    res.json({ success: true, row: order });
+});
 
 // Express endpoint for Payments
 app.post('/invoice', async (req, res) => {
@@ -69,5 +102,5 @@ bot.onText(/\/start/, async (msg) => {
 bot.on('polling_error', (error) => { console.log(error.code); });
 
 app.listen(3000, () => {
-    console.log("🚀 Payment API Server running on port 3000");
+    console.log("🚀 CRM & Payment API Server running on port 3000");
 });
