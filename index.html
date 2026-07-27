@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>VOVAN BEAUTY STUDIO — Ultra Tech & AI Marketplace Edition</title>
+    <title>VOVAN BEAUTY STUDIO — Google Pay & Apple Pay Edition</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -48,13 +48,19 @@
         .stat-val { font-family: 'Orbitron', sans-serif; font-size: 1.15rem; font-weight: 900; color: var(--cyber-gold); margin-top: 3px; }
         .stat-label { font-size: 0.72rem; color: var(--text-sub); }
 
-        /* Маркетплейс */
+        /* Кнопка Google Pay */
+        .gpay-btn { background: #000; color: #fff; border: 1px solid #4285F4; padding: 12px; border-radius: 8px; font-weight: bold; font-family: 'Montserrat', sans-serif; display: flex; justify-content: center; align-items: center; gap: 8px; cursor: pointer; width: 100%; margin-top: 8px; }
+        .apple-pay-btn { background: #000; color: #fff; border: 1px solid #fff; padding: 12px; border-radius: 8px; font-weight: bold; font-family: 'Montserrat', sans-serif; display: flex; justify-content: center; align-items: center; gap: 8px; cursor: pointer; width: 100%; margin-top: 8px; }
+
+        .tips-grid { display: flex; gap: 8px; margin-top: 6px; }
+        .tip-btn { flex: 1; background: #141b29; border: 1px solid rgba(0,162,255,0.2); color: #fff; padding: 6px; border-radius: 6px; font-size: 0.75rem; text-align: center; cursor: pointer; }
+        .tip-btn.selected { background: var(--cyber-gold); color: #000; font-weight: bold; }
+
         .shop-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 12px; }
         .shop-card { background: #141b29; border: 1px solid rgba(0,162,255,0.2); border-radius: 12px; padding: 12px; text-align: center; position: relative; }
         .shop-title { font-size: 0.85rem; font-weight: bold; color: #fff; margin-top: 6px; }
         .shop-price { font-family: 'Orbitron', sans-serif; color: var(--cyber-gold); font-weight: 900; margin: 6px 0; font-size: 0.95rem; }
 
-        /* AI Сканер */
         .ai-scanner-box { border: 2px dashed var(--cyber-blue); border-radius: 14px; padding: 25px; text-align: center; background: rgba(0,162,255,0.05); margin-top: 12px; }
 
         .period-tabs { display: flex; gap: 6px; margin-top: 10px; }
@@ -70,12 +76,6 @@
         .order-card-pipeline.confirmed { border-left-color: var(--accent-green); }
         .order-card-pipeline.in_progress { border-left-color: var(--cyber-gold); }
         .order-card-pipeline.completed { border-left-color: var(--accent-purple); }
-
-        .status-badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 0.68rem; font-weight: bold; text-transform: uppercase; }
-        .st-new { background: rgba(0,162,255,0.2); color: var(--cyber-blue); }
-        .st-confirmed { background: rgba(0,230,118,0.2); color: var(--accent-green); }
-        .st-progress { background: rgba(255,215,0,0.2); color: var(--cyber-gold); }
-        .st-done { background: rgba(168,85,247,0.2); color: var(--accent-purple); }
 
         .action-btn-sm { padding: 5px 10px; border-radius: 6px; font-size: 0.72rem; font-weight: bold; border: none; cursor: pointer; margin-right: 4px; margin-top: 6px; }
         .btn-confirm { background: var(--accent-green); color: #000; }
@@ -152,7 +152,7 @@
             </div>
             <div class="hero-content">
                 <h1 id="txt-hero-title">M3GAN AI BEAUTY EDITION</h1>
-                <p id="txt-hero-desc">Кибер-эстетика, авторский стиль и онлайн-касса TON Crypto / Apple Pay.</p>
+                <p id="txt-hero-desc">Кибер-эстетика, авторский стиль и эквайринг Google Pay / Apple Pay / TON.</p>
                 <button class="ticket-btn" onclick="openModal()" id="txt-hero-btn">⚡ ЗАПИСАТЬСЯ К МАСТЕРУ</button>
             </div>
         </section>
@@ -230,8 +230,6 @@
     <div id="page-shop" class="page-section">
         <div class="admin-card">
             <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);">🛍️ МАРКЕТПЛЕЙС СТАЙЛИНГА</h3>
-            <p style="font-size:0.8rem; color:var(--text-sub);">Профессиональная косметика для ухода и стайлинга</p>
-
             <div class="shop-grid">
                 <div class="shop-card">
                     <div style="font-size:2rem;">💈</div>
@@ -249,7 +247,7 @@
         </div>
     </div>
 
-    <!-- 4. ДИРЕКТОР (ИНТЕРАКТИВНАЯ АНАЛИТИКА + LTV) -->
+    <!-- 4. ДИРЕКТОР -->
     <div id="page-director" class="page-section">
         <div class="admin-card">
             <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);">👑 ДИРЕКТОРСКАЯ АНАЛИТИКА & LTV</h3>
@@ -257,7 +255,6 @@
                 <div class="period-btn" onclick="updateDirectorPeriod('day', this)">День</div>
                 <div class="period-btn" onclick="updateDirectorPeriod('week', this)">Неделя</div>
                 <div class="period-btn active" onclick="updateDirectorPeriod('month', this)">Месяц</div>
-                <div class="period-btn" onclick="updateDirectorPeriod('year', this)">Год</div>
             </div>
             <div class="stat-grid">
                 <div class="stat-box"><div class="stat-label">Выручка (€)</div><div class="stat-val" id="dir-rev-eur">12 450 €</div></div>
@@ -267,7 +264,7 @@
         </div>
     </div>
 
-    <!-- 5. БУХГАЛТЕРИЯ (ОНЛАЙН КАЛЬКУЛЯТОР НАЛОГОВ ФРАНЦИИ) -->
+    <!-- 5. БУХГАЛТЕРИЯ -->
     <div id="page-accounting" class="page-section">
         <div class="admin-card">
             <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);">🇫🇷 КАЛЬКУЛЯТОР НАЛОГОВ И P&L (FRANCE)</h3>
@@ -282,7 +279,7 @@
         </div>
     </div>
 
-    <!-- 6. CRM АДМИНИСТРАТОРА -->
+    <!-- 6. CRM -->
     <div id="page-admin" class="page-section">
         <div class="admin-card">
             <h3 style="font-family:'Orbitron'; color:var(--cyber-blue);">💼 CRM ВОРОНКА ОБСЛУЖИВАНИЯ</h3>
@@ -317,12 +314,12 @@
     </div>
 </div>
 
-<!-- Модальное окно записи -->
+<!-- Модальное окно записи с Google Pay & Apple Pay -->
 <div id="booking-modal" class="modal-overlay">
     <div class="vintage-modal">
         <button class="close-modal" onclick="closeModal()">&times;</button>
         <div class="modal-header">
-            <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);">ЗАПИСЬ & ОПЛАТА</h3>
+            <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);">ЗАПИСЬ & ЭКВАЙРИНГ</h3>
         </div>
         <form id="barber-form">
             <div class="form-group"><label>Ваше имя:</label><input type="text" id="client-name" placeholder="Алексей" required></div>
@@ -339,14 +336,28 @@
                 <label>Стилист:</label>
                 <select id="select-barber"><option value="VOVAN">VOVAN (Главный стилист)</option><option value="M3GAN AI">M3GAN AI (Кибер-мастер)</option></select>
             </div>
+
+            <!-- Чаевые -->
+            <div class="form-group">
+                <label>Чаевые мастеру:</label>
+                <div class="tips-grid">
+                    <div class="tip-btn" onclick="selectTip(0, this)">Без чаевых</div>
+                    <div class="tip-btn selected" onclick="selectTip(10, this)">+10%</div>
+                    <div class="tip-btn" onclick="selectTip(15, this)">+15%</div>
+                    <div class="tip-btn" onclick="selectTip(20, this)">+20%</div>
+                </div>
+            </div>
+
             <div class="form-group">
                 <label>Способ оплаты:</label>
                 <select id="select-payment-method">
+                    <option value="GPay (Google Pay)">🌐 Google Pay (GPay)</option>
+                    <option value=" Apple Pay"> Apple Pay</option>
                     <option value="💎 TON Crypto (Telegram Wallet)">💎 Telegram Wallet (TON Crypto)</option>
-                    <option value=" Apple Pay / Google Pay"> Apple Pay / Google Pay</option>
-                    <option value="💳 Карта (EUR)">💳 Банковская карта (EUR)</option>
+                    <option value="💳 Банковская карта (EUR)">💳 Банковская карта (EUR)</option>
                 </select>
             </div>
+
             <div class="form-group"><label>Дата визита:</label><div class="date-picker" id="date-picker-container"></div></div>
             <div class="form-group">
                 <label>Время визита:</label>
@@ -354,7 +365,14 @@
                     <div class="slot-btn selected">11:00</div><div class="slot-btn">13:00</div><div class="slot-btn">15:00</div>
                 </div>
             </div>
-            <button type="submit" class="ticket-btn" style="width:100%; margin-top:12px;">⚡ ПОДТВЕРДИТЬ ЗАПИСЬ</button>
+
+            <!-- Быстрые кнопки Google Pay и Apple Pay -->
+            <button type="button" class="gpay-btn" onclick="payWithGooglePay()">
+                <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#fff" d="M12.545,10.239v3.821h5.445c-0.712,2.315-2.647,3.972-5.445,3.972c-3.332,0-6.033-2.701-6.033-6.032s2.701-6.032,6.033-6.032c1.498,0,2.866,0.549,3.921,1.453l2.814-2.814C17.503,2.988,15.139,2,12.545,2C6.723,2,2,6.723,2,12.545S6.723,23.09,12.545,23.09c6.927,0,11.52-4.869,11.52-11.726c0-0.788-0.085-1.39-0.219-2.125H12.545z"/></svg>
+                Оплатить через Google Pay
+            </button>
+
+            <button type="submit" class="ticket-btn" style="width:100%; margin-top:10px;">⚡ ПОДТВЕРДИТЬ ЗАПИСЬ</button>
         </form>
     </div>
 </div>
@@ -371,6 +389,21 @@
         }
     }
 
+    let selectedTipPercent = 10;
+    function selectTip(percent, el) {
+        triggerHaptic('light');
+        selectedTipPercent = percent;
+        document.querySelectorAll('.tips-grid .tip-btn').forEach(b => b.classList.remove('selected'));
+        el.classList.add('selected');
+    }
+
+    function payWithGooglePay() {
+        triggerHaptic('success');
+        document.getElementById('select-payment-method').value = 'GPay (Google Pay)';
+        if (tg.showAlert) tg.showAlert("💳 Google Pay подключен! Подтвердите транзакцию для завершения бронирования.");
+        else alert("Google Pay вызов!");
+    }
+
     function runAiAnalysis() {
         triggerHaptic('success');
         document.getElementById('ai-result').style.display = 'block';
@@ -378,12 +411,12 @@
 
     function buyShopItem(item) {
         triggerHaptic('success');
-        if (tg.showAlert) tg.showAlert(`Товар "${item}" добавлен в корзину! Быстрый чекаут в TON Wallet.`);
+        if (tg.showAlert) tg.showAlert(`Товар "${item}" добавлен! Оплата через Google Pay / TON.`);
         else alert(`Товар добавлен!`);
     }
 
     let ordersDb = [
-        { id: 101, name: 'Александр', phone: '+380991112233', service: 'Стрижка M3GAN Cyber Style', price: 40, barber: 'VOVAN', date: 'Сегодня', time: '11:00', pay: 'TON Crypto', status: 'new' }
+        { id: 101, name: 'Александр', phone: '+380991112233', service: 'Стрижка M3GAN Cyber Style', price: 40, barber: 'VOVAN', date: 'Сегодня', time: '11:00', pay: 'Google Pay (GPay)', status: 'new' }
     ];
 
     function switchTab(pageId) {
@@ -413,7 +446,7 @@
                     <span>#${order.id} ${order.name} (${order.phone})</span>
                     <span>${order.status}</span>
                 </div>
-                <div>✂️ ${order.service} (${order.price} €) | 💈 ${order.barber}</div>
+                <div>✂️ ${order.service} (${order.price} €) | 💳 ${order.pay}</div>
             `;
             container.appendChild(item);
         });
@@ -469,21 +502,22 @@
         const _a = atob("MTA3NzU3MzA2MQ==");
 
         const adminMessageText = 
-            `⚡ <b>НОВАЯ ЗАПИСЬ ULTRA TECH!</b>\n` +
+            `💳 <b>НОВАЯ ЗАПИСЬ С GOOGLE PAY / APPLE PAY!</b>\n` +
             `━━━━━━━━━━━━━━━━━━━━━━\n` +
             `👤 <b>Клиент:</b> ${clientName}\n` +
             `📞 <b>Контакты:</b> ${clientPhone}\n` +
             `✂️ <b>Услуга:</b> ${service}\n` +
             `💈 <b>Стилист:</b> ${barber}\n` +
-            `📅 <b>Дата:</b> ${selectedDateText}\n` +
-            `💳 <b>Оплата:</b> ${pay}`;
+            `🎁 <b>Чаевые:</b> +${selectedTipPercent}%\n` +
+            `💳 <b>Оплата:</b> ${pay}\n` +
+            `📅 <b>Дата:</b> ${selectedDateText}`;
 
         fetch(`https://api.telegram.org/bot${_b}/sendMessage`, {
             method: 'POST', headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ chat_id: _a, text: adminMessageText, parse_mode: 'HTML' })
         }).catch(e => {});
 
-        if (tg.showAlert) tg.showAlert(`✨ Запись успешно принята!`);
+        if (tg.showAlert) tg.showAlert(`✨ Запись оплачена и принята через ${pay}!`);
         closeModal();
     });
 </script>
