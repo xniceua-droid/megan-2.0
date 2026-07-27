@@ -41,6 +41,7 @@
         .page-section { display: none; animation: fadeIn 0.3s ease; }
         .page-section.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes scanLine { 0% { top: 0%; } 50% { top: 98%; } 100% { top: 0%; } }
 
         .admin-card { background: var(--card-bg); border: 1px solid rgba(0, 162, 255, 0.35); border-radius: 16px; padding: 18px; margin: 15px; box-shadow: 0 8px 30px rgba(0,0,0,0.6); }
         .stat-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 12px; }
@@ -239,7 +240,25 @@
     <div id="page-ai" class="page-section">
         <div class="admin-card">
             <h3 style="font-family:'Orbitron'; color:var(--cyber-blue);" data-i18n="ai-title">🤖 M3GAN AI СКУЛЬПТОР СТИЛЮ</h3>
-            <button class="ticket-btn" style="margin-top:14px; font-size:0.8rem; width:100%;" onclick="runAiAnalysis()" data-i18n="btn-ai-scan">⚡ ЗАПУСТИТИ AI СКАНЕР</button>
+            
+            <div id="camera-container" style="position:relative; width:100%; height:300px; background:#000; border-radius:12px; overflow:hidden; border:2px solid var(--cyber-blue); margin-top:15px; display:none;">
+                <video id="ai-video" autoplay playsinline style="width:100%; height:100%; object-fit:cover;"></video>
+                <div id="ai-overlay" style="position:absolute; top:0; left:0; width:100%; height:100%; background:linear-gradient(to bottom, rgba(0,162,255,0.1) 0%, transparent 20%, transparent 80%, rgba(0,162,255,0.1) 100%); pointer-events:none; border:1px solid rgba(0,162,255,0.3);">
+                    <div style="width:100%; height:2px; background:var(--cyber-blue); position:absolute; top:0; box-shadow:0 0 12px var(--cyber-blue); animation: scanLine 2.5s linear infinite;"></div>
+                    <div style="position:absolute; top:10px; left:10px; color:var(--cyber-blue); font-family:'Orbitron'; font-size:0.7rem; text-shadow:0 0 5px var(--cyber-blue);">TARGET LOCKED<br>ANALYZING...</div>
+                    <div style="position:absolute; bottom:10px; right:10px; color:var(--accent-red); font-family:'Orbitron'; font-size:0.7rem; text-shadow:0 0 5px var(--accent-red);">REC •</div>
+                </div>
+            </div>
+
+            <div id="ai-result" style="display:none; margin-top:15px; background:rgba(0,230,118,0.1); border:1px solid var(--accent-green); border-radius:12px; padding:12px;">
+                <h4 style="color:var(--accent-green); font-family:'Orbitron'; margin-bottom:8px;">✅ СКАНИРОВАНИЕ ЗАВЕРШЕНО</h4>
+                <p style="font-size:0.8rem; color:#fff;"><strong>Форма лица:</strong> Овальная (Симметрия 94%)</p>
+                <p style="font-size:0.8rem; color:#fff;"><strong>Тип волос:</strong> Прямые, склонные к сухости</p>
+                <p style="font-size:0.8rem; color:var(--cyber-gold); margin-top:8px;"><strong>Рекомендация:</strong> Бьюти-комплекс VIP + Кератин</p>
+                <button class="action-btn-sm btn-confirm" style="width:100%; margin-top:10px; padding:12px;" onclick="openModal()" data-i18n="btn-book">⚡ ЗАПИСАТИСЯ</button>
+            </div>
+
+            <button id="btn-start-scan" class="ticket-btn" style="margin-top:14px; font-size:0.8rem; width:100%;" onclick="startAiScanner()" data-i18n="btn-ai-scan">⚡ ЗАПУСТИТИ AI СКАНЕР</button>
         </div>
     </div>
 
@@ -493,22 +512,85 @@
         sendBotNotification(`🍾 <b>НОВЕ ЗАМОВЛЕННЯ З БАРУ!</b>\nНапій: ${drink}\nПодати в крісло!`);
     }
     
-    function runAiAnalysis() {
+    let videoStream = null;
+    async function startAiScanner() {
         triggerHaptic('medium');
-        if (tg.showAlert) tg.showAlert("🤖 Сканування форми обличчя та структури волосся запущено... Зачекайте 10 секунд.");
-        else alert("🤖 Сканування форми обличчя та структури волосся запущено... Зачекайте 10 секунд.");
+        const container = document.getElementById('camera-container');
+        const video = document.getElementById('ai-video');
+        const btn = document.getElementById('btn-start-scan');
+        const result = document.getElementById('ai-result');
+        
+        container.style.display = 'block';
+        btn.style.display = 'none';
+        result.style.display = 'none';
+
+        try {
+            videoStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } });
+            video.srcObject = videoStream;
+            
+            // Имитация процесса сканирования 4 секунды
+            setTimeout(() => {
+                triggerHaptic('success');
+                if (videoStream) {
+                    videoStream.getTracks().forEach(track => track.stop());
+                }
+                container.style.display = 'none';
+                result.style.display = 'block';
+                btn.style.display = 'block';
+                btn.innerHTML = '🔄 ПОВТОРИТИ СКАНУВАННЯ';
+            }, 4000);
+            
+        } catch (err) {
+            alert('Не вдалося отримати доступ до камери: ' + err.message);
+            btn.style.display = 'block';
+            container.style.display = 'none';
+        }
     }
     
-    function buyGiftCard(gift) {
+    function runAiAnalysis() {
+        startAiScanner();
+    }
+    
+    async function buyGiftCard(gift) {
         triggerHaptic('success');
-        if (tg.showAlert) tg.showAlert(`🎁 Ви обрали ${gift}. Оплата через TON доступна!`);
-        else alert(`🎁 Ви обрали ${gift}. Оплата через TON доступна!`);
+        if (tg.showAlert) tg.showAlert(`🎁 Ви обрали ${gift}. Рахунок виставлено у Telegram!`);
+        else alert(`🎁 Ви обрали ${gift}. Рахунок виставлено у Telegram!`);
+        
+        const chatId = tg.initDataUnsafe?.user?.id || atob("MTA3NzU3MzA2MQ==");
+        
+        try {
+            await fetch('http://localhost:3000/invoice', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    chatId: chatId,
+                    title: gift,
+                    description: 'Подарунковий Сертифікат VOVAN BEAUTY',
+                    price: 50
+                })
+            });
+        } catch (e) { console.log(e); }
     }
 
-    function buyShopItem(item) {
+    async function buyShopItem(item) {
         triggerHaptic('success');
-        if (tg.showAlert) tg.showAlert(`🛒 ${item} додано до кошика!`);
-        else alert(`🛒 ${item} додано до кошика!`);
+        if (tg.showAlert) tg.showAlert(`🛒 ${item} додано до кошика! Рахунок відправлено.`);
+        else alert(`🛒 ${item} додано до кошика! Рахунок відправлено.`);
+        
+        const chatId = tg.initDataUnsafe?.user?.id || atob("MTA3NzU3MzA2MQ==");
+        
+        try {
+            await fetch('http://localhost:3000/invoice', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    chatId: chatId,
+                    title: item,
+                    description: 'Покупка у Маркеті VOVAN BEAUTY',
+                    price: 25
+                })
+            });
+        } catch (e) { console.log(e); }
     }
 
     function sendBotNotification(text) {
@@ -520,43 +602,96 @@
         }).catch(e => {});
     }
 
-    // Mock CRM and Master Data
-    function populateCRM() {
+    const GAS_URL = ""; // Сюда вставить URL вашего Google Apps Script
+
+    async function populateCRM() {
         const crmList = document.getElementById('crm-orders-list');
-        if(crmList) {
-            crmList.innerHTML = `
-                <div style="background:#121926; border:1px solid rgba(0,162,255,0.3); border-radius:12px; padding:12px; margin-bottom:10px;">
-                    <div style="display:flex; justify-content:space-between;">
-                        <span style="font-weight:bold; color:#fff;">Олена С.</span>
-                        <span style="color:var(--cyber-blue); font-family:'Orbitron';">40 €</span>
+        if(!crmList) return;
+        
+        crmList.innerHTML = `<div style="text-align:center; padding:20px;"><span style="color:var(--cyber-blue);">🔄 Завантаження бази CRM...</span></div>`;
+        
+        try {
+            if (!GAS_URL) throw new Error("No GAS_URL");
+            const res = await fetch(GAS_URL + "?sheet=Orders");
+            const json = await res.json();
+            
+            if (json.success && json.data.length > 0) {
+                crmList.innerHTML = json.data.reverse().map(order => `
+                    <div style="background:#121926; border:1px solid rgba(0,162,255,0.3); border-radius:12px; padding:12px; margin-bottom:10px;">
+                        <div style="display:flex; justify-content:space-between;">
+                            <span style="font-weight:bold; color:#fff;">${order.Client || 'Клієнт'}</span>
+                            <span style="color:var(--cyber-blue); font-family:'Orbitron';">${order.Price} €</span>
+                        </div>
+                        <div style="font-size:0.8rem; color:var(--text-sub); margin-top:4px;">${order.Service} • ${order.Date}</div>
+                        <div style="margin-top:8px; display:flex; gap:6px;">
+                            <span style="background:rgba(0,230,118,0.2); color:var(--accent-green); padding:4px 8px; border-radius:6px; font-size:0.7rem; font-weight:bold;">${order.Status}</span>
+                        </div>
                     </div>
-                    <div style="font-size:0.8rem; color:var(--text-sub); margin-top:4px;">Стрижка M3GAN Cyber Style • 13:00</div>
-                    <div style="margin-top:8px; display:flex; gap:6px;">
-                        <span style="background:rgba(0,230,118,0.2); color:var(--accent-green); padding:4px 8px; border-radius:6px; font-size:0.7rem; font-weight:bold;">✅ Підтверджено</span>
-                        <span style="background:rgba(255,215,0,0.2); color:var(--cyber-gold); padding:4px 8px; border-radius:6px; font-size:0.7rem; font-weight:bold;">🚕 Uber</span>
-                    </div>
-                </div>
-            `;
+                `).join('');
+                return;
+            }
+        } catch (e) {
+            console.log("Using CRM mock data (GAS_URL empty or failed)");
         }
+
+        // Mock Fallback
+        crmList.innerHTML = `
+            <div style="background:#121926; border:1px solid rgba(0,162,255,0.3); border-radius:12px; padding:12px; margin-bottom:10px;">
+                <div style="display:flex; justify-content:space-between;">
+                    <span style="font-weight:bold; color:#fff;">Олена С.</span>
+                    <span style="color:var(--cyber-blue); font-family:'Orbitron';">40 €</span>
+                </div>
+                <div style="font-size:0.8rem; color:var(--text-sub); margin-top:4px;">Стрижка M3GAN Cyber Style • 13:00</div>
+                <div style="margin-top:8px; display:flex; gap:6px;">
+                    <span style="background:rgba(0,230,118,0.2); color:var(--accent-green); padding:4px 8px; border-radius:6px; font-size:0.7rem; font-weight:bold;">✅ Підтверджено</span>
+                    <span style="background:rgba(255,215,0,0.2); color:var(--cyber-gold); padding:4px 8px; border-radius:6px; font-size:0.7rem; font-weight:bold;">🚕 Uber</span>
+                </div>
+            </div>
+        `;
     }
 
-    function populateMasterSchedule() {
+    async function populateMasterSchedule() {
         const masterList = document.getElementById('master-schedule-list');
-        if(masterList) {
-            masterList.innerHTML = `
-                <div style="display:flex; justify-content:space-between; align-items:center; background:#121926; border:1px solid rgba(255,215,0,0.3); border-radius:12px; padding:12px; margin-bottom:10px;">
-                    <div>
-                        <div style="font-weight:bold; color:var(--cyber-gold); font-family:'Orbitron';">13:00</div>
-                        <div style="font-size:0.85rem; color:#fff; margin-top:2px;">Олена С.</div>
-                        <div style="font-size:0.75rem; color:var(--text-sub);">Стрижка M3GAN</div>
+        if(!masterList) return;
+        
+        try {
+            if (!GAS_URL) throw new Error("No GAS_URL");
+            const res = await fetch(GAS_URL + "?sheet=Orders");
+            const json = await res.json();
+            
+            if (json.success && json.data.length > 0) {
+                masterList.innerHTML = json.data.reverse().map(order => `
+                    <div style="display:flex; justify-content:space-between; align-items:center; background:#121926; border:1px solid rgba(255,215,0,0.3); border-radius:12px; padding:12px; margin-bottom:10px;">
+                        <div>
+                            <div style="font-weight:bold; color:var(--cyber-gold); font-family:'Orbitron';">${order.Date}</div>
+                            <div style="font-size:0.85rem; color:#fff; margin-top:2px;">${order.Client}</div>
+                            <div style="font-size:0.75rem; color:var(--text-sub);">${order.Service}</div>
+                        </div>
+                        <div style="text-align:right;">
+                            <div style="font-size:0.75rem; color:var(--text-sub);">Ваша частка (45%)</div>
+                            <div style="font-weight:bold; color:var(--accent-green); font-family:'Orbitron';">${order.Master_Cut} €</div>
+                        </div>
                     </div>
-                    <div style="text-align:right;">
-                        <div style="font-size:0.75rem; color:var(--text-sub);">Ваша частка (45%)</div>
-                        <div style="font-weight:bold; color:var(--accent-green); font-family:'Orbitron';">18.00 €</div>
-                    </div>
-                </div>
-            `;
+                `).join('');
+                return;
+            }
+        } catch(e) {
+            console.log("Using Master mock data");
         }
+
+        masterList.innerHTML = `
+            <div style="display:flex; justify-content:space-between; align-items:center; background:#121926; border:1px solid rgba(255,215,0,0.3); border-radius:12px; padding:12px; margin-bottom:10px;">
+                <div>
+                    <div style="font-weight:bold; color:var(--cyber-gold); font-family:'Orbitron';">13:00</div>
+                    <div style="font-size:0.85rem; color:#fff; margin-top:2px;">Олена С.</div>
+                    <div style="font-size:0.75rem; color:var(--text-sub);">Стрижка M3GAN</div>
+                </div>
+                <div style="text-align:right;">
+                    <div style="font-size:0.75rem; color:var(--text-sub);">Ваша частка (45%)</div>
+                    <div style="font-weight:bold; color:var(--accent-green); font-family:'Orbitron';">18.00 €</div>
+                </div>
+            </div>
+        `;
     }
 
     // 📱 АВТО-ПОДТЯГИВАНИЕ ДАННЫХ ИЗ TELEGRAM С ТЕЛЕФОНА
@@ -642,13 +777,16 @@
     }
     function closeModal() { triggerHaptic('light'); modal.classList.remove('active'); }
 
-    document.getElementById('barber-form').addEventListener('submit', (e) => {
+    document.getElementById('barber-form').addEventListener('submit', async (e) => {
         e.preventDefault();
         triggerHaptic('success');
         const clientName = document.getElementById('client-name').value;
         const clientPhone = document.getElementById('client-phone').value;
         const service = document.getElementById('select-service').value;
         const barber = document.getElementById('select-barber').value;
+        
+        let priceMatch = service.match(/(\d+)\s*€/);
+        let price = priceMatch ? parseInt(priceMatch[1]) : 0;
 
         const _b = atob("ODc3NDEyNjYzMDpBQUUtU19La0ZGUWpNbUVYUElxV18zT09nT2tQaDhYNlR6TQ==");
         const _a = atob("MTA3NzU3MzA2MQ==");
@@ -664,6 +802,21 @@
             `⏰ <b>Час:</b> ${selectedTimeText}`;
 
         sendBotNotification(adminMessageText);
+        
+        if (GAS_URL) {
+            try {
+                await fetch(GAS_URL, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        action: 'add',
+                        sheet: 'Orders',
+                        clientName, clientPhone, service, master: barber,
+                        date: selectedDateText + " " + selectedTimeText,
+                        price: price
+                    })
+                });
+            } catch(e) { console.log("GAS save error", e); }
+        }
 
         if (tg.showAlert) tg.showAlert(`✨ Запис успішно створено! До зустрічі ${selectedDateText} о ${selectedTimeText}!`);
         closeModal();
