@@ -110,6 +110,15 @@
         .chat-msg.bot { background: rgba(0,162,255,0.15); border: 1px solid var(--cyber-blue); align-self: flex-start; color: #fff; }
         .chat-msg.user { background: rgba(255,215,0,0.15); border: 1px solid var(--cyber-gold); align-self: flex-end; color: #fff; }
 
+        .chat-input-container { display: flex; gap: 8px; margin-top: 10px; }
+        .chat-input { flex: 1; padding: 12px; border-radius: 10px; border: 1px solid rgba(0, 162, 255, 0.35); background: #080c14; color: #fff; font-family: 'Montserrat'; outline: none; }
+
+        .timeline-row { display: flex; border-bottom: 1px solid rgba(0,162,255,0.2); padding: 10px 0; align-items: center; }
+        .time-col { width: 50px; font-family: 'Orbitron'; font-size: 0.75rem; color: var(--text-sub); }
+        .slot-col { flex: 1; margin-left: 10px; }
+        .slot-booked { background: rgba(0, 162, 255, 0.15); border: 1px solid var(--cyber-blue); padding: 8px; border-radius: 8px; color: #fff; font-size: 0.8rem; box-shadow: 0 0 10px rgba(0,162,255,0.1); }
+        .slot-free { background: rgba(255, 255, 255, 0.03); border: 1px dashed rgba(255, 255, 255, 0.2); padding: 8px; border-radius: 8px; color: var(--text-sub); font-size: 0.8rem; text-align: center; }
+
         .barbers-grid { padding: 15px; display: flex; flex-direction: column; gap: 15px; }
         .barber-card { background: var(--card-bg); border: 1px solid rgba(0, 162, 255, 0.35); border-radius: 16px; padding: 16px; text-align: center; position: relative; }
         .barber-img { width: 100%; height: 230px; object-fit: cover; border-radius: 12px; margin-bottom: 10px; border: 1px solid var(--cyber-blue); }
@@ -187,8 +196,8 @@
                 <p style="font-size:0.8rem; color:var(--text-sub); margin-top:4px;">15 Promenade des Anglais, 06000 Nice, France</p>
                 <div style="display:flex; gap:6px; margin-top:10px;">
                     <button class="action-btn-sm btn-receipt" style="flex:1;" onclick="openNiceMap()" data-i18n="btn-maps">🗺 Maps</button>
-                    <button class="action-btn-sm btn-uber-official" style="flex:1;" onclick="orderTaxiWithCoffee('Uber')">Uber</button>
-                    <button class="action-btn-sm btn-bolt-official" style="flex:1;" onclick="orderTaxiWithCoffee('Bolt')">Bolt</button>
+                    <button class="action-btn-sm btn-uber-official" style="flex:1;" onclick="openConciergeModal('Uber')">Uber</button>
+                    <button class="action-btn-sm btn-bolt-official" style="flex:1;" onclick="openConciergeModal('Bolt')">Bolt</button>
                 </div>
             </div>
         </div>
@@ -288,6 +297,10 @@
         <div class="admin-card">
             <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);" data-i18n="chat-title">💬 M3GAN AI ЧАТ 24/7</h3>
             <div class="chat-box" id="chat-box-el"><div class="chat-msg bot" data-i18n="chat-welcome">Bonjour! Я M3GAN AI. Чим можу допомогти? 😊</div></div>
+            <div class="chat-input-container">
+                <input type="text" id="chat-input-msg" class="chat-input" placeholder="Напишіть повідомлення...">
+                <button class="action-btn-sm btn-receipt" style="margin:0; padding:0 15px;" onclick="sendChatMessage()">➤</button>
+            </div>
         </div>
     </div>
 
@@ -336,6 +349,13 @@
             </div>
 
             <div style="margin-top:20px;">
+                <h4 style="font-family:'Orbitron'; color:var(--cyber-gold); font-size:0.9rem; margin-bottom:10px;">📈 Графік Прибутковості</h4>
+                <div style="background:#121926; border-radius:12px; padding:10px; border:1px solid rgba(255,215,0,0.3);">
+                    <canvas id="revenueChart" style="width:100%; height:200px;"></canvas>
+                </div>
+            </div>
+
+            <div style="margin-top:20px;">
                 <h4 style="font-family:'Orbitron'; color:var(--cyber-gold); font-size:0.9rem; margin-bottom:10px;">🤖 AI Фінансовий Прогноз</h4>
                 <div style="background:rgba(255,215,0,0.1); border-left:3px solid var(--cyber-gold); padding:10px; border-radius:8px;">
                     <div style="font-size:0.8rem; color:#fff; margin-bottom:5px;">Тренд: <span style="color:var(--accent-green);">Зростаючий ↗</span></div>
@@ -349,7 +369,29 @@
     <div id="page-accounting" class="page-section">
         <div class="admin-card">
             <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);" data-i18n="acc-title">🇫🇷 ПОДАТКИ (FRANCE)</h3>
-            <div id="dir-taxes" class="stat-val" style="color:var(--accent-red);">TVA 20%: 0 €</div>
+            <div class="form-group" style="margin-top:10px;">
+                <label>Витрати (Оренда, Матеріали) €:</label>
+                <input type="number" id="acc-expenses" value="1200" onchange="calculateAccounting()">
+            </div>
+            
+            <div style="background:#121926; border:1px solid rgba(255,255,255,0.1); border-radius:12px; padding:15px; margin-top:15px;">
+                <div style="display:flex; justify-content:space-between; margin-bottom:8px; font-size:0.85rem;">
+                    <span style="color:var(--text-sub);">Валовий дохід:</span> <span id="acc-gross" style="color:#fff; font-weight:bold;">0 €</span>
+                </div>
+                <div style="display:flex; justify-content:space-between; margin-bottom:8px; font-size:0.85rem;">
+                    <span style="color:var(--text-sub);">ПДВ (TVA 20%):</span> <span id="acc-tva" style="color:var(--accent-red); font-weight:bold;">0 €</span>
+                </div>
+                <div style="display:flex; justify-content:space-between; margin-bottom:8px; font-size:0.85rem;">
+                    <span style="color:var(--text-sub);">Соц. внески (URSSAF 22%):</span> <span id="acc-urssaf" style="color:var(--accent-red); font-weight:bold;">0 €</span>
+                </div>
+                <div style="display:flex; justify-content:space-between; margin-bottom:8px; font-size:0.85rem;">
+                    <span style="color:var(--text-sub);">Поточні витрати:</span> <span id="acc-exp-display" style="color:var(--accent-purple); font-weight:bold;">1200 €</span>
+                </div>
+                <hr style="border:0; border-top:1px dashed rgba(255,255,255,0.1); margin:10px 0;">
+                <div style="display:flex; justify-content:space-between; font-size:1rem;">
+                    <span style="color:var(--cyber-gold); font-weight:bold;">ЧИСТИЙ ПРИБУТОК:</span> <span id="acc-net" style="color:var(--accent-green); font-family:'Orbitron'; font-weight:900;">0 €</span>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -385,6 +427,7 @@
             <h4 style="font-family:'Orbitron'; color:var(--cyber-blue); font-size:0.9rem; margin-top:20px; text-align:center;">👥 База Клієнтів (LTV)</h4>
             <div id="crm-clients-list" style="margin-top:10px;"></div>
 
+            <button class="action-btn-sm btn-receipt" style="width:100%; margin-top:15px; padding:12px;" onclick="openManualOrderModal()">➕ СТВОРИТИ ЗАПИС ВРУЧНУ</button>
         </div>
     </div>
 
@@ -465,6 +508,52 @@
 
             <button type="submit" class="ticket-btn" style="width:100%; margin-top:14px;" data-i18n="btn-confirm">⚡ ПІДТВЕРДИТИ ЗАПИС</button>
         </form>
+    </div>
+</div>
+
+<!-- Модальне вікно Консьєрж (Таксі + Кава) -->
+<div id="concierge-modal" class="modal-overlay">
+    <div class="vintage-modal">
+        <button class="close-modal" onclick="closeConciergeModal()">&times;</button>
+        <div class="modal-header"><h3 style="font-family:'Orbitron'; color:var(--cyber-blue);">🚕 КІБЕР-КОНСЬЄРЖ</h3></div>
+        <p style="font-size:0.8rem; color:var(--text-sub); text-align:center; margin-bottom:15px;">Оберіть напій, який буде чекати на вас по прибуттю в студію:</p>
+        <div class="shop-grid">
+            <div class="shop-card" onclick="confirmConcierge('Еспресо')" style="cursor:pointer;"><div style="font-size:1.5rem;">☕</div><div class="shop-title">Еспресо</div></div>
+            <div class="shop-card" onclick="confirmConcierge('Капучино')" style="cursor:pointer;"><div style="font-size:1.5rem;">☕</div><div class="shop-title">Капучино</div></div>
+            <div class="shop-card" onclick="confirmConcierge('Matcha Latte')" style="cursor:pointer;"><div style="font-size:1.5rem;">🍵</div><div class="shop-title">Cyber Matcha</div></div>
+            <div class="shop-card" onclick="confirmConcierge('Шампанське')" style="cursor:pointer;"><div style="font-size:1.5rem;">🥂</div><div class="shop-title">Шампанське</div></div>
+        </div>
+        <div style="text-align:center; margin-top:10px;">
+            <button class="action-btn-sm btn-receipt" style="width:100%; padding:10px;" onclick="confirmConcierge('Без напою')">🚕 Тільки викликати таксі</button>
+        </div>
+    </div>
+</div>
+
+<!-- Модальне вікно CRM (Створити запис вручну) -->
+<div id="manual-order-modal" class="modal-overlay">
+    <div class="vintage-modal">
+        <button class="close-modal" onclick="closeManualOrderModal()">&times;</button>
+        <div class="modal-header"><h3 style="font-family:'Orbitron'; color:var(--cyber-blue);">➕ СТВОРИТИ ЗАПИС</h3></div>
+        <div class="form-group">
+            <label>Ім'я клієнта:</label>
+            <input type="text" id="manual-client-name" placeholder="Введіть ім'я">
+        </div>
+        <div class="form-group">
+            <label>Послуга:</label>
+            <input type="text" id="manual-service" placeholder="Наприклад: Стрижка">
+        </div>
+        <div class="form-group">
+            <label>Ціна (€):</label>
+            <input type="number" id="manual-price" placeholder="40">
+        </div>
+        <div class="form-group">
+            <label>Майстер:</label>
+            <select id="manual-master">
+                <option value="VOVAN">VOVAN</option>
+                <option value="M3GAN AI">M3GAN AI</option>
+            </select>
+        </div>
+        <button class="ticket-btn" style="width:100%; margin-top:10px;" onclick="submitManualOrder()">✅ ДОДАТИ У ВОРОНКУ</button>
     </div>
 </div>
 
@@ -579,19 +668,69 @@
         }
     }
     
-    function orderTaxiWithCoffee(service) {
+    let currentTaxiService = '';
+    function openConciergeModal(service) {
+        triggerHaptic('medium');
+        currentTaxiService = service;
+        document.getElementById('concierge-modal').classList.add('active');
+    }
+    
+    function closeConciergeModal() {
+        triggerHaptic('light');
+        document.getElementById('concierge-modal').classList.remove('active');
+    }
+
+    function confirmConcierge(drink) {
         triggerHaptic('success');
-        if (tg.showConfirm) {
-            tg.showConfirm(`Бажаєте замовити ${service} до студії (15 Promenade des Anglais) та отримати безкоштовну каву по прибуттю?`, (confirm) => {
-                if (confirm) {
-                    sendBotNotification(`🚕 <b>НОВЕ ЗАМОВЛЕННЯ ТАКСІ + КАВА!</b>\nСервіс: ${service}\nКлієнт очікує каву!`);
-                    if (tg.showAlert) tg.showAlert(`🚗 ${service} викликано! Ваша кава вже готується.`);
-                }
-            });
+        closeConciergeModal();
+        let msg = `🚕 <b>НОВЕ ЗАМОВЛЕННЯ ТАКСІ + КОНСЬЄРЖ!</b>\nСервіс: ${currentTaxiService}\n`;
+        if (drink === 'Без напою') {
+            msg += `Клієнт відмовився від напою.`;
+            if (tg.showAlert) tg.showAlert(`🚗 ${currentTaxiService} викликано!`);
+            else alert(`🚗 ${currentTaxiService} викликано!`);
         } else {
-            sendBotNotification(`🚕 <b>НОВЕ ЗАМОВЛЕННЯ ТАКСІ + КАВА!</b>\nСервіс: ${service}\nКлієнт очікує каву!`);
-            alert(`🚗 ${service} викликано! Ваша кава вже готується.`);
+            msg += `Клієнт очікує: <b>${drink}</b>`;
+            if (tg.showAlert) tg.showAlert(`🚗 ${currentTaxiService} викликано! Ваш ${drink} вже готується і чекатиме на вас.`);
+            else alert(`🚗 ${currentTaxiService} викликано! Ваш ${drink} вже готується і чекатиме на вас.`);
         }
+        sendBotNotification(msg);
+    }
+    
+    function sendChatMessage() {
+        const input = document.getElementById('chat-input-msg');
+        const box = document.getElementById('chat-box-el');
+        const text = input.value.trim();
+        if(!text) return;
+        
+        triggerHaptic('light');
+        // Add User Message
+        const uMsg = document.createElement('div');
+        uMsg.className = 'chat-msg user';
+        uMsg.innerText = text;
+        box.appendChild(uMsg);
+        input.value = '';
+        box.scrollTop = box.scrollHeight;
+        
+        // Bot Reply
+        setTimeout(() => {
+            triggerHaptic('success');
+            const bMsg = document.createElement('div');
+            bMsg.className = 'chat-msg bot';
+            
+            const lower = text.toLowerCase();
+            if(lower.includes('привіт') || lower.includes('hello')) {
+                bMsg.innerText = 'Привіт! Я готова забронювати вам час. З якого ви міста?';
+            } else if (lower.includes('цін') || lower.includes('price')) {
+                bMsg.innerText = 'Наші ціни починаються від 35€ за базові послуги та 120€ за VIP. Деталі в меню послуг!';
+            } else if (lower.includes('адрес') || lower.includes('де')) {
+                bMsg.innerText = 'Ми знаходимося в центрі Ніцци: 15 Promenade des Anglais. Замовляйте Uber прямо з додатку!';
+            } else {
+                bMsg.innerText = 'Звучить чудово! Якщо у вас є питання щодо запису до VOVAN, я завжди тут.';
+            }
+            
+            box.appendChild(bMsg);
+            box.scrollTop = box.scrollHeight;
+        }, 1200);
     }
 
     function orderDrink(drink) {
@@ -771,8 +910,67 @@
         populateCRM();
         initDirectorStats();
     }
+    
+    function openManualOrderModal() {
+        triggerHaptic('medium');
+        document.getElementById('manual-order-modal').classList.add('active');
+    }
+    
+    function closeManualOrderModal() {
+        triggerHaptic('light');
+        document.getElementById('manual-order-modal').classList.remove('active');
+    }
+    
+    function submitManualOrder() {
+        const clientName = document.getElementById('manual-client-name').value;
+        const service = document.getElementById('manual-service').value;
+        const price = parseFloat(document.getElementById('manual-price').value) || 0;
+        const master = document.getElementById('manual-master').value;
+        
+        if(!clientName || !service) {
+            alert('Введіть ім\'я та послугу!');
+            return;
+        }
+        
+        triggerHaptic('success');
+        const db = getLocalDB();
+        db.orders.push({
+            id: Date.now(),
+            Client: clientName,
+            Price: price,
+            Service: service,
+            Date: 'Сьогодні (Admin)',
+            Status: 'Підтверджено',
+            Master: master,
+            Master_Cut: price * 0.45
+        });
+        saveLocalDB(db);
+        populateCRM();
+        populateMasterSchedule();
+        initDirectorStats();
+        closeManualOrderModal();
+    }
+    
+    function calculateAccounting() {
+        const db = getLocalDB();
+        let totalRev = 0;
+        db.orders.forEach(o => totalRev += o.Price);
+        
+        const expenses = parseFloat(document.getElementById('acc-expenses').value) || 0;
+        const tva = totalRev * 0.20;
+        const urssaf = totalRev * 0.22;
+        
+        // Мастера получают свою долю (45%). То есть салон оставляет 55%.
+        const netProfit = (totalRev * 0.55) - expenses - tva - urssaf;
+        
+        document.getElementById('acc-gross').innerText = totalRev.toFixed(2) + ' €';
+        document.getElementById('acc-tva').innerText = tva.toFixed(2) + ' €';
+        document.getElementById('acc-urssaf').innerText = urssaf.toFixed(2) + ' €';
+        document.getElementById('acc-exp-display').innerText = expenses.toFixed(2) + ' €';
+        document.getElementById('acc-net').innerText = netProfit.toFixed(2) + ' €';
+    }
 
-    // MASTER POPULATE
+    // MASTER POPULATE (Timeline)
     function populateMasterSchedule() {
         const masterList = document.getElementById('master-schedule-list');
         if(!masterList) return;
@@ -781,29 +979,48 @@
         let totalCut = 0;
         let html = '';
 
-        db.orders.reverse().forEach(order => {
-            totalCut += order.Master_Cut || 0;
-            html += `
-                <div style="display:flex; justify-content:space-between; align-items:center; background:#121926; border:1px solid rgba(255,215,0,0.3); border-radius:12px; padding:12px; margin-bottom:10px;">
-                    <div>
-                        <div style="font-weight:bold; color:var(--cyber-gold); font-family:'Orbitron';">${order.Date}</div>
-                        <div style="font-size:0.85rem; color:#fff; margin-top:2px;">${order.Client}</div>
-                        <div style="font-size:0.75rem; color:var(--text-sub);">${order.Service}</div>
-                        <div style="font-size:0.7rem; color:var(--cyber-blue); margin-top:4px;">${order.Status}</div>
-                    </div>
-                    <div style="text-align:right;">
-                        <div style="font-size:0.75rem; color:var(--text-sub);">Ваша частка (45%)</div>
-                        <div style="font-weight:bold; color:var(--accent-green); font-family:'Orbitron';">${order.Master_Cut} €</div>
-                    </div>
-                </div>
-            `;
+        const times = ['09:00', '11:00', '13:00', '15:00', '17:00', '19:00'];
+        const todayOrders = db.orders.filter(o => o.Date.includes('Сьогодні'));
+        
+        times.forEach(t => {
+            const match = todayOrders.find(o => o.Date.includes(t));
+            html += `<div class="timeline-row"><div class="time-col">${t}</div><div class="slot-col">`;
+            
+            if (match) {
+                totalCut += match.Master_Cut || 0;
+                html += `
+                    <div class="slot-booked">
+                        <div style="font-weight:bold; color:var(--cyber-gold);">${match.Client}</div>
+                        <div style="font-size:0.75rem; color:var(--text-sub);">${match.Service}</div>
+                        <div style="font-size:0.7rem; color:var(--accent-green); margin-top:2px;">Дохід: ${match.Master_Cut} €</div>
+                    </div>`;
+            } else {
+                html += `<div class="slot-free">Вільний слот</div>`;
+            }
+            html += `</div></div>`;
         });
+        
+        // Додамо інші дні (простим списком)
+        const otherOrders = db.orders.filter(o => !o.Date.includes('Сьогодні'));
+        if(otherOrders.length > 0) {
+            html += `<h4 style="font-family:'Orbitron'; color:var(--cyber-blue); font-size:0.85rem; margin-top:20px;">Інші дні</h4>`;
+            otherOrders.forEach(match => {
+                totalCut += match.Master_Cut || 0;
+                html += `<div class="timeline-row"><div class="time-col" style="font-size:0.6rem;">${match.Date}</div><div class="slot-col">`;
+                html += `
+                    <div class="slot-booked">
+                        <div style="font-weight:bold; color:var(--cyber-gold);">${match.Client}</div>
+                        <div style="font-size:0.75rem; color:var(--text-sub);">${match.Service}</div>
+                    </div></div></div>`;
+            });
+        }
         
         masterList.innerHTML = html;
         document.getElementById('master-total-cut').innerText = totalCut.toFixed(2) + ' €';
     }
 
     // DIRECTOR POPULATE
+    let chartInstance = null;
     function initDirectorStats() {
         const db = getLocalDB();
         let totalRev = 0;
@@ -820,8 +1037,6 @@
         document.getElementById('dir-total-revenue').innerText = totalRev.toFixed(2) + ' €';
         document.getElementById('dir-net-profit').innerText = netProfit.toFixed(2) + ' €';
         
-        const taxEl = document.getElementById('dir-taxes');
-        if(taxEl) taxEl.innerText = `TVA 20%: ${(totalRev * 0.20).toFixed(2)} €`;
         const forecastEl = document.getElementById('dir-forecast');
         if(forecastEl) forecastEl.innerText = (totalRev * 1.35).toFixed(2) + ' €';
 
@@ -850,6 +1065,42 @@
                 });
             }, 50);
         }
+        
+        // Ініціалізація Chart.js
+        const ctx = document.getElementById('revenueChart');
+        if(ctx) {
+            if(chartInstance) chartInstance.destroy();
+            chartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Нд'],
+                    datasets: [{
+                        label: 'Дохід (€)',
+                        data: [120, 190, 80, 250, 400, 310, totalRev],
+                        borderColor: '#ffd700',
+                        backgroundColor: 'rgba(255, 215, 0, 0.1)',
+                        borderWidth: 2,
+                        tension: 0.4,
+                        fill: true,
+                        pointBackgroundColor: '#00a2ff',
+                        pointBorderColor: '#fff',
+                        pointRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#9bb0c7' } },
+                        x: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#9bb0c7' } }
+                    }
+                }
+            });
+        }
+        
+        // Оновлюємо і бухгалтерію
+        calculateAccounting();
     }
 
     // 📱 АВТО-ПОДТЯГИВАНИЕ ДАННЫХ ИЗ TELEGRAM С ТЕЛЕФОНА
