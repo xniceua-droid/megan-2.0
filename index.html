@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>VOVAN BEAUTY STUDIO — Nice VIP Bar, Bolt & Uber Edition</title>
+    <title>VOVAN BEAUTY STUDIO — Nice Coffee Taxi Edition</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -58,8 +58,6 @@
         .bar-title { font-size: 0.85rem; font-weight: bold; color: #fff; margin-top: 4px; }
         .bar-price { font-family: 'Orbitron', sans-serif; color: var(--cyber-gold); font-weight: 900; margin: 4px 0; font-size: 0.9rem; }
 
-        #sig-canvas { border: 2px dashed #000; border-radius: 8px; background: #fff; width: 100%; height: 110px; margin-top: 8px; cursor: crosshair; }
-
         .badges-grid { display: flex; gap: 8px; margin-top: 10px; overflow-x: auto; padding-bottom: 4px; }
         .badge-card { min-width: 105px; background: #121926; border: 1px solid rgba(255,215,0,0.3); border-radius: 10px; padding: 8px; text-align: center; font-size: 0.72rem; }
 
@@ -102,13 +100,15 @@
         .orders-list { margin-top: 12px; }
         .order-card-pipeline { background: #121926; border-left: 4px solid var(--cyber-blue); padding: 12px; border-radius: 10px; margin-bottom: 10px; font-size: 0.8rem; box-shadow: 0 4px 15px rgba(0,0,0,0.4); }
 
-        .action-btn-sm { padding: 6px 12px; border-radius: 6px; font-size: 0.72rem; font-weight: bold; border: none; cursor: pointer; margin-right: 4px; margin-top: 6px; }
+        .action-btn-sm { padding: 6px 12px; border-radius: 6px; font-size: 0.72rem; font-weight: bold; border: none; cursor: pointer; margin-right: 4px; margin-top: 6px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
         .btn-confirm { background: var(--accent-green); color: #000; }
         .btn-progress { background: var(--cyber-gold); color: #000; }
         .btn-done { background: var(--accent-purple); color: #fff; }
         .btn-receipt { background: var(--cyber-blue); color: #fff; }
-        .btn-uber { background: #000; color: #fff; border: 1px solid #333; }
-        .btn-bolt { background: #34c759; color: #fff; border: 1px solid #28a745; }
+        
+        /* Кнопки Uber и Bolt с логотипами */
+        .btn-uber-official { background: #000; color: #fff; border: 1px solid #fff; }
+        .btn-bolt-official { background: #34C759; color: #fff; border: 1px solid #28a745; }
 
         .chart-container { position: relative; height: 190px; margin-top: 12px; }
 
@@ -211,10 +211,20 @@
             <div class="location-card">
                 <div class="location-title">📍 СТУДИЯ В НИЦЦЕ (CÔTE D'AZUR)</div>
                 <p style="font-size:0.8rem; color:var(--text-sub); margin-top:4px;">15 Promenade des Anglais, 06000 Nice, France</p>
-                <div style="display:flex; gap:6px; margin-top:8px;">
+                <div style="display:flex; gap:6px; margin-top:10px;">
                     <button class="action-btn-sm btn-receipt" style="flex:1;" onclick="openNiceMap()">🗺 Maps</button>
-                    <button class="action-btn-sm btn-uber" style="flex:1;" onclick="callUberToStudio()">🚖 Uber</button>
-                    <button class="action-btn-sm btn-bolt" style="flex:1;" onclick="callBoltToStudio()">⚡ Bolt</button>
+                    
+                    <!-- Официальная кнопка Uber -->
+                    <button class="action-btn-sm btn-uber-official" style="flex:1;" onclick="orderTaxiWithCoffee('Uber')">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="#fff"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/><path d="M7 11h10v2H7z"/></svg>
+                        Uber
+                    </button>
+                    
+                    <!-- Официальная кнопка Bolt -->
+                    <button class="action-btn-sm btn-bolt-official" style="flex:1;" onclick="orderTaxiWithCoffee('Bolt')">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="#fff"><path d="M13 2L3 14h7v8l10-12h-7z"/></svg>
+                        Bolt
+                    </button>
                 </div>
             </div>
 
@@ -317,17 +327,14 @@
     <div id="page-ai" class="page-section">
         <div class="admin-card">
             <h3 style="font-family:'Orbitron'; color:var(--cyber-blue);" id="ai-title">🤖 M3GAN AI СКУЛЬПТОР СТИЛЯ</h3>
-            <p style="font-size:0.8rem; color:var(--text-sub); margin-top:4px;" id="ai-subtitle">Загрузите селфи для автоматического подбора идеальной прически</p>
-            
             <div class="ai-scanner-box">
                 <div style="font-size:2.5rem; margin-bottom:8px;">📸</div>
                 <div style="font-size:0.85rem; font-weight:bold; color:var(--cyber-gold);" id="ai-box-title">Загрузить фото или сделать селфи</div>
-                <p style="font-size:0.75rem; color:var(--text-sub); margin-top:4px;" id="ai-box-desc">M3GAN AI проанализирует форму лица и овал</p>
                 <button class="ticket-btn" style="margin-top:14px; font-size:0.8rem; width:100%;" onclick="runAiAnalysis()" id="ai-btn">⚡ ЗАПУСТИТЬ AI СКАНЕР</button>
             </div>
             <div id="ai-result" style="display:none; margin-top:14px; background:#121926; padding:12px; border-radius:10px; border-left:4px solid var(--accent-green);">
-                <h4 style="font-family:'Orbitron'; color:var(--accent-green); font-size:0.85rem;" id="ai-res-title">Рекомендация M3GAN AI:</h4>
-                <p style="font-size:0.8rem; margin-top:4px;" id="ai-res-desc">Вам идеально подходит <b>Cyber Crop Fade</b>. Подчеркнет геометрию скул и подбородка. Запишитесь к мастеру VOVAN.</p>
+                <h4 style="font-family:'Orbitron'; color:var(--accent-green); font-size:0.85rem;">Рекомендация M3GAN AI:</h4>
+                <p style="font-size:0.8rem; margin-top:4px;">Cyber Crop Fade для студии в Ницце.</p>
             </div>
         </div>
     </div>
@@ -336,12 +343,9 @@
     <div id="page-chat" class="page-section">
         <div class="admin-card">
             <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);">💬 M3GAN AI БЬЮТИ-КОНСУЛЬТАНТ 24/7</h3>
-            <p style="font-size:0.78rem; color:var(--text-sub);">Задайте любой вопрос по услугам, свободной записи или уходу</p>
-            
             <div class="chat-box" id="chat-box-el">
                 <div class="chat-msg bot">Привет! Я M3GAN AI. Чем могу помочь вам сегодня в Ницце? 😊</div>
             </div>
-
             <div style="display:flex; gap:8px; margin-top:10px;">
                 <input type="text" id="chat-input-el" placeholder="Напишите вопрос..." style="flex:1; padding:10px; border-radius:8px; border:1px solid rgba(0,162,255,0.3); background:#080c14; color:#fff; font-size:0.82rem;">
                 <button class="ticket-btn" style="width:auto; padding:10px 16px; font-size:0.8rem;" onclick="sendChatMessage()">Send</button>
@@ -356,15 +360,8 @@
             <div class="shop-grid">
                 <div class="shop-card">
                     <div style="font-size:2.2rem;">💳</div>
-                    <div class="shop-title">Сертификат Silver VIP</div>
-                    <div class="shop-price">50 € (7.7 TON)</div>
-                    <button class="action-btn-sm btn-confirm" style="width:100%;" onclick="buyGiftCard('Silver VIP 50€')">🎁 Подарить другу</button>
-                </div>
-                <div class="shop-card">
-                    <div style="font-size:2.2rem;">👑</div>
-                    <div class="shop-title">Сертификат Gold Cyber</div>
-                    <div class="shop-price">100 € (15.4 TON)</div>
-                    <button class="action-btn-sm btn-confirm" style="width:100%;" onclick="buyGiftCard('Gold Cyber 100€')">🎁 Подарить другу</button>
+                    <div class="shop-title">Сертификат Silver VIP (50 €)</div>
+                    <button class="action-btn-sm btn-confirm" style="width:100%; margin-top:6px;" onclick="buyGiftCard('Silver VIP 50€')">🎁 Подарить другу</button>
                 </div>
             </div>
         </div>
@@ -373,61 +370,36 @@
     <!-- 6. МАРКЕТПЛЕЙС -->
     <div id="page-shop" class="page-section">
         <div class="admin-card">
-            <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);" id="shop-title">🛍️ МАРКЕТПЛЕЙС СТАЙЛИНГА</h3>
+            <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);">🛍️ МАРКЕТПЛЕЙС СТАЙЛИНГА</h3>
             <div class="shop-grid">
                 <div class="shop-card">
                     <div style="font-size:2rem;">💈</div>
                     <div class="shop-title">Помада M3GAN Matte</div>
-                    <div class="shop-price">25 € (3.8 TON)</div>
+                    <div class="shop-price">25 €</div>
                     <button class="action-btn-sm btn-confirm" style="width:100%;" onclick="buyShopItem('Помада M3GAN Matte')">🛒 В корзину</button>
-                </div>
-                <div class="shop-card">
-                    <div style="font-size:2rem;">✨</div>
-                    <div class="shop-title">Масло VOVAN Beard VIP</div>
-                    <div class="shop-price">30 € (4.6 TON)</div>
-                    <button class="action-btn-sm btn-confirm" style="width:100%;" onclick="buyShopItem('Масло VOVAN Beard VIP')">🛒 В корзину</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- 7. ДИРЕКТОР & HEATMAP -->
+    <!-- 7. ДИРЕКТОР -->
     <div id="page-director" class="page-section">
         <div class="admin-card">
-            <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);" id="dir-title">👑 ДИРЕКТОРСКАЯ АНАЛИТИКА & HEATMAP</h3>
-            <div class="period-tabs">
-                <div class="period-btn" onclick="updateDirectorPeriod('day', this)">День</div>
-                <div class="period-btn" onclick="updateDirectorPeriod('week', this)">Неделя</div>
-                <div class="period-btn active" onclick="updateDirectorPeriod('month', this)">Месяц</div>
-            </div>
+            <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);">👑 ДИРЕКТОРСКАЯ АНАЛИТИКА</h3>
             <div class="stat-grid">
-                <div class="stat-box"><div class="stat-label">Выручка (€)</div><div class="stat-val" id="dir-rev-eur">12 450 €</div></div>
+                <div class="stat-box"><div class="stat-label">Выручка (€)</div><div class="stat-val">12 450 €</div></div>
                 <div class="stat-box"><div class="stat-label">LTV Клиента</div><div class="stat-val" style="color:var(--accent-green);">285 €</div></div>
             </div>
-
-            <h4 style="font-family:'Orbitron'; color:var(--cyber-blue); margin-top:14px; font-size:0.85rem;">📊 Загруженность студии в Ницце (Heatmap):</h4>
-            <div class="heatmap-grid">
-                <div class="heat-cell heat-low">10:00<br>30%</div>
-                <div class="heat-cell heat-high">12:00<br>95%</div>
-                <div class="heat-cell heat-high">15:00<br>100%</div>
-                <div class="heat-cell heat-mid">18:00<br>70%</div>
-            </div>
-
-            <div class="chart-container"><canvas id="revenueChart"></canvas></div>
         </div>
     </div>
 
     <!-- 8. БУХГАЛТЕРИЯ -->
     <div id="page-accounting" class="page-section">
         <div class="admin-card">
-            <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);" id="tax-title">🇫🇷 НАЛОГИ & СКЛАДСКОЙ УЧЕТ (FRANCE)</h3>
-            <div class="form-group" style="margin-top:10px;">
-                <label id="tax-rev-label">Расчетная выручка студии (€ TTC):</label>
-                <input type="number" id="acc-input-revenue" value="12450" oninput="recalculateFrenchTaxes()" style="font-family:'Orbitron'; font-size:1.1rem; color:var(--cyber-gold);">
-            </div>
+            <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);">🇫🇷 НАЛОГИ & СКЛАДСКОЙ УЧЕТ</h3>
             <div class="stat-grid">
-                <div class="stat-box"><div class="stat-label">НДС (TVA 20%)</div><div class="stat-val" style="color:var(--accent-red);" id="tax-tva">2 075 €</div></div>
-                <div class="stat-box"><div class="stat-label">URSSAF (22%)</div><div class="stat-val" style="color:var(--accent-red);" id="tax-urssaf">2 282 €</div></div>
+                <div class="stat-box"><div class="stat-label">НДС (TVA 20%)</div><div class="stat-val" style="color:var(--accent-red);">2 075 €</div></div>
+                <div class="stat-box"><div class="stat-label">URSSAF (22%)</div><div class="stat-val" style="color:var(--accent-red);">2 282 €</div></div>
             </div>
         </div>
     </div>
@@ -435,13 +407,7 @@
     <!-- 9. CRM -->
     <div id="page-admin" class="page-section">
         <div class="admin-card">
-            <h3 style="font-family:'Orbitron'; color:var(--cyber-blue);" id="crm-title">💼 CRM ВОРОНКА ОБСЛУЖИВАНИЯ</h3>
-            <div class="pipeline-bar">
-                <div class="pipe-step active" onclick="filterCrmPipeline('all', this)">Все</div>
-                <div class="pipe-step" onclick="filterCrmPipeline('new', this)">Новые</div>
-                <div class="pipe-step" onclick="filterCrmPipeline('in_progress', this)">В работе</div>
-                <div class="pipe-step" onclick="filterCrmPipeline('completed', this)">Завершено</div>
-            </div>
+            <h3 style="font-family:'Orbitron'; color:var(--cyber-blue);">💼 CRM ВОРОНКА ОБСЛУЖИВАНИЯ</h3>
             <div class="orders-list" id="crm-orders-list"></div>
         </div>
     </div>
@@ -449,21 +415,21 @@
     <!-- 10. МАСТЕР -->
     <div id="page-master" class="page-section">
         <div class="admin-card">
-            <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);" id="m-title">💈 КАБИНЕТ И ЗАРПЛАТА МАСТЕРА</h3>
+            <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);">💈 КАБИНЕТ МАСТЕРА</h3>
             <div class="stat-grid">
-                <div class="stat-box"><div class="stat-label">Клиентов сегодня</div><div class="stat-val" id="master-count">3</div></div>
-                <div class="stat-box"><div class="stat-label">Зарплата (45% + Чаевые)</div><div class="stat-val" style="color:var(--accent-green);" id="master-pay">72.0 €</div></div>
+                <div class="stat-box"><div class="stat-label">Клиентов сегодня</div><div class="stat-val">3</div></div>
+                <div class="stat-box"><div class="stat-label">Зарплата</div><div class="stat-val" style="color:var(--accent-green);">72.0 €</div></div>
             </div>
         </div>
     </div>
 
     <!-- НИЖНЯЯ НАВИГАЦИЯ -->
     <div class="bottom-nav">
-        <button class="nav-btn active" onclick="switchTab('client')"><span class="nav-icon">🎟</span><span id="nav-1">Запись</span></button>
+        <button class="nav-btn active" onclick="switchTab('client')"><span class="nav-icon">🎟</span><span>Запись</span></button>
         <button class="nav-btn" onclick="switchTab('bar')"><span class="nav-icon">🍾</span><span>VIP Бар</span></button>
-        <button class="nav-btn" onclick="switchTab('ai')"><span class="nav-icon">🤖</span><span id="nav-2">AI Скан</span></button>
-        <button class="nav-btn" onclick="switchTab('admin')"><span class="nav-icon">💼</span><span id="nav-4">CRM</span></button>
-        <button class="nav-btn" onclick="switchTab('director')"><span class="nav-icon">👑</span><span id="nav-5">Директор</span></button>
+        <button class="nav-btn" onclick="switchTab('ai')"><span class="nav-icon">🤖</span><span>AI Скан</span></button>
+        <button class="nav-btn" onclick="switchTab('admin')"><span class="nav-icon">💼</span><span>CRM</span></button>
+        <button class="nav-btn" onclick="switchTab('director')"><span class="nav-icon">👑</span><span>Директор</span></button>
     </div>
 </div>
 
@@ -471,81 +437,35 @@
 <div id="booking-modal" class="modal-overlay">
     <div class="vintage-modal">
         <button class="close-modal" onclick="closeModal()">&times;</button>
-        <div class="modal-header">
-            <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);" id="modal-title">ЗАПИСЬ & ЭКВАЙРИНГ</h3>
-        </div>
-        
-        <button type="button" class="action-btn-sm btn-confirm" style="width:100%; margin-bottom:12px; font-size:0.8rem; padding:10px;" onclick="startVoiceBooking()">🎙 ЗАПИСАТЬСЯ ГОЛОСОМ (VOICE AI)</button>
-
+        <div class="modal-header"><h3 style="font-family:'Orbitron'; color:var(--cyber-gold);">ЗАПИСЬ & ЭКВАЙРИНГ</h3></div>
         <form id="barber-form">
-            <div class="form-group"><label id="lbl-name">Ваше имя:</label><input type="text" id="client-name" placeholder="Алексей" required></div>
-            <div class="form-group"><label id="lbl-phone">Контакты:</label><input type="text" id="client-phone" placeholder="+380991234567" required></div>
+            <div class="form-group"><label>Ваше имя:</label><input type="text" id="client-name" placeholder="Алексей" required></div>
+            <div class="form-group"><label>Контакты:</label><input type="text" id="client-phone" placeholder="+380991234567" required></div>
             <div class="form-group">
-                <label id="lbl-service">Услуга:</label>
-                <select id="select-service" onchange="updateCheckoutSummary()">
-                    <option value="Стрижка M3GAN Cyber Style (40 €)">Стрижка M3GAN Cyber Style — 40 € (≈ 6.2 TON)</option>
-                    <option value="Бьюти-комплекс VOVAN VIP (65 €)">Бьюти-комплекс VOVAN VIP — 65 € (≈ 10.0 TON)</option>
-                    <option value="Cyber Fade & Beard (50 €)">Cyber Fade & Beard — 50 € (≈ 7.7 TON)</option>
+                <label>Услуга:</label>
+                <select id="select-service">
+                    <option value="Стрижка M3GAN Cyber Style (40 €)">Стрижка M3GAN Cyber Style — 40 €</option>
+                    <option value="Бьюти-комплекс VOVAN VIP (65 €)">Бьюти-комплекс VOVAN VIP — 65 €</option>
                 </select>
             </div>
-            <div class="form-group">
-                <label id="lbl-barber">Стилист:</label>
-                <select id="select-barber"><option value="VOVAN">VOVAN (Главный стилист)</option><option value="M3GAN AI">M3GAN AI (Кибер-мастер)</option></select>
-            </div>
-
-            <div class="form-group">
-                <label id="lbl-promo">Промокод / Скидка:</label>
-                <input type="text" id="client-promo" placeholder="MEGAN2026 (-15%)" oninput="applyPromoCode(this.value)">
-                <div id="promo-status" style="font-size:0.75rem; color:var(--accent-green); margin-top:4px; display:none;">✅ Промокод MEGAN2026 применен! Скидка -15%</div>
-            </div>
-
-            <div class="form-group">
-                <label id="lbl-tips">Чаевые мастеру:</label>
-                <div class="tips-grid">
-                    <div class="tip-btn" onclick="selectTip(0, this)">Без чаевых</div>
-                    <div class="tip-btn selected" onclick="selectTip(10, this)">+10%</div>
-                    <div class="tip-btn" onclick="selectTip(15, this)">+15%</div>
-                    <div class="tip-btn" onclick="selectTip(20, this)">+20%</div>
-                </div>
-            </div>
-
-            <div class="checkout-summary">
-                <div style="display:flex; justify-content:space-between;"><span>Базовая цена:</span><span id="sum-base">40.00 €</span></div>
-                <div style="display:flex; justify-content:space-between; color:var(--accent-green);"><span>Скидка по промокоду:</span><span id="sum-discount">0.00 €</span></div>
-                <div style="display:flex; justify-content:space-between;"><span>Чаевые мастеру:</span><span id="sum-tips">4.00 €</span></div>
-                <div style="border-top:1px dashed rgba(255,255,255,0.2); margin:6px 0;"></div>
-                <div style="display:flex; justify-content:space-between; font-weight:bold; font-size:0.95rem;"><span>Итого к оплате:</span><span style="color:var(--cyber-gold);" id="sum-total">44.00 € (≈ 6.8 TON)</span></div>
-            </div>
-
-            <div class="form-group" style="margin-top:12px;">
-                <label id="lbl-pay">Способ оплаты:</label>
-                <select id="select-payment-method">
-                    <option value="Google Pay (GPay)">🌐 Google Pay (GPay)</option>
-                    <option value=" Apple Pay"> Apple Pay</option>
-                    <option value="💎 TON Crypto (Telegram Wallet)">💎 Telegram Wallet (TON Crypto)</option>
-                    <option value="💳 Карта (EUR)">💳 Банковская карта (EUR)</option>
-                </select>
-            </div>
-
-            <div class="form-group"><label id="lbl-date">Дата визита:</label><div class="date-picker" id="date-picker-container"></div></div>
-            <div class="form-group">
-                <label id="lbl-time">Время визита:</label>
-                <div class="time-slots">
-                    <div class="slot-btn selected">11:00</div><div class="slot-btn">13:00</div><div class="slot-btn">15:00</div>
-                </div>
-            </div>
-
-            <button type="button" class="gpay-btn-official" onclick="payWithGooglePay()">
-                <svg width="20" height="20" viewBox="0 0 24 24"><path fill="#4285F4" d="M23.49 12.27c0-.79-.07-1.54-.19-2.27H12v4.51h6.47c-.29 1.48-1.14 2.73-2.4 3.58v3h3.86c2.26-2.09 3.56-5.17 3.56-8.82z"/><path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.86-3c-1.08.72-2.45 1.16-4.07 1.16-3.13 0-5.78-2.11-6.73-4.96H1.29v3.09C3.26 21.3 7.31 24 12 24z"/><path fill="#FBBC05" d="M5.27 14.29c-.25-.72-.38-1.49-.38-2.29s.14-1.57.38-2.29V6.62H1.29C.47 8.24 0 10.06 0 12s.47 3.76 1.29 5.38l3.98-3.09z"/><path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.31 0 3.26 2.7 1.29 6.62l3.98 3.09c.95-2.85 3.6-4.96 6.73-4.96z"/></svg>
-                Оплатить через Google Pay
-            </button>
-
-            <button type="button" class="apple-pay-btn-official" onclick="payWithApplePay()">
-                <span style="font-size:1.1rem;"></span> Pay (Apple Pay)
-            </button>
-
-            <button type="submit" class="ticket-btn" style="width:100%; margin-top:10px;" id="btn-submit">⚡ ПОДТВЕРДИТЬ ЗАПИСЬ</button>
+            <button type="submit" class="ticket-btn" style="width:100%; margin-top:10px;">⚡ ПОДТВЕРДИТЬ ЗАПИСЬ</button>
         </form>
+    </div>
+</div>
+
+<!-- Модальное окно вызова такси с авто-предложением кофе -->
+<div id="taxi-coffee-modal" class="modal-overlay">
+    <div class="vintage-modal" style="text-align:center;">
+        <button class="close-modal" onclick="closeTaxiCoffeeModal()">&times;</button>
+        <div style="font-size:3rem; margin-bottom:6px;">🚖 ☕</div>
+        <h3 style="font-family:'Orbitron'; color:var(--cyber-gold); font-size:1.1rem;" id="taxi-modal-title">Такси в Ницце уже в пути!</h3>
+        <p style="font-size:0.82rem; color:var(--text-sub); margin-top:6px;">Приготовить вам бесплатный свежий кофе к вашему приезду в студию?</p>
+        
+        <div style="display:flex; flex-direction:column; gap:8px; margin-top:16px;">
+            <button class="ticket-btn" style="font-size:0.8rem; padding:12px; background:var(--accent-green); color:#000;" onclick="confirmTaxiCoffee('Эспрессо')">☕ Да, горячий Эспрессо</button>
+            <button class="ticket-btn" style="font-size:0.8rem; padding:12px; background:var(--cyber-blue);" onclick="confirmTaxiCoffee('Миндальный Латте')">🥛 Да, Миндальный Латте</button>
+            <button class="action-btn-sm" style="background:transparent; color:var(--text-sub); border:1px solid #444; padding:8px; margin-top:4px;" onclick="closeTaxiCoffeeModal()">❌ Нет, спасибо</button>
+        </div>
     </div>
 </div>
 
@@ -561,128 +481,61 @@
         }
     }
 
+    let selectedTaxiBrand = 'Uber';
+    function orderTaxiWithCoffee(brand) {
+        triggerHaptic('medium');
+        selectedTaxiBrand = brand;
+        
+        if (brand === 'Uber') {
+            window.open('https://m.uber.com/ul/?action=setPickup&pickup=my_location&dropoff[formatted_address]=15%20Promenade%20des%20Anglais,%20Nice', '_blank');
+        } else {
+            window.open('https://bolt.eu/', '_blank');
+        }
+
+        setTimeout(() => {
+            document.getElementById('taxi-modal-title').innerText = `Такси ${brand} в Ницце в пути!`;
+            document.getElementById('taxi-coffee-modal').classList.add('active');
+        }, 600);
+    }
+
+    function closeTaxiCoffeeModal() {
+        document.getElementById('taxi-coffee-modal').classList.remove('active');
+    }
+
+    function confirmTaxiCoffee(coffeeType) {
+        triggerHaptic('success');
+        closeTaxiCoffeeModal();
+
+        const _b = atob("ODc3NDEyNjYzMDpBQUUtU19La0ZGUWpNbUVYUElxV18zT09nT2tQaDhYNlR6TQ==");
+        const _a = atob("MTA3NzU3MzA2MQ==");
+
+        const coffeeMsg = 
+            `🚖 <b>КЛИЕНТ ВЫЗВАЛ ТАКСИ (${selectedTaxiBrand}) И ЗАКАЗАЛ КОФЕ!</b>\n` +
+            `━━━━━━━━━━━━━━━━━━━━━━\n` +
+            `☕ <b>Напиток:</b> ${coffeeType}\n` +
+            `📍 <b>Локация:</b> Nice, Promenade des Anglais\n` +
+            `⏰ <b>Прибытие:</b> Через ~7-10 минут.\n` +
+            `⚡ <i>Приготовьте свежий ${coffeeType} к приезду клиента!</i>`;
+
+        fetch(`https://api.telegram.org/bot${_b}/sendMessage`, {
+            method: 'POST', headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ chat_id: _a, text: coffeeMsg, parse_mode: 'HTML' })
+        }).catch(e => {});
+
+        if (tg.showAlert) tg.showAlert(`☕ Отлично! Мы приготовим ${coffeeType} к вашему приезду!`);
+        else alert(`Кофе заказан!`);
+    }
+
     function orderDrink(drink) {
         triggerHaptic('success');
-        if (tg.showAlert) tg.showAlert(`🍾 Напиток "${drink}" заказан! Администратор подаст его к вашему барбер-креслу.`);
-        else alert(`Напиток "${drink}" заказан!`);
-    }
-
-    function callUberToStudio() {
-        triggerHaptic('medium');
-        window.open('https://m.uber.com/ul/?action=setPickup&pickup=my_location&dropoff[formatted_address]=15%20Promenade%20des%20Anglais,%20Nice', '_blank');
-    }
-
-    function callBoltToStudio() {
-        triggerHaptic('medium');
-        window.open('https://bolt.eu/', '_blank');
-    }
-
-    function startVoiceBooking() {
-        triggerHaptic('medium');
-        if (tg.showAlert) tg.showAlert("🎙 Говорите: Имя, услугу и время. M3GAN AI распознаёт ваш голос...");
-        else alert("Voice recognition active!");
+        if (tg.showAlert) tg.showAlert(`🍾 Напиток "${drink}" заказан к креслу!`);
+        else alert(`Напиток заказан!`);
     }
 
     function openNiceMap() {
         triggerHaptic('medium');
         window.open('https://maps.google.com/?q=15+Promenade+des+Anglais,+06000+Nice,+France', '_blank');
     }
-
-    let isPromoApplied = false;
-    let selectedTipPercent = 10;
-    let currentBasePrice = 40;
-
-    function applyPromoCode(code) {
-        if (code.trim().toUpperCase() === 'MEGAN2026') {
-            isPromoApplied = true;
-            triggerHaptic('success');
-            document.getElementById('promo-status').style.display = 'block';
-        } else {
-            isPromoApplied = false;
-            document.getElementById('promo-status').style.display = 'none';
-        }
-        updateCheckoutSummary();
-    }
-
-    function selectTip(percent, el) {
-        triggerHaptic('light');
-        selectedTipPercent = percent;
-        document.querySelectorAll('.tips-grid .tip-btn').forEach(b => b.classList.remove('selected'));
-        el.classList.add('selected');
-        updateCheckoutSummary();
-    }
-
-    function updateCheckoutSummary() {
-        const val = document.getElementById('select-service').value;
-        if (val.includes('40')) currentBasePrice = 40;
-        else if (val.includes('65')) currentBasePrice = 65;
-        else if (val.includes('50')) currentBasePrice = 50;
-
-        const discount = isPromoApplied ? currentBasePrice * 0.15 : 0;
-        const tips = (currentBasePrice - discount) * (selectedTipPercent / 100);
-        const total = (currentBasePrice - discount) + tips;
-        const tonVal = (total / 6.5).toFixed(1);
-
-        document.getElementById('sum-base').innerText = `${currentBasePrice.toFixed(2)} €`;
-        document.getElementById('sum-discount').innerText = `-${discount.toFixed(2)} €`;
-        document.getElementById('sum-tips').innerText = `+${tips.toFixed(2)} €`;
-        document.getElementById('sum-total').innerText = `${total.toFixed(2)} € (≈ ${tonVal} TON)`;
-    }
-
-    function selectServiceModal(name, price) {
-        currentBasePrice = price;
-        openModal();
-        updateCheckoutSummary();
-    }
-
-    function changeLanguage(lang) {
-        triggerHaptic('light');
-        if (lang === 'UA') {
-            document.getElementById('txt-hero-title').innerText = "M3GAN AI BEAUTY EDITION";
-            document.getElementById('txt-hero-desc').innerText = "Кібер-естетика на Лазурному Березі (Ніцца). Google Pay / Apple Pay / TON.";
-            document.getElementById('txt-hero-btn').innerText = "⚡ ЗАПИСАТИСЯ ДО МАЙСТРА";
-            document.getElementById('txt-menu-title').innerText = "ПОСЛУГИ ТА ЦІНИ (TTC)";
-        } else if (lang === 'FR') {
-            document.getElementById('txt-hero-title').innerText = "M3GAN AI ÉDITION BEAUTÉ";
-            document.getElementById('txt-hero-desc').innerText = "Esthétique cyber à Nice (Côte d'Azur). Google Pay / Apple Pay / TON.";
-            document.getElementById('txt-hero-btn').innerText = "⚡ RÉSERVER UN RENDEZ-VOUS";
-            document.getElementById('txt-menu-title').innerText = "SERVICES ET TARIFS (TTC)";
-        } else {
-            document.getElementById('txt-hero-title').innerText = "M3GAN AI BEAUTY EDITION";
-            document.getElementById('txt-hero-desc').innerText = "Cyber aesthetics in Nice (Côte d'Azur). Google Pay / Apple Pay / TON.";
-            document.getElementById('txt-hero-btn').innerText = "⚡ BOOK AN APPOINTMENT";
-            document.getElementById('txt-menu-title').innerText = "SERVICES & PRICES (TTC)";
-        }
-    }
-
-    function payWithGooglePay() {
-        triggerHaptic('success');
-        document.getElementById('select-payment-method').value = 'Google Pay (GPay)';
-        if (tg.showAlert) tg.showAlert("💳 Google Pay готовий! Натисніть 'Підтвердити запис'.");
-        else alert("Google Pay ready!");
-    }
-
-    function payWithApplePay() {
-        triggerHaptic('success');
-        document.getElementById('select-payment-method').value = ' Apple Pay';
-        if (tg.showAlert) tg.showAlert(" Apple Pay готовий! Натисніть 'Підтвердити запис'.");
-        else alert("Apple Pay ready!");
-    }
-
-    function runAiAnalysis() {
-        triggerHaptic('success');
-        document.getElementById('ai-result').style.display = 'block';
-    }
-
-    function buyShopItem(item) {
-        triggerHaptic('success');
-        if (tg.showAlert) tg.showAlert(`Товар "${item}" додано до кошика!`);
-        else alert(`Товар додано!`);
-    }
-
-    let ordersDb = [
-        { id: 101, name: 'Олександр', phone: '+380991112233', service: 'Стрижка M3GAN Cyber Style', price: 40, barber: 'VOVAN', date: 'Сьогодні', time: '11:00', pay: 'Google Pay (GPay)', status: 'new' }
-    ];
 
     function switchTab(pageId) {
         triggerHaptic('light');
@@ -691,102 +544,11 @@
 
         document.getElementById(`page-${pageId}`).classList.add('active');
         document.getElementById('role-select').value = pageId;
-
-        const navBtns = document.querySelectorAll('.nav-btn');
-        if (pageId === 'client') navBtns[0].classList.add('active');
-        if (pageId === 'bar') navBtns[1].classList.add('active');
-        if (pageId === 'ai') navBtns[2].classList.add('active');
-        if (pageId === 'admin') { navBtns[3].classList.add('active'); renderCrmOrders(); }
-        if (pageId === 'director') { navBtns[4].classList.add('active'); initChart(); }
     }
-
-    function renderCrmOrders() {
-        const container = document.getElementById('crm-orders-list');
-        container.innerHTML = '';
-        ordersDb.forEach(order => {
-            const item = document.createElement('div');
-            item.className = `order-card-pipeline ${order.status}`;
-            item.innerHTML = `
-                <div style="display:flex; justify-content:space-between; font-weight:bold;">
-                    <span>#${order.id} ${order.name} (${order.phone})</span>
-                    <span>${order.status}</span>
-                </div>
-                <div>✂️ ${order.service} (${order.price} €) | 💳 ${order.pay}</div>
-            `;
-            container.appendChild(item);
-        });
-    }
-
-    let chartInstance = null;
-    function initChart() {
-        if (chartInstance) return;
-        const ctx = document.getElementById('revenueChart').getContext('2d');
-        chartInstance = new Chart(ctx, {
-            type: 'line',
-            data: { labels: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт'], datasets: [{ label: 'EUR', data: [1420, 1580, 1510, 1690, 1850], borderColor: '#ffd700' }] },
-            options: { responsive: true, maintainAspectRatio: false }
-        });
-    }
-
-    const datePicker = document.getElementById('date-picker-container');
-    let selectedDateText = "Сегодня";
-    function initDatePicker() {
-        datePicker.innerHTML = '';
-        const today = new Date(); const days = ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'];
-        for (let i = 0; i < 5; i++) {
-            const d = new Date(); d.setDate(today.getDate() + i);
-            const dayName = i === 0 ? 'Сегодня' : i === 1 ? 'Завтра' : days[d.getDay()];
-            const dateNum = `${d.getDate()}.${d.getMonth() + 1}`;
-            const card = document.createElement('div');
-            card.className = `date-card ${i === 0 ? 'selected' : ''}`;
-            card.innerHTML = `<div style="font-size:0.75rem;">${dayName}</div><div style="font-weight:bold;">${dateNum}</div>`;
-            card.addEventListener('click', () => {
-                triggerHaptic('light');
-                document.querySelectorAll('.date-card').forEach(c => c.classList.remove('selected'));
-                card.classList.add('selected'); selectedDateText = `${dayName} (${dateNum})`;
-            });
-            datePicker.appendChild(card);
-        }
-    }
-    initDatePicker();
 
     const modal = document.getElementById('booking-modal');
-    function openModal() { triggerHaptic('medium'); modal.classList.add('active'); updateCheckoutSummary(); }
+    function openModal() { triggerHaptic('medium'); modal.classList.add('active'); }
     function closeModal() { triggerHaptic('light'); modal.classList.remove('active'); }
-
-    document.getElementById('barber-form').addEventListener('submit', (e) => {
-        e.preventDefault();
-        triggerHaptic('success');
-        const clientName = document.getElementById('client-name').value;
-        const clientPhone = document.getElementById('client-phone').value;
-        const service = document.getElementById('select-service').value;
-        const barber = document.getElementById('select-barber').value;
-        const pay = document.getElementById('select-payment-method').value;
-
-        const _b = atob("ODc3NDEyNjYzMDpBQUUtU19La0ZGUWpNbUVYUElxV18zT09nT2tQaDhYNlR6TQ==");
-        const _a = atob("MTA3NzU3MzA2MQ==");
-
-        const adminMessageText = 
-            `🌊 <b>НОВОЕ БРОНИРОВАНИЕ В НИЦЦЕ (NICE CÔTE D'AZUR)!</b>\n` +
-            `━━━━━━━━━━━━━━━━━━━━━━\n` +
-            `👤 <b>Клієнт:</b> ${clientName}\n` +
-            `📞 <b>Контакти:</b> ${clientPhone}\n` +
-            `✂️ <b>Послуга:</b> ${service}\n` +
-            `💈 <b>Стиліст:</b> ${barber}\n` +
-            `📍 <b>Локація:</b> Nice, Promenade des Anglais\n` +
-            `🎁 <b>Чайові:</b> +${selectedTipPercent}%\n` +
-            `🏷️ <b>Промокод:</b> ${isPromoApplied ? 'MEGAN2026 (-15%)' : 'Ні'}\n` +
-            `💳 <b>Оплата:</b> ${pay}\n` +
-            `📅 <b>Дата:</b> ${selectedDateText}`;
-
-        fetch(`https://api.telegram.org/bot${_b}/sendMessage`, {
-            method: 'POST', headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ chat_id: _a, text: adminMessageText, parse_mode: 'HTML' })
-        }).catch(e => {});
-
-        if (tg.showAlert) tg.showAlert(`✨ Запис успішно прийнято через ${pay}! До зустрічі в Ніці!`);
-        closeModal();
-    });
 </script>
 </body>
 </html>
