@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>M3GAN ERP - Довідка</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #030508;
+            --card-bg: #0b1019;
+            --cyber-blue: #00a2ff;
+            --cyber-gold: #ffd700;
+            --accent-green: #00e676;
+            --text-main: #ffffff;
+            --text-sub: #9bb0c7;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+        body { background-color: #010204; color: var(--text-main); font-family: 'Montserrat', sans-serif; overflow-x: hidden; width: 100%; max-width: 600px; margin: 0 auto; min-height: 100vh; padding: 20px; box-shadow: 0 0 80px rgba(0, 162, 255, 0.3); }
+        
+        header { border-bottom: 2px solid var(--cyber-blue); padding-bottom: 15px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-family: 'Orbitron', sans-serif; font-size: 1.2rem; font-weight: 900; background: linear-gradient(90deg, var(--cyber-blue) 0%, var(--cyber-gold) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .back-btn { background: rgba(0,162,255,0.1); border: 1px solid var(--cyber-blue); color: #fff; padding: 8px 15px; border-radius: 8px; font-weight: bold; cursor: pointer; text-decoration: none; font-size: 0.8rem; }
+        
+        h1 { font-family: 'Orbitron', sans-serif; font-size: 1.3rem; color: var(--cyber-gold); margin-bottom: 15px; text-align: center; }
+        h2 { font-family: 'Orbitron', sans-serif; font-size: 1rem; color: var(--cyber-blue); margin-bottom: 8px; margin-top: 20px; }
+        
+        .help-card { background: var(--card-bg); border: 1px solid rgba(0, 162, 255, 0.3); border-radius: 12px; padding: 15px; margin-bottom: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+        .help-card p { font-size: 0.85rem; color: var(--text-sub); line-height: 1.5; margin-bottom: 8px; }
+        .help-card ul { margin-left: 20px; font-size: 0.85rem; color: var(--text-sub); }
+        .help-card li { margin-bottom: 5px; }
+        .help-badge { background: rgba(255,215,0,0.1); border: 1px solid var(--cyber-gold); color: var(--cyber-gold); padding: 2px 6px; border-radius: 6px; font-size: 0.7rem; font-weight: bold; }
+        
+        .footer { text-align: center; margin-top: 30px; padding-bottom: 30px; font-size: 0.75rem; color: var(--text-sub); font-family: 'Orbitron', sans-serif; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">M3GAN ERP</div>
+        <a href="index.html" class="back-btn">⬅ НАЗАД</a>
+    </header>
+
+    <h1>📖 ДОВІДКА ТА ДОКУМЕНТАЦІЯ</h1>
+
+    <div class="help-card">
+        <h2>👤 Модуль "Клієнт"</h2>
+        <p>Головний екран для клієнтів салону. Дозволяє взаємодіяти з послугами студії:</p>
+        <ul>
+            <li><span class="help-badge">Запис</span>: Можливість обрати послугу, майстра, дату, час та <b>Спосіб оплати</b> (Оплата наперед або Готівка).</li>
+            <li><span class="help-badge">Таксі</span>: Виклик таксі до салону або додому.</li>
+            <li><span class="help-badge">Лояльність</span>: Віджет прогресу, який показує залишок до наступного рівня (Бронза, Срібло, Золото).</li>
+        </ul>
+    </div>
+
+    <div class="help-card">
+        <h2>🤖 Модуль "AI Скан" та "Чат"</h2>
+        <p>Штучний інтелект для підбору стилю та автоматичного спілкування:</p>
+        <ul>
+            <li><span class="help-badge">AI Сканнер</span>: Імітація сканування обличчя через камеру для персонального підбору послуг.</li>
+            <li><span class="help-badge">AI Чат</span>: Автоматичні відповіді на популярні питання (ціни, адреса, привітання) 24/7.</li>
+        </ul>
+    </div>
+
+    <div class="help-card">
+        <h2>💼 Модуль "CRM (Канбан)"</h2>
+        <p>Панель для адміністраторів салону:</p>
+        <ul>
+            <li>Перегляд статусів замовлень: "Нові", "Підтверджені", "Завершені".</li>
+            <li>Ручне додавання записів (кнопка "Створити запис вручну").</li>
+            <li>Коли запис переходить у "Завершені", система <b>автоматично списує матеріали</b> зі складу.</li>
+            <li>Відображення бази клієнтів з LTV (пожиттєва цінність) та їх рівнями лояльності.</li>
+        </ul>
+    </div>
+
+    <div class="help-card">
+        <h2>💈 Модуль "Кабінет Майстра"</h2>
+        <p>Робоче місце майстрів (VOVAN, M3GAN AI):</p>
+        <ul>
+            <li><span class="help-badge">Timeline</span>: Розклад на день із відображенням зайнятих і вільних слотів, а також типу оплати клієнта.</li>
+            <li><span class="help-badge">Автокорекція</span>: Кнопки <b>+15m</b> та <b>-15m</b> дозволяють швидко змістити графік без ручного вводу.</li>
+            <li><span class="help-badge">Чайові</span>: Кнопка для фіксації залишених чайових.</li>
+            <li><span class="help-badge">Виплатити ЗП</span>: Обнуляє комісійний баланс майстра, переказуючи кошти.</li>
+        </ul>
+    </div>
+
+    <div class="help-card">
+        <h2>👑 Модуль "Директор" та "Бухгалтерія"</h2>
+        <p>Фінансове ядро системи:</p>
+        <ul>
+            <li><span class="help-badge">Графік</span>: Динамічний лінійний графік доходів салону (Chart.js).</li>
+            <li><span class="help-badge">Податки (FR)</span>: Автоматичний розрахунок ПДВ (TVA 20%), соціальних внесків (URSSAF 22%) та чистих доходів.</li>
+            <li><span class="help-badge">Витрати</span>: Поля для вводу Оренди та Електроенергії.</li>
+            <li><span class="help-badge">Склад</span>: Віджет залишків. При зниженні до 15% бот сигналізує про автозамовлення матеріалів.</li>
+        </ul>
+    </div>
+
+    <div class="footer">
+        © 2026 VOVAN BEAUTY STUDIO.<br>Powered by M3GAN AI ERP.
+    </div>
+
+</body>
+</html>

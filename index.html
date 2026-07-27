@@ -155,6 +155,7 @@
     <header>
         <div class="logo" id="app-logo">VOVAN NICE 🇫🇷</div>
         <div class="header-controls">
+            <a href="help.html" style="background:rgba(255,215,0,0.1); border:1px solid var(--cyber-gold); color:var(--cyber-gold); padding:6px 8px; border-radius:8px; font-size:0.75rem; text-decoration:none; font-family:'Orbitron';">ℹ️ Довідка</a>
             <select class="lang-selector" id="lang-select" onchange="changeLanguage(this.value)">
                 <option value="UA">🇺🇦 UA</option>
                 <option value="FR">🇫🇷 FR</option>
@@ -218,6 +219,7 @@
                     <button class="action-btn-sm btn-uber-official" style="flex:1;" onclick="openConciergeModal('Uber')">Uber</button>
                     <button class="action-btn-sm btn-bolt-official" style="flex:1;" onclick="openConciergeModal('Bolt')">Bolt</button>
                 </div>
+                <button class="action-btn-sm btn-done" style="width:100%; margin-top:8px;" onclick="openConciergeModal('Таксі ДОДОМУ')">🚕 Викликати таксі ДОДОМУ</button>
             </div>
         </div>
 
@@ -570,6 +572,14 @@
                 </div>
             </div>
 
+            <div class="form-group">
+                <label>Спосіб оплати:</label>
+                <select id="select-payment">
+                    <option value="Наперед">🟢 Оплата наперед (Apple Pay / GPay)</option>
+                    <option value="Готівка">🟡 Оплата в салоні (Готівка / Термінал)</option>
+                </select>
+            </div>
+
             <button type="submit" class="ticket-btn" style="width:100%; margin-top:14px;" data-i18n="btn-confirm">⚡ ПІДТВЕРДИТИ ЗАПИС</button>
         </form>
     </div>
@@ -897,9 +907,9 @@
         if (!db) {
             db = {
                 orders: [
-                    { id: 1, Client: 'Олена С.', Price: 40, Service: 'Стрижка M3GAN Cyber Style', Date: 'Сьогодні 13:00', Status: 'Завершено', Master: 'VOVAN', Master_Cut: 18 },
-                    { id: 2, Client: 'Анна М.', Price: 65, Service: 'Б\'юті-комплекс VOVAN VIP', Date: 'Завтра 15:00', Status: 'Новий', Master: 'M3GAN AI', Master_Cut: 29.25 },
-                    { id: 3, Client: 'Марія К.', Price: 40, Service: 'Стрижка M3GAN Cyber Style', Date: 'Вчора 11:00', Status: 'Завершено', Master: 'VOVAN', Master_Cut: 18 }
+                    { id: 1, Client: 'Олена С.', Price: 40, Service: 'Стрижка M3GAN Cyber Style', Date: 'Сьогодні 13:00', Status: 'Завершено', Master: 'VOVAN', Master_Cut: 18, Payment: 'Наперед' },
+                    { id: 2, Client: 'Анна М.', Price: 65, Service: 'Б\'юті-комплекс VOVAN VIP', Date: 'Завтра 15:00', Status: 'Новий', Master: 'M3GAN AI', Master_Cut: 29.25, Payment: 'Готівка' },
+                    { id: 3, Client: 'Марія К.', Price: 40, Service: 'Стрижка M3GAN Cyber Style', Date: 'Вчора 11:00', Status: 'Завершено', Master: 'VOVAN', Master_Cut: 18, Payment: 'Наперед' }
                 ],
                 warehouse: [
                     { item: 'Шампунь (мл)', amount: 5000, max: 5000 },
@@ -947,6 +957,7 @@
                 </div>
                 <div style="font-size:0.75rem; color:var(--text-sub); margin-top:4px;">${order.Service}</div>
                 <div style="font-size:0.7rem; color:var(--cyber-gold); margin-top:2px;">📅 ${order.Date} | 💈 ${order.Master}</div>
+                <div style="font-size:0.7rem; color:${order.Payment === 'Наперед' ? 'var(--accent-green)' : 'var(--cyber-gold)'}; margin-top:2px; font-weight:bold;">💳 Оплата: ${order.Payment || 'Готівка'}</div>
                 <div style="margin-top:8px; display:flex; gap:6px;">
                     ${order.Status === 'Новий' ? `<button class="action-btn-sm" style="flex:1; padding:4px; font-size:0.7rem;" onclick="changeOrderStatus(${order.id}, 'Підтверджено')">Підтвердити</button>` : ''}
                     ${order.Status === 'Підтверджено' ? `<button class="action-btn-sm" style="flex:1; padding:4px; font-size:0.7rem;" onclick="changeOrderStatus(${order.id}, 'Завершено')">Завершити</button>` : ''}
@@ -1058,7 +1069,8 @@
             Date: 'Сьогодні (Admin)',
             Status: 'Підтверджено',
             Master: master,
-            Master_Cut: price * 0.45
+            Master_Cut: price * 0.45,
+            Payment: 'Готівка'
         });
         saveLocalDB(db);
         populateCRM();
@@ -1137,7 +1149,10 @@
                             </span>
                         </div>
                         <div style="font-size:0.75rem; color:var(--text-sub); margin-top:4px;">${match.Service}</div>
-                        <div style="font-size:0.7rem; color:var(--accent-green); margin-top:2px;">Дохід: ${match.Master_Cut} €</div>
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:2px;">
+                            <div style="font-size:0.7rem; color:var(--accent-green);">Дохід: ${match.Master_Cut} €</div>
+                            <div style="font-size:0.7rem; color:${match.Payment === 'Наперед' ? 'var(--accent-green)' : 'var(--cyber-gold)'}; font-weight:bold;">${match.Payment || 'Готівка'}</div>
+                        </div>
                         <button class="action-btn-sm btn-payout" style="margin-top:6px; width:100%;" onclick="leaveTip('${match.Master}')">💸 Чайові (5€)</button>
                     </div>`;
             } else {
@@ -1392,6 +1407,7 @@
         const clientPhone = document.getElementById('client-phone').value;
         const service = document.getElementById('select-service').value;
         const barber = document.getElementById('select-barber').value;
+        const payment = document.getElementById('select-payment').value;
         
         let priceMatch = service.match(/(\d+)\s*€/);
         let price = priceMatch ? parseInt(priceMatch[1]) : 0;
@@ -1404,7 +1420,8 @@
             `✂️ <b>Послуга:</b> ${service}\n` +
             `💈 <b>Майстер:</b> ${barber}\n` +
             `📅 <b>Дата:</b> ${selectedDateText}\n` +
-            `⏰ <b>Час:</b> ${selectedTimeText}`;
+            `⏰ <b>Час:</b> ${selectedTimeText}\n` +
+            `💳 <b>Оплата:</b> ${payment}`;
 
         sendBotNotification(adminMessageText);
         
@@ -1418,7 +1435,8 @@
             Date: selectedDateText + " " + selectedTimeText,
             Status: 'Новий',
             Master: barber,
-            Master_Cut: price * 0.45
+            Master_Cut: price * 0.45,
+            Payment: payment
         });
         saveLocalDB(db);
         populateCRM();
