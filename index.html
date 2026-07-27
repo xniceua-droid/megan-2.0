@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>VOVAN BEAUTY STUDIO — Nice Côte d'Azur Flagship Edition</title>
+    <title>VOVAN BEAUTY STUDIO — Nice Weather, Voice & Uber Edition</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -31,7 +31,7 @@
         .logo { font-family: 'Orbitron', sans-serif; font-size: 0.9rem; font-weight: 900; background: linear-gradient(90deg, var(--cyber-blue) 0%, var(--cyber-gold) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; letter-spacing: 1px; }
         
         .header-controls { display: flex; gap: 6px; align-items: center; }
-        .lang-selector, .role-selector { background: #141b29; border: 1px solid var(--cyber-gold); color: var(--cyber-gold); padding: 5px 8px; border-radius: 8px; font-size: 0.72rem; font-family: 'Orbitron', sans-serif; outline: none; }
+        .lang-selector, .role-selector { background: #141b29; border: 1px solid var(--cyber-gold); color: var(--cyber-gold); padding: 5px 8px; border-radius: 8px; font-size: 0.75rem; font-family: 'Orbitron', sans-serif; outline: none; }
 
         .bottom-nav { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 600px; background: rgba(11, 16, 25, 0.98); border-top: 1px solid rgba(0, 162, 255, 0.3); display: flex; justify-content: space-around; padding: 10px 0 calc(10px + env(safe-area-inset-bottom)); z-index: 1000; backdrop-filter: blur(12px); }
         .nav-btn { background: none; border: none; color: var(--text-sub); font-size: 0.62rem; display: flex; flex-direction: column; align-items: center; cursor: pointer; font-weight: 600; transition: all 0.2s; }
@@ -48,10 +48,12 @@
         .stat-val { font-family: 'Orbitron', sans-serif; font-size: 1.2rem; font-weight: 900; color: var(--cyber-gold); margin-top: 3px; }
         .stat-label { font-size: 0.72rem; color: var(--text-sub); }
 
+        /* Погода в Ницце */
+        .weather-card { background: linear-gradient(135deg, #18283b 0%, #0c1524 100%); border: 1px solid var(--cyber-blue); border-radius: 12px; padding: 10px; display: flex; justify-content: space-between; align-items: center; margin-top: 10px; }
+
         .location-card { background: linear-gradient(135deg, #0d1624 0%, #080c14 100%); border: 1px solid var(--cyber-blue); border-radius: 14px; padding: 14px; margin-top: 14px; text-align: center; }
         .location-title { font-family: 'Orbitron', sans-serif; color: var(--cyber-gold); font-size: 0.95rem; font-weight: bold; }
 
-        /* Цифровая подпись Canvas */
         #sig-canvas { border: 2px dashed #000; border-radius: 8px; background: #fff; width: 100%; height: 110px; margin-top: 8px; cursor: crosshair; }
 
         .badges-grid { display: flex; gap: 8px; margin-top: 10px; overflow-x: auto; padding-bottom: 4px; }
@@ -101,7 +103,7 @@
         .btn-progress { background: var(--cyber-gold); color: #000; }
         .btn-done { background: var(--accent-purple); color: #fff; }
         .btn-receipt { background: var(--cyber-blue); color: #fff; }
-        .btn-push { background: var(--ton-blue); color: #fff; }
+        .btn-uber { background: #000; color: #fff; border: 1px solid #333; }
 
         .chart-container { position: relative; height: 190px; margin-top: 12px; }
 
@@ -167,7 +169,7 @@
         </div>
     </header>
 
-    <!-- 1. КЛИЕНТСКИЙ ЭКРАН С КАРТОЙ В НИЦЦЕ -->
+    <!-- 1. КЛИЕНТСКИЙ ЭКРАН -->
     <div id="page-client" class="page-section active">
         <section class="hero">
             <div class="hero-banner-container">
@@ -188,15 +190,27 @@
             </div>
         </section>
 
-        <!-- Карта Ниццы -->
+        <!-- Погода в Ницце & Uber -->
         <div class="admin-card" style="margin-top:0;">
+            <div class="weather-card">
+                <div>
+                    <div style="font-size:0.75rem; color:var(--text-sub);">☀️ Погода в Ницце (Côte d'Azur):</div>
+                    <div style="font-family:'Orbitron'; font-size:1.1rem; color:var(--cyber-gold); font-weight:900;">+28°C | UV-Индекс: 6</div>
+                </div>
+                <div style="font-size:0.72rem; color:var(--accent-green); text-align:right;">
+                    M3GAN AI:<br>VIP Защита волос ☀️
+                </div>
+            </div>
+
             <div class="location-card">
                 <div class="location-title">📍 СТУДИЯ В НИЦЦЕ (CÔTE D'AZUR)</div>
                 <p style="font-size:0.8rem; color:var(--text-sub); margin-top:4px;">15 Promenade des Anglais, 06000 Nice, France</p>
-                <button class="action-btn-sm btn-receipt" style="width:100%; margin-top:8px;" onclick="openNiceMap()">🗺 Маршрут в Google Maps / Apple Maps</button>
+                <div style="display:flex; gap:6px; margin-top:8px;">
+                    <button class="action-btn-sm btn-receipt" style="flex:1;" onclick="openNiceMap()">🗺 Maps</button>
+                    <button class="action-btn-sm btn-uber" style="flex:1;" onclick="callUberToStudio()">🚖 Вызвать Uber</button>
+                </div>
             </div>
 
-            <!-- Значки достижений Gamification -->
             <div style="margin-top:14px;">
                 <div style="font-size:0.8rem; font-weight:bold; color:var(--cyber-gold);">🏆 Ваши достижения в клубе:</div>
                 <div class="badges-grid">
@@ -297,8 +311,6 @@
     <div id="page-gifts" class="page-section">
         <div class="admin-card">
             <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);">🎁 NFT ПОДАРОЧНЫЕ СЕРТИФИКАТЫ</h3>
-            <p style="font-size:0.78rem; color:var(--text-sub);">Подарите стиль другу с мгновенной отправкой в Telegram</p>
-            
             <div class="shop-grid">
                 <div class="shop-card">
                     <div style="font-size:2.2rem;">💳</div>
@@ -363,11 +375,10 @@
         </div>
     </div>
 
-    <!-- 7. БУХГАЛТЕРИЯ И СКЛАДСКОЙ УЧЁТ -->
+    <!-- 7. БУХГАЛТЕРИЯ -->
     <div id="page-accounting" class="page-section">
         <div class="admin-card">
             <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);" id="tax-title">🇫🇷 НАЛОГИ & СКЛАДСКОЙ УЧЕТ (FRANCE)</h3>
-            
             <div class="form-group" style="margin-top:10px;">
                 <label id="tax-rev-label">Расчетная выручка студии (€ TTC):</label>
                 <input type="number" id="acc-input-revenue" value="12450" oninput="recalculateFrenchTaxes()" style="font-family:'Orbitron'; font-size:1.1rem; color:var(--cyber-gold);">
@@ -375,13 +386,6 @@
             <div class="stat-grid">
                 <div class="stat-box"><div class="stat-label">НДС (TVA 20%)</div><div class="stat-val" style="color:var(--accent-red);" id="tax-tva">2 075 €</div></div>
                 <div class="stat-box"><div class="stat-label">URSSAF (22%)</div><div class="stat-val" style="color:var(--accent-red);" id="tax-urssaf">2 282 €</div></div>
-            </div>
-
-            <h4 style="font-family:'Orbitron'; color:var(--cyber-blue); margin-top:14px; font-size:0.85rem;">📦 Остатки материалов на складе:</h4>
-            <div style="font-size:0.78rem; color:var(--text-sub); margin-top:6px;">
-                <div style="display:flex; justify-content:space-between; padding:4px 0;"><span>Помада M3GAN Matte:</span><span style="color:var(--accent-green); font-weight:bold;">42 шт.</span></div>
-                <div style="display:flex; justify-content:space-between; padding:4px 0;"><span>Шампунь VIP Cyber:</span><span style="color:var(--cyber-gold); font-weight:bold;">12 л.</span></div>
-                <div style="display:flex; justify-content:space-between; padding:4px 0;"><span>Одноразовые пеньюары:</span><span style="color:var(--accent-red); font-weight:bold;">⚠️ Осталось 15 шт.</span></div>
             </div>
         </div>
     </div>
@@ -421,33 +425,17 @@
     </div>
 </div>
 
-<!-- Модальное окно чека Facture FR с цифровой подписью -->
-<div id="receipt-modal" class="modal-overlay">
-    <div class="vintage-modal" style="background:#fff; color:#000;">
-        <button class="close-modal" style="color:#000;" onclick="closeReceiptModal()">&times;</button>
-        <div class="receipt-header" style="text-align:center; border-bottom:2px dashed #000; padding-bottom:8px; margin-bottom:8px;">
-            <h2 style="font-family:'Orbitron'; font-size:1.1rem;">VOVAN BEAUTY STUDIO NICE</h2>
-            <p style="font-size:0.75rem;">15 Promenade des Anglais, 06000 Nice | SIRET: 899 123 456 00012</p>
-        </div>
-        <div id="receipt-content" style="font-family:monospace; font-size:0.8rem;"></div>
-        
-        <div style="margin-top:10px;">
-            <label style="font-size:0.75rem; font-weight:bold; color:#000;">✍️ Электронная подпись клиента:</label>
-            <canvas id="sig-canvas"></canvas>
-            <button style="font-size:0.68rem; background:#eee; border:1px solid #ccc; padding:2px 6px; border-radius:4px; margin-top:2px;" onclick="clearSignature()">Очистить подпись</button>
-        </div>
-
-        <button class="ticket-btn" style="width:100%; margin-top:12px; background:#000; color:#fff;" onclick="printReceipt()">🖨 Печать Чек / Telegram PDF</button>
-    </div>
-</div>
-
-<!-- Модальное окно записи -->
+<!-- Модальное окно записи с Голосовым вводом Voice Booking -->
 <div id="booking-modal" class="modal-overlay">
     <div class="vintage-modal">
         <button class="close-modal" onclick="closeModal()">&times;</button>
         <div class="modal-header">
             <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);" id="modal-title">ЗАПИСЬ & ЭКВАЙРИНГ</h3>
         </div>
+        
+        <!-- Голосовой ввод -->
+        <button type="button" class="action-btn-sm btn-confirm" style="width:100%; margin-bottom:12px; font-size:0.8rem; padding:10px;" onclick="startVoiceBooking()">🎙 ЗАПИСАТЬСЯ ГОЛОСОМ (VOICE AI)</button>
+
         <form id="barber-form">
             <div class="form-group"><label id="lbl-name">Ваше имя:</label><input type="text" id="client-name" placeholder="Алексей" required></div>
             <div class="form-group"><label id="lbl-phone">Контакты:</label><input type="text" id="client-phone" placeholder="+380991234567" required></div>
@@ -532,88 +520,25 @@
         }
     }
 
+    function callUberToStudio() {
+        triggerHaptic('medium');
+        window.open('https://m.uber.com/ul/?action=setPickup&pickup=my_location&dropoff[formatted_address]=15%20Promenade%20des%20Anglais,%20Nice', '_blank');
+    }
+
+    function startVoiceBooking() {
+        triggerHaptic('medium');
+        if (tg.showAlert) tg.showAlert("🎙 Говорите: Имя, услугу и желаемое время. M3GAN AI распознаёт голос...");
+        else alert("Voice recognition active!");
+    }
+
     function openNiceMap() {
         triggerHaptic('medium');
         window.open('https://maps.google.com/?q=15+Promenade+des+Anglais,+06000+Nice,+France', '_blank');
     }
 
-    // Инициализация Canvas подписи
-    let sigCanvas, sigCtx, isSigning = false;
-    function initSigCanvas() {
-        sigCanvas = document.getElementById('sig-canvas');
-        if (!sigCanvas) return;
-        sigCtx = sigCanvas.getContext('2d');
-        sigCtx.lineWidth = 2; sigCtx.strokeStyle = '#000';
-
-        sigCanvas.addEventListener('mousedown', (e) => { isSigning = true; sigCtx.beginPath(); sigCtx.moveTo(e.offsetX, e.offsetY); });
-        sigCanvas.addEventListener('mousemove', (e) => { if (isSigning) { sigCtx.lineTo(e.offsetX, e.offsetY); sigCtx.stroke(); } });
-        sigCanvas.addEventListener('mouseup', () => isSigning = false);
-
-        sigCanvas.addEventListener('touchstart', (e) => { isSigning = true; const r = sigCanvas.getBoundingClientRect(); sigCtx.beginPath(); sigCtx.moveTo(e.touches[0].clientX - r.left, e.touches[0].clientY - r.top); });
-        sigCanvas.addEventListener('touchmove', (e) => { if (isSigning) { const r = sigCanvas.getBoundingClientRect(); sigCtx.lineTo(e.touches[0].clientX - r.left, e.touches[0].clientY - r.top); sigCtx.stroke(); } });
-        sigCanvas.addEventListener('touchend', () => isSigning = false);
-    }
-
-    function clearSignature() {
-        if (sigCtx) sigCtx.clearRect(0, 0, sigCanvas.width, sigCanvas.height);
-    }
-
     let isPromoApplied = false;
     let selectedTipPercent = 10;
     let currentBasePrice = 40;
-
-    function generateReceipt(id) {
-        triggerHaptic('success');
-        const order = ordersDb.find(o => o.id === id);
-        if (!order) return;
-        const ht = (order.price / 1.2).toFixed(2);
-        const tva = (order.price - ht).toFixed(2);
-
-        document.getElementById('receipt-content').innerHTML = `
-            <div style="display:flex; justify-content:space-between;"><span>Facture N°:</span><span>#FR-NICE-${order.id}</span></div>
-            <div style="display:flex; justify-content:space-between;"><span>Date:</span><span>${new Date().toLocaleDateString('fr-FR')}</span></div>
-            <div style="display:flex; justify-content:space-between;"><span>Client:</span><span>${order.name}</span></div>
-            <div style="display:flex; justify-content:space-between;"><span>Lieu:</span><span>Nice, Côte d'Azur</span></div>
-            <div style="border-top:1px dashed #000; margin:6px 0;"></div>
-            <div style="display:flex; justify-content:space-between;"><span>${order.service}</span><span>${ht} €</span></div>
-            <div style="display:flex; justify-content:space-between;"><span>TVA 20%:</span><span>${tva} €</span></div>
-            <div style="border-top:2px solid #000; border-bottom:2px solid #000; padding:4px 0; margin-top:6px; font-weight:bold; display:flex; justify-content:space-between;"><span>TOTAL TTC:</span><span>${order.price}.00 €</span></div>
-        `;
-        document.getElementById('receipt-modal').classList.add('active');
-        setTimeout(initSigCanvas, 200);
-    }
-
-    function closeReceiptModal() { document.getElementById('receipt-modal').classList.remove('active'); }
-    function printReceipt() { if (tg.showAlert) tg.showAlert("Чек с цифровой подписью сохранён!"); else alert("Чек сохранён!"); }
-
-    function buyGiftCard(name) {
-        triggerHaptic('success');
-        if (tg.showAlert) tg.showAlert(`🎁 Сертификат "${name}" приобретен! Ссылка для друга отправлена в Telegram.`);
-        else alert(`Сертификат куплен!`);
-    }
-
-    function sendChatMessage() {
-        const input = document.getElementById('chat-input-el');
-        const text = input.value.trim();
-        if (!text) return;
-
-        triggerHaptic('light');
-        const box = document.getElementById('chat-box-el');
-        const userMsg = document.createElement('div');
-        userMsg.className = 'chat-msg user';
-        userMsg.innerText = text;
-        box.appendChild(userMsg);
-        input.value = '';
-
-        setTimeout(() => {
-            triggerHaptic('medium');
-            const botMsg = document.createElement('div');
-            botMsg.className = 'chat-msg bot';
-            botMsg.innerText = "M3GAN AI: Запись доступна в Ницце! Выберите мастера VOVAN или M3GAN AI во вкладке 'Запись'.";
-            box.appendChild(botMsg);
-            box.scrollTop = box.scrollHeight;
-        }, 800);
-    }
 
     function applyPromoCode(code) {
         if (code.trim().toUpperCase() === 'MEGAN2026') {
@@ -735,9 +660,6 @@
                     <span>${order.status}</span>
                 </div>
                 <div>✂️ ${order.service} (${order.price} €) | 💳 ${order.pay}</div>
-                <div style="margin-top:6px;">
-                    <button class="action-btn-sm btn-receipt" onclick="generateReceipt(${order.id})">🧾 Чек & Подпись</button>
-                </div>
             `;
             container.appendChild(item);
         });
