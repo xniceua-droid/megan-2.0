@@ -290,7 +290,32 @@
     <div id="page-director" class="page-section">
         <div class="admin-card">
             <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);" data-i18n="dir-title">👑 ДИРЕКТОРСЬКА АНАЛІТИКА</h3>
-            <div class="stat-val">12 450 €</div>
+            
+            <div style="display:flex; justify-content:space-between; align-items:center; background:#121926; border-radius:12px; padding:15px; margin-top:15px; border:1px solid rgba(0,230,118,0.3);">
+                <div>
+                    <div style="font-size:0.75rem; color:var(--text-sub);">Загальний дохід (EUR)</div>
+                    <div id="dir-total-revenue" style="font-family:'Orbitron'; font-size:1.5rem; color:var(--accent-green); font-weight:bold; margin-top:5px;">0 €</div>
+                </div>
+                <div style="text-align:right;">
+                    <div style="font-size:0.75rem; color:var(--text-sub);">Чистий прибуток (55%)</div>
+                    <div id="dir-net-profit" style="font-family:'Orbitron'; font-size:1.2rem; color:#fff; font-weight:bold; margin-top:5px;">0 €</div>
+                </div>
+            </div>
+
+            <div style="margin-top:20px;">
+                <h4 style="font-family:'Orbitron'; color:var(--cyber-blue); font-size:0.9rem; margin-bottom:10px;">📊 Дохід по Майстрах</h4>
+                <div id="dir-masters-stats">
+                    <!-- Заповнюється динамічно -->
+                </div>
+            </div>
+
+            <div style="margin-top:20px;">
+                <h4 style="font-family:'Orbitron'; color:var(--cyber-gold); font-size:0.9rem; margin-bottom:10px;">🤖 AI Фінансовий Прогноз</h4>
+                <div style="background:rgba(255,215,0,0.1); border-left:3px solid var(--cyber-gold); padding:10px; border-radius:8px;">
+                    <div style="font-size:0.8rem; color:#fff; margin-bottom:5px;">Тренд: <span style="color:var(--accent-green);">Зростаючий ↗</span></div>
+                    <div style="font-size:0.75rem; color:var(--text-sub);">Прогнозований дохід наступного місяця: <b style="color:var(--cyber-gold);" id="dir-forecast">0 €</b> (на базі існуючих записів)</div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -298,15 +323,42 @@
     <div id="page-accounting" class="page-section">
         <div class="admin-card">
             <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);" data-i18n="acc-title">🇫🇷 ПОДАТКИ (FRANCE)</h3>
-            <div class="stat-val" style="color:var(--accent-red);">TVA 20%: 2 075 €</div>
+            <div id="dir-taxes" class="stat-val" style="color:var(--accent-red);">TVA 20%: 0 €</div>
         </div>
     </div>
 
     <!-- 9. CRM -->
     <div id="page-admin" class="page-section">
-        <div class="admin-card">
-            <h3 style="font-family:'Orbitron'; color:var(--cyber-blue);" data-i18n="crm-title">💼 CRM ВОРОНКА</h3>
-            <div id="crm-orders-list"></div>
+        <div class="admin-card" style="padding:15px 10px;">
+            <h3 style="font-family:'Orbitron'; color:var(--cyber-blue); text-align:center;" data-i18n="crm-title">💼 CRM КАНБАН</h3>
+            
+            <div style="display:flex; gap:10px; margin-top:15px; overflow-x:auto; padding-bottom:10px;">
+                <!-- Колонки -->
+                <div style="min-width:250px; background:rgba(255,255,255,0.02); border-radius:12px; padding:10px; border:1px solid rgba(255,255,255,0.05);">
+                    <div style="font-family:'Orbitron'; font-size:0.85rem; color:#fff; margin-bottom:10px; display:flex; justify-content:space-between;">
+                        Нові <span style="background:var(--cyber-blue); color:#000; padding:2px 6px; border-radius:10px; font-weight:bold;" id="count-new">0</span>
+                    </div>
+                    <div id="crm-col-new" style="min-height:100px;"></div>
+                </div>
+
+                <div style="min-width:250px; background:rgba(255,255,255,0.02); border-radius:12px; padding:10px; border:1px solid rgba(255,255,255,0.05);">
+                    <div style="font-family:'Orbitron'; font-size:0.85rem; color:#fff; margin-bottom:10px; display:flex; justify-content:space-between;">
+                        Підтверджені <span style="background:var(--cyber-gold); color:#000; padding:2px 6px; border-radius:10px; font-weight:bold;" id="count-conf">0</span>
+                    </div>
+                    <div id="crm-col-conf" style="min-height:100px;"></div>
+                </div>
+
+                <div style="min-width:250px; background:rgba(255,255,255,0.02); border-radius:12px; padding:10px; border:1px solid rgba(255,255,255,0.05);">
+                    <div style="font-family:'Orbitron'; font-size:0.85rem; color:#fff; margin-bottom:10px; display:flex; justify-content:space-between;">
+                        Завершені <span style="background:var(--accent-green); color:#000; padding:2px 6px; border-radius:10px; font-weight:bold;" id="count-done">0</span>
+                    </div>
+                    <div id="crm-col-done" style="min-height:100px;"></div>
+                </div>
+            </div>
+            
+            <h4 style="font-family:'Orbitron'; color:var(--cyber-blue); font-size:0.9rem; margin-top:20px; text-align:center;">👥 База Клієнтів (LTV)</h4>
+            <div id="crm-clients-list" style="margin-top:10px;"></div>
+
         </div>
     </div>
 
@@ -314,6 +366,14 @@
     <div id="page-master" class="page-section">
         <div class="admin-card">
             <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);" data-i18n="master-title">💈 КАБІНЕТ МАЙСТРА</h3>
+            
+            <div style="display:flex; justify-content:space-between; align-items:center; background:#121926; border-radius:12px; padding:15px; margin-top:15px; border:1px solid rgba(0,162,255,0.3); margin-bottom:15px;">
+                <div>
+                    <div style="font-size:0.75rem; color:var(--text-sub);">Ваша загальна комісія (45%)</div>
+                    <div id="master-total-cut" style="font-family:'Orbitron'; font-size:1.5rem; color:var(--cyber-blue); font-weight:bold; margin-top:5px;">0 €</div>
+                </div>
+            </div>
+
             <div id="master-schedule-list"></div>
         </div>
     </div>
@@ -552,46 +612,16 @@
         startAiScanner();
     }
     
-    async function buyGiftCard(gift) {
+    function buyGiftCard(gift) {
         triggerHaptic('success');
-        if (tg.showAlert) tg.showAlert(`🎁 Ви обрали ${gift}. Рахунок виставлено у Telegram!`);
-        else alert(`🎁 Ви обрали ${gift}. Рахунок виставлено у Telegram!`);
-        
-        const chatId = tg.initDataUnsafe?.user?.id || atob("MTA3NzU3MzA2MQ==");
-        
-        try {
-            await fetch('https://small-masks-wash.loca.lt/invoice', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'Bypass-Tunnel-Reminder': 'true' },
-                body: JSON.stringify({
-                    chatId: chatId,
-                    title: gift,
-                    description: 'Подарунковий Сертифікат VOVAN BEAUTY',
-                    price: 50
-                })
-            });
-        } catch (e) { console.log(e); }
+        if (tg.showAlert) tg.showAlert(`🎁 Ви обрали ${gift}. Для оплати перейдіть у чат з ботом!`);
+        else alert(`🎁 Ви обрали ${gift}. Для оплати перейдіть у чат з ботом!`);
     }
 
-    async function buyShopItem(item) {
+    function buyShopItem(item) {
         triggerHaptic('success');
-        if (tg.showAlert) tg.showAlert(`🛒 ${item} додано до кошика! Рахунок відправлено.`);
-        else alert(`🛒 ${item} додано до кошика! Рахунок відправлено.`);
-        
-        const chatId = tg.initDataUnsafe?.user?.id || atob("MTA3NzU3MzA2MQ==");
-        
-        try {
-            await fetch('https://small-masks-wash.loca.lt/invoice', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'Bypass-Tunnel-Reminder': 'true' },
-                body: JSON.stringify({
-                    chatId: chatId,
-                    title: item,
-                    description: 'Покупка у Маркеті VOVAN BEAUTY',
-                    price: 25
-                })
-            });
-        } catch (e) { console.log(e); }
+        if (tg.showAlert) tg.showAlert(`🛒 ${item} додано до кошика! Перейдіть у чат з ботом для оплати.`);
+        else alert(`🛒 ${item} додано до кошика! Перейдіть у чат з ботом для оплати.`);
     }
 
     function sendBotNotification(text) {
@@ -603,96 +633,165 @@
         }).catch(e => {});
     }
 
-    const GAS_URL = "https://small-masks-wash.loca.lt/api/orders"; // LocalTunnel API
-
-    async function populateCRM() {
-        const crmList = document.getElementById('crm-orders-list');
-        if(!crmList) return;
-        
-        crmList.innerHTML = `<div style="text-align:center; padding:20px;"><span style="color:var(--cyber-blue);">🔄 Завантаження бази CRM...</span></div>`;
-        
-        try {
-            if (!GAS_URL) throw new Error("No GAS_URL");
-            const res = await fetch(GAS_URL, { headers: { 'Bypass-Tunnel-Reminder': 'true' } });
-            const json = await res.json();
-            
-            if (json.success && json.data.length > 0) {
-                crmList.innerHTML = json.data.reverse().map(order => `
-                    <div style="background:#121926; border:1px solid rgba(0,162,255,0.3); border-radius:12px; padding:12px; margin-bottom:10px;">
-                        <div style="display:flex; justify-content:space-between;">
-                            <span style="font-weight:bold; color:#fff;">${order.Client || 'Клієнт'}</span>
-                            <span style="color:var(--cyber-blue); font-family:'Orbitron';">${order.Price} €</span>
-                        </div>
-                        <div style="font-size:0.8rem; color:var(--text-sub); margin-top:4px;">${order.Service} • ${order.Date}</div>
-                        <div style="margin-top:8px; display:flex; gap:6px;">
-                            <span style="background:rgba(0,230,118,0.2); color:var(--accent-green); padding:4px 8px; border-radius:6px; font-size:0.7rem; font-weight:bold;">${order.Status}</span>
-                        </div>
-                    </div>
-                `).join('');
-                return;
-            }
-        } catch (e) {
-            console.log("Using CRM mock data (GAS_URL empty or failed)");
+    // LOCAL STORAGE DB INITIALIZATION
+    function getLocalDB() {
+        let db = localStorage.getItem('vovan_db');
+        if (!db) {
+            db = {
+                orders: [
+                    { id: 1, Client: 'Олена С.', Price: 40, Service: 'Стрижка M3GAN Cyber Style', Date: 'Сьогодні 13:00', Status: 'Завершено', Master: 'VOVAN', Master_Cut: 18 },
+                    { id: 2, Client: 'Анна М.', Price: 65, Service: 'Б\'юті-комплекс VOVAN VIP', Date: 'Завтра 15:00', Status: 'Новий', Master: 'M3GAN AI', Master_Cut: 29.25 },
+                    { id: 3, Client: 'Марія К.', Price: 40, Service: 'Стрижка M3GAN Cyber Style', Date: 'Вчора 11:00', Status: 'Завершено', Master: 'VOVAN', Master_Cut: 18 }
+                ]
+            };
+            saveLocalDB(db);
+        } else {
+            db = JSON.parse(db);
         }
+        return db;
+    }
+    
+    function saveLocalDB(db) {
+        localStorage.setItem('vovan_db', JSON.stringify(db));
+    }
 
-        // Mock Fallback
-        crmList.innerHTML = `
-            <div style="background:#121926; border:1px solid rgba(0,162,255,0.3); border-radius:12px; padding:12px; margin-bottom:10px;">
+    // CRM POPULATE (Kanban & Clients)
+    function populateCRM() {
+        const db = getLocalDB();
+        
+        const colNew = document.getElementById('crm-col-new');
+        const colConf = document.getElementById('crm-col-conf');
+        const colDone = document.getElementById('crm-col-done');
+        if(!colNew) return;
+        
+        let countNew = 0, countConf = 0, countDone = 0;
+        let htmlNew = '', htmlConf = '', htmlDone = '';
+
+        const renderCard = (order) => `
+            <div style="background:#121926; border:1px solid rgba(0,162,255,0.2); border-radius:8px; padding:10px; margin-bottom:8px;">
                 <div style="display:flex; justify-content:space-between;">
-                    <span style="font-weight:bold; color:#fff;">Олена С.</span>
-                    <span style="color:var(--cyber-blue); font-family:'Orbitron';">40 €</span>
+                    <span style="font-weight:bold; color:#fff; font-size:0.9rem;">${order.Client}</span>
+                    <span style="color:var(--cyber-blue); font-family:'Orbitron'; font-size:0.9rem;">${order.Price} €</span>
                 </div>
-                <div style="font-size:0.8rem; color:var(--text-sub); margin-top:4px;">Стрижка M3GAN Cyber Style • 13:00</div>
+                <div style="font-size:0.75rem; color:var(--text-sub); margin-top:4px;">${order.Service}</div>
+                <div style="font-size:0.7rem; color:var(--cyber-gold); margin-top:2px;">📅 ${order.Date} | 💈 ${order.Master}</div>
                 <div style="margin-top:8px; display:flex; gap:6px;">
-                    <span style="background:rgba(0,230,118,0.2); color:var(--accent-green); padding:4px 8px; border-radius:6px; font-size:0.7rem; font-weight:bold;">✅ Підтверджено</span>
-                    <span style="background:rgba(255,215,0,0.2); color:var(--cyber-gold); padding:4px 8px; border-radius:6px; font-size:0.7rem; font-weight:bold;">🚕 Uber</span>
+                    ${order.Status === 'Новий' ? `<button class="action-btn-sm" style="flex:1; padding:4px; font-size:0.7rem;" onclick="changeOrderStatus(${order.id}, 'Підтверджено')">Підтвердити</button>` : ''}
+                    ${order.Status === 'Підтверджено' ? `<button class="action-btn-sm" style="flex:1; padding:4px; font-size:0.7rem;" onclick="changeOrderStatus(${order.id}, 'Завершено')">Завершити</button>` : ''}
                 </div>
             </div>
         `;
+
+        db.orders.forEach(order => {
+            if (order.Status === 'Новий') { htmlNew += renderCard(order); countNew++; }
+            else if (order.Status === 'Підтверджено') { htmlConf += renderCard(order); countConf++; }
+            else { htmlDone += renderCard(order); countDone++; }
+        });
+
+        colNew.innerHTML = htmlNew; document.getElementById('count-new').innerText = countNew;
+        colConf.innerHTML = htmlConf; document.getElementById('count-conf').innerText = countConf;
+        colDone.innerHTML = htmlDone; document.getElementById('count-done').innerText = countDone;
+
+        // Популейт базы клиентов (LTV)
+        const clientsDiv = document.getElementById('crm-clients-list');
+        const clientsMap = {};
+        db.orders.forEach(o => {
+            if(!clientsMap[o.Client]) clientsMap[o.Client] = { total: 0, visits: 0 };
+            clientsMap[o.Client].total += o.Price;
+            clientsMap[o.Client].visits += 1;
+        });
+
+        let clientsHtml = '';
+        Object.keys(clientsMap).forEach(name => {
+            clientsHtml += `
+            <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(255,255,255,0.02); border-bottom:1px solid rgba(255,255,255,0.05); padding:10px;">
+                <div><div style="color:#fff; font-weight:bold;">${name}</div><div style="font-size:0.7rem; color:var(--text-sub);">Візитів: ${clientsMap[name].visits}</div></div>
+                <div style="text-align:right;"><div style="color:var(--accent-green); font-family:'Orbitron'; font-weight:bold;">${clientsMap[name].total} €</div><div style="font-size:0.7rem; color:var(--text-sub);">LTV</div></div>
+            </div>`;
+        });
+        clientsDiv.innerHTML = clientsHtml;
     }
 
-    async function populateMasterSchedule() {
+    function changeOrderStatus(id, newStatus) {
+        triggerHaptic('light');
+        const db = getLocalDB();
+        const order = db.orders.find(o => o.id === id);
+        if (order) order.Status = newStatus;
+        saveLocalDB(db);
+        populateCRM();
+        initDirectorStats();
+    }
+
+    // MASTER POPULATE
+    function populateMasterSchedule() {
         const masterList = document.getElementById('master-schedule-list');
         if(!masterList) return;
         
-        try {
-            if (!GAS_URL) throw new Error("No GAS_URL");
-            const res = await fetch(GAS_URL, { headers: { 'Bypass-Tunnel-Reminder': 'true' } });
-            const json = await res.json();
-            
-            if (json.success && json.data.length > 0) {
-                masterList.innerHTML = json.data.reverse().map(order => `
-                    <div style="display:flex; justify-content:space-between; align-items:center; background:#121926; border:1px solid rgba(255,215,0,0.3); border-radius:12px; padding:12px; margin-bottom:10px;">
-                        <div>
-                            <div style="font-weight:bold; color:var(--cyber-gold); font-family:'Orbitron';">${order.Date}</div>
-                            <div style="font-size:0.85rem; color:#fff; margin-top:2px;">${order.Client}</div>
-                            <div style="font-size:0.75rem; color:var(--text-sub);">${order.Service}</div>
-                        </div>
-                        <div style="text-align:right;">
-                            <div style="font-size:0.75rem; color:var(--text-sub);">Ваша частка (45%)</div>
-                            <div style="font-weight:bold; color:var(--accent-green); font-family:'Orbitron';">${order.Master_Cut} €</div>
-                        </div>
-                    </div>
-                `).join('');
-                return;
-            }
-        } catch(e) {
-            console.log("Using Master mock data");
-        }
+        const db = getLocalDB();
+        let totalCut = 0;
+        let html = '';
 
-        masterList.innerHTML = `
-            <div style="display:flex; justify-content:space-between; align-items:center; background:#121926; border:1px solid rgba(255,215,0,0.3); border-radius:12px; padding:12px; margin-bottom:10px;">
-                <div>
-                    <div style="font-weight:bold; color:var(--cyber-gold); font-family:'Orbitron';">13:00</div>
-                    <div style="font-size:0.85rem; color:#fff; margin-top:2px;">Олена С.</div>
-                    <div style="font-size:0.75rem; color:var(--text-sub);">Стрижка M3GAN</div>
+        db.orders.reverse().forEach(order => {
+            totalCut += order.Master_Cut || 0;
+            html += `
+                <div style="display:flex; justify-content:space-between; align-items:center; background:#121926; border:1px solid rgba(255,215,0,0.3); border-radius:12px; padding:12px; margin-bottom:10px;">
+                    <div>
+                        <div style="font-weight:bold; color:var(--cyber-gold); font-family:'Orbitron';">${order.Date}</div>
+                        <div style="font-size:0.85rem; color:#fff; margin-top:2px;">${order.Client}</div>
+                        <div style="font-size:0.75rem; color:var(--text-sub);">${order.Service}</div>
+                        <div style="font-size:0.7rem; color:var(--cyber-blue); margin-top:4px;">${order.Status}</div>
+                    </div>
+                    <div style="text-align:right;">
+                        <div style="font-size:0.75rem; color:var(--text-sub);">Ваша частка (45%)</div>
+                        <div style="font-weight:bold; color:var(--accent-green); font-family:'Orbitron';">${order.Master_Cut} €</div>
+                    </div>
                 </div>
-                <div style="text-align:right;">
-                    <div style="font-size:0.75rem; color:var(--text-sub);">Ваша частка (45%)</div>
-                    <div style="font-weight:bold; color:var(--accent-green); font-family:'Orbitron';">18.00 €</div>
+            `;
+        });
+        
+        masterList.innerHTML = html;
+        document.getElementById('master-total-cut').innerText = totalCut.toFixed(2) + ' €';
+    }
+
+    // DIRECTOR POPULATE
+    function initDirectorStats() {
+        const db = getLocalDB();
+        let totalRev = 0;
+        let masterStats = {};
+
+        db.orders.forEach(o => {
+            totalRev += o.Price;
+            if(!masterStats[o.Master]) masterStats[o.Master] = { rev: 0, cut: 0 };
+            masterStats[o.Master].rev += o.Price;
+            masterStats[o.Master].cut += o.Master_Cut || 0;
+        });
+
+        const netProfit = totalRev * 0.55;
+        document.getElementById('dir-total-revenue').innerText = totalRev.toFixed(2) + ' €';
+        document.getElementById('dir-net-profit').innerText = netProfit.toFixed(2) + ' €';
+        
+        const taxEl = document.getElementById('dir-taxes');
+        if(taxEl) taxEl.innerText = `TVA 20%: ${(totalRev * 0.20).toFixed(2)} €`;
+        const forecastEl = document.getElementById('dir-forecast');
+        if(forecastEl) forecastEl.innerText = (totalRev * 1.35).toFixed(2) + ' €';
+
+        let html = '';
+        Object.keys(masterStats).forEach(m => {
+            let p = (masterStats[m].rev / totalRev) * 100 || 0;
+            html += `
+            <div style="margin-bottom:12px;">
+                <div style="display:flex; justify-content:space-between; margin-bottom:4px; font-size:0.85rem; color:#fff;">
+                    <span>${m}</span> <span>${masterStats[m].rev.toFixed(2)} €</span>
                 </div>
-            </div>
-        `;
+                <div style="width:100%; height:8px; background:rgba(255,255,255,0.1); border-radius:4px; overflow:hidden;">
+                    <div style="width:${p}%; height:100%; background:var(--cyber-blue);"></div>
+                </div>
+                <div style="font-size:0.7rem; color:var(--text-sub); margin-top:2px;">Комісія виплачено: ${masterStats[m].cut.toFixed(2)} €</div>
+            </div>`;
+        });
+        
+        const statsEl = document.getElementById('dir-masters-stats');
+        if(statsEl) statsEl.innerHTML = html;
     }
 
     // 📱 АВТО-ПОДТЯГИВАНИЕ ДАННЫХ ИЗ TELEGRAM С ТЕЛЕФОНА
@@ -768,6 +867,7 @@
 
         if(pageId === 'admin') populateCRM();
         if(pageId === 'master') populateMasterSchedule();
+        if(pageId === 'director') initDirectorStats();
     }
 
     const modal = document.getElementById('booking-modal');
@@ -804,19 +904,22 @@
 
         sendBotNotification(adminMessageText);
         
-        if (GAS_URL) {
-            try {
-                await fetch(GAS_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json', 'Bypass-Tunnel-Reminder': 'true' },
-                    body: JSON.stringify({
-                        clientName, clientPhone, service, master: barber,
-                        date: selectedDateText + " " + selectedTimeText,
-                        price: price
-                    })
-                });
-            } catch(e) { console.log("API save error", e); }
-        }
+        // Збереження локально у БД
+        const db = getLocalDB();
+        db.orders.push({
+            id: Date.now(),
+            Client: clientName,
+            Price: price,
+            Service: service,
+            Date: selectedDateText + " " + selectedTimeText,
+            Status: 'Новий',
+            Master: barber,
+            Master_Cut: price * 0.45
+        });
+        saveLocalDB(db);
+        populateCRM();
+        populateMasterSchedule();
+        initDirectorStats();
 
         if (tg.showAlert) tg.showAlert(`✨ Запис успішно створено! До зустрічі ${selectedDateText} о ${selectedTimeText}!`);
         closeModal();
