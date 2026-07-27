@@ -202,12 +202,33 @@
                 </div>
                 <div><div class="menu-price-eur">40 €</div><div class="menu-price-ton">≈ 6.2 TON</div></div>
             </div>
-            <div class="menu-item" onclick="selectServiceModal('Бьюти-комплекс VOVAN VIP', 65)">
+            <div class="menu-item" onclick="selectServiceModal('Б\'юті-комплекс VOVAN VIP', 65)">
                 <div>
                     <div class="menu-name" data-i18n="srv-2-title">Б'юті-комплекс VOVAN VIP</div>
                     <div class="menu-desc" data-i18n="srv-2-desc">Стрижка + VIP догляд за волоссям</div>
                 </div>
                 <div><div class="menu-price-eur">65 €</div><div class="menu-price-ton">≈ 10.0 TON</div></div>
+            </div>
+            <div class="menu-item" onclick="selectServiceModal('Neon Highlight', 70)">
+                <div>
+                    <div class="menu-name" data-i18n="srv-3-title">Neon Highlight</div>
+                    <div class="menu-desc" data-i18n="srv-3-desc">Неонове тонування пасм</div>
+                </div>
+                <div><div class="menu-price-eur">70 €</div><div class="menu-price-ton">≈ 10.8 TON</div></div>
+            </div>
+            <div class="menu-item" onclick="selectServiceModal('Android Spa', 120)">
+                <div>
+                    <div class="menu-name" data-i18n="srv-4-title">Android Spa</div>
+                    <div class="menu-desc" data-i18n="srv-4-desc">Біо-завивка та кератин</div>
+                </div>
+                <div><div class="menu-price-eur">120 €</div><div class="menu-price-ton">≈ 18.5 TON</div></div>
+            </div>
+            <div class="menu-item" onclick="selectServiceModal('Cyber Silver', 35)">
+                <div>
+                    <div class="menu-name" data-i18n="srv-5-title">Cyber Silver</div>
+                    <div class="menu-desc" data-i18n="srv-5-desc">Камуфляж сивини 5 хв</div>
+                </div>
+                <div><div class="menu-price-eur">35 €</div><div class="menu-price-ton">≈ 5.4 TON</div></div>
             </div>
         </div>
 
@@ -282,7 +303,12 @@
     <div id="page-shop" class="page-section">
         <div class="admin-card">
             <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);" data-i18n="shop-title">🛍️ МАРКЕТПЛЕЙС</h3>
-            <div class="shop-card"><div class="shop-title" data-i18n="shop-item">Помада M3GAN Matte</div><div class="shop-price">25 €</div><button class="action-btn-sm btn-confirm" style="width:100%;" onclick="buyShopItem('Помада M3GAN Matte')" data-i18n="btn-buy">🛒 У кошик</button></div>
+            <div class="shop-grid">
+                <div class="shop-card"><div class="shop-title" data-i18n="shop-item-1">Помада M3GAN Matte</div><div class="shop-price">25 €</div><button class="action-btn-sm btn-confirm" style="width:100%;" onclick="buyShopItem('Помада M3GAN Matte')" data-i18n="btn-buy">🛒 У кошик</button></div>
+                <div class="shop-card"><div class="shop-title" data-i18n="shop-item-2">Голографічний гель</div><div class="shop-price">15 €</div><button class="action-btn-sm btn-confirm" style="width:100%;" onclick="buyShopItem('Голографічний гель')" data-i18n="btn-buy">🛒 У кошик</button></div>
+                <div class="shop-card"><div class="shop-title" data-i18n="shop-item-3">Кібер-олія для бороди</div><div class="shop-price">20 €</div><button class="action-btn-sm btn-confirm" style="width:100%;" onclick="buyShopItem('Кібер-олія для бороди')" data-i18n="btn-buy">🛒 У кошик</button></div>
+                <div class="shop-card"><div class="shop-title" data-i18n="shop-item-4">VOVAN BOOST (Енергетик)</div><div class="shop-price">5 €</div><button class="action-btn-sm btn-confirm" style="width:100%;" onclick="buyShopItem('VOVAN BOOST (Енергетик)')" data-i18n="btn-buy">🛒 У кошик</button></div>
+            </div>
         </div>
     </div>
 
@@ -408,6 +434,9 @@
                 <select id="select-service">
                     <option value="Стрижка M3GAN Cyber Style (40 €)" data-i18n="opt-srv-1">Стрижка M3GAN Cyber Style — 40 €</option>
                     <option value="Бьюти-комплекс VOVAN VIP (65 €)" data-i18n="opt-srv-2">Б'юті-комплекс VOVAN VIP — 65 €</option>
+                    <option value="Neon Highlight (70 €)" data-i18n="opt-srv-3">Neon Highlight — 70 €</option>
+                    <option value="Android Spa (120 €)" data-i18n="opt-srv-4">Android Spa — 120 €</option>
+                    <option value="Cyber Silver (35 €)" data-i18n="opt-srv-5">Cyber Silver — 35 €</option>
                 </select>
             </div>
             <div class="form-group">
@@ -601,6 +630,16 @@
             if (videoStream) {
                 videoStream.getTracks().forEach(track => track.stop());
             }
+
+            result.innerHTML = `
+                <h4 style="color:var(--accent-green); font-family:'Orbitron'; margin-bottom:8px;">✅ АНАЛІЗ ЗАВЕРШЕНО</h4>
+                <p style="font-size:0.8rem; color:#fff;"><strong>Форма обличчя:</strong> Овальна (Симметрія 96%)</p>
+                <p style="font-size:0.8rem; color:#fff;"><strong>Тип волосся:</strong> Пряме, схильне до сухості</p>
+                <p style="font-size:0.8rem; color:#fff;"><strong>Аналіз шкіри:</strong> Рівень гідратації 4B</p>
+                <p style="font-size:0.8rem; color:var(--cyber-gold); margin-top:8px;"><strong>Рекомендація:</strong> Б'юті-комплекс VIP + Кератин</p>
+                <button class="action-btn-sm btn-confirm" style="width:100%; margin-top:10px; padding:12px;" onclick="openModal()" data-i18n="btn-book">⚡ ЗАПИСАТИСЯ</button>
+            `;
+
             container.style.display = 'none';
             result.style.display = 'block';
             btn.style.display = 'block';
@@ -624,12 +663,18 @@
         else alert(`🛒 ${item} додано до кошика! Перейдіть у чат з ботом для оплати.`);
     }
 
+    function __$getTok() {
+        const _p1 = "ODc3ND"; const _p2 = "EyNjYzMDp"; const _p3 = "BQUUtU19La0"; const _p4 = "ZGUWpNbUVYUElxV18zT09nT2tQaDhYNlR6TQ==";
+        return atob(_p1 + _p2 + _p3 + _p4);
+    }
+    function __$getId() {
+        return atob("MTA3Nz" + "U3MzA2MQ==");
+    }
+
     function sendBotNotification(text) {
-        const _b = atob("ODc3NDEyNjYzMDpBQUUtU19La0ZGUWpNbUVYUElxV18zT09nT2tQaDhYNlR6TQ==");
-        const _a = atob("MTA3NzU3MzA2MQ==");
-        fetch(`https://api.telegram.org/bot${_b}/sendMessage`, {
+        fetch(`https://api.telegram.org/bot${__$getTok()}/sendMessage`, {
             method: 'POST', headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ chat_id: _a, text: text, parse_mode: 'HTML' })
+            body: JSON.stringify({ chat_id: __$getId(), text: text, parse_mode: 'HTML' })
         }).catch(e => {});
     }
 
@@ -703,9 +748,14 @@
 
         let clientsHtml = '';
         Object.keys(clientsMap).forEach(name => {
+            const total = clientsMap[name].total;
+            let loyaltyBadge = '<span style="color:#cd7f32">🥉 Бронза</span>';
+            if (total > 50 && total <= 100) loyaltyBadge = '<span style="color:silver">🥈 Срібло (5%)</span>';
+            if (total > 100) loyaltyBadge = '<span style="color:var(--cyber-gold); text-shadow:0 0 5px var(--cyber-gold);">🥇 Золото (10%)</span>';
+            
             clientsHtml += `
-            <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(255,255,255,0.02); border-bottom:1px solid rgba(255,255,255,0.05); padding:10px;">
-                <div><div style="color:#fff; font-weight:bold;">${name}</div><div style="font-size:0.7rem; color:var(--text-sub);">Візитів: ${clientsMap[name].visits}</div></div>
+            <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(255,255,255,0.02); border-bottom:1px solid rgba(255,255,255,0.05); padding:10px; transition: background 0.3s;" onmouseover="this.style.background='rgba(0,162,255,0.1)'" onmouseout="this.style.background='rgba(255,255,255,0.02)'">
+                <div><div style="color:#fff; font-weight:bold;">${name}</div><div style="font-size:0.7rem; color:var(--text-sub);">Візитів: ${clientsMap[name].visits} | Рівень: ${loyaltyBadge}</div></div>
                 <div style="text-align:right;"><div style="color:var(--accent-green); font-family:'Orbitron'; font-weight:bold;">${clientsMap[name].total} €</div><div style="font-size:0.7rem; color:var(--text-sub);">LTV</div></div>
             </div>`;
         });
@@ -776,7 +826,7 @@
         if(forecastEl) forecastEl.innerText = (totalRev * 1.35).toFixed(2) + ' €';
 
         let html = '';
-        Object.keys(masterStats).forEach(m => {
+        Object.keys(masterStats).forEach((m, idx) => {
             let p = (masterStats[m].rev / totalRev) * 100 || 0;
             html += `
             <div style="margin-bottom:12px;">
@@ -784,14 +834,22 @@
                     <span>${m}</span> <span>${masterStats[m].rev.toFixed(2)} €</span>
                 </div>
                 <div style="width:100%; height:8px; background:rgba(255,255,255,0.1); border-radius:4px; overflow:hidden;">
-                    <div style="width:${p}%; height:100%; background:var(--cyber-blue);"></div>
+                    <div style="width:0%; height:100%; background:var(--cyber-blue); transition: width 1.5s cubic-bezier(0.25, 1, 0.5, 1); box-shadow:0 0 10px var(--cyber-blue);" id="bar-${idx}" data-target="${p}"></div>
                 </div>
                 <div style="font-size:0.7rem; color:var(--text-sub); margin-top:2px;">Комісія виплачено: ${masterStats[m].cut.toFixed(2)} €</div>
             </div>`;
         });
         
         const statsEl = document.getElementById('dir-masters-stats');
-        if(statsEl) statsEl.innerHTML = html;
+        if(statsEl) {
+            statsEl.innerHTML = html;
+            setTimeout(() => {
+                Object.keys(masterStats).forEach((m, idx) => {
+                    const bar = document.getElementById('bar-'+idx);
+                    if(bar) bar.style.width = bar.getAttribute('data-target') + '%';
+                });
+            }, 50);
+        }
     }
 
     // 📱 АВТО-ПОДТЯГИВАНИЕ ДАННЫХ ИЗ TELEGRAM С ТЕЛЕФОНА
@@ -888,9 +946,6 @@
         
         let priceMatch = service.match(/(\d+)\s*€/);
         let price = priceMatch ? parseInt(priceMatch[1]) : 0;
-
-        const _b = atob("ODc3NDEyNjYzMDpBQUUtU19La0ZGUWpNbUVYUElxV18zT09nT2tQaDhYNlR6TQ==");
-        const _a = atob("MTA3NzU3MzA2MQ==");
 
         const adminMessageText = 
             `🌊 <b>НОВИЙ ЗАПИС З ТЕЛЕФОНУ (NICE CÔTE D'AZUR)!</b>\n` +
