@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>VOVAN BEAUTY STUDIO — Official Payment Logos & Vector Icons</title>
+    <title>VOVAN BEAUTY STUDIO — Ultimate OS & Multi-Lang Edition</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -48,7 +48,6 @@
         .stat-val { font-family: 'Orbitron', sans-serif; font-size: 1.15rem; font-weight: 900; color: var(--cyber-gold); margin-top: 3px; }
         .stat-label { font-size: 0.72rem; color: var(--text-sub); }
 
-        /* Официальные плашки оплаты */
         .pay-badges-row { display: flex; gap: 8px; justify-content: center; margin-top: 12px; flex-wrap: wrap; }
         .pay-badge-item { background: #141b29; border: 1px solid rgba(255, 215, 0, 0.2); border-radius: 8px; padding: 6px 12px; display: flex; align-items: center; gap: 6px; font-size: 0.78rem; font-weight: bold; }
 
@@ -129,19 +128,19 @@
     <header>
         <div class="logo" id="app-logo">VOVAN ULTRA TECH 🇫🇷</div>
         <div class="header-controls">
-            <select class="lang-selector" onchange="changeLanguage(this.value)">
+            <select class="lang-selector" id="lang-select" onchange="changeLanguage(this.value)">
                 <option value="UA">🇺🇦 UA</option>
                 <option value="FR">🇫🇷 FR</option>
                 <option value="EN">🇬🇧 EN</option>
             </select>
             <select class="role-selector" id="role-select" onchange="switchTab(this.value)">
-                <option value="client">👤 Клиент</option>
-                <option value="ai">🤖 AI Подбор</option>
-                <option value="shop">🛍️ Маркет</option>
-                <option value="director">👑 Директор</option>
-                <option value="accounting">🇫🇷 Налоги</option>
-                <option value="admin">💼 CRM</option>
-                <option value="master">💈 Мастер</option>
+                <option value="client" id="opt-client">👤 Клиент</option>
+                <option value="ai" id="opt-ai">🤖 AI Подбор</option>
+                <option value="shop" id="opt-shop">🛍️ Маркет</option>
+                <option value="director" id="opt-director">👑 Директор</option>
+                <option value="accounting" id="opt-accounting">🇫🇷 Налоги</option>
+                <option value="admin" id="opt-admin">💼 CRM</option>
+                <option value="master" id="opt-master">💈 Мастер</option>
             </select>
         </div>
     </header>
@@ -156,7 +155,6 @@
                 <h1 id="txt-hero-title">M3GAN AI BEAUTY EDITION</h1>
                 <p id="txt-hero-desc">Кибер-эстетика, авторский стиль и эквайринг Google Pay / Apple Pay / TON.</p>
                 
-                <!-- Официальные брендовые значки оплаты -->
                 <div class="pay-badges-row">
                     <div class="pay-badge-item"><span style="color:#4285F4; font-weight:900;">G</span>Pay</div>
                     <div class="pay-badge-item"> Pay</div>
@@ -172,8 +170,8 @@
             <h2 style="font-family:'Orbitron'; color:var(--cyber-gold); font-size:1.1rem; margin-bottom:12px; text-align:center;" id="txt-menu-title">УСЛУГИ И ЦЕНЫ (TTC)</h2>
             <div class="menu-item" onclick="selectServiceModal('Стрижка M3GAN Cyber Style')">
                 <div>
-                    <div class="menu-name">Стрижка M3GAN Cyber Style</div>
-                    <div class="menu-desc">Авторское моделирование формы</div>
+                    <div class="menu-name" id="srv-1-title">Стрижка M3GAN Cyber Style</div>
+                    <div class="menu-desc" id="srv-1-desc">Авторское моделирование формы</div>
                 </div>
                 <div>
                     <div class="menu-price-eur">40 €</div>
@@ -182,8 +180,8 @@
             </div>
             <div class="menu-item" onclick="selectServiceModal('Бьюти-комплекс VOVAN VIP')">
                 <div>
-                    <div class="menu-name">Бьюти-комплекс VOVAN VIP</div>
-                    <div class="menu-desc">Стрижка + VIP уход за волосами</div>
+                    <div class="menu-name" id="srv-2-title">Бьюти-комплекс VOVAN VIP</div>
+                    <div class="menu-desc" id="srv-2-desc">Стрижка + VIP уход за волосами</div>
                 </div>
                 <div>
                     <div class="menu-price-eur">65 €</div>
@@ -192,8 +190,8 @@
             </div>
             <div class="menu-item" onclick="selectServiceModal('Cyber Fade & Beard')">
                 <div>
-                    <div class="menu-name">Cyber Fade & Beard</div>
-                    <div class="menu-desc">Идеальный фейд + оформление бороды</div>
+                    <div class="menu-name" id="srv-3-title">Cyber Fade & Beard</div>
+                    <div class="menu-desc" id="srv-3-desc">Идеальный фейд + оформление бороды</div>
                 </div>
                 <div>
                     <div class="menu-price-eur">50 €</div>
@@ -206,14 +204,14 @@
             <div class="barber-card">
                 <img src="vovan.jpg" alt="VOVAN Master" class="barber-img">
                 <h3 style="font-family:'Orbitron'; color:var(--cyber-blue);">VOVAN (Главный Стилист)</h3>
-                <p style="font-size:0.8rem; color:var(--text-sub); margin:6px 0 12px;">Основатель студии. Авторский стиль.</p>
-                <button class="select-barber-btn" onclick="selectBarberModal('VOVAN')">Записаться к VOVAN</button>
+                <p style="font-size:0.8rem; color:var(--text-sub); margin:6px 0 12px;" id="b-1-desc">Основатель студии. Авторский стиль.</p>
+                <button class="select-barber-btn" onclick="selectBarberModal('VOVAN')" id="b-1-btn">Записаться к VOVAN</button>
             </div>
             <div class="barber-card">
                 <img src="m3gan_cyber.jpg" alt="M3GAN AI" class="barber-img">
                 <h3 style="font-family:'Orbitron'; color:var(--cyber-blue);">M3GAN AI (Кибер-Мастер)</h3>
-                <p style="font-size:0.8rem; color:var(--text-sub); margin:6px 0 12px;">Виртуально-совершенный бьюти-арт.</p>
-                <button class="select-barber-btn" onclick="selectBarberModal('M3GAN AI')">Записаться к M3GAN</button>
+                <p style="font-size:0.8rem; color:var(--text-sub); margin:6px 0 12px;" id="b-2-desc">Виртуально-совершенный бьюти-арт.</p>
+                <button class="select-barber-btn" onclick="selectBarberModal('M3GAN AI')" id="b-2-btn">Записаться к M3GAN</button>
             </div>
         </div>
     </div>
@@ -221,18 +219,18 @@
     <!-- 2. AI НЕЙРО-ПОДБОР -->
     <div id="page-ai" class="page-section">
         <div class="admin-card">
-            <h3 style="font-family:'Orbitron'; color:var(--cyber-blue);">🤖 M3GAN AI СКУЛЬПТОР СТИЛЯ</h3>
-            <p style="font-size:0.8rem; color:var(--text-sub); margin-top:4px;">Загрузите селфи для автоматического подбора идеальной прически</p>
+            <h3 style="font-family:'Orbitron'; color:var(--cyber-blue);" id="ai-title">🤖 M3GAN AI СКУЛЬПТОР СТИЛЯ</h3>
+            <p style="font-size:0.8rem; color:var(--text-sub); margin-top:4px;" id="ai-subtitle">Загрузите селфи для автоматического подбора идеальной прически</p>
             
             <div class="ai-scanner-box">
                 <div style="font-size:2.5rem; margin-bottom:8px;">📸</div>
-                <div style="font-size:0.85rem; font-weight:bold; color:var(--cyber-gold);">Загрузить фото или сделать селфи</div>
-                <p style="font-size:0.75rem; color:var(--text-sub); margin-top:4px;">M3GAN AI проанализирует форму лица и овал</p>
-                <button class="ticket-btn" style="margin-top:14px; font-size:0.8rem; width:100%;" onclick="runAiAnalysis()">⚡ ЗАПУСТИТЬ AI СКАНЕР</button>
+                <div style="font-size:0.85rem; font-weight:bold; color:var(--cyber-gold);" id="ai-box-title">Загрузить фото или сделать селфи</div>
+                <p style="font-size:0.75rem; color:var(--text-sub); margin-top:4px;" id="ai-box-desc">M3GAN AI проанализирует форму лица и овал</p>
+                <button class="ticket-btn" style="margin-top:14px; font-size:0.8rem; width:100%;" onclick="runAiAnalysis()" id="ai-btn">⚡ ЗАПУСТИТЬ AI СКАНЕР</button>
             </div>
             <div id="ai-result" style="display:none; margin-top:14px; background:#141b29; padding:12px; border-radius:10px; border-left:4px solid var(--accent-green);">
-                <h4 style="font-family:'Orbitron'; color:var(--accent-green); font-size:0.85rem;">Рекомендация M3GAN AI:</h4>
-                <p style="font-size:0.8rem; margin-top:4px;">Вам идеально подходит <b>Cyber Crop Fade</b>. Подчеркнет геометрию скул и подбородка. Запишитесь к мастеру VOVAN.</p>
+                <h4 style="font-family:'Orbitron'; color:var(--accent-green); font-size:0.85rem;" id="ai-res-title">Рекомендация M3GAN AI:</h4>
+                <p style="font-size:0.8rem; margin-top:4px;" id="ai-res-desc">Вам идеально подходит <b>Cyber Crop Fade</b>. Подчеркнет геометрию скул и подбородка. Запишитесь к мастеру VOVAN.</p>
             </div>
         </div>
     </div>
@@ -240,7 +238,7 @@
     <!-- 3. МАРКЕТПЛЕЙС -->
     <div id="page-shop" class="page-section">
         <div class="admin-card">
-            <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);">🛍️ МАРКЕТПЛЕЙС СТАЙЛИНГА</h3>
+            <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);" id="shop-title">🛍️ МАРКЕТПЛЕЙС СТАЙЛИНГА</h3>
             <div class="shop-grid">
                 <div class="shop-card">
                     <div style="font-size:2rem;">💈</div>
@@ -261,7 +259,7 @@
     <!-- 4. ДИРЕКТОР -->
     <div id="page-director" class="page-section">
         <div class="admin-card">
-            <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);">👑 ДИРЕКТОРСКАЯ АНАЛИТИКА & LTV</h3>
+            <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);" id="dir-title">👑 ДИРЕКТОРСКАЯ АНАЛИТИКА & LTV</h3>
             <div class="period-tabs">
                 <div class="period-btn" onclick="updateDirectorPeriod('day', this)">День</div>
                 <div class="period-btn" onclick="updateDirectorPeriod('week', this)">Неделя</div>
@@ -278,9 +276,9 @@
     <!-- 5. БУХГАЛТЕРИЯ -->
     <div id="page-accounting" class="page-section">
         <div class="admin-card">
-            <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);">🇫🇷 КАЛЬКУЛЯТОР НАЛОГОВ И P&L (FRANCE)</h3>
+            <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);" id="tax-title">🇫🇷 КАЛЬКУЛЯТОР НАЛОГОВ И P&L (FRANCE)</h3>
             <div class="form-group" style="margin-top:10px;">
-                <label>Расчетная выручка студии (€ TTC):</label>
+                <label id="tax-rev-label">Расчетная выручка студии (€ TTC):</label>
                 <input type="number" id="acc-input-revenue" value="12450" oninput="recalculateFrenchTaxes()" style="font-family:'Orbitron'; font-size:1.1rem; color:var(--cyber-gold);">
             </div>
             <div class="stat-grid">
@@ -293,7 +291,7 @@
     <!-- 6. CRM -->
     <div id="page-admin" class="page-section">
         <div class="admin-card">
-            <h3 style="font-family:'Orbitron'; color:var(--cyber-blue);">💼 CRM ВОРОНКА ОБСЛУЖИВАНИЯ</h3>
+            <h3 style="font-family:'Orbitron'; color:var(--cyber-blue);" id="crm-title">💼 CRM ВОРОНКА ОБСЛУЖИВАНИЯ</h3>
             <div class="pipeline-bar">
                 <div class="pipe-step active" onclick="filterCrmPipeline('all', this)">Все</div>
                 <div class="pipe-step" onclick="filterCrmPipeline('new', this)">Новые</div>
@@ -307,7 +305,7 @@
     <!-- 7. МАСТЕР -->
     <div id="page-master" class="page-section">
         <div class="admin-card">
-            <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);">💈 КАБИНЕТ И ЗАРПЛАТА МАСТЕРА</h3>
+            <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);" id="m-title">💈 КАБИНЕТ И ЗАРПЛАТА МАСТЕРА</h3>
             <div class="stat-grid">
                 <div class="stat-box"><div class="stat-label">Клиентов сегодня</div><div class="stat-val" id="master-count">3</div></div>
                 <div class="stat-box"><div class="stat-label">Зарплата (45% + Чаевые)</div><div class="stat-val" style="color:var(--accent-green);" id="master-pay">72.0 €</div></div>
@@ -317,26 +315,26 @@
 
     <!-- НИЖНЯЯ НАВИГАЦИЯ -->
     <div class="bottom-nav">
-        <button class="nav-btn active" onclick="switchTab('client')"><span class="nav-icon">🎟</span>Запись</button>
-        <button class="nav-btn" onclick="switchTab('ai')"><span class="nav-icon">🤖</span>AI Скан</button>
-        <button class="nav-btn" onclick="switchTab('shop')"><span class="nav-icon">🛍️</span>Маркет</button>
-        <button class="nav-btn" onclick="switchTab('admin')"><span class="nav-icon">💼</span>CRM</button>
-        <button class="nav-btn" onclick="switchTab('director')"><span class="nav-icon">👑</span>Директор</button>
+        <button class="nav-btn active" onclick="switchTab('client')"><span class="nav-icon">🎟</span><span id="nav-1">Запись</span></button>
+        <button class="nav-btn" onclick="switchTab('ai')"><span class="nav-icon">🤖</span><span id="nav-2">AI Скан</span></button>
+        <button class="nav-btn" onclick="switchTab('shop')"><span class="nav-icon">🛍️</span><span id="nav-3">Маркет</span></button>
+        <button class="nav-btn" onclick="switchTab('admin')"><span class="nav-icon">💼</span><span id="nav-4">CRM</span></button>
+        <button class="nav-btn" onclick="switchTab('director')"><span class="nav-icon">👑</span><span id="nav-5">Директор</span></button>
     </div>
 </div>
 
-<!-- Модальное окно записи с официальными SVG кнопками -->
+<!-- Модальное окно записи -->
 <div id="booking-modal" class="modal-overlay">
     <div class="vintage-modal">
         <button class="close-modal" onclick="closeModal()">&times;</button>
         <div class="modal-header">
-            <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);">ЗАПИСЬ & ЭКВАЙРИНГ</h3>
+            <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);" id="modal-title">ЗАПИСЬ & ЭКВАЙРИНГ</h3>
         </div>
         <form id="barber-form">
-            <div class="form-group"><label>Ваше имя:</label><input type="text" id="client-name" placeholder="Алексей" required></div>
-            <div class="form-group"><label>Контакты:</label><input type="text" id="client-phone" placeholder="+380991234567" required></div>
+            <div class="form-group"><label id="lbl-name">Ваше имя:</label><input type="text" id="client-name" placeholder="Алексей" required></div>
+            <div class="form-group"><label id="lbl-phone">Контакты:</label><input type="text" id="client-phone" placeholder="+380991234567" required></div>
             <div class="form-group">
-                <label>Услуга:</label>
+                <label id="lbl-service">Услуга:</label>
                 <select id="select-service">
                     <option value="Стрижка M3GAN Cyber Style (40 €)">Стрижка M3GAN Cyber Style — 40 € (≈ 6.2 TON)</option>
                     <option value="Бьюти-комплекс VOVAN VIP (65 €)">Бьюти-комплекс VOVAN VIP — 65 € (≈ 10.0 TON)</option>
@@ -344,13 +342,20 @@
                 </select>
             </div>
             <div class="form-group">
-                <label>Стилист:</label>
+                <label id="lbl-barber">Стилист:</label>
                 <select id="select-barber"><option value="VOVAN">VOVAN (Главный стилист)</option><option value="M3GAN AI">M3GAN AI (Кибер-мастер)</option></select>
+            </div>
+
+            <!-- Промокод -->
+            <div class="form-group">
+                <label id="lbl-promo">Промокод / Скидка:</label>
+                <input type="text" id="client-promo" placeholder="MEGAN2026 (-15%)" oninput="applyPromoCode(this.value)">
+                <div id="promo-status" style="font-size:0.75rem; color:var(--accent-green); margin-top:4px; display:none;">✅ Промокод MEGAN2026 применен! Скидка -15%</div>
             </div>
 
             <!-- Чаевые -->
             <div class="form-group">
-                <label>Чаевые мастеру:</label>
+                <label id="lbl-tips">Чаевые мастеру:</label>
                 <div class="tips-grid">
                     <div class="tip-btn" onclick="selectTip(0, this)">Без чаевых</div>
                     <div class="tip-btn selected" onclick="selectTip(10, this)">+10%</div>
@@ -360,7 +365,7 @@
             </div>
 
             <div class="form-group">
-                <label>Способ оплаты:</label>
+                <label id="lbl-pay">Способ оплаты:</label>
                 <select id="select-payment-method">
                     <option value="Google Pay (GPay)">🌐 Google Pay (GPay)</option>
                     <option value=" Apple Pay"> Apple Pay</option>
@@ -369,15 +374,14 @@
                 </select>
             </div>
 
-            <div class="form-group"><label>Дата визита:</label><div class="date-picker" id="date-picker-container"></div></div>
+            <div class="form-group"><label id="lbl-date">Дата визита:</label><div class="date-picker" id="date-picker-container"></div></div>
             <div class="form-group">
-                <label>Время визита:</label>
+                <label id="lbl-time">Время визита:</label>
                 <div class="time-slots">
                     <div class="slot-btn selected">11:00</div><div class="slot-btn">13:00</div><div class="slot-btn">15:00</div>
                 </div>
             </div>
 
-            <!-- Официальные экспресс-кнопки оплаты -->
             <button type="button" class="gpay-btn-official" onclick="payWithGooglePay()">
                 <svg width="20" height="20" viewBox="0 0 24 24"><path fill="#4285F4" d="M23.49 12.27c0-.79-.07-1.54-.19-2.27H12v4.51h6.47c-.29 1.48-1.14 2.73-2.4 3.58v3h3.86c2.26-2.09 3.56-5.17 3.56-8.82z"/><path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.86-3c-1.08.72-2.45 1.16-4.07 1.16-3.13 0-5.78-2.11-6.73-4.96H1.29v3.09C3.26 21.3 7.31 24 12 24z"/><path fill="#FBBC05" d="M5.27 14.29c-.25-.72-.38-1.49-.38-2.29s.14-1.57.38-2.29V6.62H1.29C.47 8.24 0 10.06 0 12s.47 3.76 1.29 5.38l3.98-3.09z"/><path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.31 0 3.26 2.7 1.29 6.62l3.98 3.09c.95-2.85 3.6-4.96 6.73-4.96z"/></svg>
                 Оплатить через Google Pay
@@ -387,7 +391,7 @@
                 <span style="font-size:1.1rem;"></span> Pay (Apple Pay)
             </button>
 
-            <button type="submit" class="ticket-btn" style="width:100%; margin-top:10px;">⚡ ПОДТВЕРДИТЬ ЗАПИСЬ</button>
+            <button type="submit" class="ticket-btn" style="width:100%; margin-top:10px;" id="btn-submit">⚡ ПОДТВЕРДИТЬ ЗАПИСЬ</button>
         </form>
     </div>
 </div>
@@ -404,6 +408,80 @@
         }
     }
 
+    let isPromoApplied = false;
+    function applyPromoCode(code) {
+        if (code.trim().toUpperCase() === 'MEGAN2026') {
+            isPromoApplied = true;
+            triggerHaptic('success');
+            document.getElementById('promo-status').style.display = 'block';
+        } else {
+            isPromoApplied = false;
+            document.getElementById('promo-status').style.display = 'none';
+        }
+    }
+
+    let currentLang = 'UA';
+    function changeLanguage(lang) {
+        currentLang = lang;
+        triggerHaptic('light');
+        
+        if (lang === 'UA') {
+            document.getElementById('txt-hero-title').innerText = "M3GAN AI BEAUTY EDITION";
+            document.getElementById('txt-hero-desc').innerText = "Кібер-естетика, авторський стиль та онлайн-каса Google Pay / Apple Pay / TON.";
+            document.getElementById('txt-hero-btn').innerText = "⚡ ЗАПИСАТИСЯ ДО МАЙСТРА";
+            document.getElementById('txt-menu-title').innerText = "ПОСЛУГИ ТА ЦІНИ (TTC)";
+            document.getElementById('srv-1-title').innerText = "Стрижка M3GAN Cyber Style";
+            document.getElementById('srv-1-desc').innerText = "Авторське моделювання форми";
+            document.getElementById('srv-2-title').innerText = "Б'юті-комплекс VOVAN VIP";
+            document.getElementById('srv-2-desc').innerText = "Стрижка + VIP догляд за волоссям";
+            document.getElementById('b-1-desc').innerText = "Засновник студії. Авторський стиль.";
+            document.getElementById('b-1-btn').innerText = "Записатися до VOVAN";
+            document.getElementById('b-2-desc').innerText = "Віртуально-досконалий б'юті-арт.";
+            document.getElementById('b-2-btn').innerText = "Записатися до M3GAN";
+            document.getElementById('nav-1').innerText = "Запис";
+            document.getElementById('nav-2').innerText = "AI Скан";
+            document.getElementById('nav-3').innerText = "Маркет";
+            document.getElementById('nav-4').innerText = "CRM";
+            document.getElementById('nav-5').innerText = "Директор";
+        } else if (lang === 'FR') {
+            document.getElementById('txt-hero-title').innerText = "M3GAN AI ÉDITION BEAUTÉ";
+            document.getElementById('txt-hero-desc').innerText = "Esthétique cyber, style sur-mesure et caisse Google Pay / Apple Pay / TON.";
+            document.getElementById('txt-hero-btn').innerText = "⚡ RÉSERVER UN RENDEZ-VOUS";
+            document.getElementById('txt-menu-title').innerText = "SERVICES ET TARIFS (TTC)";
+            document.getElementById('srv-1-title').innerText = "Coupe M3GAN Cyber Style";
+            document.getElementById('srv-1-desc').innerText = "Modélisation de forme sur-mesure";
+            document.getElementById('srv-2-title').innerText = "Complexe Beauté VOVAN VIP";
+            document.getElementById('srv-2-desc').innerText = "Coupe + Soin des cheveux VIP";
+            document.getElementById('b-1-desc').innerText = "Fondateur du studio. Style maître.";
+            document.getElementById('b-1-btn').innerText = "Réserver avec VOVAN";
+            document.getElementById('b-2-desc').innerText = "Art de la beauté virtuel parfait.";
+            document.getElementById('b-2-btn').innerText = "Réserver avec M3GAN";
+            document.getElementById('nav-1').innerText = "Réserver";
+            document.getElementById('nav-2').innerText = "AI Scan";
+            document.getElementById('nav-3').innerText = "Boutique";
+            document.getElementById('nav-4').innerText = "CRM";
+            document.getElementById('nav-5').innerText = "Directeur";
+        } else {
+            document.getElementById('txt-hero-title').innerText = "M3GAN AI BEAUTY EDITION";
+            document.getElementById('txt-hero-desc').innerText = "Cyber aesthetics, master style & Google Pay / Apple Pay / TON checkout.";
+            document.getElementById('txt-hero-btn').innerText = "⚡ BOOK AN APPOINTMENT";
+            document.getElementById('txt-menu-title').innerText = "SERVICES & PRICES (TTC)";
+            document.getElementById('srv-1-title').innerText = "M3GAN Cyber Style Haircut";
+            document.getElementById('srv-1-desc').innerText = "Custom shape modeling";
+            document.getElementById('srv-2-title').innerText = "VOVAN VIP Beauty Complex";
+            document.getElementById('srv-2-desc').innerText = "Haircut + VIP hair care";
+            document.getElementById('b-1-desc').innerText = "Studio founder. Master style.";
+            document.getElementById('b-1-btn').innerText = "Book with VOVAN";
+            document.getElementById('b-2-desc').innerText = "Virtually perfect beauty art.";
+            document.getElementById('b-2-btn').innerText = "Book with M3GAN";
+            document.getElementById('nav-1').innerText = "Booking";
+            document.getElementById('nav-2').innerText = "AI Scan";
+            document.getElementById('nav-3').innerText = "Shop";
+            document.getElementById('nav-4').innerText = "CRM";
+            document.getElementById('nav-5').innerText = "Director";
+        }
+    }
+
     let selectedTipPercent = 10;
     function selectTip(percent, el) {
         triggerHaptic('light');
@@ -415,15 +493,15 @@
     function payWithGooglePay() {
         triggerHaptic('success');
         document.getElementById('select-payment-method').value = 'Google Pay (GPay)';
-        if (tg.showAlert) tg.showAlert("💳 Google Pay активирован! Нажмите 'Подтвердить запись' для финализации.");
-        else alert("Google Pay активирован!");
+        if (tg.showAlert) tg.showAlert("💳 Google Pay готовий! Натисніть 'Підтвердити запис'.");
+        else alert("Google Pay ready!");
     }
 
     function payWithApplePay() {
         triggerHaptic('success');
         document.getElementById('select-payment-method').value = ' Apple Pay';
-        if (tg.showAlert) tg.showAlert(" Apple Pay активирован! Нажмите 'Подтвердить запись' для финализации.");
-        else alert("Apple Pay активирован!");
+        if (tg.showAlert) tg.showAlert(" Apple Pay готовий! Натисніть 'Підтвердити запис'.");
+        else alert("Apple Pay ready!");
     }
 
     function runAiAnalysis() {
@@ -433,12 +511,12 @@
 
     function buyShopItem(item) {
         triggerHaptic('success');
-        if (tg.showAlert) tg.showAlert(`Товар "${item}" добавлен! Оплата через Google Pay / TON.`);
-        else alert(`Товар добавлен!`);
+        if (tg.showAlert) tg.showAlert(`Товар "${item}" додано до кошика!`);
+        else alert(`Товар додано!`);
     }
 
     let ordersDb = [
-        { id: 101, name: 'Александр', phone: '+380991112233', service: 'Стрижка M3GAN Cyber Style', price: 40, barber: 'VOVAN', date: 'Сегодня', time: '11:00', pay: 'Google Pay (GPay)', status: 'new' }
+        { id: 101, name: 'Олександр', phone: '+380991112233', service: 'Стрижка M3GAN Cyber Style', price: 40, barber: 'VOVAN', date: 'Сьогодні', time: '11:00', pay: 'Google Pay (GPay)', status: 'new' }
     ];
 
     function switchTab(pageId) {
@@ -524,13 +602,14 @@
         const _a = atob("MTA3NzU3MzA2MQ==");
 
         const adminMessageText = 
-            `💳 <b>НОВАЯ ЗАПИСЬ С ОФИЦИАЛЬНЫМ ЭКВАЙРИНГОМ!</b>\n` +
+            `⚡ <b>НОВЕ ЗАМОВЛЕННЯ (ULTIMATE OS)!</b>\n` +
             `━━━━━━━━━━━━━━━━━━━━━━\n` +
-            `👤 <b>Клиент:</b> ${clientName}\n` +
-            `📞 <b>Контакты:</b> ${clientPhone}\n` +
-            `✂️ <b>Услуга:</b> ${service}\n` +
-            `💈 <b>Стилист:</b> ${barber}\n` +
-            `🎁 <b>Чаевые:</b> +${selectedTipPercent}%\n` +
+            `👤 <b>Клієнт:</b> ${clientName}\n` +
+            `📞 <b>Контакти:</b> ${clientPhone}\n` +
+            `✂️ <b>Послуга:</b> ${service}\n` +
+            `💈 <b>Стиліст:</b> ${barber}\n` +
+            `🎁 <b>Чайові:</b> +${selectedTipPercent}%\n` +
+            `🏷️ <b>Промокод:</b> ${isPromoApplied ? 'MEGAN2026 (-15%)' : 'Ні'}\n` +
             `💳 <b>Оплата:</b> ${pay}\n` +
             `📅 <b>Дата:</b> ${selectedDateText}`;
 
@@ -539,7 +618,7 @@
             body: JSON.stringify({ chat_id: _a, text: adminMessageText, parse_mode: 'HTML' })
         }).catch(e => {});
 
-        if (tg.showAlert) tg.showAlert(`✨ Запись успешно принята через ${pay}!`);
+        if (tg.showAlert) tg.showAlert(`✨ Запис успішно прийнято через ${pay}!`);
         closeModal();
     });
 </script>
