@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>VOVAN BEAUTY STUDIO — Nice Weather, Voice & Uber Edition</title>
+    <title>VOVAN BEAUTY STUDIO — Nice VIP Bar, Bolt & Uber Edition</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -48,11 +48,15 @@
         .stat-val { font-family: 'Orbitron', sans-serif; font-size: 1.2rem; font-weight: 900; color: var(--cyber-gold); margin-top: 3px; }
         .stat-label { font-size: 0.72rem; color: var(--text-sub); }
 
-        /* Погода в Ницце */
         .weather-card { background: linear-gradient(135deg, #18283b 0%, #0c1524 100%); border: 1px solid var(--cyber-blue); border-radius: 12px; padding: 10px; display: flex; justify-content: space-between; align-items: center; margin-top: 10px; }
 
         .location-card { background: linear-gradient(135deg, #0d1624 0%, #080c14 100%); border: 1px solid var(--cyber-blue); border-radius: 14px; padding: 14px; margin-top: 14px; text-align: center; }
         .location-title { font-family: 'Orbitron', sans-serif; color: var(--cyber-gold); font-size: 0.95rem; font-weight: bold; }
+
+        .bar-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 12px; }
+        .bar-card { background: #121926; border: 1px solid var(--cyber-gold); border-radius: 14px; padding: 12px; text-align: center; }
+        .bar-title { font-size: 0.85rem; font-weight: bold; color: #fff; margin-top: 4px; }
+        .bar-price { font-family: 'Orbitron', sans-serif; color: var(--cyber-gold); font-weight: 900; margin: 4px 0; font-size: 0.9rem; }
 
         #sig-canvas { border: 2px dashed #000; border-radius: 8px; background: #fff; width: 100%; height: 110px; margin-top: 8px; cursor: crosshair; }
 
@@ -104,6 +108,7 @@
         .btn-done { background: var(--accent-purple); color: #fff; }
         .btn-receipt { background: var(--cyber-blue); color: #fff; }
         .btn-uber { background: #000; color: #fff; border: 1px solid #333; }
+        .btn-bolt { background: #34c759; color: #fff; border: 1px solid #28a745; }
 
         .chart-container { position: relative; height: 190px; margin-top: 12px; }
 
@@ -157,6 +162,7 @@
             </select>
             <select class="role-selector" id="role-select" onchange="switchTab(this.value)">
                 <option value="client" id="opt-client">👤 Клиент</option>
+                <option value="bar">🍾 VIP Бар</option>
                 <option value="ai" id="opt-ai">🤖 AI Подбор</option>
                 <option value="chat">💬 AI Чат 24/7</option>
                 <option value="shop" id="opt-shop">🛍️ Маркет</option>
@@ -190,7 +196,7 @@
             </div>
         </section>
 
-        <!-- Погода в Ницце & Uber -->
+        <!-- Погода в Ницце, Uber & Bolt -->
         <div class="admin-card" style="margin-top:0;">
             <div class="weather-card">
                 <div>
@@ -207,7 +213,8 @@
                 <p style="font-size:0.8rem; color:var(--text-sub); margin-top:4px;">15 Promenade des Anglais, 06000 Nice, France</p>
                 <div style="display:flex; gap:6px; margin-top:8px;">
                     <button class="action-btn-sm btn-receipt" style="flex:1;" onclick="openNiceMap()">🗺 Maps</button>
-                    <button class="action-btn-sm btn-uber" style="flex:1;" onclick="callUberToStudio()">🚖 Вызвать Uber</button>
+                    <button class="action-btn-sm btn-uber" style="flex:1;" onclick="callUberToStudio()">🚖 Uber</button>
+                    <button class="action-btn-sm btn-bolt" style="flex:1;" onclick="callBoltToStudio()">⚡ Bolt</button>
                 </div>
             </div>
 
@@ -271,7 +278,42 @@
         </div>
     </div>
 
-    <!-- 2. AI НЕЙРО-ПОДБОР -->
+    <!-- 2. VIP БАР В КРЕСЛО -->
+    <div id="page-bar" class="page-section">
+        <div class="admin-card">
+            <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);">🍾 VIP БАР В КРЕСЛО CÔTE D'AZUR</h3>
+            <p style="font-size:0.78rem; color:var(--text-sub);">Закажите напиток прямо к барбер-креслу во время процедуры</p>
+            
+            <div class="bar-grid">
+                <div class="bar-card">
+                    <div style="font-size:2rem;">🍾</div>
+                    <div class="bar-title">Dom Pérignon (Бокал)</div>
+                    <div class="bar-price">45 € (6.9 TON)</div>
+                    <button class="action-btn-sm btn-confirm" style="width:100%;" onclick="orderDrink('Dom Pérignon')">🥂 Заказать в кресло</button>
+                </div>
+                <div class="bar-card">
+                    <div style="font-size:2rem;">🥂</div>
+                    <div class="bar-title">Moët & Chandon</div>
+                    <div class="bar-price">35 € (5.3 TON)</div>
+                    <button class="action-btn-sm btn-confirm" style="width:100%;" onclick="orderDrink('Moët & Chandon')">🥂 Заказать в кресло</button>
+                </div>
+                <div class="bar-card">
+                    <div style="font-size:2rem;">☕</div>
+                    <div class="bar-title">Французский Эспрессо</div>
+                    <div class="bar-price" style="color:var(--accent-green);">Бесплатно VIP</div>
+                    <button class="action-btn-sm btn-confirm" style="width:100%;" onclick="orderDrink('Французский Эспрессо')">☕ Заказать в кресло</button>
+                </div>
+                <div class="bar-card">
+                    <div style="font-size:2rem;">🥤</div>
+                    <div class="bar-title">Миндальный Латте</div>
+                    <div class="bar-price" style="color:var(--accent-green);">Бесплатно VIP</div>
+                    <button class="action-btn-sm btn-confirm" style="width:100%;" onclick="orderDrink('Миндальный Латте')">☕ Заказать в кресло</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. AI НЕЙРО-ПОДБОР -->
     <div id="page-ai" class="page-section">
         <div class="admin-card">
             <h3 style="font-family:'Orbitron'; color:var(--cyber-blue);" id="ai-title">🤖 M3GAN AI СКУЛЬПТОР СТИЛЯ</h3>
@@ -290,7 +332,7 @@
         </div>
     </div>
 
-    <!-- 3. AI ЧАТ 24/7 -->
+    <!-- 4. AI ЧАТ 24/7 -->
     <div id="page-chat" class="page-section">
         <div class="admin-card">
             <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);">💬 M3GAN AI БЬЮТИ-КОНСУЛЬТАНТ 24/7</h3>
@@ -307,7 +349,7 @@
         </div>
     </div>
 
-    <!-- 4. ПОДАРОЧНЫЕ СЕРТИФИКАТЫ -->
+    <!-- 5. ПОДАРОЧНЫЕ СЕРТИФИКАТЫ -->
     <div id="page-gifts" class="page-section">
         <div class="admin-card">
             <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);">🎁 NFT ПОДАРОЧНЫЕ СЕРТИФИКАТЫ</h3>
@@ -328,7 +370,7 @@
         </div>
     </div>
 
-    <!-- 5. МАРКЕТПЛЕЙС -->
+    <!-- 6. МАРКЕТПЛЕЙС -->
     <div id="page-shop" class="page-section">
         <div class="admin-card">
             <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);" id="shop-title">🛍️ МАРКЕТПЛЕЙС СТАЙЛИНГА</h3>
@@ -349,7 +391,7 @@
         </div>
     </div>
 
-    <!-- 6. ДИРЕКТОР & HEATMAP -->
+    <!-- 7. ДИРЕКТОР & HEATMAP -->
     <div id="page-director" class="page-section">
         <div class="admin-card">
             <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);" id="dir-title">👑 ДИРЕКТОРСКАЯ АНАЛИТИКА & HEATMAP</h3>
@@ -375,7 +417,7 @@
         </div>
     </div>
 
-    <!-- 7. БУХГАЛТЕРИЯ -->
+    <!-- 8. БУХГАЛТЕРИЯ -->
     <div id="page-accounting" class="page-section">
         <div class="admin-card">
             <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);" id="tax-title">🇫🇷 НАЛОГИ & СКЛАДСКОЙ УЧЕТ (FRANCE)</h3>
@@ -390,7 +432,7 @@
         </div>
     </div>
 
-    <!-- 8. CRM -->
+    <!-- 9. CRM -->
     <div id="page-admin" class="page-section">
         <div class="admin-card">
             <h3 style="font-family:'Orbitron'; color:var(--cyber-blue);" id="crm-title">💼 CRM ВОРОНКА ОБСЛУЖИВАНИЯ</h3>
@@ -404,7 +446,7 @@
         </div>
     </div>
 
-    <!-- 9. МАСТЕР -->
+    <!-- 10. МАСТЕР -->
     <div id="page-master" class="page-section">
         <div class="admin-card">
             <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);" id="m-title">💈 КАБИНЕТ И ЗАРПЛАТА МАСТЕРА</h3>
@@ -418,14 +460,14 @@
     <!-- НИЖНЯЯ НАВИГАЦИЯ -->
     <div class="bottom-nav">
         <button class="nav-btn active" onclick="switchTab('client')"><span class="nav-icon">🎟</span><span id="nav-1">Запись</span></button>
+        <button class="nav-btn" onclick="switchTab('bar')"><span class="nav-icon">🍾</span><span>VIP Бар</span></button>
         <button class="nav-btn" onclick="switchTab('ai')"><span class="nav-icon">🤖</span><span id="nav-2">AI Скан</span></button>
-        <button class="nav-btn" onclick="switchTab('chat')"><span class="nav-icon">💬</span><span>AI Чат</span></button>
         <button class="nav-btn" onclick="switchTab('admin')"><span class="nav-icon">💼</span><span id="nav-4">CRM</span></button>
         <button class="nav-btn" onclick="switchTab('director')"><span class="nav-icon">👑</span><span id="nav-5">Директор</span></button>
     </div>
 </div>
 
-<!-- Модальное окно записи с Голосовым вводом Voice Booking -->
+<!-- Модальное окно записи -->
 <div id="booking-modal" class="modal-overlay">
     <div class="vintage-modal">
         <button class="close-modal" onclick="closeModal()">&times;</button>
@@ -433,7 +475,6 @@
             <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);" id="modal-title">ЗАПИСЬ & ЭКВАЙРИНГ</h3>
         </div>
         
-        <!-- Голосовой ввод -->
         <button type="button" class="action-btn-sm btn-confirm" style="width:100%; margin-bottom:12px; font-size:0.8rem; padding:10px;" onclick="startVoiceBooking()">🎙 ЗАПИСАТЬСЯ ГОЛОСОМ (VOICE AI)</button>
 
         <form id="barber-form">
@@ -520,14 +561,25 @@
         }
     }
 
+    function orderDrink(drink) {
+        triggerHaptic('success');
+        if (tg.showAlert) tg.showAlert(`🍾 Напиток "${drink}" заказан! Администратор подаст его к вашему барбер-креслу.`);
+        else alert(`Напиток "${drink}" заказан!`);
+    }
+
     function callUberToStudio() {
         triggerHaptic('medium');
         window.open('https://m.uber.com/ul/?action=setPickup&pickup=my_location&dropoff[formatted_address]=15%20Promenade%20des%20Anglais,%20Nice', '_blank');
     }
 
+    function callBoltToStudio() {
+        triggerHaptic('medium');
+        window.open('https://bolt.eu/', '_blank');
+    }
+
     function startVoiceBooking() {
         triggerHaptic('medium');
-        if (tg.showAlert) tg.showAlert("🎙 Говорите: Имя, услугу и желаемое время. M3GAN AI распознаёт голос...");
+        if (tg.showAlert) tg.showAlert("🎙 Говорите: Имя, услугу и время. M3GAN AI распознаёт ваш голос...");
         else alert("Voice recognition active!");
     }
 
@@ -642,8 +694,8 @@
 
         const navBtns = document.querySelectorAll('.nav-btn');
         if (pageId === 'client') navBtns[0].classList.add('active');
-        if (pageId === 'ai') navBtns[1].classList.add('active');
-        if (pageId === 'chat') navBtns[2].classList.add('active');
+        if (pageId === 'bar') navBtns[1].classList.add('active');
+        if (pageId === 'ai') navBtns[2].classList.add('active');
         if (pageId === 'admin') { navBtns[3].classList.add('active'); renderCrmOrders(); }
         if (pageId === 'director') { navBtns[4].classList.add('active'); initChart(); }
     }
