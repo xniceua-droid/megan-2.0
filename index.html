@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>VOVAN BEAUTY STUDIO — Flawless Multi-Language System</title>
+    <title>VOVAN BEAUTY STUDIO — Master & Payment Gateway Edition</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -49,60 +49,21 @@
         .stat-label { font-size: 0.72rem; color: var(--text-sub); }
 
         .weather-card { background: linear-gradient(135deg, #18283b 0%, #0c1524 100%); border: 1px solid var(--cyber-blue); border-radius: 12px; padding: 10px; display: flex; justify-content: space-between; align-items: center; margin-top: 10px; }
-
         .location-card { background: linear-gradient(135deg, #0d1624 0%, #080c14 100%); border: 1px solid var(--cyber-blue); border-radius: 14px; padding: 14px; margin-top: 14px; text-align: center; }
-        .location-title { font-family: 'Orbitron', sans-serif; color: var(--cyber-gold); font-size: 0.95rem; font-weight: bold; }
-
-        .bar-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 12px; }
-        .bar-card { background: #121926; border: 1px solid var(--cyber-gold); border-radius: 14px; padding: 12px; text-align: center; }
-        .bar-title { font-size: 0.85rem; font-weight: bold; color: #fff; margin-top: 4px; }
-        .bar-price { font-family: 'Orbitron', sans-serif; color: var(--cyber-gold); font-weight: 900; margin: 4px 0; font-size: 0.9rem; }
-
-        .badges-grid { display: flex; gap: 8px; margin-top: 10px; overflow-x: auto; padding-bottom: 4px; }
-        .badge-card { min-width: 105px; background: #121926; border: 1px solid rgba(255,215,0,0.3); border-radius: 10px; padding: 8px; text-align: center; font-size: 0.72rem; }
 
         .pay-badges-row { display: flex; gap: 8px; justify-content: center; margin-top: 14px; flex-wrap: wrap; }
         .pay-badge-item { background: #121926; border: 1px solid rgba(255, 215, 0, 0.25); border-radius: 8px; padding: 6px 12px; display: flex; align-items: center; gap: 6px; font-size: 0.78rem; font-weight: bold; }
 
         .gpay-btn-official { background: #000; color: #fff; border: 1px solid #4285F4; padding: 13px; border-radius: 10px; font-weight: bold; font-family: 'Montserrat', sans-serif; display: flex; justify-content: center; align-items: center; gap: 10px; cursor: pointer; width: 100%; margin-top: 10px; box-shadow: 0 0 18px rgba(66, 133, 244, 0.35); }
         .apple-pay-btn-official { background: #000; color: #fff; border: 1px solid #fff; padding: 13px; border-radius: 10px; font-weight: bold; font-family: 'Montserrat', sans-serif; display: flex; justify-content: center; align-items: center; gap: 8px; cursor: pointer; width: 100%; margin-top: 8px; box-shadow: 0 0 18px rgba(255, 255, 255, 0.25); }
-
-        .tips-grid { display: flex; gap: 8px; margin-top: 6px; }
-        .tip-btn { flex: 1; background: #121926; border: 1px solid rgba(0,162,255,0.25); color: #fff; padding: 7px; border-radius: 6px; font-size: 0.75rem; text-align: center; cursor: pointer; }
-        .tip-btn.selected { background: var(--cyber-gold); color: #000; font-weight: bold; }
-
-        .shop-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 12px; }
-        .shop-card { background: #121926; border: 1px solid rgba(0,162,255,0.25); border-radius: 14px; padding: 14px; text-align: center; position: relative; }
-        .shop-title { font-size: 0.85rem; font-weight: bold; color: #fff; margin-top: 6px; }
-        .shop-price { font-family: 'Orbitron', sans-serif; color: var(--cyber-gold); font-weight: 900; margin: 6px 0; font-size: 0.95rem; }
-
-        .chat-box { background: #121926; border: 1px solid rgba(0,162,255,0.3); border-radius: 14px; padding: 12px; height: 280px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
-        .chat-msg { padding: 10px 14px; border-radius: 12px; font-size: 0.82rem; max-width: 85%; line-height: 1.4; }
-        .chat-msg.bot { background: rgba(0,162,255,0.15); border: 1px solid var(--cyber-blue); align-self: flex-start; color: #fff; }
-        .chat-msg.user { background: rgba(255,215,0,0.15); border: 1px solid var(--cyber-gold); align-self: flex-end; color: #fff; }
-        .chat-quick-btn { background: #141b29; border: 1px solid var(--cyber-blue); color: var(--cyber-blue); padding: 4px 8px; border-radius: 6px; font-size: 0.7rem; cursor: pointer; margin-top: 4px; display: inline-block; }
-
-        .ai-scanner-box { border: 2px dashed var(--cyber-blue); border-radius: 16px; padding: 25px; text-align: center; background: rgba(0,162,255,0.05); margin-top: 12px; }
-
-        .pipeline-bar { display: flex; gap: 4px; margin-top: 10px; overflow-x: auto; padding-bottom: 6px; }
-        .pipe-step { flex: 1; min-width: 75px; background: #121926; border: 1px solid rgba(255,255,255,0.1); padding: 7px; text-align: center; font-size: 0.68rem; border-radius: 6px; color: var(--text-sub); cursor: pointer; }
-        .pipe-step.active { background: var(--cyber-blue); color: #fff; font-weight: bold; border-color: var(--cyber-gold); }
-
-        .orders-list { margin-top: 12px; }
-        .order-card-pipeline { background: #121926; border-left: 4px solid var(--cyber-blue); padding: 14px; border-radius: 12px; margin-bottom: 12px; font-size: 0.82rem; box-shadow: 0 4px 20px rgba(0,0,0,0.5); }
-        .order-card-pipeline.confirmed { border-left-color: var(--accent-green); }
-        .order-card-pipeline.in_progress { border-left-color: var(--cyber-gold); }
-        .order-card-pipeline.completed { border-left-color: var(--accent-purple); }
+        .ton-pay-btn-official { background: #0088cc; color: #fff; border: 1px solid var(--cyber-blue); padding: 13px; border-radius: 10px; font-weight: bold; font-family: 'Montserrat', sans-serif; display: flex; justify-content: center; align-items: center; gap: 8px; cursor: pointer; width: 100%; margin-top: 8px; box-shadow: 0 0 18px rgba(0, 136, 204, 0.35); }
 
         .action-btn-sm { padding: 6px 12px; border-radius: 6px; font-size: 0.72rem; font-weight: bold; border: none; cursor: pointer; margin-right: 4px; margin-top: 6px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
         .btn-confirm { background: var(--accent-green); color: #000; }
         .btn-progress { background: var(--cyber-gold); color: #000; }
         .btn-done { background: var(--accent-purple); color: #fff; }
         .btn-receipt { background: var(--cyber-blue); color: #fff; }
-        .btn-push { background: var(--ton-blue); color: #fff; }
-        
-        .btn-uber-official { background: #000; color: #fff; border: 1px solid #fff; }
-        .btn-bolt-official { background: #34C759; color: #fff; border: 1px solid #28a745; }
+        .btn-payout { background: var(--cyber-gold); color: #000; font-weight: 900; }
 
         .hero-banner-container { width: 100%; height: 250px; position: relative; overflow: hidden; }
         .hero-banner { width: 100%; height: 100%; object-fit: cover; }
@@ -117,11 +78,6 @@
         .menu-price-eur { font-family: 'Orbitron', sans-serif; font-size: 1.1rem; color: var(--cyber-gold); text-align: right; }
         .menu-price-ton { font-family: 'Orbitron', sans-serif; font-size: 0.78rem; color: var(--cyber-blue); text-align: right; }
 
-        .barbers-grid { padding: 15px; display: flex; flex-direction: column; gap: 15px; }
-        .barber-card { background: var(--card-bg); border: 1px solid rgba(0, 162, 255, 0.35); border-radius: 16px; padding: 16px; text-align: center; position: relative; }
-        .barber-img { width: 100%; height: 230px; object-fit: cover; border-radius: 12px; margin-bottom: 10px; border: 1px solid var(--cyber-blue); }
-        .select-barber-btn { background: transparent; color: var(--cyber-gold); border: 1px solid var(--cyber-gold); padding: 11px; border-radius: 10px; font-family: 'Orbitron', sans-serif; font-weight: 800; cursor: pointer; width: 100%; }
-
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(2, 3, 5, 0.95); backdrop-filter: blur(12px); display: flex; justify-content: center; align-items: center; z-index: 2000; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0.3s ease; padding: 15px; }
         .modal-overlay.active { opacity: 1; visibility: visible; }
         .vintage-modal { background: var(--card-bg); border: 1px solid var(--cyber-gold); border-radius: 20px; padding: 22px 18px; width: 100%; max-width: 450px; position: relative; max-height: 92vh; overflow-y: auto; box-shadow: var(--gold-glow); }
@@ -129,16 +85,8 @@
         .form-group { margin-bottom: 12px; }
         .form-group label { display: block; font-weight: 600; margin-bottom: 5px; font-size: 0.82rem; color: #ddd; }
         .form-group input, .form-group select { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid rgba(0, 162, 255, 0.35); background: #080c14; color: #ffffff; font-family: 'Montserrat', sans-serif; font-size: 0.88rem; outline: none; }
-        
-        .date-picker { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px; margin-bottom: 10px; }
-        .date-card { min-width: 70px; padding: 8px 4px; background: #121926; border: 1px solid rgba(0, 162, 255, 0.2); border-radius: 8px; text-align: center; cursor: pointer; }
-        .date-card.selected { background: var(--cyber-gold); color: #000; font-weight: 900; }
 
-        .time-slots { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-        .slot-btn { background: #121926; border: 1px solid rgba(0, 162, 255, 0.2); padding: 8px; border-radius: 8px; text-align: center; font-size: 0.82rem; cursor: pointer; color: #fff; }
-        .slot-btn.selected { background: var(--cyber-blue); color: #fff; font-weight: 800; }
-
-        .checkout-summary { background: #121926; border: 1px solid var(--cyber-gold); border-radius: 10px; padding: 12px; margin-top: 10px; font-size: 0.82rem; }
+        .qr-box { background: #fff; padding: 10px; border-radius: 12px; width: 140px; height: 140px; margin: 10px auto; display: flex; justify-content: center; align-items: center; }
     </style>
 </head>
 <body>
@@ -153,16 +101,9 @@
                 <option value="EN">🇬🇧 EN</option>
             </select>
             <select class="role-selector" id="role-select" onchange="switchTab(this.value)">
-                <option value="client" id="opt-client">👤 Клієнт</option>
-                <option value="bar" id="opt-bar">🍾 VIP Бар</option>
-                <option value="ai" id="opt-ai">🤖 AI Підбір</option>
-                <option value="chat" id="opt-chat">💬 AI Чат 24/7</option>
-                <option value="shop" id="opt-shop">🛍️ Маркет</option>
-                <option value="gifts" id="opt-gifts">🎁 Порунки</option>
-                <option value="director" id="opt-director">👑 Директор</option>
-                <option value="accounting" id="opt-accounting">🇫🇷 Податки & Склад</option>
-                <option value="admin" id="opt-admin">💼 CRM</option>
-                <option value="master" id="opt-master">💈 Майстер</option>
+                <option value="client">👤 Клиент</option>
+                <option value="master">💈 Кабинет Мастера</option>
+                <option value="admin">💼 CRM Воронка</option>
             </select>
         </div>
     </header>
@@ -175,7 +116,7 @@
             </div>
             <div class="hero-content">
                 <h1 id="txt-hero-title">M3GAN AI BEAUTY EDITION</h1>
-                <p id="txt-hero-desc">Кібер-естетика на Лазурному Березі (Ніцца). Google Pay / Apple Pay / TON.</p>
+                <p id="txt-hero-desc">Кибер-эстетика на Лазурном Берегу (Ницца). Google Pay / Apple Pay / TON.</p>
                 
                 <div class="pay-badges-row">
                     <div class="pay-badge-item"><span style="color:#4285F4; font-weight:900;">G</span>Pay</div>
@@ -184,56 +125,16 @@
                     <div class="pay-badge-item" style="color:var(--cyber-gold);">💳 Visa/MC</div>
                 </div>
 
-                <button class="ticket-btn" style="margin-top:15px;" onclick="openModal()" id="txt-hero-btn">⚡ ЗАПИСАТИСЯ ДО МАЙСТРА</button>
+                <button class="ticket-btn" style="margin-top:15px;" onclick="openModal()" id="txt-hero-btn">⚡ ЗАПИСАТЬСЯ К МАСТЕРУ</button>
             </div>
         </section>
 
-        <!-- Погода в Ницце, Uber & Bolt -->
-        <div class="admin-card" style="margin-top:0;">
-            <div class="weather-card">
-                <div>
-                    <div style="font-size:0.75rem; color:var(--text-sub);" id="txt-weather-title">☀️ Погода у Ніцці (Côte d'Azur):</div>
-                    <div style="font-family:'Orbitron'; font-size:1.1rem; color:var(--cyber-gold); font-weight:900;">+28°C | UV: 6</div>
-                </div>
-                <div style="font-size:0.72rem; color:var(--accent-green); text-align:right;" id="txt-weather-advice">
-                    M3GAN AI:<br>VIP Захист волосся ☀️
-                </div>
-            </div>
-
-            <div class="location-card">
-                <div class="location-title" id="txt-loc-title">📍 СТУДІЯ У НІЦЦІ (CÔTE D'AZUR)</div>
-                <p style="font-size:0.8rem; color:var(--text-sub); margin-top:4px;">15 Promenade des Anglais, 06000 Nice, France</p>
-                <div style="display:flex; gap:6px; margin-top:10px;">
-                    <button class="action-btn-sm btn-receipt" style="flex:1;" onclick="openNiceMap()">🗺 Maps</button>
-                    
-                    <button class="action-btn-sm btn-uber-official" style="flex:1;" onclick="orderTaxiWithCoffee('Uber')">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="#fff"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/><path d="M7 11h10v2H7z"/></svg>
-                        Uber
-                    </button>
-                    
-                    <button class="action-btn-sm btn-bolt-official" style="flex:1;" onclick="orderTaxiWithCoffee('Bolt')">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="#fff"><path d="M13 2L3 14h7v8l10-12h-7z"/></svg>
-                        Bolt
-                    </button>
-                </div>
-            </div>
-
-            <div style="margin-top:14px;">
-                <div style="font-size:0.8rem; font-weight:bold; color:var(--cyber-gold);" id="txt-achieve-title">🏆 Ваші досягнення в клубі:</div>
-                <div class="badges-grid">
-                    <div class="badge-card">🥇<br><span id="badge-1">VIP Клієнт</span></div>
-                    <div class="badge-card">💎<br>TON Holder</div>
-                    <div class="badge-card">⭐<br>Nice Ambassador</div>
-                </div>
-            </div>
-        </div>
-
         <div class="vintage-menu">
-            <h2 style="font-family:'Orbitron'; color:var(--cyber-gold); font-size:1.1rem; margin-bottom:12px; text-align:center;" id="txt-menu-title">ПОСЛУГИ ТА ЦІНИ (TTC)</h2>
+            <h2 style="font-family:'Orbitron'; color:var(--cyber-gold); font-size:1.1rem; margin-bottom:12px; text-align:center;">УСЛУГИ И ЦЕНЫ (TTC)</h2>
             <div class="menu-item" onclick="selectServiceModal('Стрижка M3GAN Cyber Style', 40)">
                 <div>
-                    <div class="menu-name" id="srv-1-title">Стрижка M3GAN Cyber Style</div>
-                    <div class="menu-desc" id="srv-1-desc">Авторське моделювання форми</div>
+                    <div class="menu-name">Стрижка M3GAN Cyber Style</div>
+                    <div class="menu-desc">Авторское моделирование формы</div>
                 </div>
                 <div>
                     <div class="menu-price-eur">40 €</div>
@@ -242,201 +143,95 @@
             </div>
             <div class="menu-item" onclick="selectServiceModal('Бьюти-комплекс VOVAN VIP', 65)">
                 <div>
-                    <div class="menu-name" id="srv-2-title">Б'юті-комплекс VOVAN VIP</div>
-                    <div class="menu-desc" id="srv-2-desc">Стрижка + VIP догляд за волоссям</div>
+                    <div class="menu-name">Бьюти-комплекс VOVAN VIP</div>
+                    <div class="menu-desc">Стрижка + VIP уход за волосами</div>
                 </div>
                 <div>
                     <div class="menu-price-eur">65 €</div>
                     <div class="menu-price-ton">≈ 10.0 TON</div>
                 </div>
             </div>
-            <div class="menu-item" onclick="selectServiceModal('Cyber Fade & Beard', 50)">
-                <div>
-                    <div class="menu-name" id="srv-3-title">Cyber Fade & Beard</div>
-                    <div class="menu-desc" id="srv-3-desc">Ідеальний фейд + оформлення бороди</div>
-                </div>
-                <div>
-                    <div class="menu-price-eur">50 €</div>
-                    <div class="menu-price-ton">≈ 7.7 TON</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="barbers-grid">
-            <div class="barber-card">
-                <img src="vovan.jpg" alt="VOVAN Master" class="barber-img">
-                <h3 style="font-family:'Orbitron'; color:var(--cyber-blue);">VOVAN (Головний Стиліст)</h3>
-                <p style="font-size:0.8rem; color:var(--text-sub); margin:6px 0 12px;" id="b-1-desc">Засновник студії. Авторський стиль.</p>
-                <button class="select-barber-btn" onclick="selectBarberModal('VOVAN')" id="b-1-btn">Записатися до VOVAN</button>
-            </div>
-            <div class="barber-card">
-                <img src="m3gan_cyber.jpg" alt="M3GAN AI" class="barber-img">
-                <h3 style="font-family:'Orbitron'; color:var(--cyber-blue);">M3GAN AI (Кібер-Майстер)</h3>
-                <p style="font-size:0.8rem; color:var(--text-sub); margin:6px 0 12px;" id="b-2-desc">Віртуально-досконалий б'юті-арт.</p>
-                <button class="select-barber-btn" onclick="selectBarberModal('M3GAN AI')" id="b-2-btn">Записатися до M3GAN</button>
-            </div>
         </div>
     </div>
 
-    <!-- 2. VIP БАР В КРЕСЛО -->
-    <div id="page-bar" class="page-section">
-        <div class="admin-card">
-            <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);" id="bar-header">🍾 VIP БАР В КРІСЛО CÔTE D'AZUR</h3>
-            <p style="font-size:0.78rem; color:var(--text-sub);" id="bar-sub">Замовте напій прямо до крісла під час процедури</p>
-            
-            <div class="bar-grid">
-                <div class="bar-card">
-                    <div style="font-size:2rem;">🍾</div>
-                    <div class="bar-title">Dom Pérignon</div>
-                    <div class="bar-price">45 €</div>
-                    <button class="action-btn-sm btn-confirm" style="width:100%;" onclick="orderDrink('Dom Pérignon')" id="btn-bar-1">🥂 Замовити в крісло</button>
-                </div>
-                <div class="bar-card">
-                    <div style="font-size:2rem;">🥂</div>
-                    <div class="bar-title">Moët & Chandon</div>
-                    <div class="bar-price">35 €</div>
-                    <button class="action-btn-sm btn-confirm" style="width:100%;" onclick="orderDrink('Moët & Chandon')" id="btn-bar-2">🥂 Замовити в крісло</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- 3. AI НЕЙРО-ПОДБОР -->
-    <div id="page-ai" class="page-section">
-        <div class="admin-card">
-            <h3 style="font-family:'Orbitron'; color:var(--cyber-blue);" id="ai-title">🤖 M3GAN AI СКУЛЬПТОР СТИЛЮ</h3>
-            <div class="ai-scanner-box">
-                <div style="font-size:2.5rem; margin-bottom:8px;">📸</div>
-                <div style="font-size:0.85rem; font-weight:bold; color:var(--cyber-gold);" id="ai-box-title">Завантажити фото або зробити селфі</div>
-                <button class="ticket-btn" style="margin-top:14px; font-size:0.8rem; width:100%;" onclick="runAiAnalysis()" id="ai-btn">⚡ ЗАПУСТИТИ AI СКАНЕР</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- 4. УМНЫЙ AI ЧАТ 24/7 -->
-    <div id="page-chat" class="page-section">
-        <div class="admin-card">
-            <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);" id="chat-header">💬 M3GAN AI СМАРТ-КОНСУЛЬТАНТ 24/7</h3>
-            
-            <div class="chat-box" id="chat-box-el">
-                <div class="chat-msg bot" id="chat-welcome">
-                    Bonjour! Я M3GAN AI — ваш гід у Ніцці. Чим можу допомогти? 😊
-                </div>
-            </div>
-
-            <div style="display:flex; gap:8px; margin-top:10px;">
-                <input type="text" id="chat-input-el" placeholder="Задайте питання M3GAN AI..." style="flex:1; padding:10px; border-radius:8px; border:1px solid rgba(0,162,255,0.3); background:#080c14; color:#fff; font-size:0.82rem;">
-                <button class="ticket-btn" style="width:auto; padding:10px 16px; font-size:0.8rem;" onclick="sendChatMessage()">Send</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- 5. ПОДАРОЧНЫЕ СЕРТИФИКАТЫ -->
-    <div id="page-gifts" class="page-section">
-        <div class="admin-card">
-            <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);">🎁 NFT ПОДАРУНКОВІ СЕРТИФІКАТИ</h3>
-            <div class="shop-grid">
-                <div class="shop-card">
-                    <div style="font-size:2.2rem;">💳</div>
-                    <div class="shop-title">Сертифікат Silver VIP (50 €)</div>
-                    <button class="action-btn-sm btn-confirm" style="width:100%; margin-top:6px;" onclick="buyGiftCard('Silver VIP 50€')">🎁 Подарувати другу</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- 6. МАРКЕТПЛЕЙС -->
-    <div id="page-shop" class="page-section">
-        <div class="admin-card">
-            <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);">🛍️ МАРКЕТПЛЕЙС СТАЙЛІНГУ</h3>
-            <div class="shop-grid">
-                <div class="shop-card">
-                    <div style="font-size:2rem;">💈</div>
-                    <div class="shop-title">Помада M3GAN Matte</div>
-                    <div class="shop-price">25 €</div>
-                    <button class="action-btn-sm btn-confirm" style="width:100%;" onclick="buyShopItem('Помада M3GAN Matte')">🛒 У кошик</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- 7. ДИРЕКТОР -->
-    <div id="page-director" class="page-section">
-        <div class="admin-card">
-            <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);">👑 ДИРЕКТОРСЬКА АНАЛІТИКА</h3>
-            <div class="stat-grid">
-                <div class="stat-box"><div class="stat-label">Виручка (€)</div><div class="stat-val">12 450 €</div></div>
-                <div class="stat-box"><div class="stat-label">LTV Клієнта</div><div class="stat-val" style="color:var(--accent-green);">285 €</div></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- 8. БУХГАЛТЕРИЯ -->
-    <div id="page-accounting" class="page-section">
-        <div class="admin-card">
-            <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);">🇫🇷 ПОДАТКИ ТА СКЛАД</h3>
-            <div class="stat-grid">
-                <div class="stat-box"><div class="stat-label">ПДВ (TVA 20%)</div><div class="stat-val" style="color:var(--accent-red);">2 075 €</div></div>
-                <div class="stat-box"><div class="stat-label">URSSAF (22%)</div><div class="stat-val" style="color:var(--accent-red);">2 282 €</div></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- 9. CRM -->
-    <div id="page-admin" class="page-section">
-        <div class="admin-card">
-            <h3 style="font-family:'Orbitron'; color:var(--cyber-blue);">💼 CRM УПРАВЛІННЯ ЗАМОВЛЕННЯМИ</h3>
-            <div class="orders-list" id="crm-orders-list"></div>
-        </div>
-    </div>
-
-    <!-- 10. МАСТЕР -->
+    <!-- 2. ИНТЕРАКТИВНЫЙ КАБИНЕТ МАСТЕРА -->
     <div id="page-master" class="page-section">
         <div class="admin-card">
-            <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);">💈 КАБІНЕТ МАЙСТРА</h3>
+            <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);">💈 КАБИНЕТ МАСТЕРА (VOVAN / M3GAN)</h3>
+            <p style="font-size:0.78rem; color:var(--text-sub);">Управление клиентами на смене и финансовый расчет</p>
+
             <div class="stat-grid">
-                <div class="stat-box"><div class="stat-label">Клієнтів сьогодні</div><div class="stat-val">3</div></div>
-                <div class="stat-box"><div class="stat-label">Зарплата</div><div class="stat-val" style="color:var(--accent-green);">72.0 €</div></div>
+                <div class="stat-box"><div class="stat-label">Клиентов за день</div><div class="stat-val" id="m-clients-count">4</div></div>
+                <div class="stat-box"><div class="stat-label">Заработок (45% + Чаевые)</div><div class="stat-val" style="color:var(--accent-green);" id="m-total-pay">118.5 €</div></div>
             </div>
+
+            <button class="action-btn-sm btn-payout" style="width:100%; padding:12px; margin-top:10px; font-size:0.8rem;" onclick="requestMasterPayout()">💸 Запросить выплату (IBAN / TON Wallet)</button>
+
+            <h4 style="font-family:'Orbitron'; color:var(--cyber-blue); margin-top:16px; font-size:0.85rem;">📋 Записи клиентов на сегодня:</h4>
+            <div id="master-schedule-list" style="margin-top:10px;"></div>
+        </div>
+    </div>
+
+    <!-- 3. CRM -->
+    <div id="page-admin" class="page-section">
+        <div class="admin-card">
+            <h3 style="font-family:'Orbitron'; color:var(--cyber-blue);">💼 CRM ВОРОНКА ОБСЛУЖИВАНИЯ</h3>
+            <div id="crm-orders-list" style="margin-top:10px;"></div>
         </div>
     </div>
 
     <!-- НИЖНЯЯ НАВИГАЦИЯ -->
     <div class="bottom-nav">
-        <button class="nav-btn active" onclick="switchTab('client')"><span class="nav-icon">🎟</span><span id="nav-1">Запис</span></button>
-        <button class="nav-btn" onclick="switchTab('bar')"><span class="nav-icon">🍾</span><span id="nav-2">VIP Бар</span></button>
-        <button class="nav-btn" onclick="switchTab('ai')"><span class="nav-icon">🤖</span><span id="nav-3">AI Скан</span></button>
-        <button class="nav-btn" onclick="switchTab('admin')"><span class="nav-icon">💼</span><span id="nav-4">CRM</span></button>
-        <button class="nav-btn" onclick="switchTab('director')"><span class="nav-icon">👑</span><span id="nav-5">Директор</span></button>
+        <button class="nav-btn active" onclick="switchTab('client')"><span class="nav-icon">🎟</span><span>Запись</span></button>
+        <button class="nav-btn" onclick="switchTab('master')"><span class="nav-icon">💈</span><span>Мастер</span></button>
+        <button class="nav-btn" onclick="switchTab('admin')"><span class="nav-icon">💼</span><span>CRM</span></button>
     </div>
 </div>
 
-<!-- Модальное окно записи -->
+<!-- Модальное окно записи и эквайринга -->
 <div id="booking-modal" class="modal-overlay">
     <div class="vintage-modal">
         <button class="close-modal" onclick="closeModal()">&times;</button>
-        <div class="modal-header"><h3 style="font-family:'Orbitron'; color:var(--cyber-gold);" id="modal-title">ЗАПИС & ЭКВАЙРИНГ</h3></div>
-        <form id="barber-form">
-            <div class="form-group"><label id="lbl-name">Ваше ім'я:</label><input type="text" id="client-name" placeholder="Олексій" required></div>
-            <div class="form-group"><label id="lbl-phone">Контакти:</label><input type="text" id="client-phone" placeholder="+380991234567" required></div>
-            <button type="submit" class="ticket-btn" style="width:100%; margin-top:10px;" id="btn-submit">⚡ ПОДТВЕРДИТЬ ЗАПИСЬ</button>
-        </form>
-    </div>
-</div>
-
-<!-- Модальное окно такси -->
-<div id="taxi-coffee-modal" class="modal-overlay">
-    <div class="vintage-modal" style="text-align:center;">
-        <button class="close-modal" onclick="closeTaxiCoffeeModal()">&times;</button>
-        <div style="font-size:3rem; margin-bottom:6px;">🚖 ☕</div>
-        <h3 style="font-family:'Orbitron'; color:var(--cyber-gold); font-size:1.1rem;" id="taxi-modal-title">Таксі у Ніцці вже в дорозі!</h3>
-        <p style="font-size:0.82rem; color:var(--text-sub); margin-top:6px;" id="taxi-modal-sub">Приготувати вам безкоштовну свіжу каву до вашого приїзду у студію?</p>
+        <div class="modal-header"><h3 style="font-family:'Orbitron'; color:var(--cyber-gold);">ЭКВАЙРИНГ & ЗАПИСЬ</h3></div>
         
-        <div style="display:flex; flex-direction:column; gap:8px; margin-top:16px;">
-            <button class="ticket-btn" style="font-size:0.8rem; padding:12px; background:var(--accent-green); color:#000;" onclick="confirmTaxiCoffee('Еспресо')" id="btn-c-1">☕ Так, гарячий Еспресо</button>
-            <button class="ticket-btn" style="font-size:0.8rem; padding:12px; background:var(--cyber-blue);" onclick="confirmTaxiCoffee('Мигдальний Латте')" id="btn-c-2">🥛 Так, Мигдальний Латте</button>
-            <button class="action-btn-sm" style="background:transparent; color:var(--text-sub); border:1px solid #444; padding:8px; margin-top:4px;" onclick="closeTaxiCoffeeModal()" id="btn-c-no">❌ Ні, дякую</button>
-        </div>
+        <form id="barber-form">
+            <div class="form-group"><label>Ваше имя:</label><input type="text" id="client-name" placeholder="Алексей" required></div>
+            <div class="form-group"><label>Телефон / Telegram:</label><input type="text" id="client-phone" placeholder="+33 6 12 34 56 78" required></div>
+            <div class="form-group">
+                <label>Услуга:</label>
+                <select id="select-service">
+                    <option value="Стрижка M3GAN Cyber Style (40 €)">Стрижка M3GAN Cyber Style — 40 €</option>
+                    <option value="Бьюти-комплекс VOVAN VIP (65 €)">Бьюти-комплекс VOVAN VIP — 65 €</option>
+                </select>
+            </div>
+
+            <!-- Способы оплаты -->
+            <div class="form-group">
+                <label>Способ экспресс-оплаты:</label>
+                <button type="button" class="gpay-btn-official" onclick="processPayment('Google Pay')">
+                    <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M23.49 12.27c0-.79-.07-1.54-.19-2.27H12v4.51h6.47c-.29 1.48-1.14 2.73-2.4 3.58v3h3.86c2.26-2.09 3.56-5.17 3.56-8.82z"/><path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.86-3c-1.08.72-2.45 1.16-4.07 1.16-3.13 0-5.78-2.11-6.73-4.96H1.29v3.09C3.26 21.3 7.31 24 12 24z"/><path fill="#FBBC05" d="M5.27 14.29c-.25-.72-.38-1.49-.38-2.29s.14-1.57.38-2.29V6.62H1.29C.47 8.24 0 10.06 0 12s.47 3.76 1.29 5.38l3.98-3.09z"/><path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.31 0 3.26 2.7 1.29 6.62l3.98 3.09c.95-2.85 3.6-4.96 6.73-4.96z"/></svg>
+                    Оплатить через Google Pay
+                </button>
+
+                <button type="button" class="apple-pay-btn-official" onclick="processPayment('Apple Pay')">
+                    <span style="font-size:1.1rem;"></span> Pay (Apple Pay)
+                </button>
+
+                <button type="button" class="ton-pay-btn-official" onclick="processPayment('TON Wallet')">
+                    💎 Оплата через TON Wallet
+                </button>
+            </div>
+
+            <!-- QR Код для оплаты в салоне -->
+            <div style="text-align:center; margin-top:10px;">
+                <div style="font-size:0.75rem; color:var(--text-sub);">Или сканируйте QR-код для оплаты в салоне:</div>
+                <div class="qr-box">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=130x130&data=https://t.me/vovan_beauty_bot" alt="QR Payment">
+                </div>
+            </div>
+
+            <button type="submit" class="ticket-btn" style="width:100%; margin-top:10px;">⚡ ПОДТВЕРДИТЬ ЗАПИСЬ</button>
+        </form>
     </div>
 </div>
 
@@ -452,119 +247,65 @@
         }
     }
 
-    function changeLanguage(lang) {
-        triggerHaptic('light');
-        const isUA = (lang === 'UA');
-        const isFR = (lang === 'FR');
-        const isEN = (lang === 'EN');
+    let masterAppointments = [
+        { id: 1, client: 'Алексей', service: 'Стрижка M3GAN Cyber Style', price: 40, tip: 4, time: '11:00', status: 'pending' },
+        { id: 2, client: 'Марк', service: 'Бьюти-комплекс VOVAN VIP', price: 65, tip: 10, time: '13:00', status: 'pending' }
+    ];
 
-        // Шапка и селектор ролей
-        document.getElementById('opt-client').innerText = isUA ? "👤 Клієнт" : isFR ? "👤 Client" : "👤 Client";
-        document.getElementById('opt-bar').innerText = isUA ? "🍾 VIP Бар" : isFR ? "🍾 Bar VIP" : "🍾 VIP Bar";
-        document.getElementById('opt-ai').innerText = isUA ? "🤖 AI Підбір" : isFR ? "🤖 IA Style" : "🤖 AI Style";
-        document.getElementById('opt-chat').innerText = isUA ? "💬 AI Чат 24/7" : isFR ? "💬 IA Chat 24/7" : "💬 AI Chat 24/7";
-        document.getElementById('opt-shop').innerText = isUA ? "🛍️ Маркет" : isFR ? "🛍️ Boutique" : "🛍️ Shop";
-        document.getElementById('opt-gifts').innerText = isUA ? "🎁 Подарунки" : isFR ? "🎁 Cadeaux" : "🎁 Gift Cards";
-        document.getElementById('opt-director').innerText = isUA ? "👑 Директор" : isFR ? "👑 Directeur" : "👑 Director";
-        document.getElementById('opt-accounting').innerText = isUA ? "🇫🇷 Податки & Склад" : isFR ? "🇫🇷 Taxes & Stocks" : "🇫🇷 Taxes & Stock";
-        document.getElementById('opt-admin').innerText = isUA ? "💼 CRM" : isFR ? "💼 CRM" : "💼 CRM";
-        document.getElementById('opt-master').innerText = isUA ? "💈 Майстер" : isFR ? "💈 Coiffeur" : "💈 Stylist";
+    function renderMasterDashboard() {
+        const container = document.getElementById('master-schedule-list');
+        if (!container) return;
+        container.innerHTML = '';
 
-        // Главный экран
-        document.getElementById('txt-hero-title').innerText = "M3GAN AI BEAUTY EDITION";
-        document.getElementById('txt-hero-desc').innerText = isUA ? "Кібер-естетика на Лазурному Березі (Ніцца). Google Pay / Apple Pay / TON." : isFR ? "Esthétique cyber à Nice (Côte d'Azur). Google Pay / Apple Pay / TON." : "Cyber aesthetics in Nice (Côte d'Azur). Google Pay / Apple Pay / TON.";
-        document.getElementById('txt-hero-btn').innerText = isUA ? "⚡ ЗАПИСАТИСЯ ДО МАЙСТРА" : isFR ? "⚡ RÉSERVER UN RENDEZ-VOUS" : "⚡ BOOK AN APPOINTMENT";
-        
-        document.getElementById('txt-weather-title').innerText = isUA ? "☀️ Погода у Ніцці (Côte d'Azur):" : isFR ? "☀️ Météo à Nice (Côte d'Azur):" : "☀️ Nice Weather (Côte d'Azur):";
-        document.getElementById('txt-weather-advice').innerHTML = isUA ? "M3GAN AI:<br>VIP Захист волосся ☀️" : isFR ? "M3GAN AI:<br>Soin cheveux UV ☀️" : "M3GAN AI:<br>VIP Hair Care ☀️";
-        document.getElementById('txt-loc-title').innerText = isUA ? "📍 СТУДІЯ У НІЦЦІ (CÔTE D'AZUR)" : isFR ? "📍 STUDIO À NICE (CÔTE D'AZUR)" : "📍 STUDIO IN NICE (CÔTE D'AZUR)";
-        document.getElementById('txt-achieve-title').innerText = isUA ? "🏆 Ваші досягнення в клубі:" : isFR ? "🏆 Vos succès dans le club:" : "🏆 Your Club Badges:";
+        let totalPay = 0;
+        masterAppointments.forEach(app => {
+            const masterShare = (app.price * 0.45) + app.tip;
+            if (app.status === 'completed') totalPay += masterShare;
 
-        document.getElementById('txt-menu-title').innerText = isUA ? "ПОСЛУГИ ТА ЦІНИ (TTC)" : isFR ? "SERVICES ET TARIFS (TTC)" : "SERVICES & PRICES (TTC)";
-        document.getElementById('srv-1-title').innerText = isUA ? "Стрижка M3GAN Cyber Style" : isFR ? "Coupe M3GAN Cyber Style" : "M3GAN Cyber Style Haircut";
-        document.getElementById('srv-1-desc').innerText = isUA ? "Авторське моделювання форми" : isFR ? "Modélisation de forme sur-mesure" : "Custom shape modeling";
-        document.getElementById('srv-2-title').innerText = isUA ? "Б'юті-комплекс VOVAN VIP" : isFR ? "Complexe Beauté VOVAN VIP" : "VOVAN VIP Beauty Complex";
-        document.getElementById('srv-2-desc').innerText = isUA ? "Стрижка + VIP догляд за волоссям" : isFR ? "Coupe + Soin des cheveux VIP" : "Haircut + VIP Haircare";
+            const card = document.createElement('div');
+            card.style.cssText = "background:#121926; border:1px solid rgba(0,162,255,0.25); border-radius:12px; padding:12px; margin-bottom:10px; font-size:0.82rem;";
+            card.innerHTML = `
+                <div style="display:flex; justify-content:space-between; font-weight:bold;">
+                    <span>⏰ ${app.time} — ${app.client}</span>
+                    <span style="color:var(--cyber-gold);">${app.price} € (+${app.tip}€ чаевые)</span>
+                </div>
+                <div style="font-size:0.75rem; color:var(--text-sub); margin-top:3px;">✂️ ${app.service}</div>
+                <div style="margin-top:8px;">
+                    ${app.status === 'pending' ? `<button class="action-btn-sm btn-confirm" onclick="startProcedure(${app.id})">💈 Начать процедуру</button>` : ''}
+                    ${app.status === 'in_progress' ? `<button class="action-btn-sm btn-done" onclick="finishProcedure(${app.id})">✅ Завершить & Выдать чек</button>` : ''}
+                    ${app.status === 'completed' ? `<span style="color:var(--accent-green); font-weight:bold;">🎉 Процедура завершена (+${masterShare.toFixed(1)}€)</span>` : ''}
+                </div>
+            `;
+            container.appendChild(card);
+        });
 
-        document.getElementById('b-1-desc').innerText = isUA ? "Засновник студії. Авторський стиль." : isFR ? "Fondateur du studio. Style maître." : "Studio founder. Master style.";
-        document.getElementById('b-1-btn').innerText = isUA ? "Записатися до VOVAN" : isFR ? "Réserver avec VOVAN" : "Book with VOVAN";
-        document.getElementById('b-2-desc').innerText = isUA ? "Віртуально-досконалий б'юті-арт." : isFR ? "Art de la beauté virtuel parfait." : "Virtually perfect beauty art.";
-        document.getElementById('b-2-btn').innerText = isUA ? "Записатися до M3GAN" : isFR ? "Réserver avec M3GAN" : "Book with M3GAN";
-
-        // VIP Бар
-        document.getElementById('bar-header').innerText = isUA ? "🍾 VIP БАР В КРІСЛО CÔTE D'AZUR" : isFR ? "🍾 BAR VIP AU FAUTEUIL CÔTE D'AZUR" : "🍾 VIP CHAIR BAR CÔTE D'AZUR";
-        document.getElementById('bar-sub').innerText = isUA ? "Замовте напій прямо до крісла під час процедури" : isFR ? "Commandez une boisson directement au fauteuil" : "Order a drink directly to your chair";
-        document.getElementById('btn-bar-1').innerText = isUA ? "🥂 Замовити в крісло" : isFR ? "🥂 Commander au fauteuil" : "🥂 Order to chair";
-        document.getElementById('btn-bar-2').innerText = isUA ? "🥂 Замовити в крісло" : isFR ? "🥂 Commander au fauteuil" : "🥂 Order to chair";
-
-        // Нижня навигация
-        document.getElementById('nav-1').innerText = isUA ? "Запис" : isFR ? "Réserver" : "Booking";
-        document.getElementById('nav-2').innerText = isUA ? "VIP Бар" : isFR ? "Bar VIP" : "VIP Bar";
-        document.getElementById('nav-3').innerText = isUA ? "AI Скан" : isFR ? "IA Scan" : "AI Scan";
-        document.getElementById('nav-4').innerText = isUA ? "CRM" : isFR ? "CRM" : "CRM";
-        document.getElementById('nav-5').innerText = isUA ? "Директор" : isFR ? "Directeur" : "Director";
-
-        // Такси окно
-        document.getElementById('taxi-modal-sub').innerText = isUA ? "Приготувати вам безкоштовну свіжу каву до вашого приїзду у студію?" : isFR ? "Préparer un café gratuit pour votre arrivée au studio?" : "Prepare a free fresh coffee for your arrival?";
-        document.getElementById('btn-c-1').innerText = isUA ? "☕ Так, гарячий Еспресо" : isFR ? "☕ Oui, Espresso chaud" : "☕ Yes, Hot Espresso";
-        document.getElementById('btn-c-2').innerText = isUA ? "🥛 Так, Мигдальний Латте" : isFR ? "🥛 Oui, Latte amande" : "🥛 Yes, Almond Latte";
-        document.getElementById('btn-c-no').innerText = isUA ? "❌ Ні, дякую" : isFR ? "❌ Non, merci" : "❌ No, thanks";
+        document.getElementById('m-total-pay').innerText = `${totalPay.toFixed(1)} €`;
     }
 
-    let selectedTaxiBrand = 'Uber';
-    function orderTaxiWithCoffee(brand) {
+    function startProcedure(id) {
         triggerHaptic('medium');
-        selectedTaxiBrand = brand;
-        
-        if (brand === 'Uber') {
-            window.open('https://m.uber.com/ul/?action=setPickup&pickup=my_location&dropoff[formatted_address]=15%20Promenade%20des%20Anglais,%20Nice', '_blank');
-        } else {
-            window.open('https://bolt.eu/', '_blank');
-        }
-
-        setTimeout(() => {
-            document.getElementById('taxi-modal-title').innerText = `Таксі ${brand} у Ніцці в дорозі!`;
-            document.getElementById('taxi-coffee-modal').classList.add('active');
-        }, 600);
+        const app = masterAppointments.find(a => a.id === id);
+        if (app) app.status = 'in_progress';
+        renderMasterDashboard();
     }
 
-    function closeTaxiCoffeeModal() {
-        document.getElementById('taxi-coffee-modal').classList.remove('active');
-    }
-
-    function confirmTaxiCoffee(coffeeType) {
+    function finishProcedure(id) {
         triggerHaptic('success');
-        closeTaxiCoffeeModal();
-
-        const _b = atob("ODc3NDEyNjYzMDpBQUUtU19La0ZGUWpNbUVYUElxV18zT09nT2tQaDhYNlR6TQ==");
-        const _a = atob("MTA3NzU3MzA2MQ==");
-
-        const coffeeMsg = 
-            `🚖 <b>КЛІЄНТ ВИКЛИКАВ ТАКСІ (${selectedTaxiBrand}) ТА ЗАМОВИВ КАВУ!</b>\n` +
-            `━━━━━━━━━━━━━━━━━━━━━━\n` +
-            `☕ <b>Напій:</b> ${coffeeType}\n` +
-            `📍 <b>Локація:</b> Nice, Promenade des Anglais\n` +
-            `⏰ <b>Прибуття:</b> Через ~7-10 хвилин.\n` +
-            `⚡ <i>Приготуйте свіжу ${coffeeType} до приїзду клієнта!</i>`;
-
-        fetch(`https://api.telegram.org/bot${_b}/sendMessage`, {
-            method: 'POST', headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ chat_id: _a, text: coffeeMsg, parse_mode: 'HTML' })
-        }).catch(e => {});
-
-        if (tg.showAlert) tg.showAlert(`☕ Чудово! Ми приготуємо ${coffeeType} до вашого приїзду!`);
-        else alert(`Кава замовлена!`);
+        const app = masterAppointments.find(a => a.id === id);
+        if (app) app.status = 'completed';
+        renderMasterDashboard();
     }
 
-    function orderDrink(drink) {
+    function requestMasterPayout() {
         triggerHaptic('success');
-        if (tg.showAlert) tg.showAlert(`🍾 Напій "${drink}" замовлено до крісла!`);
-        else alert(`Напій замовлено!`);
+        if (tg.showAlert) tg.showAlert("💸 Запрос на выплату зарплаты успешно отправлен бухгалтеру!");
+        else alert("Запрос на выплату отправлен!");
     }
 
-    function openNiceMap() {
-        triggerHaptic('medium');
-        window.open('https://maps.google.com/?q=15+Promenade+des+Anglais,+06000+Nice,+France', '_blank');
+    function processPayment(method) {
+        triggerHaptic('success');
+        if (tg.showAlert) tg.showAlert(`💳 Оплата через ${method} успешно авторизована!`);
+        else alert(`Оплата через ${method} успешно авторизована!`);
     }
 
     function switchTab(pageId) {
@@ -574,11 +315,20 @@
 
         document.getElementById(`page-${pageId}`).classList.add('active');
         document.getElementById('role-select').value = pageId;
+
+        if (pageId === 'master') renderMasterDashboard();
     }
 
     const modal = document.getElementById('booking-modal');
     function openModal() { triggerHaptic('medium'); modal.classList.add('active'); }
     function closeModal() { triggerHaptic('light'); modal.classList.remove('active'); }
+
+    document.getElementById('barber-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        triggerHaptic('success');
+        if (tg.showAlert) tg.showAlert("✨ Запись успешно создана!");
+        closeModal();
+    });
 </script>
 </body>
 </html>
