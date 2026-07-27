@@ -269,6 +269,27 @@
                 </div>
                 <div><div class="menu-price-eur">35 €</div><div class="menu-price-ton">≈ 5.4 TON</div></div>
             </div>
+            <div class="menu-item" onclick="selectServiceModal('Королівське гоління Barber', 45)">
+                <div>
+                    <div class="menu-name">Королівське гоління Barber</div>
+                    <div class="menu-desc">Небезпечна бритва + розпарювання</div>
+                </div>
+                <div><div class="menu-price-eur">45 €</div><div class="menu-price-ton">≈ 7.0 TON</div></div>
+            </div>
+            <div class="menu-item" onclick="selectServiceModal('Cyber-Detox шкіри голови', 55)">
+                <div>
+                    <div class="menu-name">Cyber-Detox шкіри голови</div>
+                    <div class="menu-desc">Глибоке очищення + пілінг</div>
+                </div>
+                <div><div class="menu-price-eur">55 €</div><div class="menu-price-ton">≈ 8.5 TON</div></div>
+            </div>
+            <div class="menu-item" onclick="selectServiceModal('Камуфляж бороди', 30)">
+                <div>
+                    <div class="menu-name">Камуфляж бороди</div>
+                    <div class="menu-desc">Приховування сивини бороди</div>
+                </div>
+                <div><div class="menu-price-eur">30 €</div><div class="menu-price-ton">≈ 4.6 TON</div></div>
+            </div>
         </div>
 
         <div class="barbers-grid">
@@ -292,6 +313,9 @@
             <div class="bar-grid">
                 <div class="bar-card"><div class="bar-title">Dom Pérignon</div><div class="bar-price">45 €</div><button class="action-btn-sm btn-confirm" style="width:100%;" onclick="orderDrink('Dom Pérignon')" data-i18n="btn-order-drink">🥂 Замовити в крісло</button></div>
                 <div class="bar-card"><div class="bar-title">Moët & Chandon</div><div class="bar-price">35 €</div><button class="action-btn-sm btn-confirm" style="width:100%;" onclick="orderDrink('Moët & Chandon')" data-i18n="btn-order-drink">🥂 Замовити в крісло</button></div>
+                <div class="bar-card"><div class="bar-title">Горілка Nemiroff</div><div class="bar-price">10 €</div><button class="action-btn-sm btn-confirm" style="width:100%;" onclick="orderDrink('Горілка Nemiroff')">🧊 Замовити в крісло</button></div>
+                <div class="bar-card"><div class="bar-title">Whiskey Chivas</div><div class="bar-price">15 €</div><button class="action-btn-sm btn-confirm" style="width:100%;" onclick="orderDrink('Whiskey Chivas')">🥃 Замовити в крісло</button></div>
+                <div class="bar-card"><div class="bar-title">Martini Bianco</div><div class="bar-price">12 €</div><button class="action-btn-sm btn-confirm" style="width:100%;" onclick="orderDrink('Martini Bianco')">🍸 Замовити в крісло</button></div>
             </div>
         </div>
     </div>
@@ -395,13 +419,17 @@
         </div>
     </div>
 
-    <!-- 8. БУХГАЛТЕРИЯ -->
+    <!-- 8. БУХГАЛТЕРИЯ ТА СКЛАД -->
     <div id="page-accounting" class="page-section">
         <div class="admin-card">
             <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);" data-i18n="acc-title">🇫🇷 ПОДАТКИ (FRANCE)</h3>
             <div class="form-group" style="margin-top:10px;">
                 <label>Витрати (Оренда, Матеріали) €:</label>
                 <input type="number" id="acc-expenses" value="1200" onchange="calculateAccounting()">
+            </div>
+            <div class="form-group" style="margin-top:10px;">
+                <label>Електроенергія €:</label>
+                <input type="number" id="acc-electricity" value="150" onchange="calculateAccounting()">
             </div>
             
             <div style="background:#121926; border:1px solid rgba(255,255,255,0.1); border-radius:12px; padding:15px; margin-top:15px;">
@@ -415,13 +443,16 @@
                     <span style="color:var(--text-sub);">Соц. внески (URSSAF 22%):</span> <span id="acc-urssaf" style="color:var(--accent-red); font-weight:bold;">0 €</span>
                 </div>
                 <div style="display:flex; justify-content:space-between; margin-bottom:8px; font-size:0.85rem;">
-                    <span style="color:var(--text-sub);">Поточні витрати:</span> <span id="acc-exp-display" style="color:var(--accent-purple); font-weight:bold;">1200 €</span>
+                    <span style="color:var(--text-sub);">Поточні витрати (вкл. Світло):</span> <span id="acc-exp-display" style="color:var(--accent-purple); font-weight:bold;">1350 €</span>
                 </div>
                 <hr style="border:0; border-top:1px dashed rgba(255,255,255,0.1); margin:10px 0;">
                 <div style="display:flex; justify-content:space-between; font-size:1rem;">
                     <span style="color:var(--cyber-gold); font-weight:bold;">ЧИСТИЙ ПРИБУТОК:</span> <span id="acc-net" style="color:var(--accent-green); font-family:'Orbitron'; font-weight:900;">0 €</span>
                 </div>
             </div>
+
+            <h4 style="font-family:'Orbitron'; color:var(--cyber-blue); font-size:0.9rem; margin-top:20px; margin-bottom:10px;">📦 СКЛАД (Автосписання)</h4>
+            <div id="warehouse-list" style="display:flex; flex-direction:column; gap:8px;"></div>
         </div>
     </div>
 
@@ -471,6 +502,7 @@
                     <div style="font-size:0.75rem; color:var(--text-sub);">Ваша загальна комісія (45%)</div>
                     <div id="master-total-cut" style="font-family:'Orbitron'; font-size:1.5rem; color:var(--cyber-blue); font-weight:bold; margin-top:5px;">0 €</div>
                 </div>
+                <button class="action-btn-sm btn-payout" onclick="payMasterSalary()">💵 Виплатити ЗП</button>
             </div>
 
             <div id="master-schedule-list"></div>
@@ -504,12 +536,14 @@
             </div>
             <div class="form-group">
                 <label data-i18n="lbl-service">Обрати послугу:</label>
-                <select id="select-service">
                     <option value="Стрижка M3GAN Cyber Style (40 €)" data-i18n="opt-srv-1">Стрижка M3GAN Cyber Style — 40 €</option>
                     <option value="Бьюти-комплекс VOVAN VIP (65 €)" data-i18n="opt-srv-2">Б'юті-комплекс VOVAN VIP — 65 €</option>
                     <option value="Neon Highlight (70 €)" data-i18n="opt-srv-3">Neon Highlight — 70 €</option>
                     <option value="Android Spa (120 €)" data-i18n="opt-srv-4">Android Spa — 120 €</option>
                     <option value="Cyber Silver (35 €)" data-i18n="opt-srv-5">Cyber Silver — 35 €</option>
+                    <option value="Королівське гоління Barber (45 €)">Королівське гоління Barber — 45 €</option>
+                    <option value="Cyber-Detox шкіри голови (55 €)">Cyber-Detox шкіри голови — 55 €</option>
+                    <option value="Камуфляж бороди (30 €)">Камуфляж бороди — 30 €</option>
                 </select>
             </div>
             <div class="form-group">
@@ -866,11 +900,25 @@
                     { id: 1, Client: 'Олена С.', Price: 40, Service: 'Стрижка M3GAN Cyber Style', Date: 'Сьогодні 13:00', Status: 'Завершено', Master: 'VOVAN', Master_Cut: 18 },
                     { id: 2, Client: 'Анна М.', Price: 65, Service: 'Б\'юті-комплекс VOVAN VIP', Date: 'Завтра 15:00', Status: 'Новий', Master: 'M3GAN AI', Master_Cut: 29.25 },
                     { id: 3, Client: 'Марія К.', Price: 40, Service: 'Стрижка M3GAN Cyber Style', Date: 'Вчора 11:00', Status: 'Завершено', Master: 'VOVAN', Master_Cut: 18 }
+                ],
+                warehouse: [
+                    { item: 'Шампунь (мл)', amount: 5000, max: 5000 },
+                    { item: 'Фарба Neon (мл)', amount: 2000, max: 2000 },
+                    { item: 'Горілка Nemiroff (мл)', amount: 1000, max: 1000 },
+                    { item: 'Кава (зерна, г)', amount: 1500, max: 1500 }
                 ]
             };
             saveLocalDB(db);
         } else {
             db = JSON.parse(db);
+            if (!db.warehouse) {
+                db.warehouse = [
+                    { item: 'Шампунь (мл)', amount: 5000, max: 5000 },
+                    { item: 'Фарба Neon (мл)', amount: 2000, max: 2000 },
+                    { item: 'Горілка Nemiroff (мл)', amount: 1000, max: 1000 },
+                    { item: 'Кава (зерна, г)', amount: 1500, max: 1500 }
+                ];
+            }
         }
         return db;
     }
@@ -945,10 +993,38 @@
         triggerHaptic('light');
         const db = getLocalDB();
         const order = db.orders.find(o => o.id === id);
-        if (order) order.Status = newStatus;
+        if (order) {
+            order.Status = newStatus;
+            
+            // Автосписання зі складу при завершенні послуги
+            if (newStatus === 'Завершено') {
+                const w = db.warehouse;
+                if (order.Service.includes('Стрижка') || order.Service.includes('Королівське')) {
+                    const sh = w.find(x => x.item === 'Шампунь (мл)');
+                    if(sh) sh.amount -= 30;
+                }
+                if (order.Service.includes('Highlight') || order.Service.includes('Silver') || order.Service.includes('Камуфляж')) {
+                    const p = w.find(x => x.item === 'Фарба Neon (мл)');
+                    if(p) p.amount -= 60;
+                }
+                
+                // Перевірка запасів
+                w.forEach(item => {
+                    if(item.amount < (item.max * 0.15)) {
+                        sendBotNotification(`⚠️ <b>АВТОЗАМОВЛЕННЯ СКЛАДУ!</b>\nЗакінчується: <b>${item.item}</b> (Залишилося: ${item.amount}).`);
+                    }
+                });
+                
+                // Відгук клієнта (mock)
+                setTimeout(() => {
+                    sendBotNotification(`⭐ <b>ВІДГУК ВІД КЛІЄНТА!</b>\n${order.Client} оцінив візит на 5 зірок! "Дуже дякую майстру ${order.Master}!"`);
+                }, 3000);
+            }
+        }
         saveLocalDB(db);
         populateCRM();
         initDirectorStats();
+        populateWarehouse();
     }
     
     function openManualOrderModal() {
@@ -997,17 +1073,40 @@
         db.orders.forEach(o => totalRev += o.Price);
         
         const expenses = parseFloat(document.getElementById('acc-expenses').value) || 0;
+        const electricity = parseFloat(document.getElementById('acc-electricity').value) || 0;
         const tva = totalRev * 0.20;
         const urssaf = totalRev * 0.22;
         
         // Мастера получают свою долю (45%). То есть салон оставляет 55%.
-        const netProfit = (totalRev * 0.55) - expenses - tva - urssaf;
+        const netProfit = (totalRev * 0.55) - (expenses + electricity) - tva - urssaf;
         
         document.getElementById('acc-gross').innerText = totalRev.toFixed(2) + ' €';
         document.getElementById('acc-tva').innerText = tva.toFixed(2) + ' €';
         document.getElementById('acc-urssaf').innerText = urssaf.toFixed(2) + ' €';
-        document.getElementById('acc-exp-display').innerText = expenses.toFixed(2) + ' €';
+        document.getElementById('acc-exp-display').innerText = (expenses + electricity).toFixed(2) + ' €';
         document.getElementById('acc-net').innerText = netProfit.toFixed(2) + ' €';
+    }
+
+    function populateWarehouse() {
+        const db = getLocalDB();
+        const list = document.getElementById('warehouse-list');
+        if(!list) return;
+        let html = '';
+        db.warehouse.forEach(w => {
+            const perc = (w.amount / w.max) * 100;
+            const color = perc > 50 ? 'var(--accent-green)' : (perc > 15 ? 'var(--cyber-gold)' : 'var(--accent-red)');
+            html += `
+            <div style="background:#121926; padding:10px; border-radius:8px; border:1px solid rgba(255,255,255,0.05);">
+                <div style="display:flex; justify-content:space-between; font-size:0.8rem; margin-bottom:4px;">
+                    <span style="color:#fff;">${w.item}</span>
+                    <span style="color:${color}; font-weight:bold;">${w.amount} / ${w.max}</span>
+                </div>
+                <div style="width:100%; height:6px; background:rgba(255,255,255,0.1); border-radius:3px; overflow:hidden;">
+                    <div style="width:${perc}%; height:100%; background:${color}; box-shadow:0 0 8px ${color};"></div>
+                </div>
+            </div>`;
+        });
+        list.innerHTML = html;
     }
 
     // MASTER POPULATE (Timeline)
@@ -1030,8 +1129,14 @@
                 totalCut += match.Master_Cut || 0;
                 html += `
                     <div class="slot-booked">
-                        <div style="font-weight:bold; color:var(--cyber-gold);">${match.Client}</div>
-                        <div style="font-size:0.75rem; color:var(--text-sub);">${match.Service}</div>
+                        <div style="display:flex; justify-content:space-between;">
+                            <span style="font-weight:bold; color:var(--cyber-gold);">${match.Client}</span>
+                            <span>
+                                <button class="action-btn-sm" style="padding:2px 6px; margin:0; background:rgba(0,162,255,0.2); color:#fff; border:1px solid var(--cyber-blue);" onclick="shiftTime(15, '${match.id}')">+15m</button>
+                                <button class="action-btn-sm" style="padding:2px 6px; margin:0; background:rgba(255,215,0,0.2); color:#fff; border:1px solid var(--cyber-gold);" onclick="shiftTime(-15, '${match.id}')">-15m</button>
+                            </span>
+                        </div>
+                        <div style="font-size:0.75rem; color:var(--text-sub); margin-top:4px;">${match.Service}</div>
                         <div style="font-size:0.7rem; color:var(--accent-green); margin-top:2px;">Дохід: ${match.Master_Cut} €</div>
                         <button class="action-btn-sm btn-payout" style="margin-top:6px; width:100%;" onclick="leaveTip('${match.Master}')">💸 Чайові (5€)</button>
                     </div>`;
@@ -1058,6 +1163,24 @@
         
         masterList.innerHTML = html;
         document.getElementById('master-total-cut').innerText = totalCut.toFixed(2) + ' €';
+    }
+
+    function shiftTime(mins, orderId) {
+        triggerHaptic('medium');
+        if (tg.showAlert) tg.showAlert(`⏳ Автокорекція! Графік зсунуто на ${mins > 0 ? '+'+mins : mins} хвилин!`);
+        else alert(`⏳ Автокорекція! Графік зсунуто на ${mins > 0 ? '+'+mins : mins} хвилин!`);
+        // У реальному додатку тут би перераховувалися рядки 'Сьогодні 11:00' -> 'Сьогодні 11:15'
+    }
+
+    function payMasterSalary() {
+        triggerHaptic('success');
+        const db = getLocalDB();
+        db.orders.forEach(o => { o.Master_Cut = 0; });
+        saveLocalDB(db);
+        populateMasterSchedule();
+        initDirectorStats();
+        if (tg.showAlert) tg.showAlert(`💸 Зарплата успішно виплачена майстрам! Баланси обнулені.`);
+        else alert(`💸 Зарплата успішно виплачена майстрам! Баланси обнулені.`);
     }
 
     // DIRECTOR POPULATE
@@ -1214,7 +1337,7 @@
         if (!datePicker) return;
         datePicker.innerHTML = '';
         const today = new Date(); const days = ['Нд', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'];
-        for (let i = 0; i < 5; i++) {
+        for (let i = 0; i < 14; i++) {
             const d = new Date(); d.setDate(today.getDate() + i);
             const dayName = i === 0 ? 'Сьогодні' : i === 1 ? 'Завтра' : days[d.getDay()];
             const dateNum = `${d.getDate()}.${d.getMonth() + 1}`;
@@ -1306,11 +1429,24 @@
         closeModal();
     });
 
+    function checkReminders() {
+        const db = getLocalDB();
+        const tomorrowOrder = db.orders.find(o => o.Date.includes('Завтра'));
+        if (tomorrowOrder && !sessionStorage.getItem('reminder_sent')) {
+            setTimeout(() => {
+                sendBotNotification(`🔔 <b>АВТО-НАГАДУВАННЯ КЛІЄНТУ!</b>\nНадіслано до: ${tomorrowOrder.Client}\nТекст: "Чекаємо на вас завтра у салоні!"`);
+                sessionStorage.setItem('reminder_sent', 'true');
+            }, 5000);
+        }
+    }
+
     initDatePicker();
     
     // Популейт данных при старте
     populateCRM();
     populateMasterSchedule();
+    populateWarehouse();
+    checkReminders();
     
     // Инициализация языка
     changeLanguage('UA');
