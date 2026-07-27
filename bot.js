@@ -14,6 +14,20 @@ if (!token) {
 const bot = new TelegramBot(token, { polling: true });
 const webAppUrl = 'https://xniceua-droid.github.io/megan-2.0/';
 
+// Налаштування глобальних команд і кнопки меню для бота
+bot.setMyCommands([
+    { command: '/start', description: '🚀 Запустити додаток' },
+    { command: '/restart', description: '🔄 Оновити / Перезапустити' }
+]).catch(e => console.error("setMyCommands error:", e));
+
+bot.setChatMenuButton({
+    menu_button: JSON.stringify({
+        type: 'web_app',
+        text: '📱 Відкрити App',
+        web_app: { url: webAppUrl }
+    })
+}).catch(e => console.error("setChatMenuButton error:", e));
+
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -82,21 +96,15 @@ bot.on('successful_payment', (msg) => {
     bot.sendMessage(msg.chat.id, "✅ Оплата успішна! Дякуємо за довіру до VOVAN BEAUTY STUDIO.");
 });
 
-bot.onText(/\/start/, async (msg) => {
+bot.onText(/\/(start|restart)/, async (msg) => {
     const chatId = msg.chat.id;
-    try {
-        await bot.setChatMenuButton({
-            chat_id: chatId,
-            menu_button: JSON.stringify({ type: 'web_app', text: 'Відкрити App', web_app: { url: webAppUrl } })
-        });
-    } catch (e) { console.log(e.message); }
 
     const opts = {
         reply_markup: {
             inline_keyboard: [[{ text: "⚡ ВІДКРИТИ VOVAN BEAUTY ⚡", web_app: { url: webAppUrl } }]]
         }
     };
-    bot.sendMessage(chatId, `Привіт, ${msg.from.first_name || 'клієнт'}!\nЛаскаво просимо до VOVAN BEAUTY STUDIO.\n\nНатисніть кнопку нижче 👇`, opts);
+    bot.sendMessage(chatId, `Привіт, ${msg.from.first_name || 'клієнт'}!\nЛаскаво просимо до VOVAN BEAUTY STUDIO.\n\nНатисніть кнопку нижче, щоб відкрити додаток 👇`, opts);
 });
 
 bot.on('polling_error', (error) => { console.log(error.code); });
