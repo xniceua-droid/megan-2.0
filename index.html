@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>VOVAN BEAUTY STUDIO — Telegram Push & AI Chat Edition</title>
+    <title>VOVAN BEAUTY STUDIO — Heatmap & Gift Cards Edition</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -48,6 +48,13 @@
         .stat-val { font-family: 'Orbitron', sans-serif; font-size: 1.2rem; font-weight: 900; color: var(--cyber-gold); margin-top: 3px; }
         .stat-label { font-size: 0.72rem; color: var(--text-sub); }
 
+        /* Тепловая карта Heatmap */
+        .heatmap-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 10px; }
+        .heat-cell { background: #121926; padding: 10px 4px; border-radius: 8px; text-align: center; font-size: 0.72rem; border: 1px solid rgba(255,255,255,0.05); }
+        .heat-low { border-color: rgba(0,230,118,0.4); color: var(--accent-green); }
+        .heat-mid { border-color: rgba(255,215,0,0.4); color: var(--cyber-gold); }
+        .heat-high { border-color: rgba(255,42,95,0.6); color: var(--accent-red); font-weight: bold; }
+
         .pay-badges-row { display: flex; gap: 8px; justify-content: center; margin-top: 14px; flex-wrap: wrap; }
         .pay-badge-item { background: #121926; border: 1px solid rgba(255, 215, 0, 0.25); border-radius: 8px; padding: 6px 12px; display: flex; align-items: center; gap: 6px; font-size: 0.78rem; font-weight: bold; }
 
@@ -63,7 +70,6 @@
         .shop-title { font-size: 0.85rem; font-weight: bold; color: #fff; margin-top: 6px; }
         .shop-price { font-family: 'Orbitron', sans-serif; color: var(--cyber-gold); font-weight: 900; margin: 6px 0; font-size: 0.95rem; }
 
-        /* AI Чат */
         .chat-box { background: #121926; border: 1px solid rgba(0,162,255,0.3); border-radius: 14px; padding: 12px; height: 260px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
         .chat-msg { padding: 8px 12px; border-radius: 10px; font-size: 0.8rem; max-width: 82%; }
         .chat-msg.bot { background: rgba(0,162,255,0.15); border: 1px solid var(--cyber-blue); align-self: flex-start; color: #fff; }
@@ -144,6 +150,7 @@
                 <option value="ai" id="opt-ai">🤖 AI Подбор</option>
                 <option value="chat">💬 AI Чат 24/7</option>
                 <option value="shop" id="opt-shop">🛍️ Маркет</option>
+                <option value="gifts">🎁 Подарки</option>
                 <option value="director" id="opt-director">👑 Директор</option>
                 <option value="accounting" id="opt-accounting">🇫🇷 Налоги</option>
                 <option value="admin" id="opt-admin">💼 CRM</option>
@@ -259,7 +266,30 @@
         </div>
     </div>
 
-    <!-- 4. МАРКЕТПЛЕЙС -->
+    <!-- 4. ПОДАРОЧНЫЕ СЕРТИФИКАТЫ -->
+    <div id="page-gifts" class="page-section">
+        <div class="admin-card">
+            <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);">🎁 NFT ПОДАРОЧНЫЕ СЕРТИФИКАТЫ</h3>
+            <p style="font-size:0.78rem; color:var(--text-sub);">Подарите стиль другу с мгновенной отправкой в Telegram</p>
+            
+            <div class="shop-grid">
+                <div class="shop-card">
+                    <div style="font-size:2.2rem;">💳</div>
+                    <div class="shop-title">Сертификат Silver VIP</div>
+                    <div class="shop-price">50 € (7.7 TON)</div>
+                    <button class="action-btn-sm btn-confirm" style="width:100%;" onclick="buyGiftCard('Silver VIP 50€')">🎁 Подарить другу</button>
+                </div>
+                <div class="shop-card">
+                    <div style="font-size:2.2rem;">👑</div>
+                    <div class="shop-title">Сертификат Gold Cyber</div>
+                    <div class="shop-price">100 € (15.4 TON)</div>
+                    <button class="action-btn-sm btn-confirm" style="width:100%;" onclick="buyGiftCard('Gold Cyber 100€')">🎁 Подарить другу</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 5. МАРКЕТПЛЕЙС -->
     <div id="page-shop" class="page-section">
         <div class="admin-card">
             <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);" id="shop-title">🛍️ МАРКЕТПЛЕЙС СТАЙЛИНГА</h3>
@@ -280,10 +310,10 @@
         </div>
     </div>
 
-    <!-- 5. ДИРЕКТОР -->
+    <!-- 6. ДИРЕКТОР & HEATMAP -->
     <div id="page-director" class="page-section">
         <div class="admin-card">
-            <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);" id="dir-title">👑 ДИРЕКТОРСКАЯ АНАЛИТИКА & LTV</h3>
+            <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);" id="dir-title">👑 ДИРЕКТОРСКАЯ АНАЛИТИКА & HEATMAP</h3>
             <div class="period-tabs">
                 <div class="period-btn" onclick="updateDirectorPeriod('day', this)">День</div>
                 <div class="period-btn" onclick="updateDirectorPeriod('week', this)">Неделя</div>
@@ -293,11 +323,20 @@
                 <div class="stat-box"><div class="stat-label">Выручка (€)</div><div class="stat-val" id="dir-rev-eur">12 450 €</div></div>
                 <div class="stat-box"><div class="stat-label">LTV Клиента</div><div class="stat-val" style="color:var(--accent-green);">285 €</div></div>
             </div>
+
+            <h4 style="font-family:'Orbitron'; color:var(--cyber-blue); margin-top:14px; font-size:0.85rem;">📊 Загруженность студии (Heatmap):</h4>
+            <div class="heatmap-grid">
+                <div class="heat-cell heat-low">10:00<br>30%</div>
+                <div class="heat-cell heat-high">12:00<br>95%</div>
+                <div class="heat-cell heat-high">15:00<br>100%</div>
+                <div class="heat-cell heat-mid">18:00<br>70%</div>
+            </div>
+
             <div class="chart-container"><canvas id="revenueChart"></canvas></div>
         </div>
     </div>
 
-    <!-- 6. БУХГАЛТЕРИЯ -->
+    <!-- 7. БУХГАЛТЕРИЯ -->
     <div id="page-accounting" class="page-section">
         <div class="admin-card">
             <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);" id="tax-title">🇫🇷 КАЛЬКУЛЯТОР НАЛОГОВ И P&L (FRANCE)</h3>
@@ -312,7 +351,7 @@
         </div>
     </div>
 
-    <!-- 7. CRM ДЛЯ АДМИНИСТРАТОРА -->
+    <!-- 8. CRM -->
     <div id="page-admin" class="page-section">
         <div class="admin-card">
             <h3 style="font-family:'Orbitron'; color:var(--cyber-blue);" id="crm-title">💼 CRM ВОРОНКА ОБСЛУЖИВАНИЯ</h3>
@@ -326,7 +365,7 @@
         </div>
     </div>
 
-    <!-- 8. МАСТЕР -->
+    <!-- 9. МАСТЕР -->
     <div id="page-master" class="page-section">
         <div class="admin-card">
             <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);" id="m-title">💈 КАБИНЕТ И ЗАРПЛАТА МАСТЕРА</h3>
@@ -347,7 +386,7 @@
     </div>
 </div>
 
-<!-- Модальное окно записи с экспорт в Календарь -->
+<!-- Модальное окно записи -->
 <div id="booking-modal" class="modal-overlay">
     <div class="vintage-modal">
         <button class="close-modal" onclick="closeModal()">&times;</button>
@@ -441,6 +480,12 @@
     let isPromoApplied = false;
     let selectedTipPercent = 10;
     let currentBasePrice = 40;
+
+    function buyGiftCard(name) {
+        triggerHaptic('success');
+        if (tg.showAlert) tg.showAlert(`🎁 Сертификат "${name}" приобретен! Ссылка для друга отправлена в Telegram.`);
+        else alert(`Сертификат куплен!`);
+    }
 
     function sendChatMessage() {
         const input = document.getElementById('chat-input-el');
