@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>VOVAN BEAUTY STUDIO — Nice Coffee Taxi Edition</title>
+    <title>VOVAN BEAUTY STUDIO — Nice Smart CRM & AI Chat Edition</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -61,12 +61,6 @@
         .badges-grid { display: flex; gap: 8px; margin-top: 10px; overflow-x: auto; padding-bottom: 4px; }
         .badge-card { min-width: 105px; background: #121926; border: 1px solid rgba(255,215,0,0.3); border-radius: 10px; padding: 8px; text-align: center; font-size: 0.72rem; }
 
-        .heatmap-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 10px; }
-        .heat-cell { background: #121926; padding: 10px 4px; border-radius: 8px; text-align: center; font-size: 0.72rem; border: 1px solid rgba(255,255,255,0.05); }
-        .heat-low { border-color: rgba(0,230,118,0.4); color: var(--accent-green); }
-        .heat-mid { border-color: rgba(255,215,0,0.4); color: var(--cyber-gold); }
-        .heat-high { border-color: rgba(255,42,95,0.6); color: var(--accent-red); font-weight: bold; }
-
         .pay-badges-row { display: flex; gap: 8px; justify-content: center; margin-top: 14px; flex-wrap: wrap; }
         .pay-badge-item { background: #121926; border: 1px solid rgba(255, 215, 0, 0.25); border-radius: 8px; padding: 6px 12px; display: flex; align-items: center; gap: 6px; font-size: 0.78rem; font-weight: bold; }
 
@@ -82,10 +76,12 @@
         .shop-title { font-size: 0.85rem; font-weight: bold; color: #fff; margin-top: 6px; }
         .shop-price { font-family: 'Orbitron', sans-serif; color: var(--cyber-gold); font-weight: 900; margin: 6px 0; font-size: 0.95rem; }
 
-        .chat-box { background: #121926; border: 1px solid rgba(0,162,255,0.3); border-radius: 14px; padding: 12px; height: 260px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
-        .chat-msg { padding: 8px 12px; border-radius: 10px; font-size: 0.8rem; max-width: 82%; }
+        /* Улучшенный Чат */
+        .chat-box { background: #121926; border: 1px solid rgba(0,162,255,0.3); border-radius: 14px; padding: 12px; height: 280px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
+        .chat-msg { padding: 10px 14px; border-radius: 12px; font-size: 0.82rem; max-width: 85%; line-height: 1.4; }
         .chat-msg.bot { background: rgba(0,162,255,0.15); border: 1px solid var(--cyber-blue); align-self: flex-start; color: #fff; }
         .chat-msg.user { background: rgba(255,215,0,0.15); border: 1px solid var(--cyber-gold); align-self: flex-end; color: #fff; }
+        .chat-quick-btn { background: #141b29; border: 1px solid var(--cyber-blue); color: var(--cyber-blue); padding: 4px 8px; border-radius: 6px; font-size: 0.7rem; cursor: pointer; margin-top: 4px; display: inline-block; }
 
         .ai-scanner-box { border: 2px dashed var(--cyber-blue); border-radius: 16px; padding: 25px; text-align: center; background: rgba(0,162,255,0.05); margin-top: 12px; }
 
@@ -98,15 +94,18 @@
         .pipe-step.active { background: var(--cyber-blue); color: #fff; font-weight: bold; border-color: var(--cyber-gold); }
 
         .orders-list { margin-top: 12px; }
-        .order-card-pipeline { background: #121926; border-left: 4px solid var(--cyber-blue); padding: 12px; border-radius: 10px; margin-bottom: 10px; font-size: 0.8rem; box-shadow: 0 4px 15px rgba(0,0,0,0.4); }
+        .order-card-pipeline { background: #121926; border-left: 4px solid var(--cyber-blue); padding: 14px; border-radius: 12px; margin-bottom: 12px; font-size: 0.82rem; box-shadow: 0 4px 20px rgba(0,0,0,0.5); }
+        .order-card-pipeline.confirmed { border-left-color: var(--accent-green); }
+        .order-card-pipeline.in_progress { border-left-color: var(--cyber-gold); }
+        .order-card-pipeline.completed { border-left-color: var(--accent-purple); }
 
         .action-btn-sm { padding: 6px 12px; border-radius: 6px; font-size: 0.72rem; font-weight: bold; border: none; cursor: pointer; margin-right: 4px; margin-top: 6px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
         .btn-confirm { background: var(--accent-green); color: #000; }
         .btn-progress { background: var(--cyber-gold); color: #000; }
         .btn-done { background: var(--accent-purple); color: #fff; }
         .btn-receipt { background: var(--cyber-blue); color: #fff; }
+        .btn-push { background: var(--ton-blue); color: #fff; }
         
-        /* Кнопки Uber и Bolt с логотипами */
         .btn-uber-official { background: #000; color: #fff; border: 1px solid #fff; }
         .btn-bolt-official { background: #34C759; color: #fff; border: 1px solid #28a745; }
 
@@ -214,13 +213,11 @@
                 <div style="display:flex; gap:6px; margin-top:10px;">
                     <button class="action-btn-sm btn-receipt" style="flex:1;" onclick="openNiceMap()">🗺 Maps</button>
                     
-                    <!-- Официальная кнопка Uber -->
                     <button class="action-btn-sm btn-uber-official" style="flex:1;" onclick="orderTaxiWithCoffee('Uber')">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="#fff"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/><path d="M7 11h10v2H7z"/></svg>
                         Uber
                     </button>
                     
-                    <!-- Официальная кнопка Bolt -->
                     <button class="action-btn-sm btn-bolt-official" style="flex:1;" onclick="orderTaxiWithCoffee('Bolt')">
                         <svg width="14" height="14" viewBox="0 0 24 24" fill="#fff"><path d="M13 2L3 14h7v8l10-12h-7z"/></svg>
                         Bolt
@@ -339,15 +336,24 @@
         </div>
     </div>
 
-    <!-- 4. AI ЧАТ 24/7 -->
+    <!-- 4. УМНЫЙ AI ЧАТ 24/7 -->
     <div id="page-chat" class="page-section">
         <div class="admin-card">
-            <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);">💬 M3GAN AI БЬЮТИ-КОНСУЛЬТАНТ 24/7</h3>
+            <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);">💬 M3GAN AI СМАРТ-КОНСУЛЬТАНТ 24/7</h3>
+            <p style="font-size:0.78rem; color:var(--text-sub);">Спросите M3GAN AI о ценах, локации в Ницце или времени записи</p>
+            
             <div class="chat-box" id="chat-box-el">
-                <div class="chat-msg bot">Привет! Я M3GAN AI. Чем могу помочь вам сегодня в Ницце? 😊</div>
+                <div class="chat-msg bot">
+                    Bonjour! Я M3GAN AI — ваш гид в Ницце. Чем могу помочь? 😊
+                    <br><br>
+                    <span class="chat-quick-btn" onclick="sendQuickChat('Цены и услуги')">💰 Цены и услуги</span>
+                    <span class="chat-quick-btn" onclick="sendQuickChat('Где вы находитесь?')">📍 Локация в Ницце</span>
+                    <span class="chat-quick-btn" onclick="sendQuickChat('Записаться к мастеру')">⚡ Записаться</span>
+                </div>
             </div>
+
             <div style="display:flex; gap:8px; margin-top:10px;">
-                <input type="text" id="chat-input-el" placeholder="Напишите вопрос..." style="flex:1; padding:10px; border-radius:8px; border:1px solid rgba(0,162,255,0.3); background:#080c14; color:#fff; font-size:0.82rem;">
+                <input type="text" id="chat-input-el" placeholder="Задайте вопрос M3GAN AI..." style="flex:1; padding:10px; border-radius:8px; border:1px solid rgba(0,162,255,0.3); background:#080c14; color:#fff; font-size:0.82rem;">
                 <button class="ticket-btn" style="width:auto; padding:10px 16px; font-size:0.8rem;" onclick="sendChatMessage()">Send</button>
             </div>
         </div>
@@ -404,10 +410,23 @@
         </div>
     </div>
 
-    <!-- 9. CRM -->
+    <!-- 9. CRM ПАНЕЛЬ С ЖИВЫМ ПОИСКОМ -->
     <div id="page-admin" class="page-section">
         <div class="admin-card">
-            <h3 style="font-family:'Orbitron'; color:var(--cyber-blue);">💼 CRM ВОРОНКА ОБСЛУЖИВАНИЯ</h3>
+            <h3 style="font-family:'Orbitron'; color:var(--cyber-blue);">💼 CRM УПРАВЛЕНИЕ ЗАКАЗАМИ</h3>
+            
+            <!-- Поиск по CRM -->
+            <div style="margin-top:10px;">
+                <input type="text" id="crm-search-input" placeholder="🔍 Поиск по имени или телефону..." oninput="renderCrmOrders()" style="width:100%; padding:10px; border-radius:8px; border:1px solid var(--cyber-blue); background:#080c14; color:#fff; font-size:0.82rem;">
+            </div>
+
+            <div class="pipeline-bar" style="margin-top:8px;">
+                <div class="pipe-step active" onclick="filterCrmPipeline('all', this)">Все</div>
+                <div class="pipe-step" onclick="filterCrmPipeline('new', this)">Новые</div>
+                <div class="pipe-step" onclick="filterCrmPipeline('in_progress', this)">В работе</div>
+                <div class="pipe-step" onclick="filterCrmPipeline('completed', this)">Завершено</div>
+            </div>
+            
             <div class="orders-list" id="crm-orders-list"></div>
         </div>
     </div>
@@ -481,6 +500,108 @@
         }
     }
 
+    let ordersDb = [
+        { id: 101, name: 'Олександр', phone: '+380991112233', service: 'Стрижка M3GAN Cyber Style', price: 40, barber: 'VOVAN', date: 'Сьогодні', time: '11:00', pay: 'Google Pay', status: 'new', note: '🚖 Такси Uber + ☕ Миндальный Латте' },
+        { id: 102, name: 'Елена', phone: '+380954445566', service: 'Бьюти-комплекс VOVAN VIP', price: 65, barber: 'M3GAN AI', date: 'Сьогодні', time: '13:00', pay: 'Apple Pay', status: 'in_progress', note: '🍾 Dom Pérignon в кресло' },
+        { id: 103, name: 'Дмитрий', phone: '+380937778899', service: 'Cyber Fade & Beard', price: 50, barber: 'VOVAN', date: 'Завтра', time: '15:00', pay: 'TON Crypto', status: 'completed', note: '⚡ Промокод MEGAN2026' }
+    ];
+
+    let currentCrmFilter = 'all';
+
+    function filterCrmPipeline(filter, el) {
+        triggerHaptic('light');
+        currentCrmFilter = filter;
+        document.querySelectorAll('.pipeline-bar .pipe-step').forEach(s => s.classList.remove('active'));
+        el.classList.add('active');
+        renderCrmOrders();
+    }
+
+    function renderCrmOrders() {
+        const container = document.getElementById('crm-orders-list');
+        if (!container) return;
+        container.innerHTML = '';
+
+        const searchQuery = (document.getElementById('crm-search-input')?.value || '').toLowerCase();
+
+        const filtered = ordersDb.filter(o => {
+            const matchesStatus = (currentCrmFilter === 'all' || o.status === currentCrmFilter);
+            const matchesSearch = o.name.toLowerCase().includes(searchQuery) || o.phone.includes(searchQuery);
+            return matchesStatus && matchesSearch;
+        });
+
+        filtered.forEach(order => {
+            let statusBadge = `<span style="color:var(--cyber-blue); font-weight:bold;">Новый</span>`;
+            if (order.status === 'confirmed') statusBadge = `<span style="color:var(--accent-green); font-weight:bold;">Подтвержден</span>`;
+            if (order.status === 'in_progress') statusBadge = `<span style="color:var(--cyber-gold); font-weight:bold;">В работе</span>`;
+            if (order.status === 'completed') statusBadge = `<span style="color:var(--accent-purple); font-weight:bold;">Завершен</span>`;
+
+            const item = document.createElement('div');
+            item.className = `order-card-pipeline ${order.status}`;
+            item.innerHTML = `
+                <div style="display:flex; justify-content:space-between; font-weight:bold;">
+                    <span>#${order.id} ${order.name} (${order.phone})</span>
+                    ${statusBadge}
+                </div>
+                <div style="margin-top:4px;">✂️ ${order.service} (${order.price} €) | 💈 ${order.barber}</div>
+                <div style="font-size:0.75rem; color:var(--text-sub); margin-top:2px;">📅 ${order.date} в ${order.time} | 💳 ${order.pay}</div>
+                ${order.note ? `<div style="font-size:0.75rem; color:var(--accent-green); margin-top:4px;">ℹ️ ${order.note}</div>` : ''}
+                <div style="margin-top:8px;">
+                    ${order.status === 'new' ? `<button class="action-btn-sm btn-confirm" onclick="updateOrderStatus(${order.id}, 'confirmed')">✅ Подтвердить</button>` : ''}
+                    ${order.status === 'confirmed' ? `<button class="action-btn-sm btn-progress" onclick="updateOrderStatus(${order.id}, 'in_progress')">💈 В работу</button>` : ''}
+                    ${order.status === 'in_progress' ? `<button class="action-btn-sm btn-done" onclick="updateOrderStatus(${order.id}, 'completed')">🎉 Завершить</button>` : ''}
+                    <button class="action-btn-sm btn-push" onclick="sendPushReminder(${order.id})">🔔 Напомнить в TG</button>
+                </div>
+            `;
+            container.appendChild(item);
+        });
+    }
+
+    function updateOrderStatus(id, newStatus) {
+        triggerHaptic('medium');
+        const order = ordersDb.find(o => o.id === id);
+        if (order) order.status = newStatus;
+        renderCrmOrders();
+    }
+
+    function sendQuickChat(text) {
+        document.getElementById('chat-input-el').value = text;
+        sendChatMessage();
+    }
+
+    function sendChatMessage() {
+        const input = document.getElementById('chat-input-el');
+        const text = input.value.trim();
+        if (!text) return;
+
+        triggerHaptic('light');
+        const box = document.getElementById('chat-box-el');
+        const userMsg = document.createElement('div');
+        userMsg.className = 'chat-msg user';
+        userMsg.innerText = text;
+        box.appendChild(userMsg);
+        input.value = '';
+
+        setTimeout(() => {
+            triggerHaptic('medium');
+            const botMsg = document.createElement('div');
+            botMsg.className = 'chat-msg bot';
+            
+            const lower = text.toLowerCase();
+            if (lower.includes('цена') || lower.includes('цены') || lower.includes('стоимость')) {
+                botMsg.innerHTML = "💰 <b>Цены в Ницце (TTC):</b><br>• Стрижка M3GAN Style — 40 €<br>• Комплекс VOVAN VIP — 65 €<br>• Cyber Fade & Beard — 50 €";
+            } else if (lower.includes('где') || lower.includes('адрес') || lower.includes('локация')) {
+                botMsg.innerHTML = "📍 <b>Наш адрес в Ницце:</b><br>15 Promenade des Anglais, 06000 Nice, France.<br>Ждём вас у моря! ☀️";
+            } else if (lower.includes('записаться') || lower.includes('запись')) {
+                botMsg.innerHTML = "⚡ Записаться можно прямо сейчас! <span class='chat-quick-btn' onclick='openModal()'>⚡ Открыть модальное окно записи</span>";
+            } else {
+                botMsg.innerText = "M3GAN AI: Готова помочь по любому вопросу студии в Ницце!";
+            }
+
+            box.appendChild(botMsg);
+            box.scrollTop = box.scrollHeight;
+        }, 600);
+    }
+
     let selectedTaxiBrand = 'Uber';
     function orderTaxiWithCoffee(brand) {
         triggerHaptic('medium');
@@ -544,6 +665,8 @@
 
         document.getElementById(`page-${pageId}`).classList.add('active');
         document.getElementById('role-select').value = pageId;
+
+        if (pageId === 'admin') renderCrmOrders();
     }
 
     const modal = document.getElementById('booking-modal');
