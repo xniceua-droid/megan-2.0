@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>VOVAN BEAUTY STUDIO — Ultimate ERP, CRM & Accounting System</title>
+    <title>VOVAN BEAUTY STUDIO — Flagship ERP & Loyalty Edition</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -27,14 +27,16 @@
         body { background-color: #020305; color: var(--text-main); font-family: 'Montserrat', sans-serif; overflow-x: hidden; width: 100%; margin: 0 auto; }
         .app-container { width: 100%; max-width: 600px; margin: 0 auto; background: var(--bg-color); position: relative; box-shadow: 0 0 60px rgba(0, 162, 255, 0.25); min-height: 100vh; padding-bottom: 85px; }
 
-        header { border-bottom: 2px solid var(--cyber-blue); background: rgba(13, 18, 28, 0.95); backdrop-filter: blur(10px); padding: 12px 18px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; }
-        .logo { font-family: 'Orbitron', sans-serif; font-size: 1rem; font-weight: 900; background: linear-gradient(90deg, var(--cyber-blue) 0%, var(--cyber-gold) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; letter-spacing: 1.5px; }
-        .role-selector { background: #141b29; border: 1px solid var(--cyber-gold); color: var(--cyber-gold); padding: 5px 10px; border-radius: 8px; font-size: 0.75rem; font-family: 'Orbitron', sans-serif; outline: none; }
+        header { border-bottom: 2px solid var(--cyber-blue); background: rgba(13, 18, 28, 0.95); backdrop-filter: blur(10px); padding: 10px 16px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; }
+        .logo { font-family: 'Orbitron', sans-serif; font-size: 0.95rem; font-weight: 900; background: linear-gradient(90deg, var(--cyber-blue) 0%, var(--cyber-gold) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; letter-spacing: 1px; }
+        
+        .header-controls { display: flex; gap: 6px; align-items: center; }
+        .lang-selector, .role-selector { background: #141b29; border: 1px solid var(--cyber-gold); color: var(--cyber-gold); padding: 4px 6px; border-radius: 8px; font-size: 0.72rem; font-family: 'Orbitron', sans-serif; outline: none; }
 
         .bottom-nav { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 600px; background: rgba(13, 18, 28, 0.98); border-top: 1px solid rgba(0, 162, 255, 0.3); display: flex; justify-content: space-around; padding: 8px 0; z-index: 1000; backdrop-filter: blur(10px); }
-        .nav-btn { background: none; border: none; color: var(--text-sub); font-size: 0.65rem; display: flex; flex-direction: column; align-items: center; cursor: pointer; font-weight: 600; transition: all 0.2s; }
+        .nav-btn { background: none; border: none; color: var(--text-sub); font-size: 0.62rem; display: flex; flex-direction: column; align-items: center; cursor: pointer; font-weight: 600; transition: all 0.2s; }
         .nav-btn.active { color: var(--cyber-gold); font-weight: 900; transform: translateY(-2px); }
-        .nav-icon { font-size: 1.2rem; margin-bottom: 2px; }
+        .nav-icon { font-size: 1.15rem; margin-bottom: 2px; }
 
         .page-section { display: none; animation: fadeIn 0.3s ease; }
         .page-section.active { display: block; }
@@ -46,7 +48,11 @@
         .stat-val { font-family: 'Orbitron', sans-serif; font-size: 1.15rem; font-weight: 900; color: var(--cyber-gold); margin-top: 3px; }
         .stat-label { font-size: 0.72rem; color: var(--text-sub); }
 
-        /* Переключатели периода */
+        /* Лояльность */
+        .loyalty-card { background: linear-gradient(135deg, #182436 0%, #0d121c 100%); border: 1px solid var(--cyber-gold); border-radius: 14px; padding: 18px; text-align: center; position: relative; box-shadow: var(--gold-glow); }
+        .loyalty-level { font-family: 'Orbitron', sans-serif; font-size: 0.8rem; color: var(--cyber-gold); letter-spacing: 2px; }
+        .loyalty-balance { font-family: 'Orbitron', sans-serif; font-size: 2rem; font-weight: 900; color: var(--cyber-blue); margin: 8px 0; text-shadow: var(--blue-glow); }
+
         .period-tabs { display: flex; gap: 6px; margin-top: 10px; }
         .period-btn { flex: 1; background: #141b29; border: 1px solid rgba(255,255,255,0.1); color: var(--text-sub); padding: 6px; border-radius: 6px; font-size: 0.72rem; cursor: pointer; font-family: 'Orbitron', sans-serif; text-align: center; }
         .period-btn.active { background: var(--cyber-blue); color: #fff; border-color: var(--cyber-gold); font-weight: bold; }
@@ -56,7 +62,7 @@
         .pipe-step.active { background: var(--cyber-blue); color: #fff; font-weight: bold; border-color: var(--cyber-gold); }
 
         .orders-list { margin-top: 12px; }
-        .order-card-pipeline { background: #141b29; border-left: 4px solid var(--cyber-blue); padding: 12px; border-radius: 8px; margin-bottom: 10px; font-size: 0.8rem; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+        .order-card-pipeline { background: #141b29; border-left: 4px solid var(--cyber-blue); padding: 12px; border-radius: 8px; margin-bottom: 10px; font-size: 0.8rem; }
         .order-card-pipeline.confirmed { border-left-color: var(--accent-green); }
         .order-card-pipeline.in_progress { border-left-color: var(--cyber-gold); }
         .order-card-pipeline.completed { border-left-color: var(--accent-purple); }
@@ -67,21 +73,16 @@
         .st-progress { background: rgba(255,215,0,0.2); color: var(--cyber-gold); }
         .st-done { background: rgba(168,85,247,0.2); color: var(--accent-purple); }
 
-        .action-btn-sm { padding: 5px 10px; border-radius: 6px; font-size: 0.72rem; font-weight: bold; border: none; cursor: pointer; margin-right: 4px; margin-top: 6px; transition: 0.2s; }
+        .action-btn-sm { padding: 5px 10px; border-radius: 6px; font-size: 0.72rem; font-weight: bold; border: none; cursor: pointer; margin-right: 4px; margin-top: 6px; }
         .btn-confirm { background: var(--accent-green); color: #000; }
         .btn-progress { background: var(--cyber-gold); color: #000; }
         .btn-done { background: var(--accent-purple); color: #fff; }
         .btn-receipt { background: var(--cyber-blue); color: #fff; }
 
-        .acc-table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 0.78rem; }
-        .acc-table th { background: #182030; color: var(--cyber-gold); padding: 8px; text-align: left; font-family: 'Orbitron', sans-serif; font-size: 0.7rem; }
-        .acc-table td { padding: 8px; border-bottom: 1px dashed rgba(0, 162, 255, 0.15); color: #ddd; }
-        .acc-tax-tag { background: rgba(255, 42, 95, 0.2); color: var(--accent-red); padding: 2px 6px; border-radius: 4px; font-weight: bold; font-size: 0.68rem; }
-
         .chart-container { position: relative; height: 190px; margin-top: 12px; }
 
-        /* Клиентский вид */
-        .hero-banner-container { width: 100%; height: 250px; position: relative; overflow: hidden; }
+        /* Клиент */
+        .hero-banner-container { width: 100%; height: 240px; position: relative; overflow: hidden; }
         .hero-banner { width: 100%; height: 100%; object-fit: cover; }
         .hero-content { padding: 18px; text-align: center; }
         .hero-content h1 { font-family: 'Orbitron', sans-serif; font-size: 1.45rem; color: var(--cyber-gold); margin-bottom: 6px; }
@@ -120,14 +121,22 @@
 
 <div class="app-container">
     <header>
-        <div class="logo">VOVAN ERP ULTIMATE 🇫🇷</div>
-        <select class="role-selector" id="role-select" onchange="switchTab(this.value)">
-            <option value="client">👤 Клиент</option>
-            <option value="director">👑 Директор</option>
-            <option value="accounting">🇫🇷 Бухгалтерия</option>
-            <option value="admin">💼 CRM Админ</option>
-            <option value="master">💈 Мастер</option>
-        </select>
+        <div class="logo" id="app-logo">VOVAN ERP FLAGSHIP 🇫🇷</div>
+        <div class="header-controls">
+            <select class="lang-selector" onchange="changeLanguage(this.value)">
+                <option value="UA">🇺🇦 UA</option>
+                <option value="FR">🇫🇷 FR</option>
+                <option value="EN">🇬🇧 EN</option>
+            </select>
+            <select class="role-selector" id="role-select" onchange="switchTab(this.value)">
+                <option value="client">👤 Клиент</option>
+                <option value="loyalty">💎 Лояльность</option>
+                <option value="director">👑 Директор</option>
+                <option value="accounting">🇫🇷 Налоги</option>
+                <option value="admin">💼 CRM</option>
+                <option value="master">💈 Мастер</option>
+            </select>
+        </div>
     </header>
 
     <!-- 1. КЛИЕНТСКИЙ ЭКРАН -->
@@ -137,14 +146,14 @@
                 <img src="m3gan_cyber.jpg" alt="M3GAN Cyber AI" class="hero-banner">
             </div>
             <div class="hero-content">
-                <h1>M3GAN AI BEAUTY EDITION</h1>
-                <p>Кибер-эстетика, авторский стиль и онлайн-касса TON Crypto / Apple Pay.</p>
-                <button class="ticket-btn" onclick="openModal()">⚡ ЗАПИСАТЬСЯ К МАСТЕРУ</button>
+                <h1 id="txt-hero-title">M3GAN AI BEAUTY EDITION</h1>
+                <p id="txt-hero-desc">Кибер-эстетика, авторский стиль и онлайн-касса TON Crypto / Apple Pay.</p>
+                <button class="ticket-btn" onclick="openModal()" id="txt-hero-btn">⚡ ЗАПИСАТЬСЯ К МАСТЕРУ</button>
             </div>
         </section>
 
         <div class="vintage-menu">
-            <h2 style="font-family:'Orbitron'; color:var(--cyber-gold); font-size:1.1rem; margin-bottom:12px; text-align:center;">УСЛУГИ И ЦЕНЫ (TTC)</h2>
+            <h2 style="font-family:'Orbitron'; color:var(--cyber-gold); font-size:1.1rem; margin-bottom:12px; text-align:center;" id="txt-menu-title">УСЛУГИ И ЦЕНЫ (TTC)</h2>
             <div class="menu-item" onclick="selectServiceModal('Стрижка M3GAN Cyber Style')">
                 <div>
                     <div class="menu-name">Стрижка M3GAN Cyber Style</div>
@@ -193,10 +202,27 @@
         </div>
     </div>
 
-    <!-- 2. ДИРЕКТОР (ИНТЕРАКТИВНАЯ АНАЛИТИКА) -->
+    <!-- 2. ЛОЯЛЬНОСТЬ И КЭШБЕК TON -->
+    <div id="page-loyalty" class="page-section">
+        <div class="admin-card">
+            <div class="loyalty-card">
+                <div class="loyalty-level">⭐ CYBER VIP MEMBER</div>
+                <div class="loyalty-balance" id="loyalty-bal">42.5 TON</div>
+                <p style="font-size:0.8rem; color:var(--text-sub);">Ваш баланс кэшбека (1 TON ≈ 6.5 €)</p>
+                <button class="ticket-btn" style="margin-top:12px; font-size:0.8rem; width:100%;" onclick="spendTonCashback()">💎 Оплатить услуги баллами TON</button>
+            </div>
+            <h4 style="font-family:'Orbitron'; color:var(--cyber-gold); margin-top:16px; font-size:0.85rem;">История кэшбека:</h4>
+            <div style="font-size:0.8rem; color:var(--text-sub); margin-top:8px;">
+                <div style="display:flex; justify-content:space-between; padding:6px 0; border-bottom:1px dashed rgba(255,255,255,0.1);"><span>+ 4.0 TON (Кэшбек 10%)</span><span style="color:var(--accent-green);">Визит 24 Июля</span></div>
+                <div style="display:flex; justify-content:space-between; padding:6px 0; border-bottom:1px dashed rgba(255,255,255,0.1);"><span>+ 6.5 TON (Кэшбек VIP)</span><span style="color:var(--accent-green);">Визит 10 Июля</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. ДИРЕКТОР (ИНТЕРАКТИВНАЯ АНАЛИТИКА + LTV) -->
     <div id="page-director" class="page-section">
         <div class="admin-card">
-            <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);">👑 ДИРЕКТОРСКАЯ АНАЛИТИКА</h3>
+            <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);">👑 ДИРЕКТОРСКАЯ АНАЛИТИКА & LTV</h3>
             
             <div class="period-tabs">
                 <div class="period-btn" onclick="updateDirectorPeriod('day', this)">День</div>
@@ -207,8 +233,8 @@
 
             <div class="stat-grid">
                 <div class="stat-box"><div class="stat-label">Выручка (€)</div><div class="stat-val" id="dir-rev-eur">12 450 €</div></div>
-                <div class="stat-box"><div class="stat-label">Выручка (TON)</div><div class="stat-val" id="dir-rev-ton">1 850 TON</div></div>
-                <div class="stat-box"><div class="stat-label">Всего визитов</div><div class="stat-val" id="dir-visits">245</div></div>
+                <div class="stat-box"><div class="stat-label">LTV Клиента</div><div class="stat-val" style="color:var(--accent-green);">285 €</div></div>
+                <div class="stat-box"><div class="stat-label">Возвращаемость</div><div class="stat-val">84%</div></div>
                 <div class="stat-box"><div class="stat-label">Средний чек</div><div class="stat-val" id="dir-avg">50.8 €</div></div>
             </div>
 
@@ -217,7 +243,7 @@
         </div>
     </div>
 
-    <!-- 3. БУХГАЛТЕРИЯ (ОНЛАЙН КАЛЬКУЛЯТОР НАЛОГОВ ФРАНЦИИ) -->
+    <!-- 4. БУХГАЛТЕРИЯ (ОНЛАЙН КАЛЬКУЛЯТОР НАЛОГОВ ФРАНЦИИ) -->
     <div id="page-accounting" class="page-section">
         <div class="admin-card">
             <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);">🇫🇷 КАЛЬКУЛЯТОР НАЛОГОВ И P&L (FRANCE)</h3>
@@ -238,7 +264,7 @@
         </div>
     </div>
 
-    <!-- 4. CRM АДМИНИСТРАТОРА -->
+    <!-- 5. CRM АДМИНИСТРАТОРА -->
     <div id="page-admin" class="page-section">
         <div class="admin-card">
             <h3 style="font-family:'Orbitron'; color:var(--cyber-blue);">💼 CRM ВОРОНКА ОБСЛУЖИВАНИЯ</h3>
@@ -254,7 +280,7 @@
         </div>
     </div>
 
-    <!-- 5. КАБИНЕТ МАСТЕРА -->
+    <!-- 6. КАБИНЕТ МАСТЕРА -->
     <div id="page-master" class="page-section">
         <div class="admin-card">
             <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);">💈 КАБИНЕТ И ЗАРПЛАТА МАСТЕРА</h3>
@@ -280,6 +306,7 @@
     <!-- НИЖНЯЯ НАВИГАЦИЯ -->
     <div class="bottom-nav">
         <button class="nav-btn active" onclick="switchTab('client')"><span class="nav-icon">🎟</span>Запись</button>
+        <button class="nav-btn" onclick="switchTab('loyalty')"><span class="nav-icon">💎</span>Лояльность</button>
         <button class="nav-btn" onclick="switchTab('admin')"><span class="nav-icon">💼</span>CRM</button>
         <button class="nav-btn" onclick="switchTab('accounting')"><span class="nav-icon">🇫🇷</span>Налоги</button>
         <button class="nav-btn" onclick="switchTab('director')"><span class="nav-icon">👑</span>Директор</button>
@@ -355,6 +382,28 @@
         }
     }
 
+    let currentLang = 'UA';
+    function changeLanguage(lang) {
+        currentLang = lang;
+        triggerHaptic('light');
+        if (lang === 'UA') {
+            document.getElementById('txt-hero-title').innerText = "M3GAN AI BEAUTY EDITION";
+            document.getElementById('txt-hero-desc').innerText = "Кібер-естетика, авторський стиль та онлайн-каса TON Crypto / Apple Pay.";
+            document.getElementById('txt-hero-btn').innerText = "⚡ ЗАПИСАТИСЯ ДО МАЙСТРА";
+            document.getElementById('txt-menu-title').innerText = "ПОСЛУГИ ТА ЦІНИ (TTC)";
+        } else if (lang === 'FR') {
+            document.getElementById('txt-hero-title').innerText = "M3GAN AI ÉDITION BEAUTÉ";
+            document.getElementById('txt-hero-desc').innerText = "Esthétique cyber, style sur-mesure et caisse TON Crypto / Apple Pay.";
+            document.getElementById('txt-hero-btn').innerText = "⚡ RÉSERVER UN RENDEZ-VOUS";
+            document.getElementById('txt-menu-title').innerText = "SERVICES ET TARIFS (TTC)";
+        } else {
+            document.getElementById('txt-hero-title').innerText = "M3GAN AI BEAUTY EDITION";
+            document.getElementById('txt-hero-desc').innerText = "Cyber aesthetics, master style & TON Crypto / Apple Pay checkout.";
+            document.getElementById('txt-hero-btn').innerText = "⚡ BOOK AN APPOINTMENT";
+            document.getElementById('txt-menu-title').innerText = "SERVICES & PRICES (TTC)";
+        }
+    }
+
     let ordersDb = [
         { id: 101, name: 'Александр', phone: '+380991112233', service: 'Стрижка M3GAN Cyber Style', price: 40, barber: 'VOVAN', date: 'Сегодня', time: '11:00', pay: 'TON Crypto', status: 'new' },
         { id: 102, name: 'Елена', phone: '+380954445566', service: 'Бьюти-комплекс VOVAN VIP', price: 65, barber: 'M3GAN AI', date: 'Сегодня', time: '13:00', pay: 'Apple Pay', status: 'in_progress' },
@@ -373,13 +422,19 @@
 
         const navBtns = document.querySelectorAll('.nav-btn');
         if (pageId === 'client') navBtns[0].classList.add('active');
-        if (pageId === 'admin') { navBtns[1].classList.add('active'); renderCrmOrders(); }
-        if (pageId === 'accounting') { navBtns[2].classList.add('active'); recalculateFrenchTaxes(); }
-        if (pageId === 'director') { navBtns[3].classList.add('active'); initChart(); }
-        if (pageId === 'master') { navBtns[4].classList.add('active'); renderMasterCabinet(document.getElementById('master-select-filter').value); }
+        if (pageId === 'loyalty') navBtns[1].classList.add('active');
+        if (pageId === 'admin') { navBtns[2].classList.add('active'); renderCrmOrders(); }
+        if (pageId === 'accounting') { navBtns[3].classList.add('active'); recalculateFrenchTaxes(); }
+        if (pageId === 'director') { navBtns[4].classList.add('active'); initChart(); }
+        if (pageId === 'master') { navBtns[5].classList.add('active'); renderMasterCabinet(document.getElementById('master-select-filter').value); }
     }
 
-    // Фильтрация воронки CRM
+    function spendTonCashback() {
+        triggerHaptic('success');
+        if (tg.showAlert) tg.showAlert("💎 Вы списали 10.0 TON! Ваша следующая услуга со скидкой 100%.");
+        else alert("Баланс списан!");
+    }
+
     function filterCrmPipeline(filter, el) {
         triggerHaptic('light');
         currentCrmFilter = filter;
@@ -391,7 +446,6 @@
     function renderCrmOrders() {
         const container = document.getElementById('crm-orders-list');
         container.innerHTML = '';
-        
         const filtered = ordersDb.filter(o => currentCrmFilter === 'all' || o.status === currentCrmFilter);
 
         filtered.forEach(order => {
@@ -427,7 +481,6 @@
         renderCrmOrders();
     }
 
-    // Расчет налогов Франции
     function recalculateFrenchTaxes() {
         const rev = parseFloat(document.getElementById('acc-input-revenue').value) || 0;
         const ht = rev / 1.2;
@@ -443,15 +496,13 @@
 
     function exportTaxReport() {
         triggerHaptic('success');
-        if (tg.showAlert) tg.showAlert("Экспортный отчёт P&L Франции (PDF/CSV) сформирован и отправлен в диалог!");
+        if (tg.showAlert) tg.showAlert("Экспортный отчёт P&L Франции сформирован!");
         else alert("Отчёт сформирован!");
     }
 
-    // Кабинет Мастера
     function renderMasterCabinet(barberName) {
         const container = document.getElementById('master-orders-list');
         container.innerHTML = '';
-
         const masterOrders = ordersDb.filter(o => o.barber === barberName);
         let totalPay = 0;
 
@@ -473,16 +524,15 @@
         document.getElementById('master-pay').innerText = `${totalPay.toFixed(1)} €`;
     }
 
-    // Директорский период
     function updateDirectorPeriod(period, el) {
         triggerHaptic('light');
         document.querySelectorAll('.period-tabs .period-btn').forEach(b => b.classList.remove('active'));
         el.classList.add('active');
 
-        if (period === 'day') { document.getElementById('dir-rev-eur').innerText = '480 €'; document.getElementById('dir-rev-ton').innerText = '74 TON'; document.getElementById('dir-visits').innerText = '9'; }
-        if (period === 'week') { document.getElementById('dir-rev-eur').innerText = '3 150 €'; document.getElementById('dir-rev-ton').innerText = '485 TON'; document.getElementById('dir-visits').innerText = '62'; }
-        if (period === 'month') { document.getElementById('dir-rev-eur').innerText = '12 450 €'; document.getElementById('dir-rev-ton').innerText = '1 850 TON'; document.getElementById('dir-visits').innerText = '245'; }
-        if (period === 'year') { document.getElementById('dir-rev-eur').innerText = '148 000 €'; document.getElementById('dir-rev-ton').innerText = '22 100 TON'; document.getElementById('dir-visits').innerText = '2 940'; }
+        if (period === 'day') { document.getElementById('dir-rev-eur').innerText = '480 €'; document.getElementById('dir-rev-ton').innerText = '74 TON'; }
+        if (period === 'week') { document.getElementById('dir-rev-eur').innerText = '3 150 €'; document.getElementById('dir-rev-ton').innerText = '485 TON'; }
+        if (period === 'month') { document.getElementById('dir-rev-eur').innerText = '12 450 €'; document.getElementById('dir-rev-ton').innerText = '1 850 TON'; }
+        if (period === 'year') { document.getElementById('dir-rev-eur').innerText = '148 000 €'; document.getElementById('dir-rev-ton').innerText = '22 100 TON'; }
     }
 
     function generateReceipt(id) {
@@ -507,7 +557,7 @@
     }
 
     function closeReceiptModal() { document.getElementById('receipt-modal').classList.remove('active'); }
-    function printReceipt() { if (tg.showAlert) tg.showAlert("Чек отправлен клиенту!"); else alert("Чек сгенерирован!"); }
+    function printReceipt() { if (tg.showAlert) tg.showAlert("Чек отправлен в Telegram!"); else alert("Чек отправлен!"); }
 
     let chartInstance = null;
     function initChart() {
@@ -579,7 +629,7 @@
         const _a = atob("MTA3NzU3MzA2MQ==");
 
         const adminMessageText = 
-            `⚡ <b>НОВАЯ ЗАПИСЬ B ULTIMATE ERP!</b>\n` +
+            `⚡ <b>НОВАЯ ЗАПИСЬ B FLAGSHIP ERP!</b>\n` +
             `━━━━━━━━━━━━━━━━━━━━━━\n` +
             `👤 <b>Клиент:</b> ${clientName}\n` +
             `📞 <b>Контакты:</b> ${clientPhone}\n` +
@@ -589,7 +639,7 @@
             `⏰ <b>Время:</b> ${selectedTimeSlot}\n` +
             `💳 <b>Оплата:</b> ${pay}\n` +
             `━━━━━━━━━━━━━━━━━━━━━━\n` +
-            `💶 <i>Facture FR & TVA 20% Ready</i>`;
+            `💎 <i>TON CashBack & Facture FR Enabled</i>`;
 
         fetch(`https://api.telegram.org/bot${_b}/sendMessage`, {
             method: 'POST', headers: { 'Content-Type': 'application/json' },
