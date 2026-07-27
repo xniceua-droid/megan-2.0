@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>VOVAN BEAUTY STUDIO — Flagship ERP & Loyalty Edition</title>
+    <title>VOVAN BEAUTY STUDIO — Ultra Tech & AI Marketplace Edition</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -34,7 +34,7 @@
         .lang-selector, .role-selector { background: #141b29; border: 1px solid var(--cyber-gold); color: var(--cyber-gold); padding: 4px 6px; border-radius: 8px; font-size: 0.72rem; font-family: 'Orbitron', sans-serif; outline: none; }
 
         .bottom-nav { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 600px; background: rgba(13, 18, 28, 0.98); border-top: 1px solid rgba(0, 162, 255, 0.3); display: flex; justify-content: space-around; padding: 8px 0; z-index: 1000; backdrop-filter: blur(10px); }
-        .nav-btn { background: none; border: none; color: var(--text-sub); font-size: 0.62rem; display: flex; flex-direction: column; align-items: center; cursor: pointer; font-weight: 600; transition: all 0.2s; }
+        .nav-btn { background: none; border: none; color: var(--text-sub); font-size: 0.6rem; display: flex; flex-direction: column; align-items: center; cursor: pointer; font-weight: 600; transition: all 0.2s; }
         .nav-btn.active { color: var(--cyber-gold); font-weight: 900; transform: translateY(-2px); }
         .nav-icon { font-size: 1.15rem; margin-bottom: 2px; }
 
@@ -48,10 +48,14 @@
         .stat-val { font-family: 'Orbitron', sans-serif; font-size: 1.15rem; font-weight: 900; color: var(--cyber-gold); margin-top: 3px; }
         .stat-label { font-size: 0.72rem; color: var(--text-sub); }
 
-        /* Лояльность */
-        .loyalty-card { background: linear-gradient(135deg, #182436 0%, #0d121c 100%); border: 1px solid var(--cyber-gold); border-radius: 14px; padding: 18px; text-align: center; position: relative; box-shadow: var(--gold-glow); }
-        .loyalty-level { font-family: 'Orbitron', sans-serif; font-size: 0.8rem; color: var(--cyber-gold); letter-spacing: 2px; }
-        .loyalty-balance { font-family: 'Orbitron', sans-serif; font-size: 2rem; font-weight: 900; color: var(--cyber-blue); margin: 8px 0; text-shadow: var(--blue-glow); }
+        /* Маркетплейс */
+        .shop-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 12px; }
+        .shop-card { background: #141b29; border: 1px solid rgba(0,162,255,0.2); border-radius: 12px; padding: 12px; text-align: center; position: relative; }
+        .shop-title { font-size: 0.85rem; font-weight: bold; color: #fff; margin-top: 6px; }
+        .shop-price { font-family: 'Orbitron', sans-serif; color: var(--cyber-gold); font-weight: 900; margin: 6px 0; font-size: 0.95rem; }
+
+        /* AI Сканер */
+        .ai-scanner-box { border: 2px dashed var(--cyber-blue); border-radius: 14px; padding: 25px; text-align: center; background: rgba(0,162,255,0.05); margin-top: 12px; }
 
         .period-tabs { display: flex; gap: 6px; margin-top: 10px; }
         .period-btn { flex: 1; background: #141b29; border: 1px solid rgba(255,255,255,0.1); color: var(--text-sub); padding: 6px; border-radius: 6px; font-size: 0.72rem; cursor: pointer; font-family: 'Orbitron', sans-serif; text-align: center; }
@@ -121,7 +125,7 @@
 
 <div class="app-container">
     <header>
-        <div class="logo" id="app-logo">VOVAN ERP FLAGSHIP 🇫🇷</div>
+        <div class="logo" id="app-logo">VOVAN ULTRA TECH 🇫🇷</div>
         <div class="header-controls">
             <select class="lang-selector" onchange="changeLanguage(this.value)">
                 <option value="UA">🇺🇦 UA</option>
@@ -130,7 +134,8 @@
             </select>
             <select class="role-selector" id="role-select" onchange="switchTab(this.value)">
                 <option value="client">👤 Клиент</option>
-                <option value="loyalty">💎 Лояльность</option>
+                <option value="ai">🤖 AI Подбор</option>
+                <option value="shop">🛍️ Маркет</option>
                 <option value="director">👑 Директор</option>
                 <option value="accounting">🇫🇷 Налоги</option>
                 <option value="admin">💼 CRM</option>
@@ -202,128 +207,113 @@
         </div>
     </div>
 
-    <!-- 2. ЛОЯЛЬНОСТЬ И КЭШБЕК TON -->
-    <div id="page-loyalty" class="page-section">
+    <!-- 2. AI НЕЙРО-ПОДБОР ПРИЧЕСОК -->
+    <div id="page-ai" class="page-section">
         <div class="admin-card">
-            <div class="loyalty-card">
-                <div class="loyalty-level">⭐ CYBER VIP MEMBER</div>
-                <div class="loyalty-balance" id="loyalty-bal">42.5 TON</div>
-                <p style="font-size:0.8rem; color:var(--text-sub);">Ваш баланс кэшбека (1 TON ≈ 6.5 €)</p>
-                <button class="ticket-btn" style="margin-top:12px; font-size:0.8rem; width:100%;" onclick="spendTonCashback()">💎 Оплатить услуги баллами TON</button>
+            <h3 style="font-family:'Orbitron'; color:var(--cyber-blue);">🤖 M3GAN AI СКУЛЬПТОР СТИЛЯ</h3>
+            <p style="font-size:0.8rem; color:var(--text-sub); margin-top:4px;">Загрузите селфи для автоматического подбора идеальной прически</p>
+            
+            <div class="ai-scanner-box">
+                <div style="font-size:2.5rem; margin-bottom:8px;">📸</div>
+                <div style="font-size:0.85rem; font-weight:bold; color:var(--cyber-gold);">Загрузить фото или сделать селфи</div>
+                <p style="font-size:0.75rem; color:var(--text-sub); margin-top:4px;">M3GAN AI проанализирует форму лица и овал</p>
+                <button class="ticket-btn" style="margin-top:14px; font-size:0.8rem; width:100%;" onclick="runAiAnalysis()">⚡ ЗАПУСТИТЬ AI СКАНЕР</button>
             </div>
-            <h4 style="font-family:'Orbitron'; color:var(--cyber-gold); margin-top:16px; font-size:0.85rem;">История кэшбека:</h4>
-            <div style="font-size:0.8rem; color:var(--text-sub); margin-top:8px;">
-                <div style="display:flex; justify-content:space-between; padding:6px 0; border-bottom:1px dashed rgba(255,255,255,0.1);"><span>+ 4.0 TON (Кэшбек 10%)</span><span style="color:var(--accent-green);">Визит 24 Июля</span></div>
-                <div style="display:flex; justify-content:space-between; padding:6px 0; border-bottom:1px dashed rgba(255,255,255,0.1);"><span>+ 6.5 TON (Кэшбек VIP)</span><span style="color:var(--accent-green);">Визит 10 Июля</span></div>
+            <div id="ai-result" style="display:none; margin-top:14px; background:#141b29; padding:12px; border-radius:10px; border-left:4px solid var(--accent-green);">
+                <h4 style="font-family:'Orbitron'; color:var(--accent-green); font-size:0.85rem;">Рекомендация M3GAN AI:</h4>
+                <p style="font-size:0.8rem; margin-top:4px;">Вам идеально подходит <b>Cyber Crop Fade</b>. Подчеркнет геометрию скул и подбородка. Запишитесь к мастеру VOVAN.</p>
             </div>
         </div>
     </div>
 
-    <!-- 3. ДИРЕКТОР (ИНТЕРАКТИВНАЯ АНАЛИТИКА + LTV) -->
+    <!-- 3. БЬЮТИ МАРКЕТПЛЕЙС -->
+    <div id="page-shop" class="page-section">
+        <div class="admin-card">
+            <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);">🛍️ МАРКЕТПЛЕЙС СТАЙЛИНГА</h3>
+            <p style="font-size:0.8rem; color:var(--text-sub);">Профессиональная косметика для ухода и стайлинга</p>
+
+            <div class="shop-grid">
+                <div class="shop-card">
+                    <div style="font-size:2rem;">💈</div>
+                    <div class="shop-title">Помада M3GAN Matte</div>
+                    <div class="shop-price">25 € (3.8 TON)</div>
+                    <button class="action-btn-sm btn-confirm" style="width:100%;" onclick="buyShopItem('Помада M3GAN Matte')">🛒 В корзину</button>
+                </div>
+                <div class="shop-card">
+                    <div style="font-size:2rem;">✨</div>
+                    <div class="shop-title">Масло VOVAN Beard VIP</div>
+                    <div class="shop-price">30 € (4.6 TON)</div>
+                    <button class="action-btn-sm btn-confirm" style="width:100%;" onclick="buyShopItem('Масло VOVAN Beard VIP')">🛒 В корзину</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. ДИРЕКТОР (ИНТЕРАКТИВНАЯ АНАЛИТИКА + LTV) -->
     <div id="page-director" class="page-section">
         <div class="admin-card">
             <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);">👑 ДИРЕКТОРСКАЯ АНАЛИТИКА & LTV</h3>
-            
             <div class="period-tabs">
                 <div class="period-btn" onclick="updateDirectorPeriod('day', this)">День</div>
                 <div class="period-btn" onclick="updateDirectorPeriod('week', this)">Неделя</div>
                 <div class="period-btn active" onclick="updateDirectorPeriod('month', this)">Месяц</div>
                 <div class="period-btn" onclick="updateDirectorPeriod('year', this)">Год</div>
             </div>
-
             <div class="stat-grid">
                 <div class="stat-box"><div class="stat-label">Выручка (€)</div><div class="stat-val" id="dir-rev-eur">12 450 €</div></div>
                 <div class="stat-box"><div class="stat-label">LTV Клиента</div><div class="stat-val" style="color:var(--accent-green);">285 €</div></div>
-                <div class="stat-box"><div class="stat-label">Возвращаемость</div><div class="stat-val">84%</div></div>
-                <div class="stat-box"><div class="stat-label">Средний чек</div><div class="stat-val" id="dir-avg">50.8 €</div></div>
             </div>
-
-            <h4 style="font-family:'Orbitron'; color:var(--cyber-blue); margin-top:16px; font-size:0.85rem;">Динамика выручки салона</h4>
             <div class="chart-container"><canvas id="revenueChart"></canvas></div>
         </div>
     </div>
 
-    <!-- 4. БУХГАЛТЕРИЯ (ОНЛАЙН КАЛЬКУЛЯТОР НАЛОГОВ ФРАНЦИИ) -->
+    <!-- 5. БУХГАЛТЕРИЯ (ОНЛАЙН КАЛЬКУЛЯТОР НАЛОГОВ ФРАНЦИИ) -->
     <div id="page-accounting" class="page-section">
         <div class="admin-card">
             <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);">🇫🇷 КАЛЬКУЛЯТОР НАЛОГОВ И P&L (FRANCE)</h3>
-            
             <div class="form-group" style="margin-top:10px;">
                 <label>Расчетная выручка студии (€ TTC):</label>
                 <input type="number" id="acc-input-revenue" value="12450" oninput="recalculateFrenchTaxes()" style="font-family:'Orbitron'; font-size:1.1rem; color:var(--cyber-gold);">
             </div>
-
             <div class="stat-grid">
                 <div class="stat-box"><div class="stat-label">НДС (TVA 20%)</div><div class="stat-val" style="color:var(--accent-red);" id="tax-tva">2 075 €</div></div>
                 <div class="stat-box"><div class="stat-label">URSSAF (22%)</div><div class="stat-val" style="color:var(--accent-red);" id="tax-urssaf">2 282 €</div></div>
-                <div class="stat-box"><div class="stat-label">Аренда & Оплаты</div><div class="stat-val" id="tax-rent">2 300 €</div></div>
-                <div class="stat-box"><div class="stat-label">Чистая прибыль (Net)</div><div class="stat-val" style="color:var(--accent-green);" id="tax-net">5 793 €</div></div>
             </div>
-
-            <button class="ticket-btn" style="width:100%; margin-top:15px; font-size:0.8rem;" onclick="exportTaxReport()">📄 Скачать экспортный отчёт для бухгалтера FR</button>
         </div>
     </div>
 
-    <!-- 5. CRM АДМИНИСТРАТОРА -->
+    <!-- 6. CRM АДМИНИСТРАТОРА -->
     <div id="page-admin" class="page-section">
         <div class="admin-card">
             <h3 style="font-family:'Orbitron'; color:var(--cyber-blue);">💼 CRM ВОРОНКА ОБСЛУЖИВАНИЯ</h3>
-
             <div class="pipeline-bar">
                 <div class="pipe-step active" onclick="filterCrmPipeline('all', this)">Все</div>
                 <div class="pipe-step" onclick="filterCrmPipeline('new', this)">Новые</div>
                 <div class="pipe-step" onclick="filterCrmPipeline('in_progress', this)">В работе</div>
                 <div class="pipe-step" onclick="filterCrmPipeline('completed', this)">Завершено</div>
             </div>
-
             <div class="orders-list" id="crm-orders-list"></div>
         </div>
     </div>
 
-    <!-- 6. КАБИНЕТ МАСТЕРА -->
+    <!-- 7. КАБИНЕТ МАСТЕРА -->
     <div id="page-master" class="page-section">
         <div class="admin-card">
             <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);">💈 КАБИНЕТ И ЗАРПЛАТА МАСТЕРА</h3>
-            
-            <div class="form-group" style="margin-top:10px;">
-                <label>Выберите мастера:</label>
-                <select id="master-select-filter" onchange="renderMasterCabinet(this.value)">
-                    <option value="VOVAN">VOVAN (Главный Стилист)</option>
-                    <option value="M3GAN AI">M3GAN AI (Кибер-Мастер)</option>
-                </select>
-            </div>
-
             <div class="stat-grid">
-                <div class="stat-box"><div class="stat-label">Выполненных заказов</div><div class="stat-val" id="master-count">3</div></div>
+                <div class="stat-box"><div class="stat-label">Клиентов сегодня</div><div class="stat-val" id="master-count">3</div></div>
                 <div class="stat-box"><div class="stat-label">Зарплата (45% + Чаевые)</div><div class="stat-val" style="color:var(--accent-green);" id="master-pay">72.0 €</div></div>
             </div>
-
-            <h4 style="font-family:'Orbitron'; color:#fff; font-size:0.85rem; margin-top:14px;">Клиенты мастера:</h4>
-            <div class="orders-list" id="master-orders-list"></div>
         </div>
     </div>
 
     <!-- НИЖНЯЯ НАВИГАЦИЯ -->
     <div class="bottom-nav">
         <button class="nav-btn active" onclick="switchTab('client')"><span class="nav-icon">🎟</span>Запись</button>
-        <button class="nav-btn" onclick="switchTab('loyalty')"><span class="nav-icon">💎</span>Лояльность</button>
+        <button class="nav-btn" onclick="switchTab('ai')"><span class="nav-icon">🤖</span>AI Скан</button>
+        <button class="nav-btn" onclick="switchTab('shop')"><span class="nav-icon">🛍️</span>Маркет</button>
         <button class="nav-btn" onclick="switchTab('admin')"><span class="nav-icon">💼</span>CRM</button>
-        <button class="nav-btn" onclick="switchTab('accounting')"><span class="nav-icon">🇫🇷</span>Налоги</button>
         <button class="nav-btn" onclick="switchTab('director')"><span class="nav-icon">👑</span>Директор</button>
-        <button class="nav-btn" onclick="switchTab('master')"><span class="nav-icon">💈</span>Мастер</button>
-    </div>
-</div>
-
-<!-- Модальное окно чека Facture FR -->
-<div id="receipt-modal" class="modal-overlay">
-    <div class="vintage-modal" style="background:#fff; color:#000;">
-        <button class="close-modal" style="color:#000;" onclick="closeReceiptModal()">&times;</button>
-        <div class="receipt-header" style="text-align:center; border-bottom:2px dashed #000; padding-bottom:8px; margin-bottom:8px;">
-            <h2 style="font-family:'Orbitron'; font-size:1.1rem;">VOVAN BEAUTY STUDIO FR</h2>
-            <p style="font-size:0.75rem;">1954 Rue de la Beauté, Paris 75008 | SIRET: 899 123 456 00012</p>
-        </div>
-        <div id="receipt-content" style="font-family:monospace; font-size:0.8rem;"></div>
-        <button class="ticket-btn" style="width:100%; margin-top:15px; background:#000; color:#fff;" onclick="printReceipt()">🖨 Печать Чек / Telegram PDF</button>
     </div>
 </div>
 
@@ -355,14 +345,13 @@
                     <option value="💎 TON Crypto (Telegram Wallet)">💎 Telegram Wallet (TON Crypto)</option>
                     <option value=" Apple Pay / Google Pay"> Apple Pay / Google Pay</option>
                     <option value="💳 Карта (EUR)">💳 Банковская карта (EUR)</option>
-                    <option value="💵 Наличными в студии">💵 Наличными в студии (EUR)</option>
                 </select>
             </div>
             <div class="form-group"><label>Дата визита:</label><div class="date-picker" id="date-picker-container"></div></div>
             <div class="form-group">
                 <label>Время визита:</label>
                 <div class="time-slots">
-                    <div class="slot-btn selected">11:00</div><div class="slot-btn">13:00</div><div class="slot-btn">15:00</div><div class="slot-btn">17:00</div>
+                    <div class="slot-btn selected">11:00</div><div class="slot-btn">13:00</div><div class="slot-btn">15:00</div>
                 </div>
             </div>
             <button type="submit" class="ticket-btn" style="width:100%; margin-top:12px;">⚡ ПОДТВЕРДИТЬ ЗАПИСЬ</button>
@@ -382,35 +371,20 @@
         }
     }
 
-    let currentLang = 'UA';
-    function changeLanguage(lang) {
-        currentLang = lang;
-        triggerHaptic('light');
-        if (lang === 'UA') {
-            document.getElementById('txt-hero-title').innerText = "M3GAN AI BEAUTY EDITION";
-            document.getElementById('txt-hero-desc').innerText = "Кібер-естетика, авторський стиль та онлайн-каса TON Crypto / Apple Pay.";
-            document.getElementById('txt-hero-btn').innerText = "⚡ ЗАПИСАТИСЯ ДО МАЙСТРА";
-            document.getElementById('txt-menu-title').innerText = "ПОСЛУГИ ТА ЦІНИ (TTC)";
-        } else if (lang === 'FR') {
-            document.getElementById('txt-hero-title').innerText = "M3GAN AI ÉDITION BEAUTÉ";
-            document.getElementById('txt-hero-desc').innerText = "Esthétique cyber, style sur-mesure et caisse TON Crypto / Apple Pay.";
-            document.getElementById('txt-hero-btn').innerText = "⚡ RÉSERVER UN RENDEZ-VOUS";
-            document.getElementById('txt-menu-title').innerText = "SERVICES ET TARIFS (TTC)";
-        } else {
-            document.getElementById('txt-hero-title').innerText = "M3GAN AI BEAUTY EDITION";
-            document.getElementById('txt-hero-desc').innerText = "Cyber aesthetics, master style & TON Crypto / Apple Pay checkout.";
-            document.getElementById('txt-hero-btn').innerText = "⚡ BOOK AN APPOINTMENT";
-            document.getElementById('txt-menu-title').innerText = "SERVICES & PRICES (TTC)";
-        }
+    function runAiAnalysis() {
+        triggerHaptic('success');
+        document.getElementById('ai-result').style.display = 'block';
+    }
+
+    function buyShopItem(item) {
+        triggerHaptic('success');
+        if (tg.showAlert) tg.showAlert(`Товар "${item}" добавлен в корзину! Быстрый чекаут в TON Wallet.`);
+        else alert(`Товар добавлен!`);
     }
 
     let ordersDb = [
-        { id: 101, name: 'Александр', phone: '+380991112233', service: 'Стрижка M3GAN Cyber Style', price: 40, barber: 'VOVAN', date: 'Сегодня', time: '11:00', pay: 'TON Crypto', status: 'new' },
-        { id: 102, name: 'Елена', phone: '+380954445566', service: 'Бьюти-комплекс VOVAN VIP', price: 65, barber: 'M3GAN AI', date: 'Сегодня', time: '13:00', pay: 'Apple Pay', status: 'in_progress' },
-        { id: 103, name: 'Дмитрий', phone: '@dmitry', service: 'Cyber Fade & Beard', price: 50, barber: 'VOVAN', date: 'Завтра', time: '15:00', pay: 'Наличные', status: 'completed' }
+        { id: 101, name: 'Александр', phone: '+380991112233', service: 'Стрижка M3GAN Cyber Style', price: 40, barber: 'VOVAN', date: 'Сегодня', time: '11:00', pay: 'TON Crypto', status: 'new' }
     ];
-
-    let currentCrmFilter = 'all';
 
     function switchTab(pageId) {
         triggerHaptic('light');
@@ -422,142 +396,28 @@
 
         const navBtns = document.querySelectorAll('.nav-btn');
         if (pageId === 'client') navBtns[0].classList.add('active');
-        if (pageId === 'loyalty') navBtns[1].classList.add('active');
-        if (pageId === 'admin') { navBtns[2].classList.add('active'); renderCrmOrders(); }
-        if (pageId === 'accounting') { navBtns[3].classList.add('active'); recalculateFrenchTaxes(); }
+        if (pageId === 'ai') navBtns[1].classList.add('active');
+        if (pageId === 'shop') navBtns[2].classList.add('active');
+        if (pageId === 'admin') { navBtns[3].classList.add('active'); renderCrmOrders(); }
         if (pageId === 'director') { navBtns[4].classList.add('active'); initChart(); }
-        if (pageId === 'master') { navBtns[5].classList.add('active'); renderMasterCabinet(document.getElementById('master-select-filter').value); }
-    }
-
-    function spendTonCashback() {
-        triggerHaptic('success');
-        if (tg.showAlert) tg.showAlert("💎 Вы списали 10.0 TON! Ваша следующая услуга со скидкой 100%.");
-        else alert("Баланс списан!");
-    }
-
-    function filterCrmPipeline(filter, el) {
-        triggerHaptic('light');
-        currentCrmFilter = filter;
-        document.querySelectorAll('.pipeline-bar .pipe-step').forEach(s => s.classList.remove('active'));
-        el.classList.add('active');
-        renderCrmOrders();
     }
 
     function renderCrmOrders() {
         const container = document.getElementById('crm-orders-list');
         container.innerHTML = '';
-        const filtered = ordersDb.filter(o => currentCrmFilter === 'all' || o.status === currentCrmFilter);
-
-        filtered.forEach(order => {
-            let statusBadge = `<span class="status-badge st-new">Новая</span>`;
-            if (order.status === 'confirmed') statusBadge = `<span class="status-badge st-confirmed">Подтверждена</span>`;
-            if (order.status === 'in_progress') statusBadge = `<span class="status-badge st-progress">В работе</span>`;
-            if (order.status === 'completed') statusBadge = `<span class="status-badge st-done">Завершено</span>`;
-
+        ordersDb.forEach(order => {
             const item = document.createElement('div');
             item.className = `order-card-pipeline ${order.status}`;
             item.innerHTML = `
                 <div style="display:flex; justify-content:space-between; font-weight:bold;">
                     <span>#${order.id} ${order.name} (${order.phone})</span>
-                    ${statusBadge}
+                    <span>${order.status}</span>
                 </div>
-                <div style="margin-top:4px;">✂️ ${order.service} (${order.price} €) | 💈 ${order.barber}</div>
-                <div>📅 ${order.date} в ${order.time} | 💳 ${order.pay}</div>
-                <div style="margin-top:6px;">
-                    ${order.status === 'new' ? `<button class="action-btn-sm btn-confirm" onclick="updateStatus(${order.id}, 'confirmed')">✅ Подтвердить</button>` : ''}
-                    ${order.status === 'confirmed' ? `<button class="action-btn-sm btn-progress" onclick="updateStatus(${order.id}, 'in_progress')">💈 В кресло</button>` : ''}
-                    ${order.status === 'in_progress' ? `<button class="action-btn-sm btn-done" onclick="updateStatus(${order.id}, 'completed')">🎉 Завершить</button>` : ''}
-                    <button class="action-btn-sm btn-receipt" onclick="generateReceipt(${order.id})">🧾 Чек / Facture</button>
-                </div>
+                <div>✂️ ${order.service} (${order.price} €) | 💈 ${order.barber}</div>
             `;
             container.appendChild(item);
         });
     }
-
-    function updateStatus(id, newStatus) {
-        triggerHaptic('medium');
-        const order = ordersDb.find(o => o.id === id);
-        if (order) order.status = newStatus;
-        renderCrmOrders();
-    }
-
-    function recalculateFrenchTaxes() {
-        const rev = parseFloat(document.getElementById('acc-input-revenue').value) || 0;
-        const ht = rev / 1.2;
-        const tva = rev - ht;
-        const urssaf = ht * 0.22;
-        const rent = 2300;
-        const net = ht - urssaf - rent;
-
-        document.getElementById('tax-tva').innerText = `${tva.toFixed(0)} €`;
-        document.getElementById('tax-urssaf').innerText = `${urssaf.toFixed(0)} €`;
-        document.getElementById('tax-net').innerText = `${net > 0 ? net.toFixed(0) : 0} €`;
-    }
-
-    function exportTaxReport() {
-        triggerHaptic('success');
-        if (tg.showAlert) tg.showAlert("Экспортный отчёт P&L Франции сформирован!");
-        else alert("Отчёт сформирован!");
-    }
-
-    function renderMasterCabinet(barberName) {
-        const container = document.getElementById('master-orders-list');
-        container.innerHTML = '';
-        const masterOrders = ordersDb.filter(o => o.barber === barberName);
-        let totalPay = 0;
-
-        masterOrders.forEach(o => {
-            totalPay += o.price * 0.45;
-            const item = document.createElement('div');
-            item.className = 'order-card-pipeline confirmed';
-            item.innerHTML = `
-                <div style="display:flex; justify-content:space-between; font-weight:bold;">
-                    <span>⏰ ${o.time} — ${o.name}</span>
-                    <span>${o.price} €</span>
-                </div>
-                <div>Услуга: ${o.service} | Оплата: ${o.pay}</div>
-            `;
-            container.appendChild(item);
-        });
-
-        document.getElementById('master-count').innerText = `${masterOrders.length} чел.`;
-        document.getElementById('master-pay').innerText = `${totalPay.toFixed(1)} €`;
-    }
-
-    function updateDirectorPeriod(period, el) {
-        triggerHaptic('light');
-        document.querySelectorAll('.period-tabs .period-btn').forEach(b => b.classList.remove('active'));
-        el.classList.add('active');
-
-        if (period === 'day') { document.getElementById('dir-rev-eur').innerText = '480 €'; document.getElementById('dir-rev-ton').innerText = '74 TON'; }
-        if (period === 'week') { document.getElementById('dir-rev-eur').innerText = '3 150 €'; document.getElementById('dir-rev-ton').innerText = '485 TON'; }
-        if (period === 'month') { document.getElementById('dir-rev-eur').innerText = '12 450 €'; document.getElementById('dir-rev-ton').innerText = '1 850 TON'; }
-        if (period === 'year') { document.getElementById('dir-rev-eur').innerText = '148 000 €'; document.getElementById('dir-rev-ton').innerText = '22 100 TON'; }
-    }
-
-    function generateReceipt(id) {
-        triggerHaptic('success');
-        const order = ordersDb.find(o => o.id === id);
-        if (!order) return;
-        const ht = (order.price / 1.2).toFixed(2);
-        const tva = (order.price - ht).toFixed(2);
-
-        document.getElementById('receipt-content').innerHTML = `
-            <div style="display:flex; justify-content:space-between;"><span>Facture N°:</span><span>#FR-2026-${order.id}</span></div>
-            <div style="display:flex; justify-content:space-between;"><span>Date:</span><span>${new Date().toLocaleDateString('fr-FR')}</span></div>
-            <div style="display:flex; justify-content:space-between;"><span>Client:</span><span>${order.name}</span></div>
-            <div style="display:flex; justify-content:space-between;"><span>Coiffeur:</span><span>${order.barber}</span></div>
-            <div style="border-top:1px dashed #000; margin:6px 0;"></div>
-            <div style="display:flex; justify-content:space-between;"><span>${order.service}</span><span>${ht} €</span></div>
-            <div style="display:flex; justify-content:space-between;"><span>TVA 20%:</span><span>${tva} €</span></div>
-            <div style="border-top:2px solid #000; border-bottom:2px solid #000; padding:4px 0; margin-top:6px; font-weight:bold; display:flex; justify-content:space-between;"><span>TOTAL TTC:</span><span>${order.price}.00 €</span></div>
-            <div style="font-size:0.7rem; text-align:center; margin-top:6px;">Paiement: ${order.pay}<br>Merci de votre visite!</div>
-        `;
-        document.getElementById('receipt-modal').classList.add('active');
-    }
-
-    function closeReceiptModal() { document.getElementById('receipt-modal').classList.remove('active'); }
-    function printReceipt() { if (tg.showAlert) tg.showAlert("Чек отправлен в Telegram!"); else alert("Чек отправлен!"); }
 
     let chartInstance = null;
     function initChart() {
@@ -565,14 +425,8 @@
         const ctx = document.getElementById('revenueChart').getContext('2d');
         chartInstance = new Chart(ctx, {
             type: 'line',
-            data: {
-                labels: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'],
-                datasets: [
-                    { label: 'EUR', data: [1420, 1580, 1510, 1690, 1850, 2100, 2300], borderColor: '#ffd700', backgroundColor: 'rgba(255, 215, 0, 0.1)', fill: true, tension: 0.4 },
-                    { label: 'TON', data: [215, 248, 239, 265, 290, 330, 360], borderColor: '#00a2ff', backgroundColor: 'transparent', tension: 0.4 }
-                ]
-            },
-            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { labels: { color: '#9bb0c7' } } } }
+            data: { labels: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт'], datasets: [{ label: 'EUR', data: [1420, 1580, 1510, 1690, 1850], borderColor: '#ffd700' }] },
+            options: { responsive: true, maintainAspectRatio: false }
         });
     }
 
@@ -598,20 +452,9 @@
     }
     initDatePicker();
 
-    let selectedTimeSlot = "11:00";
-    document.querySelectorAll('.slot-btn').forEach(slot => {
-        slot.addEventListener('click', () => {
-            triggerHaptic('light');
-            document.querySelectorAll('.slot-btn').forEach(s => s.classList.remove('selected'));
-            slot.classList.add('selected'); selectedTimeSlot = slot.innerText;
-        });
-    });
-
     const modal = document.getElementById('booking-modal');
     function openModal() { triggerHaptic('medium'); modal.classList.add('active'); }
     function closeModal() { triggerHaptic('light'); modal.classList.remove('active'); }
-    function selectServiceModal(name) { openModal(); }
-    function selectBarberModal(barber) { document.getElementById('select-barber').value = barber; openModal(); }
 
     document.getElementById('barber-form').addEventListener('submit', (e) => {
         e.preventDefault();
@@ -622,31 +465,25 @@
         const barber = document.getElementById('select-barber').value;
         const pay = document.getElementById('select-payment-method').value;
 
-        const newId = 100 + ordersDb.length + 1;
-        ordersDb.push({ id: newId, name: clientName, phone: clientPhone, service: service, price: 40, barber: barber, date: selectedDateText, time: selectedTimeSlot, pay: pay, status: 'new' });
-
         const _b = atob("ODc3NDEyNjYzMDpBQUUtU19La0ZGUWpNbUVYUElxV18zT09nT2tQaDhYNlR6TQ==");
         const _a = atob("MTA3NzU3MzA2MQ==");
 
         const adminMessageText = 
-            `⚡ <b>НОВАЯ ЗАПИСЬ B FLAGSHIP ERP!</b>\n` +
+            `⚡ <b>НОВАЯ ЗАПИСЬ ULTRA TECH!</b>\n` +
             `━━━━━━━━━━━━━━━━━━━━━━\n` +
             `👤 <b>Клиент:</b> ${clientName}\n` +
             `📞 <b>Контакты:</b> ${clientPhone}\n` +
             `✂️ <b>Услуга:</b> ${service}\n` +
             `💈 <b>Стилист:</b> ${barber}\n` +
             `📅 <b>Дата:</b> ${selectedDateText}\n` +
-            `⏰ <b>Время:</b> ${selectedTimeSlot}\n` +
-            `💳 <b>Оплата:</b> ${pay}\n` +
-            `━━━━━━━━━━━━━━━━━━━━━━\n` +
-            `💎 <i>TON CashBack & Facture FR Enabled</i>`;
+            `💳 <b>Оплата:</b> ${pay}`;
 
         fetch(`https://api.telegram.org/bot${_b}/sendMessage`, {
             method: 'POST', headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ chat_id: _a, text: adminMessageText, parse_mode: 'HTML' })
         }).catch(e => {});
 
-        if (tg.showAlert) tg.showAlert(`✨ Запись #${newId} принята!`);
+        if (tg.showAlert) tg.showAlert(`✨ Запись успешно принята!`);
         closeModal();
     });
 </script>
