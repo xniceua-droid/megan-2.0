@@ -23,7 +23,7 @@ bot.setMyCommands([
 bot.setChatMenuButton({
     menu_button: JSON.stringify({
         type: 'web_app',
-        text: '📱 Відкрити App',
+        text: '📱 Відкрити VOVAN BEAUTY',
         web_app: { url: webAppUrl }
     })
 }).catch(e => console.error("setChatMenuButton error:", e));
