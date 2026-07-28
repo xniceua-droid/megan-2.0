@@ -16,16 +16,16 @@ const webAppUrl = 'https://xniceua-droid.github.io/megan-2.0/';
 // ⚡ REGISTER BOT COMMANDS MENU
 bot.setMyCommands([
     { command: '/start', description: '🚀 Запустити MEGAN 2.0 Mini App' },
-    { command: '/services', description: '💈 Послуги та Ціни (TTC)' },
-    { command: '/location', description: '📍 Студія у Ніцці (Côte d’Azur)' },
-    { command: '/crm', description: '💼 AI CRM Кабінет' },
-    { command: '/help', description: 'ℹ️ Підтримка & Контакти' }
+    { command: '/booking', description: '✂️ Миттєвий Запис у Салон' },
+    { command: '/services', description: '💈 Послуги та Ціни' },
+    { command: '/location', description: '📍 Локація у Ніцці (Côte d’Azur)' },
+    { command: '/help', description: 'ℹ️ Підтримка 24/7' }
 ]).catch(e => console.error("setMyCommands error:", e));
 
 bot.setChatMenuButton({
     menu_button: JSON.stringify({
         type: 'web_app',
-        text: '🚀 Старт',
+        text: '🚀 Відкрити Салон',
         web_app: { url: webAppUrl }
     })
 }).catch(e => console.error("setChatMenuButton error:", e));
@@ -86,65 +86,47 @@ app.post('/api/send-message', async (req, res) => {
     }
 });
 
-// 🚀 COMMAND HANDLERS
-bot.onText(/\/start/, async (msg) => {
-    const chatId = msg.chat.id;
-    const name = msg.from.first_name || 'шановний клієнт';
-
+// 🚀 LUXURY START GREETING & COMMANDS
+const sendWelcome = (chatId, name) => {
     const opts = {
         parse_mode: 'HTML',
         reply_markup: {
             inline_keyboard: [
-                [{ text: "🚀 ЗАПУСТИТИ ДОДАТОК 2026", web_app: { url: webAppUrl } }],
-                [{ text: "📍 Локація (Ніцца 🇫🇷)", callback_data: "cmd_loc" }, { text: "💈 Послуги", callback_data: "cmd_srv" }]
+                [{ text: "⚡ ЗАПИСАТИСЯ У САЛОН (MINI APP) 🚀", web_app: { url: webAppUrl } }],
+                [{ text: "💈 Переглянути Послуги & Ціни", web_app: { url: webAppUrl } }],
+                [{ text: "📍 Локація (15 Promenade des Anglais 🇫🇷)", url: "https://maps.google.com/?q=15+Promenade+des+Anglais+Nice+France" }]
             ]
         }
     };
-    bot.sendMessage(chatId, 
-        "🚀 <b>MEGAN 2.0 CYBER SYSTEM 2026</b>\n\n" +
-        "⚡ <b>Вітаємо, " + name + "!</b>\n\n" +
-        "👑 <b>АВТОР РОЗРОБКИ: ПОТАПОВ В.М. • NICE 🇫🇷</b>\n" +
-        "💈 <b>VOVAN BEAUTY STUDIO</b> — Лазурний Берег\n" +
-        "✂️ Стрижки • 🧔 Бороди • 💆 AI Sculptor 3D\n" +
-        "💎 Оплата TON • 💳 Apple Pay / Google Pay\n\n" +
-        "Натисніть кнопку нижче для запуску додатку 👇", opts);
+
+    bot.sendMessage(chatId,
+        "👑 ⚡ <b>MEGAN 2.0 CYBER BEAUTY STUDIO 2026</b> ⚡ 👑\n\n" +
+        "Bonjour, <b>" + name + "</b>! 👋\n" +
+        "Ласкаво просимо до нашого преміального кибер-салону у Ніцці! 🇫🇷\n\n" +
+        "💈 <b>VOVAN BEAUTY STUDIO • Côte d’Azur</b>\n" +
+        "📍 <i>15 Promenade des Anglais, 06000 Nice, France</i>\n" +
+        "👑 <b>АВТОР РОЗРОБКИ: ПОТАПОВ В.М. • NICE 🇫🇷</b>\n\n" +
+        "✂️ Авторське моделювання зачісок & Барбершоп\n" +
+        "💆 AI 3D Скульптор обличчя та зачісок\n" +
+        "🍾 VIP Бар в крісло (Dom Pérignon, Chivas, Espresso)\n" +
+        "💎 Оплата TON, Apple Pay, Google Pay\n\n" +
+        "👇 <b>Натисніть кнопку нижче для запуску Mini App та запису:</b>", opts);
+};
+
+bot.onText(/\/start/, async (msg) => {
+    sendWelcome(msg.chat.id, msg.from.first_name || 'шановний клієнт');
+});
+
+bot.onText(/\/booking/, async (msg) => {
+    sendWelcome(msg.chat.id, msg.from.first_name || 'шановний клієнт');
 });
 
 bot.onText(/\/services/, (msg) => {
-    const opts = {
-        parse_mode: 'HTML',
-        reply_markup: {
-            inline_keyboard: [
-                [{ text: "⚡ ЗАПИСАТИСЯ ДО МАЙСТРА", web_app: { url: webAppUrl } }]
-            ]
-        }
-    };
-    bot.sendMessage(msg.chat.id,
-        "💈 <b>ПОСЛУГИ ТА ЦІНИ (VOVAN BEAUTY STUDIO):</b>\n\n" +
-        "✂️ <b>Стрижка MEGAN 2.0 Cyber Style</b> — 40 € (≈ 6.2 TON)\n" +
-        "👑 <b>Б'юті-комплекс VOVAN VIP</b> — 65 € (≈ 10.0 TON)\n" +
-        "⚡ <b>Neon Highlight</b> — 70 € (≈ 10.8 TON)\n" +
-        "🤖 <b>Android Spa</b> — 120 € (≈ 18.5 TON)\n" +
-        "🩶 <b>Cyber Silver (Камуфляж)</b> — 35 € (≈ 5.4 TON)\n" +
-        "🪒 <b>Королівське гоління Barber</b> — 45 € (≈ 7.0 TON)\n\n" +
-        "Натисніть нижче для вибору часу та майстра 👇", opts);
+    sendWelcome(msg.chat.id, msg.from.first_name || 'шановний клієнт');
 });
 
 bot.onText(/\/location/, (msg) => {
-    const opts = {
-        parse_mode: 'HTML',
-        reply_markup: {
-            inline_keyboard: [
-                [{ text: "🗺 Карта Google Maps", url: "https://maps.google.com/?q=15+Promenade+des+Anglais+Nice+France" }],
-                [{ text: "🚀 ВІДКРИТИ ДОДАТОК", web_app: { url: webAppUrl } }]
-            ]
-        }
-    };
-    bot.sendMessage(msg.chat.id,
-        "📍 <b>СТУДІЯ У НІЦЦІ (CÔTE D’AZUR)</b>\n\n" +
-        "🏠 <b>Адреса:</b> 15 Promenade des Anglais, 06000 Nice, France\n" +
-        "⏰ <b>Графік:</b> Пн-Нд 09:00 - 21:00\n" +
-        "👑 <b>Автор:</b> Потапов В.М.", opts);
+    sendWelcome(msg.chat.id, msg.from.first_name || 'шановний клієнт');
 });
 
 bot.onText(/\/help/, (msg) => {
@@ -152,26 +134,19 @@ bot.onText(/\/help/, (msg) => {
         parse_mode: 'HTML',
         reply_markup: {
             inline_keyboard: [
-                [{ text: "💬 Чат підтримки", url: "https://t.me/VOVAN_BEAUTY_SUPPORT" }],
-                [{ text: "🚀 Запустити додаток", web_app: { url: webAppUrl } }]
+                [{ text: "🚀 ВІДКРИТИ MINI APP ТА ЗАПИСАТИСЯ", web_app: { url: webAppUrl } }],
+                [{ text: "💬 Чат підтримки", url: "https://t.me/VOVAN_BEAUTY_SUPPORT" }]
             ]
         }
     };
     bot.sendMessage(msg.chat.id,
-        "ℹ️ <b>ПІДТРИМКА МЕGAN 2.0</b>\n\n" +
-        "З усіх питань запису, VIP Бару та оплати звертайтеся до нашої служби підтримки або відкрийте Mini App.", opts);
+        "ℹ️ <b>ПІДТРИМКА MEGAN 2.0</b>\n\n" +
+        "З усіх питань запису, VIP Бару та послуг відкривайте Mini App або зв'яжіться з нашою цілодобовою підтримкою.", opts);
 });
 
-bot.on('callback_query', (query) => {
-    if (query.data === 'cmd_loc') {
-        bot.sendMessage(query.message.chat.id, "📍 Адреса студії: 15 Promenade des Anglais, 06000 Nice, France 🇫🇷");
-    } else if (query.data === 'cmd_srv') {
-        bot.sendMessage(query.message.chat.id, "💈 Для перегляду цін та запису відкрийте Mini App за допомогою кнопки Старт!");
-    }
-    bot.answerCallbackQuery(query.id);
-});
-
+// ANY OTHER MESSAGE — ALWAYS DIRECTS TO MINI APP
 bot.on('message', (msg) => {
+    if (msg.contact || (msg.text && msg.text.startsWith('/'))) return;
     if (msg.web_app_data) {
         try {
             const data = JSON.parse(msg.web_app_data.data);
@@ -184,7 +159,10 @@ bot.on('message', (msg) => {
                 "⏰ <b>Час:</b> " + (data.time || 'За розкладом') + "\n\n" +
                 "Чекаємо вас у салон у Ніцці! 🇫🇷", { parse_mode: 'HTML' });
         } catch(e) {}
+        return;
     }
+
+    sendWelcome(msg.chat.id, msg.from.first_name || 'шановний клієнт');
 });
 
 bot.on('polling_error', (error) => { console.log(error.code); });
