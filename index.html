@@ -1620,14 +1620,33 @@ function updateHtcClock_old() {
 
     <!-- 2. VIP БАР -->
     <div id="page-bar" class="page-section">
-        <div class="admin-card">
-            <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);" data-i18n="bar-title">🍾 VIP БАР В КРІСЛО</h3>
-            <div class="bar-grid">
-                <div class="bar-card"><div class="bar-title">Dom Pérignon</div><div class="bar-price">45 €</div><button class="action-btn-sm btn-confirm" style="width:100%;" onclick="orderDrink('Dom Pérignon')" data-i18n="btn-order-drink">🥂 Замовити в крісло</button></div>
-                <div class="bar-card"><div class="bar-title">Moët & Chandon</div><div class="bar-price">35 €</div><button class="action-btn-sm btn-confirm" style="width:100%;" onclick="orderDrink('Moët & Chandon')" data-i18n="btn-order-drink">🥂 Замовити в крісло</button></div>
-                <div class="bar-card"><div class="bar-title">Горілка Nemiroff</div><div class="bar-price">10 €</div><button class="action-btn-sm btn-confirm" style="width:100%;" onclick="orderDrink('Горілка Nemiroff')">🧊 Замовити в крісло</button></div>
-                <div class="bar-card"><div class="bar-title">Whiskey Chivas</div><div class="bar-price">15 €</div><button class="action-btn-sm btn-confirm" style="width:100%;" onclick="orderDrink('Whiskey Chivas')">🥃 Замовити в крісло</button></div>
-                <div class="bar-card"><div class="bar-title">Martini Bianco</div><div class="bar-price">12 €</div><button class="action-btn-sm btn-confirm" style="width:100%;" onclick="orderDrink('Martini Bianco')">🍸 Замовити в крісло</button></div>
+        <div class="admin-card" style="padding:15px;">
+            <h3 style="font-family:'Orbitron'; color:var(--cyber-gold); text-align:center; margin-bottom:12px;" data-i18n="bar-title">🍾 VIP БАР В КРІСЛО</h3>
+            <div class="bar-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+                <div class="bar-card" style="background:rgba(11,16,25,0.8); border:1px solid rgba(255,215,0,0.3); border-radius:14px; padding:10px; text-align:center;">
+                    <img src="bar_champagne.jpg" alt="Dom Pérignon" style="width:100%; height:80px; object-fit:cover; border-radius:8px; margin-bottom:6px;">
+                    <div class="bar-title" style="font-family:'Orbitron'; font-size:0.8rem; color:#fff; font-weight:800;">Dom Pérignon</div>
+                    <div class="bar-price" style="font-family:'Orbitron'; font-size:0.9rem; color:var(--cyber-gold); font-weight:900; margin:3px 0 8px 0;">45 €</div>
+                    <button class="action-btn-sm btn-confirm" style="width:100%; padding:8px; font-size:0.72rem;" onclick="orderDrink('Dom Pérignon')" data-i18n="btn-order-drink">🥂 В крісло</button>
+                </div>
+                <div class="bar-card" style="background:rgba(11,16,25,0.8); border:1px solid rgba(255,215,0,0.3); border-radius:14px; padding:10px; text-align:center;">
+                    <img src="bar_champagne.jpg" alt="Moët & Chandon" style="width:100%; height:80px; object-fit:cover; border-radius:8px; margin-bottom:6px;">
+                    <div class="bar-title" style="font-family:'Orbitron'; font-size:0.8rem; color:#fff; font-weight:800;">Moët & Chandon</div>
+                    <div class="bar-price" style="font-family:'Orbitron'; font-size:0.9rem; color:var(--cyber-gold); font-weight:900; margin:3px 0 8px 0;">35 €</div>
+                    <button class="action-btn-sm btn-confirm" style="width:100%; padding:8px; font-size:0.72rem;" onclick="orderDrink('Moët & Chandon')" data-i18n="btn-order-drink">🥂 В крісло</button>
+                </div>
+                <div class="bar-card" style="background:rgba(11,16,25,0.8); border:1px solid rgba(0,162,255,0.3); border-radius:14px; padding:10px; text-align:center;">
+                    <img src="bar_whiskey.jpg" alt="Whiskey Chivas" style="width:100%; height:80px; object-fit:cover; border-radius:8px; margin-bottom:6px;">
+                    <div class="bar-title" style="font-family:'Orbitron'; font-size:0.8rem; color:#fff; font-weight:800;">Whiskey Chivas</div>
+                    <div class="bar-price" style="font-family:'Orbitron'; font-size:0.9rem; color:var(--cyber-blue); font-weight:900; margin:3px 0 8px 0;">15 €</div>
+                    <button class="action-btn-sm btn-confirm" style="width:100%; padding:8px; font-size:0.72rem; background:rgba(0,162,255,0.2); border-color:var(--cyber-blue);" onclick="orderDrink('Whiskey Chivas')">🥃 В крісло</button>
+                </div>
+                <div class="bar-card" style="background:rgba(11,16,25,0.8); border:1px solid rgba(0,230,118,0.3); border-radius:14px; padding:10px; text-align:center;">
+                    <img src="bar_coffee.jpg" alt="Cyber Espresso" style="width:100%; height:80px; object-fit:cover; border-radius:8px; margin-bottom:6px;">
+                    <div class="bar-title" style="font-family:'Orbitron'; font-size:0.8rem; color:#fff; font-weight:800;">Cyber Espresso</div>
+                    <div class="bar-price" style="font-family:'Orbitron'; font-size:0.9rem; color:var(--accent-green); font-weight:900; margin:3px 0 8px 0;">5 € (Free)</div>
+                    <button class="action-btn-sm btn-confirm" style="width:100%; padding:8px; font-size:0.72rem; background:rgba(0,230,118,0.2); border-color:var(--accent-green); color:var(--accent-green);" onclick="orderDrink('Cyber Espresso')">☕ В крісло</button>
+                </div>
             </div>
         </div>
     </div>
