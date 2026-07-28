@@ -1363,6 +1363,27 @@ function updateHtcClock_old() {
             box-sizing: border-box !important;
         }
 
+    
+        /* ⚡ 2026 CYBERWEATHER CÔTE D'AZUR GLASS CARD */
+        .cyber-weather-card {
+            background: linear-gradient(135deg, rgba(16, 26, 44, 0.92) 0%, rgba(6, 10, 18, 0.96) 100%);
+            border: 1.5px solid rgba(0, 162, 255, 0.4);
+            border-radius: 18px;
+            padding: 14px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), inset 0 0 15px rgba(0, 162, 255, 0.1);
+            backdrop-filter: blur(20px);
+            margin-bottom: 12px;
+        }
+        .live-pulse-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent-green);
+            box-shadow: 0 0 10px var(--accent-green);
+            animation: livePulse 1.5s infinite ease-in-out;
+            display: inline-block;
+        }
+
     </style>
 </head>
 <body>
@@ -1441,28 +1462,61 @@ function updateHtcClock_old() {
 
         <!-- Погода в Ницце, Uber & Bolt -->
         <div class="admin-card" style="margin-top:0;">
-            <div class="htc-weather-widget" style="padding:10px 14px; margin-bottom:10px;">
-                <div style="display:flex; justify-content:space-between; align-items:center; gap:8px;">
-                    <!-- Left: Real Time Phone Clock -->
-                    <div class="htc-clock-row" style="margin-bottom:0; gap:3px;">
-                        <div class="htc-flip-card" style="padding:2px 9px; font-size:1.35rem; min-width:32px; text-align:center;"><span id="htc-clock-hours">05</span></div>
-                        <div class="htc-clock-dots" style="font-size:1.2rem;">:</div>
-                        <div class="htc-flip-card" style="padding:2px 9px; font-size:1.35rem; min-width:32px; text-align:center;"><span id="htc-clock-mins">55</span></div>
-                    </div>
-
-                    <!-- Center: City & Temp -->
-                    <div style="text-align:center;">
-                        <div class="htc-temp-val" id="weather-temp" style="font-size:1.3rem; line-height:1.1;">+26°C</div>
-                        <div class="htc-city-name" id="weather-city-title" style="font-size:0.75rem; font-weight:800; color:var(--cyber-gold);">Nice, France</div>
-                    </div>
-
-                    <!-- Right: Compact Weather Metrics -->
-                    <div style="display:flex; flex-direction:column; gap:2px; text-align:right;">
-                        <div style="font-size:0.68rem; color:#fff; font-weight:700;">💧 62% • 🌪️ 12 км/г</div>
-                        <div style="font-size:0.68rem; color:var(--cyber-gold); font-weight:700;">☀️ UV: 6 (Середній)</div>
-                    </div>
+            <div class="cyber-weather-card">
+            <!-- Top Bar: Real Time Clock & Location -->
+            <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(0,162,255,0.2); padding-bottom:8px; margin-bottom:10px;">
+                <div style="display:flex; align-items:center; gap:6px; font-family:'Orbitron', sans-serif; font-size:0.88rem; color:var(--cyber-blue); font-weight:800;">
+                    <span class="live-pulse-dot"></span>
+                    <span id="htc-clock-hours">05</span>:<span id="htc-clock-mins">56</span>
+                </div>
+                <div style="font-size:0.78rem; color:var(--cyber-gold); font-weight:800; font-family:'Orbitron', sans-serif;" id="weather-city-title">
+                    📍 Nice, France 🇫🇷
                 </div>
             </div>
+
+            <!-- Main Temp & Condition -->
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <div style="font-size:2.2rem; filter:drop-shadow(0 0 10px rgba(255,215,0,0.6));">☀️</div>
+                    <div>
+                        <div id="weather-temp" style="font-family:'Orbitron', sans-serif; font-size:1.8rem; font-weight:900; color:#fff; text-shadow:0 0 15px rgba(255,215,0,0.4); line-height:1;">+26°C</div>
+                        <div style="font-size:0.7rem; color:var(--text-sub); margin-top:2px;">Сонячно • UV 6</div>
+                    </div>
+                </div>
+                <!-- Micro Metrics Pill -->
+                <div style="background:rgba(18,25,38,0.8); border:1px solid rgba(0,162,255,0.3); border-radius:10px; padding:6px 10px; font-size:0.68rem; color:#fff; text-align:right;">
+                    <div>💧 <b>62%</b> Вологість</div>
+                    <div>🌪️ <b>12 км/г</b> Вітер</div>
+                    <div style="color:var(--cyber-gold);">🌊 <b>24°C</b> Море</div>
+                </div>
+            </div>
+
+            <!-- Hourly Forecast Bar -->
+            <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:6px; background:rgba(0,0,0,0.35); border-radius:10px; padding:6px;">
+                <div style="text-align:center; font-size:0.65rem;">
+                    <div style="color:var(--text-sub);">09:00</div>
+                    <div style="margin:2px 0;">☀️</div>
+                    <div style="font-family:'Orbitron'; color:#fff; font-weight:bold;">24°C</div>
+                </div>
+                <div style="text-align:center; font-size:0.65rem;">
+                    <div style="color:var(--text-sub);">13:00</div>
+                    <div style="margin:2px 0;">☀️</div>
+                    <div style="font-family:'Orbitron'; color:var(--cyber-gold); font-weight:bold;">27°C</div>
+                </div>
+                <div style="text-align:center; font-size:0.65rem;">
+                    <div style="color:var(--text-sub);">17:00</div>
+                    <div style="margin:2px 0;">🌤️</div>
+                    <div style="font-family:'Orbitron'; color:#fff; font-weight:bold;">26°C</div>
+                </div>
+                <div style="text-align:center; font-size:0.65rem;">
+                    <div style="color:var(--text-sub);">21:00</div>
+                    <div style="margin:2px 0;">🌙</div>
+                    <div style="font-family:'Orbitron'; color:var(--cyber-blue); font-weight:bold;">22°C</div>
+                </div>
+            </div>
+        </div>
+
+                    
 
                 
                     
