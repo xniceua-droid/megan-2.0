@@ -586,7 +586,100 @@
         }
 
 
-        /* ⚡ MASTERPIECE TOP HEADER & HERO 2026 */
+        
+        /* ⚡ ULTRA COMPACT DESIGNER HEADER & HERO 2026 */
+        header {
+            border-bottom: 1px solid rgba(0, 162, 255, 0.35) !important;
+            background: linear-gradient(180deg, rgba(12, 19, 32, 0.98) 0%, rgba(3, 5, 8, 0.95) 100%) !important;
+            backdrop-filter: blur(20px) !important;
+            padding: calc(6px + var(--tg-safe-area-inset-top, env(safe-area-inset-top, 0px))) 12px 6px 12px !important;
+            display: flex !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+            position: sticky !important;
+            top: 0 !important;
+            z-index: 1000 !important;
+            box-shadow: 0 4px 25px rgba(0, 162, 255, 0.15) !important;
+            height: 48px !important;
+        }
+        .header-brand-box {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+        .header-brand-avatar {
+            width: 28px !important;
+            height: 28px !important;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1.5px solid var(--cyber-gold);
+            box-shadow: 0 0 10px var(--cyber-gold);
+        }
+        .header-brand-text {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 6px;
+        }
+        .brand-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.82rem !important;
+            font-weight: 900;
+            background: linear-gradient(90deg, #ffffff 0%, var(--cyber-gold) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 0.5px;
+        }
+        .brand-sub {
+            font-size: 0.58rem !important;
+            color: var(--cyber-blue);
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            background: rgba(0, 162, 255, 0.12);
+            padding: 2px 5px;
+            border-radius: 6px;
+            border: 1px solid rgba(0, 162, 255, 0.25);
+        }
+
+        /* Compact Hero Banner Card */
+        .compact-hero-card {
+            position: relative;
+            margin: 10px 12px;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1.5px solid rgba(0, 162, 255, 0.4);
+            box-shadow: 0 8px 30px rgba(0, 162, 255, 0.25);
+            background: #060a12;
+        }
+        .compact-hero-img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            filter: brightness(0.65) contrast(1.1);
+        }
+        .compact-hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            background: linear-gradient(180deg, rgba(3, 5, 8, 0.3) 0%, rgba(3, 5, 8, 0.85) 100%);
+        }
+        .hero-title-compact {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 900;
+            color: #ffffff;
+            text-shadow: 0 0 15px rgba(0, 162, 255, 0.8);
+            margin: 0;
+        }
+
+        /* Old header */
         header {
             border-bottom: 1px solid rgba(0, 162, 255, 0.4) !important;
             background: linear-gradient(180deg, rgba(12, 19, 32, 0.98) 0%, rgba(3, 5, 8, 0.95) 100%) !important;
@@ -861,44 +954,43 @@
             <img src="m3gan_icon_nav.jpg" alt="MEGAN 2.0" class="header-brand-avatar">
             <div class="header-brand-text">
                 <span class="brand-title">VOVAN BEAUTY</span>
-                <span class="brand-sub">NICE • CÔTE D'AZUR 🇫🇷</span>
+                <span class="brand-sub">NICE 🇫🇷</span>
             </div>
         </div>
-        <div class="header-controls">
-            <button onclick="toggleNeonTheme()" style="background:rgba(0,162,255,0.12); border:1px solid var(--cyber-blue); padding:6px 10px; border-radius:10px; font-size:1rem; cursor:pointer; box-shadow:0 0 10px rgba(0,162,255,0.3);" title="Змінити колір неону">🎨</button>
-            <a href="help.html" style="background:rgba(255,215,0,0.12); border:1px solid var(--cyber-gold); color:var(--cyber-gold); padding:7px 10px; border-radius:10px; font-size:0.75rem; text-decoration:none; font-family:'Orbitron'; font-weight:bold; box-shadow:0 0 10px rgba(255,215,0,0.2);">ℹ️ Довідка</a>
-            <select class="lang-selector" id="lang-select" onchange="changeLanguage(this.value)">
-                <option value="UA">🇺🇦 UA</option>
-                <option value="FR">🇫🇷 FR</option>
-                <option value="EN">🇬🇧 EN</option>
+        <div class="header-controls" style="display:flex; align-items:center; gap:6px;">
+            <button onclick="toggleNeonTheme()" style="background:rgba(0,162,255,0.12); border:1px solid var(--cyber-blue); padding:4px 7px; border-radius:8px; font-size:0.85rem; cursor:pointer;" title="Колір">🎨</button>
+            <a href="help.html" style="background:rgba(255,215,0,0.12); border:1px solid var(--cyber-gold); color:var(--cyber-gold); padding:4px 7px; border-radius:8px; font-size:0.7rem; text-decoration:none; font-family:'Orbitron'; font-weight:bold;">ℹ️</a>
+            <select class="lang-selector" id="lang-select" onchange="changeLanguage(this.value)" style="padding:4px 20px 4px 8px !important; font-size:0.75rem !important;">
+                <option value="UA">🇺🇦</option>
+                <option value="FR">🇫🇷</option>
+                <option value="EN">🇬🇧</option>
             </select>
         </div>
     </header>
 
     <!-- 1. КЛИЕНТСКИЙ ЭКРАН -->
     <div id="page-client" class="page-section active">
-        <section class="hero">
-            <div class="hero-banner-container">
-                <img src="m3gan_cyber.jpg" alt="MEGAN 2.0 Cyber AI" class="hero-banner">
-                <div class="hero-live-badge"><span class="hero-live-dot"></span> STUDIO OPEN 2026</div>
-            </div>
-            <div class="hero-content">
-                <h1 id="txt-hero-title">MEGAN 2.0 AI BEAUTY EDITION</h1>
-                <p id="txt-hero-desc" data-i18n="hero-desc">Кібер-естетика на Лазурному Березі (Ніцца). Google Pay / Apple Pay / TON.</p>
-                
-                <div class="pay-badges-row">
-                    <div class="pay-badge-item" style="border-color:rgba(66,133,244,0.5); background:rgba(66,133,244,0.1);"><svg width="14" height="14" viewBox="0 0 24 24" style="vertical-align:middle; margin-right:4px;"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/></svg><span style="font-weight:700;">GPay</span></div>
-                    <div class="pay-badge-item" style="border-color:rgba(255,255,255,0.4); background:rgba(255,255,255,0.08);"><svg width="14" height="14" viewBox="0 0 170 170" style="vertical-align:middle; margin-right:4px; fill:#fff;"><path d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.19-2.12-9.97-3.17-14.34-3.17-4.58 0-9.49 1.05-14.75 3.17-5.26 2.13-9.5 3.24-12.74 3.35-4.34.13-9.16-1.9-14.49-6.09-3.24-2.64-7.14-7.29-11.7-13.96-6.19-9.04-11.19-19.51-15.01-31.42-3.82-11.91-5.73-23.44-5.73-34.58 0-14.42 3.61-26.47 10.83-36.15 7.22-9.68 16.32-14.65 27.31-14.9 4.83 0 9.87 1.25 15.12 3.75 5.25 2.5 9.07 3.75 11.46 3.75 2.13 0 5.92-1.25 11.37-3.75 5.45-2.5 10.22-3.7 14.31-3.62 10.16.5 18.66 4.41 25.5 11.72-23.11 13.96-22.36 34.33 2.27 46.54-5.07 12.04-11.47 24.03-19.19 35.96zM119.22 31.06c0-7.72 2.76-15.01 8.28-21.87 5.52-6.86 12.59-10.83 21.2-11.91.87 8.08-1.74 15.65-7.83 22.7-6.09 7.05-13.3 10.96-21.65 11.08z"/></svg><span style="font-weight:700;">Pay</span></div>
-                    <div class="pay-badge-item" style="border-color:var(--cyber-blue); background:rgba(0,162,255,0.12); color:var(--cyber-blue);"><span style="font-size:0.9rem; margin-right:4px;">💎</span><span style="font-family:'Orbitron'; font-weight:900;">TON</span></div>
-                    <div class="pay-badge-item" style="border-color:var(--cyber-gold); background:rgba(255,215,0,0.12); color:var(--cyber-gold);"><span style="font-size:0.9rem; margin-right:4px;">💳</span><span style="font-weight:800;">VISA / MC</span></div>
+        <div class="compact-hero-card">
+            <img src="m3gan_cyber.jpg" alt="MEGAN 2.0 AI" class="compact-hero-img">
+            <div class="compact-hero-overlay">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <span style="font-size:0.68rem; color:var(--cyber-gold); font-family:'Orbitron'; font-weight:800;">MEGAN 2.0 AI BEAUTY</span>
+                    <div class="hero-live-badge" style="position:static; padding:2px 8px;"><span class="hero-live-dot"></span> OPEN 2026</div>
                 </div>
-
-                <button class="ticket-btn" style="margin-top:15px;" onclick="openModal()" id="txt-hero-btn" data-i18n="btn-book">
-                    <img src="m3gan_icon_nav.jpg" class="ticket-btn-avatar" alt="M3GAN AI">
-                    <span>⚡ ЗАПИСАТИСЯ ДО МАЙСТРА</span>
-                </button>
+                <h2 class="hero-title-compact" id="txt-hero-title">КІБЕР-ЕСТЕТИКА В НІЦЦІ</h2>
+                <div style="display:flex; gap:6px; align-items:center;">
+                    <div class="pay-badge-item" style="padding:3px 8px; font-size:0.68rem; border-color:var(--cyber-blue); color:var(--cyber-blue);"><span style="font-family:'Orbitron'; font-weight:900;">💎 TON</span></div>
+                    <div class="pay-badge-item" style="padding:3px 8px; font-size:0.68rem; border-color:var(--cyber-gold); color:var(--cyber-gold);"><span style="font-weight:800;">💳 Apple/GPay</span></div>
+                </div>
             </div>
-        </section>
+        </div>
+
+        <div style="padding:0 12px; margin-bottom:12px;">
+            <button class="ticket-btn" style="margin-top:0; width:100%; max-width:none;" onclick="openModal()" id="txt-hero-btn" data-i18n="btn-book">
+                <img src="m3gan_icon_nav.jpg" class="ticket-btn-avatar" alt="M3GAN AI">
+                <span>⚡ ЗАПИСАТИСЯ ДО МАЙСТРА</span>
+            </button>
+        </div>
 
         <!-- Погода в Ницце, Uber & Bolt -->
         <div class="admin-card" style="margin-top:0;">
