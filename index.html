@@ -546,6 +546,90 @@
             text-align: center;
         }
 
+
+        /* ⚡ MASTERPIECE TOP HEADER & HERO 2026 */
+        header {
+            border-bottom: 1px solid rgba(0, 162, 255, 0.4) !important;
+            background: linear-gradient(180deg, rgba(12, 19, 32, 0.98) 0%, rgba(3, 5, 8, 0.95) 100%) !important;
+            backdrop-filter: blur(20px) !important;
+            padding: calc(12px + var(--tg-safe-area-inset-top, env(safe-area-inset-top, 0px))) 16px 12px 16px !important;
+            display: flex !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+            position: sticky !important;
+            top: 0 !important;
+            z-index: 1000 !important;
+            box-shadow: 0 8px 30px rgba(0, 162, 255, 0.18) !important;
+        }
+        .header-brand-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+        .header-brand-avatar {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1.5px solid var(--cyber-gold);
+            box-shadow: 0 0 14px var(--cyber-gold);
+        }
+        .header-brand-text {
+            display: flex;
+            flex-direction: column;
+        }
+        .brand-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.88rem;
+            font-weight: 900;
+            background: linear-gradient(90deg, #ffffff 0%, var(--cyber-gold) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 0.5px;
+        }
+        .brand-sub {
+            font-size: 0.62rem;
+            color: var(--cyber-blue);
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        .hero-banner-container {
+            position: relative;
+            border-radius: 18px;
+            overflow: hidden;
+            border: 1.5px solid rgba(0, 162, 255, 0.4);
+            box-shadow: 0 0 30px rgba(0, 162, 255, 0.3), 0 0 45px rgba(255, 215, 0, 0.15);
+            margin: 15px;
+        }
+        .hero-live-badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: rgba(3, 5, 8, 0.85);
+            border: 1px solid var(--cyber-blue);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 4px 10px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.62rem;
+            color: #fff;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 0 15px rgba(0, 162, 255, 0.4);
+        }
+        .hero-live-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--accent-green);
+            box-shadow: 0 0 8px var(--accent-green);
+            animation: livePulse 1.5s infinite ease-in-out;
+        }
+
     </style>
 </head>
 <body>
@@ -562,11 +646,16 @@
 
 <div class="app-container">
     <header>
-        <div class="logo" id="app-logo">VOVAN NICE 🇫🇷</div>
+        <div class="header-brand-box" onclick="switchTab('client')">
+            <img src="m3gan_icon_nav.jpg" alt="MEGAN 2.0" class="header-brand-avatar">
+            <div class="header-brand-text">
+                <span class="brand-title">VOVAN BEAUTY</span>
+                <span class="brand-sub">NICE • CÔTE D'AZUR 🇫🇷</span>
+            </div>
+        </div>
         <div class="header-controls">
-            
-            <button onclick="toggleNeonTheme()" style="background:transparent; border:none; font-size:1.2rem; cursor:pointer;" title="Змінити колір неону">🎨</button>
-            <a href="help.html" style="background:rgba(255,215,0,0.1); border:1px solid var(--cyber-gold); color:var(--cyber-gold); padding:6px 8px; border-radius:8px; font-size:0.75rem; text-decoration:none; font-family:'Orbitron';">ℹ️ Довідка</a>
+            <button onclick="toggleNeonTheme()" style="background:rgba(0,162,255,0.12); border:1px solid var(--cyber-blue); padding:6px 10px; border-radius:10px; font-size:1rem; cursor:pointer; box-shadow:0 0 10px rgba(0,162,255,0.3);" title="Змінити колір неону">🎨</button>
+            <a href="help.html" style="background:rgba(255,215,0,0.12); border:1px solid var(--cyber-gold); color:var(--cyber-gold); padding:7px 10px; border-radius:10px; font-size:0.75rem; text-decoration:none; font-family:'Orbitron'; font-weight:bold; box-shadow:0 0 10px rgba(255,215,0,0.2);">ℹ️ Довідка</a>
             <select class="lang-selector" id="lang-select" onchange="changeLanguage(this.value)">
                 <option value="UA">🇺🇦 UA</option>
                 <option value="FR">🇫🇷 FR</option>
@@ -580,6 +669,7 @@
         <section class="hero">
             <div class="hero-banner-container">
                 <img src="m3gan_cyber.jpg" alt="MEGAN 2.0 Cyber AI" class="hero-banner">
+                <div class="hero-live-badge"><span class="hero-live-dot"></span> STUDIO OPEN 2026</div>
             </div>
             <div class="hero-content">
                 <h1 id="txt-hero-title">MEGAN 2.0 AI BEAUTY EDITION</h1>
