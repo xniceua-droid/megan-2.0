@@ -1518,24 +1518,25 @@ function updateHtcClock_old() {
         <!-- Погода в Ницце, Uber & Bolt -->
         <div class="admin-card" style="margin-top:0;">
             <div class="meteo-capsule-2026">
-            <!-- Left: Real Time Clock -->
-            <div style="display:flex; align-items:center; gap:6px; font-family:'Orbitron', sans-serif; font-size:0.85rem; color:var(--cyber-blue); font-weight:800;">
-                <span class="live-pulse-dot"></span>
-                <span id="htc-clock-hours">05</span>:<span id="htc-clock-mins">59</span>
-            </div>
-
-            <!-- Center: Gold Temperature & Sun -->
+            <!-- Left: Gold Temperature & Sun -->
             <div style="display:flex; align-items:center; gap:6px;">
                 <span style="font-size:1.3rem;">☀️</span>
                 <span id="weather-temp" style="font-family:'Orbitron', sans-serif; font-size:1.15rem; font-weight:900; color:var(--cyber-gold); text-shadow:0 0 12px rgba(255,215,0,0.5);">+26°C</span>
             </div>
 
-            <!-- Right: Location & Sea Temp -->
-            <div style="display:flex; align-items:center; gap:6px; font-size:0.75rem; color:#fff; font-family:'Outfit', sans-serif; font-weight:700;" id="weather-city-title">
-                <span>📍 Nice</span>
-                <span style="color:var(--cyber-blue);">• 🌊 24°C</span>
+            <!-- Center: Weather Condition -->
+            <div style="font-size:0.75rem; color:#fff; font-weight:700; font-family:'Outfit', sans-serif;">
+                <span>Сонячно • UV 6</span>
+            </div>
+
+            <!-- Right: Sea & Wind Metrics -->
+            <div style="display:flex; align-items:center; gap:6px; font-size:0.72rem; color:var(--text-sub); font-family:'Outfit', sans-serif; font-weight:700;">
+                <span style="color:var(--cyber-blue);">🌊 24°C</span>
+                <span>• 🌪️ 12 км/г</span>
             </div>
         </div>
+
+            
 
             
 
