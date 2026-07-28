@@ -4,36 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>VOVAN BEAUTY STUDIO — Nice Mobile Full Edition</title>
-    <script src="https://telegram.org/js/telegram-web-app.js">    async function fetchWeather() {
-        try {
-            const geoRes = await fetch('https://ipapi.co/json/');
-            const geoData = await geoRes.json();
-            const lat = geoData.latitude || 43.7031;
-            const lon = geoData.longitude || 7.2661;
-            const city = geoData.city || 'Ніцца';
-
-            const cityEls = document.querySelectorAll('[data-i18n="weather-title"]');
-            if (cityEls.length > 0) cityEls[0].innerHTML = '📍 ' + city + ':';
-
-            const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=' + lat + '&longitude=' + lon + '&current_weather=true');
-            const data = await res.json();
-            const temp = Math.round(data.current_weather.temperature);
-            
-            document.getElementById('weather-temp').innerHTML = (temp > 0 ? '+' : '') + temp + '°C';
-            
-            let aiText = 'VIP Захист волосся ☀️';
-            if(temp > 28) aiText = 'Кібер-спрей UV+ 🧴';
-            else if(data.current_weather.weathercode > 50) aiText = 'Захист від вологи ☔';
-            else if(temp < 15) aiText = 'Зволоження термо 🌡️';
-            
-            document.getElementById('weather-ai-text').innerHTML = 'MEGAN 2.0 AI:<br>' + aiText;
-        } catch(e) {
-            console.error('Weather error:', e);
-        }
-    }
-    fetchWeather();
-
-</script>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
@@ -192,6 +163,7 @@
         <div class="header-controls">
             <button onclick="window.location.href='erp.html'" style="background:linear-gradient(90deg, #ffd700, #ffaa00); color:#000; border:none; padding:6px 10px; border-radius:8px; font-family:'Orbitron'; font-weight:bold; font-size:0.75rem; cursor:pointer; box-shadow:0 0 10px #ffd700;">👑 ERP</button>
             <button onclick="toggleNeonTheme()" style="background:transparent; border:none; font-size:1.2rem; cursor:pointer;" title="Змінити колір неону">🎨</button>
+            <a href="help.html" style="background:rgba(255,215,0,0.1); border:1px solid var(--cyber-gold); color:var(--cyber-gold); padding:6px 8px; border-radius:8px; font-size:0.75rem; text-decoration:none; font-family:'Orbitron';">ℹ️ Довідка</a>
             <select class="lang-selector" id="lang-select" onchange="changeLanguage(this.value)">
                 <option value="UA">🇺🇦 UA</option>
                 <option value="FR">🇫🇷 FR</option>
@@ -547,11 +519,27 @@
             <div class="form-group">
                 <label data-i18n="lbl-time">Час візиту:</label>
                 <div class="time-slots">
-                    <div class="slot-btn selected" onclick="selectTimeSlot('11:00', this)">11:00</div>
+                    <div class="slot-btn selected" onclick="selectTimeSlot('10:00', this)">10:00</div>
+                    <div class="slot-btn" onclick="selectTimeSlot('10:30', this)">10:30</div>
+                    <div class="slot-btn" onclick="selectTimeSlot('11:00', this)">11:00</div>
+                    <div class="slot-btn" onclick="selectTimeSlot('11:30', this)">11:30</div>
+                    <div class="slot-btn" onclick="selectTimeSlot('12:00', this)">12:00</div>
+                    <div class="slot-btn" onclick="selectTimeSlot('12:30', this)">12:30</div>
                     <div class="slot-btn" onclick="selectTimeSlot('13:00', this)">13:00</div>
+                    <div class="slot-btn" onclick="selectTimeSlot('13:30', this)">13:30</div>
+                    <div class="slot-btn" onclick="selectTimeSlot('14:00', this)">14:00</div>
+                    <div class="slot-btn" onclick="selectTimeSlot('14:30', this)">14:30</div>
                     <div class="slot-btn" onclick="selectTimeSlot('15:00', this)">15:00</div>
+                    <div class="slot-btn" onclick="selectTimeSlot('15:30', this)">15:30</div>
+                    <div class="slot-btn" onclick="selectTimeSlot('16:00', this)">16:00</div>
+                    <div class="slot-btn" onclick="selectTimeSlot('16:30', this)">16:30</div>
                     <div class="slot-btn" onclick="selectTimeSlot('17:00', this)">17:00</div>
+                    <div class="slot-btn" onclick="selectTimeSlot('17:30', this)">17:30</div>
+                    <div class="slot-btn" onclick="selectTimeSlot('18:00', this)">18:00</div>
+                    <div class="slot-btn" onclick="selectTimeSlot('18:30', this)">18:30</div>
                     <div class="slot-btn" onclick="selectTimeSlot('19:00', this)">19:00</div>
+                    <div class="slot-btn" onclick="selectTimeSlot('19:30', this)">19:30</div>
+                    <div class="slot-btn" onclick="selectTimeSlot('20:00', this)">20:00</div>
                 </div>
             </div>
 
@@ -1228,8 +1216,7 @@
             }, 50);
         }
         
-        // WEATHER API INTEGRATION
-    
+
 
     let selectedDateText = "Сьогодні";
     function initDatePicker() {
@@ -1653,9 +1640,36 @@
             if (hint) hint.style.display = 'none';
         }, { once: true });
     }
-    // WEATHER API INTEGRATION
-    
-    
+    // WEATHER API INTEGRATION (DYNAMIC IP)
+    async function fetchWeather() {
+        try {
+            const geoRes = await fetch('https://ipapi.co/json/');
+            const geoData = await geoRes.json();
+            const lat = geoData.latitude || 43.7031;
+            const lon = geoData.longitude || 7.2661;
+            const city = geoData.city || 'Ніцца';
+
+            const cityEls = document.querySelectorAll('[data-i18n="weather-title"]');
+            if (cityEls.length > 0) cityEls[0].innerHTML = '📍 ' + city + ':';
+
+            const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=' + lat + '&longitude=' + lon + '&current_weather=true');
+            const data = await res.json();
+            const temp = Math.round(data.current_weather.temperature);
+            
+            document.getElementById('weather-temp').innerHTML = (temp > 0 ? '+' : '') + temp + '°C';
+            
+            let aiText = "VIP Захист волосся ☀️";
+            if(temp > 28) aiText = "Кібер-спрей UV+ 🧴";
+            else if(data.current_weather.weathercode > 50) aiText = "Захист від вологи ☔";
+            else if(temp < 15) aiText = "Зволоження термо 🌡️";
+            
+            document.getElementById('weather-ai-text').innerHTML = 'MEGAN 2.0 AI:<br>' + aiText;
+        } catch(e) {
+            console.error('Weather error:', e);
+            document.getElementById('weather-temp').innerHTML = "+25°C (Офлайн)";
+        }
+    }
+    fetchWeather(); // Call immediately
 
     // SMART TIME SLOTS
     function checkAvailableSlots() {
@@ -1697,4 +1711,5 @@
 </script>
 </body>
 </html>
+
 
