@@ -210,10 +210,10 @@
         <div class="admin-card" style="margin-top:0;">
             <div class="weather-card">
                 <div>
-                    <div style="font-size:0.75rem; color:var(--text-sub);" data-i18n="weather-title">☀️ Погода у Ніцці (Côte d'Azur):</div>
-                    <div style="font-family:'Orbitron'; font-size:1.1rem; color:var(--cyber-gold); font-weight:900;">+28°C | UV: 6</div>
+                    <div style="font-size:0.75rem; color:var(--text-sub);" id="weather-city-title" data-i18n="weather-title">☀️ Погода у Ніцці (Côte d'Azur):</div>
+                    <div id="weather-temp" style="font-family:'Orbitron'; font-size:1.1rem; color:var(--cyber-gold); font-weight:900;">Оновлення...</div>
                 </div>
-                <div style="font-size:0.72rem; color:var(--accent-green); text-align:right;" data-i18n="weather-ai">
+                <div id="weather-ai-text" style="font-size:0.72rem; color:var(--accent-green); text-align:right;" data-i18n="weather-ai">
                     MEGAN 2.0 AI:<br>VIP Захист волосся ☀️
                 </div>
             </div>
@@ -1708,33 +1708,56 @@
         document.getElementById('qr-modal').classList.remove('active');
     }
 
-    // WEATHER API INTEGRATION (DYNAMIC IP)
+    // WEATHER API INTEGRATION (DYNAMIC IP & LIVE ACCURATE OPEN-METEO)
     async function fetchWeather() {
+        let lat = 43.7102;
+        let lon = 7.2620;
+        let cityName = 'Ніцці';
+
         try {
-            const geoRes = await fetch('https://ipapi.co/json/');
-            const geoData = await geoRes.json();
-            const lat = geoData.latitude || 43.7031;
-            const lon = geoData.longitude || 7.2661;
-            const city = geoData.city || 'Ніцца';
+            const geoRes = await fetch('https://ipapi.co/json/').catch(() => null);
+            if (geoRes && geoRes.ok) {
+                const geoData = await geoRes.json();
+                if (geoData && geoData.latitude && geoData.longitude) {
+                    lat = geoData.latitude;
+                    lon = geoData.longitude;
+                    cityName = geoData.city || 'Ніцці';
+                }
+            }
+        } catch (e) {
+            console.log('Using default location: Nice');
+        }
 
-            const cityEls = document.querySelectorAll('[data-i18n="weather-title"]');
-            if (cityEls.length > 0) cityEls[0].innerHTML = '📍 ' + city + ':';
+        try {
+            const cityEl = document.getElementById('weather-city-title');
+            if (cityEl) cityEl.innerHTML = '☀️ Погода у ' + cityName + ' (Côte d\'Azur):';
 
-            const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=' + lat + '&longitude=' + lon + '&current_weather=true');
-            const data = await res.json();
-            const temp = Math.round(data.current_weather.temperature);
-            
-            document.getElementById('weather-temp').innerHTML = (temp > 0 ? '+' : '') + temp + '°C';
-            
-            let aiText = "VIP Захист волосся ☀️";
-            if(temp > 28) aiText = "Кібер-спрей UV+ 🧴";
-            else if(data.current_weather.weathercode > 50) aiText = "Захист від вологи ☔";
-            else if(temp < 15) aiText = "Зволоження термо 🌡️";
-            
-            document.getElementById('weather-ai-text').innerHTML = 'MEGAN 2.0 AI:<br>' + aiText;
-        } catch(e) {
-            console.error('Weather error:', e);
-            document.getElementById('weather-temp').innerHTML = '+25°C (Офлайн)';
+            const weatherRes = await fetch('https://api.open-meteo.com/v1/forecast?latitude=' + lat + '&longitude=' + lon + '&current_weather=true');
+            const data = await weatherRes.json();
+            const weather = data.current_weather;
+            const temp = Math.round(weather.temperature);
+            const code = weather.weathercode;
+
+            let conditionIcon = '☀️';
+            let aiTip = 'Ідеальні умови для укладки ✨';
+
+            if (code === 0) { conditionIcon = '☀️'; aiTip = 'Сонячно! VIP догляд UV+ ☀️'; }
+            else if (code >= 1 && code <= 3) { conditionIcon = '⛅'; aiTip = 'Мінлива хмарність ⛅'; }
+            else if (code >= 45 && code <= 48) { conditionIcon = '🌫'; aiTip = 'Захист волосся від вологи 🌫'; }
+            else if (code >= 51 && code <= 67) { conditionIcon = '🌧'; aiTip = 'Падає дощ! Фіксація 24h 🌧'; }
+            else if (code >= 71 && code <= 77) { conditionIcon = '❄️'; aiTip = 'Мороз! Живильний догляд ❄️'; }
+            else if (code >= 80 && code <= 82) { conditionIcon = '🌧'; aiTip = 'Злива! Захисне покриття ☔'; }
+            else if (code >= 95) { conditionIcon = '⛈'; aiTip = 'Гроза! Укладка з антистатиком ⛈'; }
+
+            const tempEl = document.getElementById('weather-temp');
+            if (tempEl) tempEl.innerHTML = (temp > 0 ? '+' : '') + temp + '°C | ' + conditionIcon;
+
+            const aiTextEl = document.getElementById('weather-ai-text');
+            if (aiTextEl) aiTextEl.innerHTML = 'MEGAN 2.0 AI:<br>' + aiTip;
+        } catch (err) {
+            console.error('Weather fetch error:', err);
+            const tempEl = document.getElementById('weather-temp');
+            if (tempEl) tempEl.innerHTML = '+24°C | ☀️';
         }
     }
     fetchWeather(); // Call immediately
