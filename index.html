@@ -69,7 +69,7 @@ function updateHtcClock_old() {
         body { background-color: #000000; color: var(--text-main); font-family: 'Montserrat', sans-serif; overflow-x: hidden; width: 100%; margin: 0 auto; min-height: var(--tg-viewport-stable-height, 100vh); }
         .app-container { width: 100vw; max-width: 100% !important; margin: 0; background: var(--bg-color); position: relative; box-shadow: none; min-height: 100dvh; min-height: var(--tg-viewport-stable-height, 100vh); padding-bottom: 95px; }
 
-        header { border-bottom: 2px solid var(--cyber-blue); background: rgba(11, 16, 25, 0.96); backdrop-filter: blur(12px); padding: calc(24px + var(--tg-safe-area-inset-top, env(safe-area-inset-top, 0px))) 16px 12px 16px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; }
+        header { border-bottom: 2px solid var(--cyber-blue); background: rgba(11, 16, 25, 0.98); backdrop-filter: blur(16px); padding: calc(48px + var(--tg-safe-area-inset-top, env(safe-area-inset-top, 0px))) 16px 12px 16px !important; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; }
         .logo { font-family: 'Orbitron', sans-serif; font-size: 0.9rem; font-weight: 900; background: linear-gradient(90deg, var(--cyber-blue) 0%, var(--cyber-gold) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; text-transform: uppercase; letter-spacing: 1px; }
         
         .header-controls { display: flex; gap: 6px; align-items: center; }
@@ -1530,28 +1530,16 @@ function updateHtcClock_old() {
                 
                     
 
-            <div class="location-card">
-                <div class="location-title" data-i18n="loc-title">📍 СТУДІЯ У НІЦЦІ (CÔTE D'AZUR)</div>
-                <p style="font-size:0.8rem; color:var(--text-sub); margin-top:4px;">15 Promenade des Anglais, 06000 Nice, France</p>
-                <div style="display:flex; gap:6px; margin-top:10px;">
-                    <button class="action-btn-sm btn-receipt" style="flex:1;" onclick="openNiceMap()" data-i18n="btn-maps">🗺 Maps</button>
-                    <button class="action-btn-sm btn-uber-official" style="flex:1;" onclick="openConciergeModal('Uber')">Uber в салон</button>
-                    <button class="action-btn-sm btn-bolt-official" style="flex:1;" onclick="openConciergeModal('Bolt')">Bolt в салон</button>
+            <div class="location-card" style="background:rgba(11,16,25,0.7); border:1px solid rgba(0,162,255,0.25); border-radius:14px; padding:14px;">
+                <div class="location-title" data-i18n="loc-title" style="font-family:'Orbitron'; font-size:0.85rem; color:var(--cyber-gold); font-weight:800;">📍 СТУДІЯ У НІЦЦІ (CÔTE D'AZUR)</div>
+                <p style="font-size:0.78rem; color:var(--text-sub); margin-top:4px;">15 Promenade des Anglais, 06000 Nice, France</p>
+                <div style="display:flex; gap:6px; margin-top:12px;">
+                    <button class="action-btn-sm" style="flex:1; padding:8px 6px; font-size:0.75rem; background:rgba(0,162,255,0.12); border:1px solid var(--cyber-blue); color:var(--cyber-blue); border-radius:10px; font-weight:700;" onclick="openNiceMap()" data-i18n="btn-maps">🗺 Maps</button>
+                    <button class="action-btn-sm" style="flex:1; padding:8px 6px; font-size:0.75rem; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.3); color:#fff; border-radius:10px; font-weight:700;" onclick="openConciergeModal('Uber')">Uber в салон</button>
+                    <button class="action-btn-sm" style="flex:1; padding:8px 6px; font-size:0.75rem; background:rgba(0,230,118,0.12); border:1px solid var(--accent-green); color:var(--accent-green); border-radius:10px; font-weight:700;" onclick="openConciergeModal('Bolt')">Bolt в салон</button>
                 </div>
-                <button class="action-btn-sm btn-done" style="width:100%; margin-top:8px;" onclick="openConciergeModal('Таксі ДОДОМУ')">🚕 Викликати таксі ДОДОМУ</button>
+                <button class="action-btn-sm" style="width:100%; margin-top:8px; padding:10px; font-size:0.78rem; background:rgba(168,85,247,0.15); border:1px solid var(--accent-purple); color:var(--accent-purple); border-radius:10px; font-weight:800; font-family:'Orbitron';" onclick="openConciergeModal('Таксі ДОДОМУ')">🚕 ВИКЛИКАТИ ТАКСІ ДОДОМУ</button>
             </div>
-        </div>
-
-        <div class="admin-card" style="margin-top:15px; padding:15px;">
-            <div style="display:flex; justify-content:space-between; font-size:0.85rem; margin-bottom:8px;">
-                <span style="color:var(--text-main);" data-i18n="loyalty-status">VIP Прогрес (Бронза):</span>
-                <span style="color:var(--cyber-gold); font-weight:bold; font-family:'Orbitron';">12 / 50 €</span>
-            </div>
-            <div style="width:100%; height:8px; background:rgba(255,255,255,0.05); border-radius:4px; overflow:hidden;">
-                <div style="width:24%; height:100%; background:var(--cyber-gold); box-shadow:0 0 10px var(--cyber-gold);"></div>
-            </div>
-            <div style="font-size:0.7rem; color:var(--text-sub); margin-top:6px; text-align:right;">Залишилося 38 € до знижки 5%</div>
-            <button class="action-btn-sm" style="width:100%; margin-top:15px; padding:10px; background:rgba(255,255,255,0.05); border:1px dashed var(--cyber-blue); color:var(--cyber-blue);" onclick="openQRModal()">🪪 ПОКАЗАТИ МІЙ QR-КОД</button>
         </div>
 
         <div class="vintage-menu">
