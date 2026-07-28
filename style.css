@@ -1487,3 +1487,19 @@
             display: none;
             z-index: 10;
         }
+
+        /* ⚡ 60 FPS GPU HARDWARE ACCELERATION & SMOOTH INTERFACE */
+        * {
+            touch-action: manipulation;
+        }
+        .page-section, .modal-overlay, .bottom-nav, .cyber-toast, .compact-hero-card {
+            will-change: transform, opacity;
+            transform: translateZ(0);
+            backface-visibility: hidden;
+        }
+        .page-section {
+            transition: opacity 0.22s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.22s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
+        }
+        .nav-btn {
+            transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.18s ease !important;
+        }

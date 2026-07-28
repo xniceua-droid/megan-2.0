@@ -5,17 +5,17 @@ const tg = window.Telegram.WebApp;
         try { tg.requestFullscreen(); } catch(e) {}
     }
     
-    function hidePreloaderFast() {
+    function hidePreloaderSmooth() {
         const preloader = document.getElementById('preloader');
         if (preloader && preloader.style.display !== 'none') {
             preloader.style.opacity = '0';
             preloader.style.pointerEvents = 'none';
-            setTimeout(() => { preloader.style.display = 'none'; }, 100);
+            setTimeout(() => { preloader.style.display = 'none'; }, 400);
         }
     }
-    setTimeout(hidePreloaderFast, 100);
-    document.addEventListener('DOMContentLoaded', () => setTimeout(hidePreloaderFast, 50));
-    window.addEventListener('load', hidePreloaderFast);
+    // ⚡ Extended Boot Animation (1.8s duration for full typewriter Cyber AI sequence)
+    document.addEventListener('DOMContentLoaded', () => setTimeout(hidePreloaderSmooth, 1800));
+    window.addEventListener('load', () => setTimeout(hidePreloaderSmooth, 1800));
 
     const translations = {
         'UA': {
