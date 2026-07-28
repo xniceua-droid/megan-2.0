@@ -399,8 +399,13 @@
         /* Preloader CSS */
         #preloader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000000; z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: opacity 0.5s ease; }
         .boot-text { color: var(--accent-green); font-family: 'Courier New', Courier, monospace; font-size: 0.85rem; margin-top: 20px; text-align: left; width: 280px; text-shadow: 0 0 5px var(--accent-green); }
-        .typewriter { overflow: hidden; white-space: nowrap; margin: 0 auto; letter-spacing: 0.1em; animation: typing 2.0s steps(30, end); }
-        @keyframes typing { from { width: 0 } to { width: 100% } }
+        .boot-text { color: var(--accent-green); font-family: 'Courier New', Courier, monospace; font-size: 0.82rem; margin-top: 10px; text-align: left; text-shadow: 0 0 5px var(--accent-green); display: flex; flex-direction: column; gap: 6px; }
+        .typewriter { overflow: hidden; white-space: nowrap; letter-spacing: 0.06em; width: 0; animation-fill-mode: forwards; }
+        .tw-line1 { animation: typing 0.8s steps(28, end) forwards; animation-delay: 0.1s; }
+        .tw-line2 { animation: typing 0.8s steps(28, end) forwards; animation-delay: 0.9s; }
+        .tw-line3 { animation: typing 0.8s steps(30, end) forwards; animation-delay: 1.8s; color: var(--cyber-blue); text-shadow: 0 0 5px var(--cyber-blue); }
+        .tw-line4 { animation: typing 0.8s steps(32, end) forwards; animation-delay: 2.7s; color: var(--cyber-gold); text-shadow: 0 0 8px var(--cyber-gold); font-weight: bold; }
+        @keyframes typing { from { width: 0 } to { width: 100% } } to { width: 100% } }
         
         /* Glitch overlay */
         .glitch-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><filter id="noiseFilter"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23noiseFilter)"/></svg>'); opacity: 0.04; z-index: 100; mix-blend-mode: screen; }

@@ -14,8 +14,8 @@ const tg = window.Telegram.WebApp;
         }
     }
     // ⚡ Extended Boot Animation (1.8s duration for full typewriter Cyber AI sequence)
-    document.addEventListener('DOMContentLoaded', () => setTimeout(hidePreloaderSmooth, 1800));
-    window.addEventListener('load', () => setTimeout(hidePreloaderSmooth, 1800));
+    document.addEventListener('DOMContentLoaded', () => setTimeout(hidePreloaderSmooth, 3600));
+    window.addEventListener('load', () => setTimeout(hidePreloaderSmooth, 3600));
 
     const translations = {
         'UA': {
