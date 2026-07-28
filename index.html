@@ -1279,6 +1279,19 @@
             display: none !important;
         }
 
+    
+        /* ⚡ 3D FLAG FLIP ANIMATION FOR LANGUAGE SWITCHER */
+        @keyframes flagFlip {
+            0% { transform: rotateY(0deg) scale(1); }
+            50% { transform: rotateY(90deg) scale(1.35); filter: drop-shadow(0 0 12px var(--cyber-gold)); }
+            100% { transform: rotateY(0deg) scale(1); }
+        }
+        #btn-lang-flag {
+            perspective: 1000px;
+            font-size: 1.1rem !important;
+            user-select: none;
+        }
+
     </style>
 </head>
 <body>
@@ -1959,6 +1972,30 @@
         }
     };
 
+    
+    const langFlags = { 'UA': '🇺🇦', 'FR': '🇫🇷', 'EN': '🇬🇧' };
+    const langKeys = ['UA', 'FR', 'EN'];
+    let currentLangIdx = 0;
+
+    window.cycleLanguage = function() {
+        currentLangIdx = (currentLangIdx + 1) % langKeys.length;
+        const newLang = langKeys[currentLangIdx];
+        const btn = document.getElementById('btn-lang-flag');
+        if (btn) {
+            btn.style.animation = 'none';
+            void btn.offsetHeight; // trigger reflow for smooth animation
+            btn.style.animation = 'flagFlip 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)';
+            btn.textContent = langFlags[newLang];
+        }
+        if (typeof changeLanguage === 'function') {
+            changeLanguage(newLang);
+        }
+        if (typeof triggerHaptic === 'function') {
+            triggerHaptic('light');
+        }
+    };
+
+    window.changeLanguage = changeLanguage;
     function changeLanguage(lang) {
         triggerHaptic('light');
         const t = translations[lang];
