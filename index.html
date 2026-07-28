@@ -41,28 +41,7 @@
             <img src="m3gan_cyber.jpg" alt="MEGAN 2.0 AI" class="compact-hero-img" style="width:100%; height:185px; object-fit:cover; display:block;">
         </div>
 
-        <div style="padding:0 12px; margin-bottom:8px;">
-            <button class="ticket-btn" style="margin-top:0; width:100%; max-width:none;" onclick="openModal()" id="txt-hero-btn" data-i18n="btn-book">
-                <img src="m3gan_icon_nav.jpg" class="ticket-btn-avatar" alt="M3GAN AI">
-                <span>⚡ ЗАПИСАТИСЯ ДО МАЙСТРА</span>
-            </button>
-        </div>
-
-        <!-- ⚡ 1-TAP QUICK BOOKING CHIPS -->
-        <div style="display:flex; gap:8px; overflow-x:auto; padding:0 12px 14px 12px; scrollbar-width:none;">
-            <div class="cyber-chip" onclick="selectServiceModal('Стрижка MEGAN 2.0 Cyber Style', 40)" style="white-space:nowrap; background:rgba(0,162,255,0.15); border:1px solid var(--cyber-blue); padding:6px 12px; border-radius:20px; font-size:0.75rem; font-weight:bold; cursor:pointer; color:#fff;">
-                <span>💈 Cyber Style (40€)</span>
-            </div>
-            <div class="cyber-chip" onclick="selectServiceModal('Б'юті-комплекс VOVAN VIP', 65)" style="white-space:nowrap; background:rgba(255,215,0,0.15); border:1px solid var(--cyber-gold); padding:6px 12px; border-radius:20px; font-size:0.75rem; font-weight:bold; cursor:pointer; color:var(--cyber-gold);">
-                <span>👑 VOVAN VIP (65€)</span>
-            </div>
-            <div class="cyber-chip" onclick="selectServiceModal('Королівське гоління Barber', 45)" style="white-space:nowrap; background:rgba(0,230,118,0.15); border:1px solid var(--accent-green); padding:6px 12px; border-radius:20px; font-size:0.75rem; font-weight:bold; cursor:pointer; color:var(--accent-green);">
-                <span>🪒 Гоління (45€)</span>
-            </div>
-            <div class="cyber-chip" onclick="selectServiceModal('Android Spa', 120)" style="white-space:nowrap; background:rgba(168,85,247,0.15); border:1px solid var(--accent-purple); padding:6px 12px; border-radius:20px; font-size:0.75rem; font-weight:bold; cursor:pointer; color:var(--accent-purple);">
-                <span>🤖 Android Spa (120€)</span>
-            </div>
-        </div>
+        
 
         
         <!-- VIP ПРОГРЕС КЛІЄНТА MINIMAL -->
@@ -573,32 +552,29 @@
             
             <div class="form-group">
                 <label data-i18n="lbl-time">Час візиту:</label>
-                <div class="time-slots">
-                    <div class="slot-btn selected" onclick="selectTimeSlot('10:00', this)">10:00</div>
+                <!-- ⚡ 3 TIME PERIOD CHIPS (РАНОК, ДЕНЬ, ВЕЧІР) -->
+                <div style="display:flex; gap:6px; margin-bottom:8px;">
+                    <div class="cyber-period-chip active" onclick="pickTimePeriod('morning', this)" style="flex:1; text-align:center; background:rgba(0,162,255,0.2); border:1px solid var(--cyber-blue); color:#fff; border-radius:10px; padding:6px 2px; font-size:0.72rem; font-weight:bold; cursor:pointer;">
+                        🌅 Ранок
+                    </div>
+                    <div class="cyber-period-chip" onclick="pickTimePeriod('day', this)" style="flex:1; text-align:center; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.15); color:var(--text-sub); border-radius:10px; padding:6px 2px; font-size:0.72rem; font-weight:bold; cursor:pointer;">
+                        ☀️ День
+                    </div>
+                    <div class="cyber-period-chip" onclick="pickTimePeriod('evening', this)" style="flex:1; text-align:center; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.15); color:var(--text-sub); border-radius:10px; padding:6px 2px; font-size:0.72rem; font-weight:bold; cursor:pointer;">
+                        🌙 Вечір
+                    </div>
+                </div>
+
+                <!-- ⚡ DYNAMIC TIME SLOTS FOR SELECTED PERIOD -->
+                <div class="time-slots" id="time-slots-container">
+                    <div class="slot-btn selected" onclick="selectTimeSlot('09:00', this)">09:00</div>
+                    <div class="slot-btn" onclick="selectTimeSlot('09:30', this)">09:30</div>
+                    <div class="slot-btn" onclick="selectTimeSlot('10:00', this)">10:00</div>
                     <div class="slot-btn" onclick="selectTimeSlot('10:30', this)">10:30</div>
                     <div class="slot-btn" onclick="selectTimeSlot('11:00', this)">11:00</div>
                     <div class="slot-btn" onclick="selectTimeSlot('11:30', this)">11:30</div>
-                    <div class="slot-btn" onclick="selectTimeSlot('12:00', this)">12:00</div>
-                    <div class="slot-btn" onclick="selectTimeSlot('12:30', this)">12:30</div>
-                    <div class="slot-btn" onclick="selectTimeSlot('13:00', this)">13:00</div>
-                    <div class="slot-btn" onclick="selectTimeSlot('13:30', this)">13:30</div>
-                    <div class="slot-btn" onclick="selectTimeSlot('14:00', this)">14:00</div>
-                    <div class="slot-btn" onclick="selectTimeSlot('14:30', this)">14:30</div>
-                    <div class="slot-btn" onclick="selectTimeSlot('15:00', this)">15:00</div>
-                    <div class="slot-btn" onclick="selectTimeSlot('15:30', this)">15:30</div>
-                    <div class="slot-btn" onclick="selectTimeSlot('16:00', this)">16:00</div>
-                    <div class="slot-btn" onclick="selectTimeSlot('16:30', this)">16:30</div>
-                    <div class="slot-btn" onclick="selectTimeSlot('17:00', this)">17:00</div>
-                    <div class="slot-btn" onclick="selectTimeSlot('17:30', this)">17:30</div>
-                    <div class="slot-btn" onclick="selectTimeSlot('18:00', this)">18:00</div>
-                    <div class="slot-btn" onclick="selectTimeSlot('18:30', this)">18:30</div>
-                    <div class="slot-btn" onclick="selectTimeSlot('19:00', this)">19:00</div>
-                    <div class="slot-btn" onclick="selectTimeSlot('19:30', this)">19:30</div>
-                    <div class="slot-btn" onclick="selectTimeSlot('20:00', this)">20:00</div>
                 </div>
             </div>
-
-            
 
             <button type="submit" class="ticket-btn" style="width:100%; margin-top:14px;" data-i18n="btn-confirm">⚡ ПІДТВЕРДИТИ ЗАПИС</button>
         </form>

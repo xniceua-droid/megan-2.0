@@ -1462,3 +1462,41 @@ function switchTab(pageId) {
             }
         } catch(e){}
     })();
+
+    // ⚡ 3-PERIOD TIME PICKER LOGIC (РАНОК, ДЕНЬ, ВЕЧІР)
+    window.timePeriodSlots = {
+        'morning': ['09:00', '09:30', '10:00', '10:30', '11:00', '11:30'],
+        'day': ['12:00', '12:30', '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30'],
+        'evening': ['17:00', '17:30', '18:00', '18:30', '19:00', '19:30', '20:00', '20:30']
+    };
+
+    window.pickTimePeriod = function(period, el) {
+        if (typeof triggerHaptic === 'function') triggerHaptic('light');
+        document.querySelectorAll('.cyber-period-chip').forEach(c => {
+            c.classList.remove('active');
+            c.style.background = 'rgba(255,255,255,0.05)';
+            c.style.borderColor = 'rgba(255,255,255,0.15)';
+            c.style.color = 'var(--text-sub)';
+        });
+        if (el) {
+            el.classList.add('active');
+            el.style.background = 'rgba(0,162,255,0.2)';
+            el.style.borderColor = 'var(--cyber-blue)';
+            el.style.color = '#ffffff';
+        }
+        const container = document.getElementById('time-slots-container');
+        if (!container) return;
+        const slots = window.timePeriodSlots[period] || window.timePeriodSlots['morning'];
+        container.innerHTML = '';
+        slots.forEach((t, i) => {
+            const btn = document.createElement('div');
+            btn.className = 'slot-btn' + (i === 0 ? ' selected' : '');
+            btn.innerText = t;
+            btn.onclick = function() { selectTimeSlot(t, btn); };
+            container.appendChild(btn);
+        });
+        if (slots.length > 0 && typeof window.selectTimeSlot === 'function') {
+            const firstBtn = container.querySelector('.slot-btn');
+            window.selectTimeSlot(slots[0], firstBtn);
+        }
+    };
