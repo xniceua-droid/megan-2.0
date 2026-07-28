@@ -730,6 +730,45 @@
             box-shadow: 0 0 16px rgba(0, 162, 255, 0.5) !important;
         }
 
+
+        /* ⚡ CYBER INPUT WRAPPER 2026 */
+        .cyber-input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, rgba(14, 23, 38, 0.9) 0%, rgba(6, 10, 18, 0.95) 100%);
+            border: 1.5px solid rgba(0, 162, 255, 0.35);
+            border-radius: 12px;
+            padding: 2px 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5), inset 0 0 10px rgba(0, 162, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        .cyber-input-wrapper:focus-within {
+            border-color: var(--cyber-gold) !important;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.4), inset 0 0 10px rgba(255, 215, 0, 0.15) !important;
+            transform: translateY(-2px);
+        }
+        .input-icon {
+            font-size: 1.1rem;
+            margin-right: 10px;
+            opacity: 0.85;
+        }
+        .cyber-input-wrapper input {
+            background: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+            padding: 12px 0 !important;
+            color: #ffffff !important;
+            font-family: 'Montserrat', sans-serif !important;
+            font-weight: 700 !important;
+            font-size: 0.9rem !important;
+            width: 100%;
+        }
+        .cyber-input-wrapper input::placeholder {
+            color: rgba(255, 255, 255, 0.35);
+            font-weight: 500;
+        }
+
     </style>
 </head>
 <body>
@@ -1186,12 +1225,24 @@
         
         <form id="barber-form">
             <div class="form-group">
-                <label data-i18n="lbl-name">Ваше ім'я (Telegram):</label>
-                <input type="text" id="client-name" placeholder="Олексій" required>
+                <label data-i18n="lbl-name" style="display:flex; justify-content:space-between; align-items:center;">
+                    <span>👤 ВАШЕ ІМ'Я (TELEGRAM):</span>
+                    <span style="font-size:0.6rem; color:var(--cyber-blue); font-family:'Orbitron'; font-weight:700;">REQUIRED</span>
+                </label>
+                <div class="cyber-input-wrapper">
+                    <span class="input-icon">👤</span>
+                    <input type="text" id="client-name" placeholder="Введіть ваше ім'я..." required>
+                </div>
             </div>
             <div class="form-group">
-                <label data-i18n="lbl-phone">Телефон / Контакт:</label>
-                <input type="text" id="client-phone" placeholder="+33 6 12 34 56 78" required>
+                <label data-i18n="lbl-phone" style="display:flex; justify-content:space-between; align-items:center;">
+                    <span>📱 ТЕЛЕФОН / КОНТАКТ:</span>
+                    <span style="font-size:0.6rem; color:var(--cyber-gold); font-family:'Orbitron'; font-weight:700;">VERIFIED</span>
+                </label>
+                <div class="cyber-input-wrapper">
+                    <span class="input-icon">📱</span>
+                    <input type="text" id="client-phone" placeholder="+33 6 12 34 56 78" required>
+                </div>
             </div>
             <div class="form-group">
                 <label data-i18n="lbl-service">Обрати послугу:</label>
@@ -1261,17 +1312,7 @@
                 </div>
             </div>
 
-            <div class="form-group">
-                <label>Спосіб оплати:</label>
-                <select id="select-payment" style="display:none;">
-                    <option value="Готівка" selected>Готівка</option>
-                    <option value="Наперед">Наперед</option>
-                </select>
-                <div class="cyber-picker-row" id="payment-picker-container">
-                    <div class="cyber-picker-btn active" onclick="pickPaymentCard('Готівка', this)">💶 В салоні (Готівка)</div>
-                    <div class="cyber-picker-btn" onclick="pickPaymentCard('Наперед', this)">📱 Наперед (GPay / Apple)</div>
-                </div>
-            </div>
+            
 
             <button type="submit" class="ticket-btn" style="width:100%; margin-top:14px;" data-i18n="btn-confirm">⚡ ПІДТВЕРДИТИ ЗАПИС</button>
         </form>
@@ -2169,7 +2210,7 @@
         const clientPhone = document.getElementById('client-phone').value;
         const service = document.getElementById('select-service').value;
         const barber = document.getElementById('select-barber').value;
-        const payment = document.getElementById('select-payment').value;
+        const payment = document.getElementById('select-payment') ? document.getElementById('select-payment').value : 'Оплата в салоні (Готівка/Термінал)';
         
         let priceMatch = service.match(/(\d+)\s*€/);
         let price = priceMatch ? parseInt(priceMatch[1]) : 0;
