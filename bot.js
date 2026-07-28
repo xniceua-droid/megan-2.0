@@ -1,3 +1,4 @@
+const fs = require('fs');
 require('dotenv').config();
 const TelegramBotModule = require('node-telegram-bot-api');
 const TelegramBot = TelegramBotModule.default || TelegramBotModule;
