@@ -459,7 +459,7 @@
         <div style="display:inline-flex; align-items:center; gap:12px; background:rgba(18,25,38,0.85); border:1px solid rgba(255,215,0,0.3); border-radius:25px; padding:6px 18px; margin-bottom:12px; backdrop-filter:blur(10px); box-shadow:0 4px 15px rgba(0,0,0,0.5);">
             <button class="header-ctrl-btn" onclick="openSettingsModal()" title="Налаштування" style="background:none; border:none; color:#fff; font-size:1.1rem; cursor:pointer;">⚙️</button>
             <button class="header-ctrl-btn" onclick="toggleNeonTheme()" title="Тема" style="background:none; border:none; color:#fff; font-size:1.1rem; cursor:pointer;">🎨</button>
-            <a href="help.html" class="header-ctrl-btn" title="Довідка" style="text-decoration:none; font-size:1.1rem;">ℹ️</a>
+            <button class="header-ctrl-btn" onclick="openHelpModal()" title="Довідка" style="background:none; border:none; font-size:1.1rem; cursor:pointer;">ℹ️</button>
             <button class="header-ctrl-btn" onclick="cycleLanguage()" id="btn-lang-flag" title="Мова" style="background:none; border:none; font-size:1.1rem; cursor:pointer;">🇺🇦</button>
         </div>
 
@@ -746,6 +746,57 @@
 
 
         
+
+
+<!-- Модальне вікно ДОВІДКИ (HELP / INFO MODAL) -->
+<div id="help-modal" class="modal-overlay">
+    <div class="vintage-modal" style="max-width:480px; padding:22px;">
+        <button class="close-modal" onclick="closeHelpModal()">&times;</button>
+        <div class="modal-header">
+            <h3 style="font-family:'Orbitron'; color:var(--cyber-gold); display:flex; align-items:center; justify-content:center; gap:8px;">
+                ℹ️ ДОВІДКА ТА ІНСТРУКЦІЯ
+            </h3>
+        </div>
+
+        <div style="display:flex; flex-direction:column; gap:12px; margin-top:12px; font-size:0.8rem; color:#fff; text-align:left;">
+            <!-- Studio Info -->
+            <div style="background:rgba(18,25,38,0.8); border:1px solid var(--cyber-blue); border-radius:12px; padding:12px;">
+                <div style="font-family:'Orbitron'; color:var(--cyber-blue); font-weight:bold; font-size:0.85rem; margin-bottom:4px;">💈 VOVAN BEAUTY STUDIO</div>
+                <div style="color:var(--text-sub); font-size:0.75rem;">15 Promenade des Anglais, 06000 Nice, France 🇫🇷</div>
+                <div style="color:var(--cyber-gold); font-size:0.72rem; margin-top:4px;">⏰ Графік роботи: Пн-Нд 09:00 - 21:00</div>
+            </div>
+
+            <!-- How to Book -->
+            <div style="background:rgba(18,25,38,0.8); border:1px solid rgba(255,215,0,0.3); border-radius:12px; padding:12px;">
+                <div style="font-family:'Orbitron'; color:var(--cyber-gold); font-weight:bold; font-size:0.85rem; margin-bottom:4px;">🎟 Як записатися у салон:</div>
+                <ul style="padding-left:18px; color:var(--text-sub); font-size:0.75rem; display:flex; flex-direction:column; gap:4px;">
+                    <li>1. Натисніть кнопку <b>«⚡ ЗАПИСАТИСЯ ДО МАЙСТРА»</b>.</li>
+                    <li>2. Оберіть потрібну послугу (Стрижка, VIP комплекс, Гоління).</li>
+                    <li>3. Оберіть майстра (<b>VOVAN</b> або <b>MEGAN 2.0 AI</b>).</li>
+                    <li>4. Оберіть дату та вільний час і підтвердіть запис.</li>
+                </ul>
+            </div>
+
+            <!-- VIP Bar & Payments -->
+            <div style="background:rgba(18,25,38,0.8); border:1px solid rgba(0,230,118,0.3); border-radius:12px; padding:12px;">
+                <div style="font-family:'Orbitron'; color:var(--accent-green); font-weight:bold; font-size:0.85rem; margin-bottom:4px;">🍾 VIP Бар & Оплата:</div>
+                <div style="color:var(--text-sub); font-size:0.75rem;">
+                    Ви можете замовляти напої (Dom Pérignon, Espresso, Chivas) безпосередньо в крісло! Оплата підтримує <b>TON Crypto, Apple Pay, Google Pay</b> та банківські картки.
+                </div>
+            </div>
+
+            <!-- Author Signature -->
+            <div style="text-align:center; padding:8px; background:rgba(255,215,0,0.1); border-radius:8px; border:1px solid var(--cyber-gold);">
+                <div style="font-family:'Orbitron'; font-size:0.75rem; color:var(--cyber-gold); font-weight:900;">👑 АВТОР РОЗРОБКИ: ПОТАПОВ В.М. • NICE 🇫🇷</div>
+            </div>
+
+            <!-- Close Action Button -->
+            <button class="cyber-unified-btn" style="width:100%; margin-top:8px; padding:12px;" onclick="closeHelpModal()">
+                ✕ ЗАКРИТИ ДОВІДКУ
+            </button>
+        </div>
+    </div>
+</div>
 
 </body>
 </html>

@@ -1421,3 +1421,15 @@ function switchTab(pageId) {
             }
             if (typeof triggerHaptic === 'function') triggerHaptic('medium');
         };
+
+        window.openHelpModal = function() {
+            const modal = document.getElementById('help-modal');
+            if (modal) modal.classList.add('show');
+            if (typeof triggerHaptic === 'function') triggerHaptic('medium');
+        };
+
+        window.closeHelpModal = function() {
+            const modal = document.getElementById('help-modal');
+            if (modal) modal.classList.remove('show');
+            if (typeof triggerHaptic === 'function') triggerHaptic('light');
+        };
