@@ -1709,6 +1709,27 @@ function updateHtcClock_old() {
         </div>
     </div>
 
+    
+    <!-- 3. AI СКАНЕР 3D -->
+    <div id="page-ai" class="page-section">
+        <div class="admin-card" style="text-align:center; padding:20px 15px;">
+            <h3 style="font-family:'Orbitron'; color:var(--cyber-blue); margin-bottom:8px;">🤖 3D AI СКАНЕР ЗАЧІСКИ</h3>
+            <p style="font-size:0.75rem; color:var(--text-sub); margin-bottom:15px;">Нейромережеве аналізування форми обличчя та 3D-підбір авторського стилю</p>
+            
+            <div id="ai-scan-window" style="position:relative; width:100%; max-width:280px; height:220px; margin:0 auto 15px auto; background:#080c14; border:2px solid var(--cyber-blue); border-radius:18px; overflow:hidden; display:flex; flex-direction:column; justify-content:center; align-items:center; box-shadow:0 0 25px rgba(0,162,255,0.3);">
+                <img id="ai-scan-preview" src="m3gan_cyber.jpg" style="width:100%; height:100%; object-fit:cover; opacity:0.85;">
+                <div id="ai-scan-line" style="position:absolute; top:0; left:0; width:100%; height:3px; background:var(--cyber-gold); box-shadow:0 0 15px var(--cyber-gold); display:none; animation: scanLine 1.2s infinite linear;"></div>
+                <div id="ai-scan-status" style="position:absolute; bottom:12px; background:rgba(0,0,0,0.85); color:var(--cyber-gold); font-family:'Orbitron'; font-size:0.72rem; padding:4px 12px; border-radius:12px; border:1px solid var(--cyber-gold);">ГОТОВИЙ ДО СКАНУВАННЯ</div>
+            </div>
+
+            <div style="display:flex; gap:8px;">
+                <button class="cyber-unified-btn" onclick="startAIScanSimulation()">📸 ЗАПУСТИТИ 3D СКАН</button>
+                <button class="cyber-unified-btn" style="border-color:var(--accent-green); background:rgba(0,230,118,0.15);" onclick="openBookingModal()">✂️ ЗАПИСАТИСЯ</button>
+            </div>
+        </div>
+    </div>
+
+
     <!-- 4. AI ЧАТ -->
     <div id="page-chat" class="page-section">
         <div class="admin-card">
