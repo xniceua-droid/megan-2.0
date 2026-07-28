@@ -4,7 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>VOVAN BEAUTY STUDIO — Nice Mobile Full Edition</title>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="https://telegram.org/js/telegram-web-app.js">    async function fetchWeather() {
+        try {
+            const geoRes = await fetch('https://ipapi.co/json/');
+            const geoData = await geoRes.json();
+            const lat = geoData.latitude || 43.7031;
+            const lon = geoData.longitude || 7.2661;
+            const city = geoData.city || 'Ніцца';
+
+            const cityEls = document.querySelectorAll('[data-i18n="weather-title"]');
+            if (cityEls.length > 0) cityEls[0].innerHTML = '📍 ' + city + ':';
+
+            const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=' + lat + '&longitude=' + lon + '&current_weather=true');
+            const data = await res.json();
+            const temp = Math.round(data.current_weather.temperature);
+            
+            document.getElementById('weather-temp').innerHTML = (temp > 0 ? '+' : '') + temp + '°C';
+            
+            let aiText = 'VIP Захист волосся ☀️';
+            if(temp > 28) aiText = 'Кібер-спрей UV+ 🧴';
+            else if(data.current_weather.weathercode > 50) aiText = 'Захист від вологи ☔';
+            else if(temp < 15) aiText = 'Зволоження термо 🌡️';
+            
+            document.getElementById('weather-ai-text').innerHTML = 'MEGAN 2.0 AI:<br>' + aiText;
+        } catch(e) {
+            console.error('Weather error:', e);
+        }
+    }
+    fetchWeather();
+
+</script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
@@ -1200,25 +1229,7 @@
         }
         
         // WEATHER API INTEGRATION
-    async function fetchWeather() {
-        try {
-            const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=43.7031&longitude=7.2661&current_weather=true');
-            const data = await res.json();
-            const temp = Math.round(data.current_weather.temperature);
-            
-            document.getElementById('weather-temp').innerHTML = `${temp > 0 ? '+' : ''}${temp}°C | Оновлено`;
-            
-            let aiText = "VIP Захист волосся ☀️";
-            if(temp > 30) aiText = "Кібер-спрей UV+ 🧴";
-            else if(data.current_weather.weathercode > 50) aiText = "Захист від вологи ☔";
-            else if(temp < 15) aiText = "Зволоження термо 🌡️";
-            
-            document.getElementById('weather-ai-text').innerHTML = `MEGAN 2.0 AI:<br>${aiText}`;
-        } catch(e) {
-            console.error('Weather error:', e);
-            document.getElementById('weather-temp').innerHTML = "+28°C (Офлайн)";
-        }
-    }
+    
 
     let selectedDateText = "Сьогодні";
     function initDatePicker() {
@@ -1643,26 +1654,8 @@
         }, { once: true });
     }
     // WEATHER API INTEGRATION
-    async function fetchWeather() {
-        try {
-            const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=43.7031&longitude=7.2661&current_weather=true');
-            const data = await res.json();
-            const temp = Math.round(data.current_weather.temperature);
-            
-            document.getElementById('weather-temp').innerHTML = `${temp > 0 ? '+' : ''}${temp}°C`;
-            
-            let aiText = "VIP Захист волосся ☀️";
-            if(temp > 30) aiText = "Кібер-спрей UV+ 🧴";
-            else if(data.current_weather.weathercode > 50) aiText = "Захист від вологи ☔";
-            else if(temp < 15) aiText = "Зволоження термо 🌡️";
-            
-            document.getElementById('weather-ai-text').innerHTML = `MEGAN 2.0 AI:<br>${aiText}`;
-        } catch(e) {
-            console.error('Weather error:', e);
-            document.getElementById('weather-temp').innerHTML = "+28°C (Офлайн)";
-        }
-    }
-    fetchWeather(); // Call immediately
+    
+    
 
     // SMART TIME SLOTS
     function checkAvailableSlots() {
