@@ -93,25 +93,16 @@ const sendWelcome = (chatId, name) => {
         parse_mode: 'HTML',
         reply_markup: {
             inline_keyboard: [
-                [{ text: "⚡ ЗАПИСАТИСЯ У САЛОН (MINI APP) 🚀", web_app: { url: webAppUrl } }],
-                [{ text: "💈 Послуги & VIP Бар", web_app: { url: webAppUrl } }, { text: "🤖 3D AI Скан", web_app: { url: webAppUrl } }],
-                [{ text: "📍 Локація (15 Promenade des Anglais 🇫🇷)", url: "https://maps.google.com/?q=15+Promenade+des+Anglais+Nice+France" }]
+                [{ text: "⚡ ВІДКРИТИ САЛОН ТА ЗАПИСАТИСЯ 🚀", web_app: { url: webAppUrl } }]
             ]
         }
     };
 
     bot.sendMessage(chatId,
-        "👑 ⚡ <b>MEGAN 2.0 CYBER BEAUTY STUDIO 2026</b> ⚡ 👑\n\n" +
-        "Bonjour, <b>" + name + "</b>! 👋\n\n" +
-        "Ласкаво просимо до нашого преміального кибер-салону на Лазурному Березі у Ніцці! 🇫🇷\n\n" +
-        "💈 <b>VOVAN BEAUTY STUDIO • Côte d’Azur</b>\n" +
-        "📍 <i>15 Promenade des Anglais, 06000 Nice, France</i>\n" +
-        "👑 <b>АВТОР РОЗРОБКИ: ПОТАПОВ В.М. • NICE 🇫🇷</b>\n\n" +
-        "✂️ <b>Авторське моделювання зачісок & Барбершоп</b>\n" +
-        "🤖 <b>3D AI Скульптор стилю MEGAN 2.0</b>\n" +
-        "🍾 <b>VIP Бар у крісло (Dom Pérignon, Chivas, Espresso)</b>\n" +
-        "💎 <b>Оплата TON, Apple Pay, Google Pay</b>\n\n" +
-        "👇 <b>Натисніть кнопку нижче для запуску Mini App:</b>", opts);
+        "👑 <b>VOVAN BEAUTY STUDIO</b> • Nice 🇫🇷\n\n" +
+        "Bonjour, <b>" + name + "</b>! 👋\n" +
+        "📍 <i>15 Promenade des Anglais, Nice</i>\n\n" +
+        "👇 <b>Натисніть нижче для запуску додатка:</b>", opts);
 };
 
 bot.onText(/\/start/, async (msg) => {
