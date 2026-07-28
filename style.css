@@ -1508,3 +1508,19 @@
         .nav-btn {
             transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.18s ease !important;
         }
+
+        /* ⚡ STATIC VIP PROGRESS BAR (NO ANIMATION) */
+        .cyber-progress-container {
+            width: 100% !important;
+            background: rgba(0, 162, 255, 0.15) !important;
+            border-radius: 10px !important;
+            overflow: hidden !important;
+        }
+        .cyber-progress-fill {
+            width: 75% !important;
+            height: 100% !important;
+            background: linear-gradient(90deg, var(--cyber-blue) 0%, var(--cyber-gold) 100%) !important;
+            border-radius: 10px !important;
+            animation: none !important;
+            transition: none !important;
+        }
