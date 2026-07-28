@@ -669,6 +669,67 @@
             animation: livePulse 1.5s infinite ease-in-out;
         }
 
+
+        /* ⚡ ULTRA COMFORTABLE COMPACT CHIP PICKERS 2026 */
+        .cyber-chips-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            margin-top: 6px;
+        }
+        .cyber-chip {
+            background: rgba(13, 21, 34, 0.85);
+            border: 1px solid rgba(0, 162, 255, 0.3);
+            border-radius: 12px;
+            padding: 9px 10px;
+            font-size: 0.76rem;
+            color: var(--text-sub);
+            font-weight: 700;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .cyber-chip.active {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.18) 0%, rgba(0, 162, 255, 0.18) 100%) !important;
+            border-color: var(--cyber-gold) !important;
+            color: #ffffff !important;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.4) !important;
+            transform: scale(1.02);
+        }
+        .chip-price {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--cyber-gold);
+            font-size: 0.72rem;
+            font-weight: 900;
+        }
+        .cyber-picker-row {
+            display: flex;
+            gap: 8px;
+            margin-top: 6px;
+        }
+        .cyber-picker-btn {
+            flex: 1;
+            background: rgba(13, 21, 34, 0.85);
+            border: 1px solid rgba(0, 162, 255, 0.3);
+            border-radius: 12px;
+            padding: 10px;
+            font-size: 0.78rem;
+            color: var(--text-sub);
+            font-weight: 700;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.25s ease;
+        }
+        .cyber-picker-btn.active {
+            background: rgba(0, 162, 255, 0.2) !important;
+            border-color: var(--cyber-blue) !important;
+            color: #fff !important;
+            box-shadow: 0 0 16px rgba(0, 162, 255, 0.5) !important;
+        }
+
     </style>
 </head>
 <body>
@@ -1134,23 +1195,38 @@
             </div>
             <div class="form-group">
                 <label data-i18n="lbl-service">Обрати послугу:</label>
-                <select id="select-service">
-                    <option value="Стрижка MEGAN 2.0 Cyber Style (40 €)">💈 Стрижка MEGAN 2.0 Cyber Style — 40 € (≈ 6.2 TON)</option>
-                    <option value="Бьюти-комплекс VOVAN VIP (65 €)">👑 Б'юті-комплекс VOVAN VIP — 65 € (≈ 10 TON)</option>
-                    <option value="Neon Highlight (70 €)">⚡ Neon Highlight — 70 € (≈ 10.8 TON)</option>
-                    <option value="Android Spa (120 €)">🤖 Android Spa (Кератин + Спа) — 120 € (≈ 18.5 TON)</option>
-                    <option value="Cyber Silver (35 €)">🩶 Cyber Silver (Камуфляж) — 35 € (≈ 5.4 TON)</option>
-                    <option value="Королівське гоління Barber (45 €)">🪒 Королівське гоління Barber — 45 € (≈ 7 TON)</option>
-                    <option value="Cyber-Detox шкіри голови (55 €)">💆‍♂️ Cyber-Detox шкіри голови — 55 € (≈ 8.5 TON)</option>
-                    <option value="Камуфляж бороди (30 €)">🧔 Камуфляж бороди — 30 € (≈ 4.6 TON)</option>
+                <select id="select-service" style="display:none;">
+                    <option value="Стрижка MEGAN 2.0 Cyber Style (40 €)">💈 Стрижка MEGAN 2.0 Cyber Style — 40 €</option>
+                    <option value="Бьюти-комплекс VOVAN VIP (65 €)">👑 Б'юті-комплекс VOVAN VIP — 65 €</option>
+                    <option value="Neon Highlight (70 €)">⚡ Neon Highlight — 70 €</option>
+                    <option value="Android Spa (120 €)">🤖 Android Spa — 120 €</option>
+                    <option value="Cyber Silver (35 €)">🩶 Cyber Silver — 35 €</option>
+                    <option value="Королівське гоління Barber (45 €)">🪒 Королівське — 45 €</option>
+                    <option value="Cyber-Detox шкіри голови (55 €)">💆‍♂️ Cyber-Detox — 55 €</option>
+                    <option value="Камуфляж бороди (30 €)">🧔 Камуфляж бороди — 30 €</option>
                 </select>
+
+                <div class="cyber-chips-grid" id="service-chips-container">
+                    <div class="cyber-chip active" onclick="pickServiceChip('Стрижка MEGAN 2.0 Cyber Style (40 €)', this)"><span>💈 Cyber Style</span> <span class="chip-price">40 €</span></div>
+                    <div class="cyber-chip" onclick="pickServiceChip('Бьюти-комплекс VOVAN VIP (65 €)', this)"><span>👑 VOVAN VIP</span> <span class="chip-price">65 €</span></div>
+                    <div class="cyber-chip" onclick="pickServiceChip('Neon Highlight (70 €)', this)"><span>⚡ Neon Hair</span> <span class="chip-price">70 €</span></div>
+                    <div class="cyber-chip" onclick="pickServiceChip('Android Spa (120 €)', this)"><span>🤖 Android Spa</span> <span class="chip-price">120 €</span></div>
+                    <div class="cyber-chip" onclick="pickServiceChip('Cyber Silver (35 €)', this)"><span>🩶 Cyber Silver</span> <span class="chip-price">35 €</span></div>
+                    <div class="cyber-chip" onclick="pickServiceChip('Королівське гоління Barber (45 €)', this)"><span>🪒 Гоління VIP</span> <span class="chip-price">45 €</span></div>
+                    <div class="cyber-chip" onclick="pickServiceChip('Cyber-Detox шкіри голови (55 €)', this)"><span>💆‍♂️ Cyber Detox</span> <span class="chip-price">55 €</span></div>
+                    <div class="cyber-chip" onclick="pickServiceChip('Камуфляж бороди (30 €)', this)"><span>🧔 Борода</span> <span class="chip-price">30 €</span></div>
+                </div>
             </div>
             <div class="form-group">
                 <label data-i18n="lbl-master">Обрати майстра:</label>
-                <select id="select-barber">
-                    <option value="VOVAN">👑 VOVAN (Головний Стиліст — Nice, France)</option>
-                    <option value="MEGAN 2.0 AI">🤖 MEGAN 2.0 AI (Кібер-Майстер Робот)</option>
+                <select id="select-barber" style="display:none;">
+                    <option value="VOVAN">VOVAN</option>
+                    <option value="MEGAN 2.0 AI">MEGAN 2.0 AI</option>
                 </select>
+                <div class="cyber-picker-row" id="barber-picker-container">
+                    <div class="cyber-picker-btn active" onclick="pickMasterCard('VOVAN', this)">👑 VOVAN (Стиліст)</div>
+                    <div class="cyber-picker-btn" onclick="pickMasterCard('MEGAN 2.0 AI', this)">🤖 MEGAN AI (Робот)</div>
+                </div>
             </div>
             
             <div class="form-group">
@@ -1187,10 +1263,14 @@
 
             <div class="form-group">
                 <label>Спосіб оплати:</label>
-                <select id="select-payment">
-                    <option value="Готівка" selected>💶 Оплата в салоні (Готівка / Термінал)</option>
-                    <option value="Наперед">📱 Оплата наперед (Apple Pay / GPay / TON)</option>
+                <select id="select-payment" style="display:none;">
+                    <option value="Готівка" selected>Готівка</option>
+                    <option value="Наперед">Наперед</option>
                 </select>
+                <div class="cyber-picker-row" id="payment-picker-container">
+                    <div class="cyber-picker-btn active" onclick="pickPaymentCard('Готівка', this)">💶 В салоні (Готівка)</div>
+                    <div class="cyber-picker-btn" onclick="pickPaymentCard('Наперед', this)">📱 Наперед (GPay / Apple)</div>
+                </div>
             </div>
 
             <button type="submit" class="ticket-btn" style="width:100%; margin-top:14px;" data-i18n="btn-confirm">⚡ ПІДТВЕРДИТИ ЗАПИС</button>
@@ -1982,10 +2062,24 @@
         }
     }
 
-    function selectServiceModal(name, price) { openModal(); }
+    function selectServiceModal(name, price) { 
+        openModal(); 
+        const chips = document.querySelectorAll('#service-chips-container .cyber-chip');
+        chips.forEach(chip => {
+            if (chip.textContent.includes(name) || name.includes(chip.textContent.trim())) {
+                chip.click();
+            }
+        });
+    }
     function selectBarberModal(barberName) { 
         openModal(); 
         document.getElementById('select-barber').value = barberName; 
+        const btns = document.querySelectorAll('#barber-picker-container .cyber-picker-btn');
+        btns.forEach(btn => {
+            if (btn.textContent.includes(barberName)) {
+                btn.click();
+            }
+        });
     }
 
     function switchTab(pageId) {
