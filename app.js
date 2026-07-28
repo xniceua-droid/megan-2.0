@@ -1433,3 +1433,41 @@ function switchTab(pageId) {
             if (modal) modal.classList.remove('show');
             if (typeof triggerHaptic === 'function') triggerHaptic('light');
         };
+
+    // ⚡ TELEGRAM X & WEBAPP 2026 API ADVANCED FEATURE SUITE
+    (function initTelegramFeatures() {
+        if (!window.Telegram || !window.Telegram.WebApp) return;
+        const tg = window.Telegram.WebApp;
+        
+        try { if (tg.ready) tg.ready(); } catch(e){}
+        try { if (tg.expand) tg.expand(); } catch(e){}
+        try { if (tg.requestFullscreen) tg.requestFullscreen(); } catch(e){}
+        try { if (tg.enableClosingConfirmation) tg.enableClosingConfirmation(); } catch(e){}
+        try { if (tg.setHeaderColor) tg.setHeaderColor('#0b1019'); } catch(e){}
+        try { if (tg.setBackgroundColor) tg.setBackgroundColor('#000000'); } catch(e){}
+
+        // Sync Native Telegram MainButton for 1-Tap Booking
+        try {
+            if (tg.MainButton) {
+                tg.MainButton.setText('⚡ ЗАПИСАТИСЯ ДО САЛОНУ (NICE 🇫🇷)');
+                tg.MainButton.setParams({
+                    color: '#ffd700',
+                    text_color: '#000000',
+                    is_active: true,
+                    is_visible: true
+                });
+                tg.MainButton.onClick(function() {
+                    if (typeof openModal === 'function') openModal();
+                });
+            }
+        } catch(e){}
+
+        // Auto CloudStorage sync for VIP status
+        try {
+            if (tg.CloudStorage) {
+                tg.CloudStorage.setItem('vip_status', 'LVL_3_VIP', function(err, success) {
+                    if (success) console.log('✅ CloudStorage VIP status synced!');
+                });
+            }
+        } catch(e){}
+    })();
