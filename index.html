@@ -1602,16 +1602,18 @@ function updateHtcClock_old() {
             </div>
         </div>
 
-        <div class="barbers-grid">
-            <div class="barber-card">
-                <img src="vovan.jpg" alt="VOVAN Master" class="barber-img">
-                <h3 style="font-family:'Orbitron'; color:var(--cyber-blue);">VOVAN (Головний Стиліст)</h3>
-                <button class="select-barber-btn" onclick="selectBarberModal('VOVAN')" data-i18n="btn-book-vovan">Записатися до VOVAN</button>
+        <div class="barbers-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:15px;">
+            <div class="barber-card" style="background:rgba(11,16,25,0.8); border:1px solid rgba(0,162,255,0.3); border-radius:14px; padding:12px; text-align:center;">
+                <img src="vovan.jpg" alt="VOVAN Master" class="barber-img" style="width:70px; height:70px; border-radius:50%; border:2px solid var(--cyber-blue); object-fit:cover; margin:0 auto 8px auto;">
+                <h3 style="font-family:'Orbitron'; color:var(--cyber-blue); font-size:0.85rem; font-weight:800;">VOVAN</h3>
+                <div style="font-size:0.68rem; color:var(--cyber-gold); margin:2px 0 6px 0;">★ 5.0 • Головний Стиліст</div>
+                <button class="select-barber-btn" style="width:100%; padding:8px; font-size:0.75rem; border-radius:8px;" onclick="selectBarberModal('VOVAN')" data-i18n="btn-book-vovan">Записатися до VOVAN</button>
             </div>
-            <div class="barber-card">
-                <img src="m3gan_cyber.jpg" alt="MEGAN 2.0 AI" class="barber-img">
-                <h3 style="font-family:'Orbitron'; color:var(--cyber-blue);">MEGAN 2.0 AI (Кібер-Майстер)</h3>
-                <button class="select-barber-btn" onclick="selectBarberModal('MEGAN 2.0 AI')" data-i18n="btn-book-megan">Записатися до MEGAN 2.0</button>
+            <div class="barber-card" style="background:rgba(11,16,25,0.8); border:1px solid rgba(255,215,0,0.3); border-radius:14px; padding:12px; text-align:center;">
+                <img src="m3gan_cyber.jpg" alt="MEGAN 2.0 AI" class="barber-img" style="width:70px; height:70px; border-radius:50%; border:2px solid var(--cyber-gold); object-fit:cover; margin:0 auto 8px auto;">
+                <h3 style="font-family:'Orbitron'; color:var(--cyber-gold); font-size:0.85rem; font-weight:800;">MEGAN 2.0 AI</h3>
+                <div style="font-size:0.68rem; color:var(--accent-green); margin:2px 0 6px 0;">★ 4.99 • Кібер-Майстер</div>
+                <button class="select-barber-btn" style="width:100%; padding:8px; font-size:0.75rem; border-radius:8px; background:linear-gradient(135deg, var(--cyber-gold) 0%, #ffaa00 100%); color:#000; font-weight:900;" onclick="selectBarberModal('MEGAN 2.0 AI')" data-i18n="btn-book-megan">Записатися до MEGAN</button>
             </div>
         </div>
     </div>
