@@ -1721,6 +1721,11 @@ function updateHtcClock_old() {
                 <input type="text" id="chat-input-msg" class="chat-input" placeholder="Напишіть повідомлення...">
                 <button class="action-btn-sm btn-receipt" style="margin:0; padding:0 15px;" onclick="sendChatMessage()">➤</button>
             </div>
+            <div style="display:flex; gap:6px; overflow-x:auto; margin-top:10px; padding-bottom:4px; scrollbar-width:none;">
+                <button onclick="sendQuickChatMessage('Які стрижки зараз у тренді?')" style="background:rgba(0,162,255,0.12); border:1px solid rgba(0,162,255,0.3); color:var(--cyber-blue); padding:5px 10px; border-radius:12px; font-size:0.72rem; white-space:nowrap; cursor:pointer;">✂️ Популярні Стрижки</button>
+                <button onclick="sendQuickChatMessage('Які напої є у VIP Барі?')" style="background:rgba(255,215,0,0.12); border:1px solid rgba(255,215,0,0.3); color:var(--cyber-gold); padding:5px 10px; border-radius:12px; font-size:0.72rem; white-space:nowrap; cursor:pointer;">🍾 VIP Бар</button>
+                <button onclick="sendQuickChatMessage('Як доїхати до вашого салону в Ніцці?')" style="background:rgba(0,230,118,0.12); border:1px solid rgba(0,230,118,0.3); color:var(--accent-green); padding:5px 10px; border-radius:12px; font-size:0.72rem; white-space:nowrap; cursor:pointer;">📍 Локація (Ніцца)</button>
+            </div>
         </div>
     </div>
 
