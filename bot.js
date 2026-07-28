@@ -3,7 +3,6 @@ const TelegramBotModule = require('node-telegram-bot-api');
 const TelegramBot = TelegramBotModule.default || TelegramBotModule;
 const express = require('express');
 const cors = require('cors');
-const fs = require('fs');
 
 const token = Buffer.from("ODc3ND" + "EyNjYzMDp" + "BQUUtU19La0" + "ZGUWpNbUVYUElxV18zT09nT2tQaDhYNlR6TQ==", 'base64').toString('utf8');
 if (!token) {
@@ -14,9 +13,13 @@ if (!token) {
 const bot = new TelegramBot(token, { polling: true });
 const webAppUrl = 'https://xniceua-droid.github.io/megan-2.0/';
 
-// Налаштування глобальних команд і кнопки меню для бота
+// ⚡ REGISTER BOT COMMANDS MENU
 bot.setMyCommands([
-    { command: '/start', description: '🚀 Старт — Запустити додаток' }
+    { command: '/start', description: '🚀 Запустити MEGAN 2.0 Mini App' },
+    { command: '/services', description: '💈 Послуги та Ціни (TTC)' },
+    { command: '/location', description: '📍 Студія у Ніцці (Côte d’Azur)' },
+    { command: '/crm', description: '💼 AI CRM Кабінет' },
+    { command: '/help', description: 'ℹ️ Підтримка & Контакти' }
 ]).catch(e => console.error("setMyCommands error:", e));
 
 bot.setChatMenuButton({
@@ -33,7 +36,6 @@ app.use(express.json());
 
 const DB_FILE = 'db.json';
 
-// Initialize DB
 if (!fs.existsSync(DB_FILE)) {
     fs.writeFileSync(DB_FILE, JSON.stringify({ orders: [] }));
 }
@@ -46,7 +48,7 @@ function saveDb(data) {
     fs.writeFileSync(DB_FILE, JSON.stringify(data, null, 2));
 }
 
-console.log("🤖 M3GAN Telegram Bot & CRM Server started...");
+console.log("🤖 MEGAN 2.0 AI Telegram Bot & CRM Server running...");
 
 // CRM Endpoints
 app.get('/api/orders', (req, res) => {
@@ -65,49 +67,13 @@ app.post('/api/orders', (req, res) => {
     res.json({ success: true, row: order });
 });
 
-// Parallel Database Sync (JSON + Google Sheets)
 app.post('/api/sync', async (req, res) => {
     const db = req.body;
     if (!db) return res.status(400).json({ error: "No DB provided" });
-    
-    // Save locally
     saveDb(db);
-    
-    // Forward to Google Apps Script (Placeholder URL - User must deploy and replace)
-    const GOOGLE_SCRIPT_URL = process.env.GOOGLE_SCRIPT_URL || "YOUR_GOOGLE_SCRIPT_URL_HERE";
-    
-    if (GOOGLE_SCRIPT_URL !== "YOUR_GOOGLE_SCRIPT_URL_HERE") {
-        try {
-            // Pick latest order to append
-            if (db.orders && db.orders.length > 0) {
-                const latestOrder = db.orders[db.orders.length - 1];
-                const gData = {
-                    action: 'add',
-                    sheet: 'Orders',
-                    date: latestOrder.Date,
-                    clientName: latestOrder.Client,
-                    clientPhone: latestOrder.Phone || "",
-                    service: latestOrder.Service,
-                    master: latestOrder.Master,
-                    status: latestOrder.Status,
-                    price: latestOrder.Price
-                };
-                // Native fetch in Node 18+
-                await fetch(GOOGLE_SCRIPT_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(gData)
-                });
-            }
-        } catch (e) {
-            console.error("Google Sheets Sync Error:", e.message);
-        }
-    }
-    
     res.json({ success: true });
 });
 
-// Endpoint to send message from CRM to Client
 app.post('/api/send-message', async (req, res) => {
     const { chatId, text } = req.body;
     if (!chatId || !text) return res.status(400).json({ error: "No chatId or text" });
@@ -120,36 +86,7 @@ app.post('/api/send-message', async (req, res) => {
     }
 });
 
-// Express endpoint for Payments
-app.post('/invoice', async (req, res) => {
-    const { chatId, title, description, payload, price } = req.body;
-    if (!chatId) return res.status(400).json({ error: "No chatId" });
-
-    try {
-        await bot.sendInvoice(
-            chatId,
-            title || 'Подарунковий Сертифікат',
-            description || 'Оплата послуг VOVAN BEAUTY STUDIO',
-            payload || 'vovan_payload',
-            '', // provider_token = empty for Telegram Stars (XTR)
-            'XTR', // currency = Telegram Stars
-            [{ label: title || 'Послуга', amount: price || 50 }] // amount in Stars
-        );
-        res.json({ success: true });
-    } catch (error) {
-        console.error("Invoice error:", error);
-        res.status(500).json({ success: false, error: error.message });
-    }
-});
-
-bot.on('pre_checkout_query', (query) => {
-    bot.answerPreCheckoutQuery(query.id, true);
-});
-
-bot.on('successful_payment', (msg) => {
-    bot.sendMessage(msg.chat.id, "✅ Оплата успішна! Дякуємо за довіру до VOVAN BEAUTY STUDIO.");
-});
-
+// 🚀 COMMAND HANDLERS
 bot.onText(/\/start/, async (msg) => {
     const chatId = msg.chat.id;
     const name = msg.from.first_name || 'шановний клієнт';
@@ -159,71 +96,99 @@ bot.onText(/\/start/, async (msg) => {
         reply_markup: {
             inline_keyboard: [
                 [{ text: "🚀 ЗАПУСТИТИ ДОДАТОК 2026", web_app: { url: webAppUrl } }],
-                [{ text: "📞 Зателефонувати в салон", url: "tel:+33000000000" }, { text: "📍 Локація (Ніцца)", url: "https://maps.google.com" }]
+                [{ text: "📍 Локація (Ніцца 🇫🇷)", callback_data: "cmd_loc" }, { text: "💈 Послуги", callback_data: "cmd_srv" }]
             ]
         }
     };
     bot.sendMessage(chatId, 
-        `🚀 <b>MEGAN 2.0 CYBER SYSTEM 2026</b>\n\n` +
-        `⚡ <b>Вітаємо, ${name}!</b>\n\n` +
-        `💈 <b>VOVAN BEAUTY STUDIO</b> — Лазурний Берег (Ніцца 🇫🇷)\n` +
-        `✂️ Авторські Стрижки • 🧔 VIP Бороди • 💆 AI Sculptor 3D\n` +
-        `💎 Оплата TON • 💳 Apple Pay / Google Pay\n\n` +
-        `Натисніть кнопку нижче для запуску додатку 👇`, opts);
+        "🚀 <b>MEGAN 2.0 CYBER SYSTEM 2026</b>\n\n" +
+        "⚡ <b>Вітаємо, " + name + "!</b>\n\n" +
+        "👑 <b>АВТОР РОЗРОБКИ: ПОТАПОВ В.М. • NICE 🇫🇷</b>\n" +
+        "💈 <b>VOVAN BEAUTY STUDIO</b> — Лазурний Берег\n" +
+        "✂️ Стрижки • 🧔 Бороди • 💆 AI Sculptor 3D\n" +
+        "💎 Оплата TON • 💳 Apple Pay / Google Pay\n\n" +
+        "Натисніть кнопку нижче для запуску додатку 👇", opts);
 });
 
-// Обробка будь-яких інших повідомлень — завжди відкриваємо додаток
-bot.on('message', (msg) => {
-    // Контакт або /start — обробляється окремо
-    if (msg.contact || (msg.text && msg.text.startsWith('/start'))) return;
-    // Якщо web_app_data — ігноруємо
-    if (msg.web_app_data) return;
-
+bot.onText(/\/services/, (msg) => {
     const opts = {
         parse_mode: 'HTML',
         reply_markup: {
-            inline_keyboard: [[{ text: "✂️ ЗАПИСАТИСЯ", web_app: { url: webAppUrl } }]]
+            inline_keyboard: [
+                [{ text: "⚡ ЗАПИСАТИСЯ ДО МАЙСТРА", web_app: { url: webAppUrl } }]
+            ]
         }
     };
-    bot.sendMessage(msg.chat.id, 
-        `💈 Щоб записатися або переглянути послуги — натисніть кнопку нижче 👇`, opts);
+    bot.sendMessage(msg.chat.id,
+        "💈 <b>ПОСЛУГИ ТА ЦІНИ (VOVAN BEAUTY STUDIO):</b>\n\n" +
+        "✂️ <b>Стрижка MEGAN 2.0 Cyber Style</b> — 40 € (≈ 6.2 TON)\n" +
+        "👑 <b>Б'юті-комплекс VOVAN VIP</b> — 65 € (≈ 10.0 TON)\n" +
+        "⚡ <b>Neon Highlight</b> — 70 € (≈ 10.8 TON)\n" +
+        "🤖 <b>Android Spa</b> — 120 € (≈ 18.5 TON)\n" +
+        "🩶 <b>Cyber Silver (Камуфляж)</b> — 35 € (≈ 5.4 TON)\n" +
+        "🪒 <b>Королівське гоління Barber</b> — 45 € (≈ 7.0 TON)\n\n" +
+        "Натисніть нижче для вибору часу та майстра 👇", opts);
 });
 
-// Зберігання контакту (опціонально можна зберігати в db.json)
-bot.on('contact', (msg) => {
-    const phone = msg.contact.phone_number;
-    bot.sendMessage(msg.chat.id, `Дякуємо! Ваш номер ${phone} збережено. Тепер ви можете відкрити додаток.`, {
-        reply_markup: { remove_keyboard: true }
-    });
+bot.onText(/\/location/, (msg) => {
+    const opts = {
+        parse_mode: 'HTML',
+        reply_markup: {
+            inline_keyboard: [
+                [{ text: "🗺 Карта Google Maps", url: "https://maps.google.com/?q=15+Promenade+des+Anglais+Nice+France" }],
+                [{ text: "🚀 ВІДКРИТИ ДОДАТОК", web_app: { url: webAppUrl } }]
+            ]
+        }
+    };
+    bot.sendMessage(msg.chat.id,
+        "📍 <b>СТУДІЯ У НІЦЦІ (CÔTE D’AZUR)</b>\n\n" +
+        "🏠 <b>Адреса:</b> 15 Promenade des Anglais, 06000 Nice, France\n" +
+        "⏰ <b>Графік:</b> Пн-Нд 09:00 - 21:00\n" +
+        "👑 <b>Автор:</b> Потапов В.М.", opts);
 });
 
-// Нагадування (перевіряємо кожні 5 хв, стабільна версія)
-setInterval(() => {
-    try {
-        const db = getDb();
-        const now = Date.now();
-        let changed = false;
-        db.orders.forEach(order => {
-            if (order.timestamp && !order.reminderSent && order.chatId) {
-                const timeDiff = order.timestamp - now;
-                // Перевірка: timestamp має бути числом
-                if (isNaN(timeDiff)) return;
-                // Якщо до візиту від 0 до 2 годин
-                if (timeDiff > 0 && timeDiff <= 7200000) {
-                    bot.sendMessage(order.chatId, `🤖 <b>Нагадування:</b>\nЧекаємо вас на <b>${order.Service || 'послугу'}</b> о ${order.Date || ''}.\nВаш майстер ${order.Master || ''} вже готовий!`, { parse_mode: 'HTML' }).catch(() => {});
-                    order.reminderSent = true;
-                    changed = true;
-                }
-            }
-        });
-        if (changed) saveDb(db);
-    } catch(e) {
-        console.error('Reminder error:', e.message);
+bot.onText(/\/help/, (msg) => {
+    const opts = {
+        parse_mode: 'HTML',
+        reply_markup: {
+            inline_keyboard: [
+                [{ text: "💬 Чат підтримки", url: "https://t.me/VOVAN_BEAUTY_SUPPORT" }],
+                [{ text: "🚀 Запустити додаток", web_app: { url: webAppUrl } }]
+            ]
+        }
+    };
+    bot.sendMessage(msg.chat.id,
+        "ℹ️ <b>ПІДТРИМКА МЕGAN 2.0</b>\n\n" +
+        "З усіх питань запису, VIP Бару та оплати звертайтеся до нашої служби підтримки або відкрийте Mini App.", opts);
+});
+
+bot.on('callback_query', (query) => {
+    if (query.data === 'cmd_loc') {
+        bot.sendMessage(query.message.chat.id, "📍 Адреса студії: 15 Promenade des Anglais, 06000 Nice, France 🇫🇷");
+    } else if (query.data === 'cmd_srv') {
+        bot.sendMessage(query.message.chat.id, "💈 Для перегляду цін та запису відкрийте Mini App за допомогою кнопки Старт!");
     }
-}, 300000); // 5 хвилин
+    bot.answerCallbackQuery(query.id);
+});
+
+bot.on('message', (msg) => {
+    if (msg.web_app_data) {
+        try {
+            const data = JSON.parse(msg.web_app_data.data);
+            bot.sendMessage(msg.chat.id,
+                "✅ <b>ДЯКУЄМО ЗА ЗАПИС!</b>\n\n" +
+                "👤 <b>Клієнт:</b> " + (data.clientName || 'VIP Клієнт') + "\n" +
+                "💈 <b>Послуга:</b> " + (data.service || 'Послуга') + "\n" +
+                "👑 <b>Майстер:</b> " + (data.master || 'VOVAN') + "\n" +
+                "📅 <b>Дата:</b> " + (data.date || 'Сьогодні') + "\n" +
+                "⏰ <b>Час:</b> " + (data.time || 'За розкладом') + "\n\n" +
+                "Чекаємо вас у салон у Ніцці! 🇫🇷", { parse_mode: 'HTML' });
+        } catch(e) {}
+    }
+});
 
 bot.on('polling_error', (error) => { console.log(error.code); });
 
 app.listen(3000, () => {
-    console.log("🚀 CRM & Payment API Server running on port 3000");
+    console.log("🚀 MEGAN 2.0 API Server running on port 3000");
 });
