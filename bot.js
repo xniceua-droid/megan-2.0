@@ -152,23 +152,24 @@ bot.on('successful_payment', (msg) => {
 
 bot.onText(/\/start/, async (msg) => {
     const chatId = msg.chat.id;
-    const name = msg.from.first_name || 'друже';
+    const name = msg.from.first_name || 'шановний клієнт';
 
     const opts = {
         parse_mode: 'HTML',
         reply_markup: {
             inline_keyboard: [
-                [{ text: "✂️ ЗАПИСАТИСЯ", web_app: { url: webAppUrl } }],
-                [{ text: "📞 Зателефонувати", url: "tel:+33000000000" }, { text: "📍 Як дістатися", url: "https://maps.google.com" }]
+                [{ text: "🚀 ЗАПУСТИТИ ДОДАТОК 2026", web_app: { url: webAppUrl } }],
+                [{ text: "📞 Зателефонувати в салон", url: "tel:+33000000000" }, { text: "📍 Локація (Ніцца)", url: "https://maps.google.com" }]
             ]
         }
     };
     bot.sendMessage(chatId, 
-        `🔥 <b>Вітаємо, ${name}!</b>\n\n` +
-        `💈 <b>VOVAN BEAUTY STUDIO</b> — преміум барбершоп у Парижі 🇫🇷\n\n` +
-        `✂️ Стрижки • 🧔 Бороди • 💆 SPA\n` +
-        `⭐ Кращі майстри • 🎨 Кібер-дизайн\n\n` +
-        `Натисніть кнопку нижче, щоб відкрити додаток 👇`, opts);
+        `🚀 <b>MEGAN 2.0 CYBER SYSTEM 2026</b>\n\n` +
+        `⚡ <b>Вітаємо, ${name}!</b>\n\n` +
+        `💈 <b>VOVAN BEAUTY STUDIO</b> — Лазурний Берег (Ніцца 🇫🇷)\n` +
+        `✂️ Авторські Стрижки • 🧔 VIP Бороди • 💆 AI Sculptor 3D\n` +
+        `💎 Оплата TON • 💳 Apple Pay / Google Pay\n\n` +
+        `Натисніть кнопку нижче для запуску додатку 👇`, opts);
 });
 
 // Обробка будь-яких інших повідомлень — завжди відкриваємо додаток
