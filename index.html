@@ -175,6 +175,22 @@
                 <button class="select-barber-btn" style="width:100%; padding:8px; font-size:0.75rem; border-radius:8px; background:linear-gradient(135deg, var(--cyber-gold) 0%, #ffaa00 100%); color:#000; font-weight:900;" onclick="selectBarberModal('MEGAN 2.0 AI')" data-i18n="btn-book-megan">Записатися до MEGAN</button>
             </div>
         </div>
+    
+        <!-- ⚡ CYBER BOTTOM FOOTER (SETTINGS & AUTHOR ONLY ON FIRST PAGE) -->
+        <div class="cyber-bottom-footer" style="padding:15px 16px 20px 16px; background:linear-gradient(180deg, transparent 0%, rgba(11,16,25,0.95) 100%); text-align:center; border-top:1px solid rgba(0,162,255,0.15); margin-top:25px;">
+            <!-- Quick Control Buttons Capsule -->
+            <div style="display:inline-flex; align-items:center; gap:12px; background:rgba(18,25,38,0.85); border:1px solid rgba(255,215,0,0.3); border-radius:25px; padding:6px 18px; margin-bottom:12px; backdrop-filter:blur(10px); box-shadow:0 4px 15px rgba(0,0,0,0.5);">
+                <button class="header-ctrl-btn" onclick="openSettingsModal()" title="Налаштування" style="background:none; border:none; color:#fff; font-size:1.1rem; cursor:pointer;">⚙️</button>
+                <button class="header-ctrl-btn" onclick="toggleNeonTheme()" title="Тема" style="background:none; border:none; color:#fff; font-size:1.1rem; cursor:pointer;">🎨</button>
+                <button class="header-ctrl-btn" onclick="openHelpModal()" title="Довідка" style="background:none; border:none; font-size:1.1rem; cursor:pointer;">ℹ️</button>
+                <button class="header-ctrl-btn" onclick="cycleLanguage()" id="btn-lang-flag" title="Мова" style="background:none; border:none; font-size:1.1rem; cursor:pointer;">🇺🇦</button>
+            </div>
+
+            <!-- Author Ribbon Signature -->
+            <div class="top-author-ribbon" style="font-family:'Orbitron', sans-serif; font-size:0.75rem; font-weight:900; color:var(--cyber-gold); letter-spacing:1px; text-shadow:0 0 10px rgba(255,215,0,0.5); display:flex; justify-content:center; align-items:center; gap:6px;">
+                <span>👑 АВТОР РОЗРОБКИ: ПОТАПОВ В.М. • NICE 🇫🇷</span>
+            </div>
+        </div>
     </div>
 
     <!-- 2. VIP БАР -->
@@ -453,22 +469,6 @@
     </div>
 
     <!-- НИЖНЯЯ НАВИГАЦИЯ -->
-    <!-- ⚡ CYBER BOTTOM FOOTER (SETTINGS & AUTHOR) -->
-    <div class="cyber-bottom-footer" style="padding:15px 16px 25px 16px; background:linear-gradient(180deg, transparent 0%, rgba(11,16,25,0.95) 100%); text-align:center; border-top:1px solid rgba(0,162,255,0.15); margin-top:20px;">
-        <!-- Quick Control Buttons Capsule -->
-        <div style="display:inline-flex; align-items:center; gap:12px; background:rgba(18,25,38,0.85); border:1px solid rgba(255,215,0,0.3); border-radius:25px; padding:6px 18px; margin-bottom:12px; backdrop-filter:blur(10px); box-shadow:0 4px 15px rgba(0,0,0,0.5);">
-            <button class="header-ctrl-btn" onclick="openSettingsModal()" title="Налаштування" style="background:none; border:none; color:#fff; font-size:1.1rem; cursor:pointer;">⚙️</button>
-            <button class="header-ctrl-btn" onclick="toggleNeonTheme()" title="Тема" style="background:none; border:none; color:#fff; font-size:1.1rem; cursor:pointer;">🎨</button>
-            <button class="header-ctrl-btn" onclick="openHelpModal()" title="Довідка" style="background:none; border:none; font-size:1.1rem; cursor:pointer;">ℹ️</button>
-            <button class="header-ctrl-btn" onclick="cycleLanguage()" id="btn-lang-flag" title="Мова" style="background:none; border:none; font-size:1.1rem; cursor:pointer;">🇺🇦</button>
-        </div>
-
-        <!-- Author Ribbon Signature -->
-        <div class="top-author-ribbon" style="font-family:'Orbitron', sans-serif; font-size:0.75rem; font-weight:900; color:var(--cyber-gold); letter-spacing:1px; text-shadow:0 0 10px rgba(255,215,0,0.5); display:flex; justify-content:center; align-items:center; gap:6px;">
-            <span>👑 АВТОР РОЗРОБКИ: ПОТАПОВ В.М. • NICE 🇫🇷</span>
-        </div>
-    </div>
-
     <div class="bottom-nav">
         <button class="nav-btn active" data-tab="client" onclick="switchTab('client')">
             <svg class="btn-icon-svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
