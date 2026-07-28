@@ -1057,6 +1057,90 @@
             text-align: center;
         }
 
+
+        /* ⚡ GREEN BOOKING BUTTON 2026 */
+        .ticket-btn {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: linear-gradient(135deg, #00e676 0%, #00c853 50%, #009624 100%) !important;
+            color: #030508 !important;
+            font-family: 'Orbitron', sans-serif !important;
+            font-weight: 900 !important;
+            font-size: 0.92rem !important;
+            padding: 16px 28px !important;
+            border-radius: 14px !important;
+            border: 2px solid #00e676 !important;
+            box-shadow: 0 0 25px rgba(0, 230, 118, 0.7), 0 0 45px rgba(0, 230, 118, 0.4), inset 0 0 15px rgba(255, 255, 255, 0.5) !important;
+            width: 100%;
+            cursor: pointer;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            overflow: hidden;
+            transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+            animation: greenPulse 2.5s infinite ease-in-out !important;
+        }
+        @keyframes greenPulse {
+            0% { box-shadow: 0 0 20px rgba(0, 230, 118, 0.6), 0 0 35px rgba(0, 230, 118, 0.3); transform: scale(1); }
+            50% { box-shadow: 0 0 35px rgba(0, 230, 118, 0.9), 0 0 55px rgba(0, 230, 118, 0.6); transform: scale(1.03); }
+            100% { box-shadow: 0 0 20px rgba(0, 230, 118, 0.6), 0 0 35px rgba(0, 230, 118, 0.3); transform: scale(1); }
+        }
+
+        /* ⚡ ANIMATED CYBER PROGRESS BAR */
+        .cyber-progress-container {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 8px 0 14px 0;
+            border: 1px solid rgba(0, 162, 255, 0.3);
+            position: relative;
+        }
+        .cyber-progress-fill {
+            height: 100%;
+            width: 78%;
+            background: linear-gradient(90deg, var(--cyber-blue) 0%, var(--cyber-gold) 50%, var(--accent-green) 100%);
+            border-radius: 10px;
+            box-shadow: 0 0 12px var(--cyber-blue);
+            animation: progressGlow 2s infinite ease-in-out, progressExpand 3s ease-in-out infinite alternate;
+        }
+        @keyframes progressExpand {
+            0% { width: 45%; }
+            100% { width: 92%; }
+        }
+
+        /* ⚡ UNIFIED ANIMATED CONTROL BUTTONS */
+        .header-ctrl-btn {
+            width: 34px !important;
+            height: 34px !important;
+            border-radius: 10px !important;
+            background: rgba(14, 23, 38, 0.9) !important;
+            border: 1.5px solid var(--cyber-blue) !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            cursor: pointer !important;
+            font-size: 0.95rem !important;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+            box-shadow: 0 0 10px rgba(0, 162, 255, 0.25) !important;
+            color: #fff !important;
+            text-decoration: none !important;
+        }
+        .header-ctrl-btn:hover {
+            transform: scale(1.12) translateY(-2px) !important;
+            border-color: var(--cyber-gold) !important;
+            box-shadow: 0 0 16px var(--cyber-gold) !important;
+        }
+
+        /* Clean HTC Weather without center dividing line */
+        .htc-flip-card::after {
+            display: none !important;
+        }
+
     </style>
 </head>
 <body>
@@ -1081,13 +1165,9 @@
             </div>
         </div>
         <div class="header-controls" style="display:flex; align-items:center; gap:6px;">
-            <button onclick="toggleNeonTheme()" style="background:rgba(0,162,255,0.12); border:1px solid var(--cyber-blue); padding:4px 7px; border-radius:8px; font-size:0.85rem; cursor:pointer;" title="Колір">🎨</button>
-            <a href="help.html" style="background:rgba(255,215,0,0.12); border:1px solid var(--cyber-gold); color:var(--cyber-gold); padding:4px 7px; border-radius:8px; font-size:0.7rem; text-decoration:none; font-family:'Orbitron'; font-weight:bold;">ℹ️</a>
-            <select class="lang-selector" id="lang-select" onchange="changeLanguage(this.value)" style="padding:4px 20px 4px 8px !important; font-size:0.75rem !important;">
-                <option value="UA">🇺🇦</option>
-                <option value="FR">🇫🇷</option>
-                <option value="EN">🇬🇧</option>
-            </select>
+            <button class="header-ctrl-btn" onclick="toggleNeonTheme()" title="Тема">🎨</button>
+            <a href="help.html" class="header-ctrl-btn" title="Довідка">ℹ️</a>
+            <button class="header-ctrl-btn" onclick="cycleLanguage()" id="btn-lang-flag" title="Мова">🇺🇦</button>
         </div>
     </header>
 
@@ -1100,7 +1180,7 @@
                     <span style="font-size:0.68rem; color:var(--cyber-gold); font-family:'Orbitron'; font-weight:800;">MEGAN 2.0 AI BEAUTY</span>
                     <div class="hero-live-badge" style="position:static; padding:2px 8px;"><span class="hero-live-dot"></span> OPEN 2026</div>
                 </div>
-                <h2 class="hero-title-compact" id="txt-hero-title">КІБЕР-ЕСТЕТИКА В НІЦЦІ</h2>
+                <h2 class="hero-title-compact" id="txt-hero-title">VOVAN BEAUTY STUDIO</h2>
                 <div style="display:flex; gap:6px; align-items:center;">
                     <div class="pay-badge-item" style="padding:3px 8px; font-size:0.68rem; border-color:var(--cyber-blue); color:var(--cyber-blue);"><span style="font-family:'Orbitron'; font-weight:900;">💎 TON</span></div>
                     <div class="pay-badge-item" style="padding:3px 8px; font-size:0.68rem; border-color:var(--cyber-gold); color:var(--cyber-gold);"><span style="font-weight:800;">💳 Apple/GPay</span></div>
@@ -1118,29 +1198,28 @@
         <!-- Погода в Ницце, Uber & Bolt -->
         <div class="admin-card" style="margin-top:0;">
             <div class="htc-weather-widget">
-                <!-- HTC Sense 3D Flip Clock -->
+                <!-- HTC Sense Flip Clock -->
                 <div class="htc-clock-row">
                     <div class="htc-flip-card"><span id="htc-clock-hours">12</span></div>
                     <div class="htc-clock-dots">:</div>
                     <div class="htc-flip-card"><span id="htc-clock-mins">00</span></div>
                 </div>
 
-                <div class="htc-weather-main">
-                    <div class="htc-weather-left">
-                        <div class="htc-temp-val" id="weather-temp">+26°C</div>
-                        <div class="htc-city-name" id="weather-city-title" data-i18n="weather-title">☀️ Nice, France (Côte d'Azur)</div>
-                        <div class="htc-condition">Ясно • Сонячно ☀️</div>
-                    </div>
-                    <div class="htc-weather-right">
-                        <div class="htc-sun-icon">☀️</div>
-                    </div>
+                <div class="htc-weather-main" style="justify-content:center; text-align:center; flex-direction:column; gap:4px;">
+                    <div class="htc-temp-val" id="weather-temp">+26°C</div>
+                    <div class="htc-city-name" id="weather-city-title" style="font-size:0.9rem; font-weight:800; color:var(--cyber-gold);">Nice, France</div>
+                </div>
+
+                <!-- Animated Cyber Progress Bar -->
+                <div class="cyber-progress-container">
+                    <div class="cyber-progress-fill"></div>
                 </div>
 
                 <div class="htc-footer-chips">
                     <div class="htc-chip">💧 62%</div>
                     <div class="htc-chip">🌪️ 12 км/г</div>
                     <div class="htc-chip">☀️ UV: 6</div>
-                    <div class="htc-chip-ai" id="weather-ai-text" data-i18n="weather-ai">MEGAN 2.0 AI: VIP Захист волосся ☀️</div>
+                    <div class="htc-chip-ai" id="weather-ai-text">MEGAN 2.0 AI: VIP Захист ✨</div>
                 </div>
             </div>
                     
