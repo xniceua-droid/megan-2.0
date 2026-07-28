@@ -1400,26 +1400,26 @@ function updateHtcClock_old() {
         }
 
     
-        /* ⚡ CYBER TOAST NOTIFICATION SYSTEM 2026 */
+        /* ⚡ 2026 DYNAMIC ISLAND CYBER TOAST HUD */
         .cyber-toast {
             position: fixed !important;
-            top: 60px !important;
+            top: calc(75px + var(--tg-safe-area-inset-top, env(safe-area-inset-top, 0px))) !important;
             left: 50% !important;
-            transform: translateX(-50%) translateY(-20px) !important;
-            background: linear-gradient(135deg, rgba(14, 23, 38, 0.98) 0%, rgba(6, 10, 18, 0.98) 100%) !important;
+            transform: translateX(-50%) translateY(-35px) scale(0.9) !important;
+            background: linear-gradient(135deg, rgba(16, 26, 44, 0.98) 0%, rgba(6, 10, 18, 0.98) 100%) !important;
             border: 1.5px solid var(--cyber-gold) !important;
-            border-radius: 30px !important;
-            padding: 10px 22px !important;
+            border-radius: 50px !important;
+            padding: 10px 24px !important;
             color: #ffffff !important;
             font-family: 'Orbitron', sans-serif !important;
-            font-size: 0.78rem !important;
+            font-size: 0.8rem !important;
             font-weight: 800 !important;
-            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.95), 0 0 25px rgba(255, 215, 0, 0.4) !important;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.95), 0 0 30px rgba(255, 215, 0, 0.45), inset 0 0 15px rgba(0, 162, 255, 0.25) !important;
             backdrop-filter: blur(25px) !important;
-            z-index: 99999 !important;
+            z-index: 999999 !important;
             opacity: 0 !important;
             pointer-events: none !important;
-            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+            transition: all 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
             display: flex !important;
             align-items: center !important;
             gap: 10px !important;
@@ -1427,7 +1427,16 @@ function updateHtcClock_old() {
         }
         .cyber-toast.show {
             opacity: 1 !important;
-            transform: translateX(-50%) translateY(0) !important;
+            transform: translateX(-50%) translateY(0) scale(1) !important;
+        }
+        .toast-beacon {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent-green);
+            box-shadow: 0 0 10px var(--accent-green);
+            animation: livePulse 1.2s infinite ease-in-out;
+            display: inline-block;
         }
 
         /* NFT Cert Card Holographic Shine */
@@ -2976,7 +2985,7 @@ function sendChatMessage() {
 
 
 
-        /* Cyber Toast System */
+        /* Cyber Toast System 2026 Dynamic Island HUD */
         window.showCyberToast = function(msg, icon = '⚡') {
             let toast = document.getElementById('cyber-toast');
             if (!toast) {
@@ -2985,8 +2994,9 @@ function sendChatMessage() {
                 toast.className = 'cyber-toast';
                 document.body.appendChild(toast);
             }
-            toast.innerHTML = `<span style="font-size:1.1rem;">${icon}</span> <span>${msg}</span>`;
+            toast.innerHTML = `<span class="toast-beacon"></span><span style="font-size:1.1rem;">${icon}</span> <span>${msg}</span>`;
             toast.classList.add('show');
+            if (typeof triggerHaptic === 'function') triggerHaptic('medium');
             setTimeout(() => toast.classList.remove('show'), 3000);
         };
 
