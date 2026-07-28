@@ -1407,3 +1407,17 @@ function switchTab(pageId) {
     // Add onchange to select-barber so it re-checks slots when a new master is picked
     const selectBarber = document.getElementById('select-barber');
     if(selectBarber) selectBarber.addEventListener('change', checkAvailableSlots);
+        let cartCount = 0;
+        const originalBuyShopItem = window.buyShopItem;
+        window.buyShopItem = function(itemName) {
+            cartCount++;
+            const badge = document.getElementById('nav-shop-badge');
+            if (badge) {
+                badge.innerText = cartCount;
+                badge.style.display = 'inline-block';
+            }
+            if (typeof showCyberToast === 'function') {
+                showCyberToast('Додано у кошик: ' + itemName, '🛒');
+            }
+            if (typeof triggerHaptic === 'function') triggerHaptic('medium');
+        };

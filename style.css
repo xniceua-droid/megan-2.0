@@ -1444,3 +1444,20 @@
             background: linear-gradient(135deg, var(--cyber-gold) 0%, #ff8800 100%) !important;
             color: #000000 !important;
         }
+        /* 🛒 DYNAMIC NAV CART BADGE 2026 */
+        .nav-btn { position: relative !important; }
+        .nav-cart-badge {
+            position: absolute;
+            top: -2px;
+            right: 8px;
+            background: var(--accent-red);
+            color: #ffffff;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.6rem;
+            font-weight: 900;
+            padding: 1px 5px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px var(--accent-red);
+            display: none;
+            z-index: 10;
+        }
