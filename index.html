@@ -389,133 +389,109 @@
         </div>
     </div>
 
-    <!-- 7. ДИРЕКТОР -->
-    <div id="page-director" class="page-section">
-        <div class="admin-card">
-            <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);" data-i18n="dir-title">👑 ДИРЕКТОРСЬКА АНАЛІТИКА</h3>
-            
-            <div style="display:flex; justify-content:space-between; align-items:center; background:#121926; border-radius:12px; padding:15px; margin-top:15px; border:1px solid rgba(0,230,118,0.3);">
-                <div>
-                    <div style="font-size:0.75rem; color:var(--text-sub);">Загальний дохід (EUR)</div>
-                    <div id="dir-total-revenue" style="font-family:'Orbitron'; font-size:1.5rem; color:var(--accent-green); font-weight:bold; margin-top:5px;">0 €</div>
-                </div>
-                <div style="text-align:right;">
-                    <div style="font-size:0.75rem; color:var(--text-sub);">Чистий прибуток (55%)</div>
-                    <div id="dir-net-profit" style="font-family:'Orbitron'; font-size:1.2rem; color:#fff; font-weight:bold; margin-top:5px;">0 €</div>
-                </div>
+        <!-- 7. ERP СИСТЕМА -->
+    <div id="page-erp" class="page-section">
+        <div class="admin-card" style="padding:10px">
+            <div style="display:flex; gap:6px; overflow-x:auto; padding-bottom:10px; scrollbar-width:none;">
+                <button class="erp-tab active" onclick="switchERPTab('erp-director')" style="background:var(--cyber-gold); color:#000; border:none; padding:8px 14px; border-radius:20px; font-family:'Orbitron'; font-size:0.7rem; font-weight:bold; cursor:pointer; white-space:nowrap;">👑 Директор</button>
+                <button class="erp-tab" onclick="switchERPTab('erp-accounting')" style="background:#1a2332; color:var(--text-sub); border:1px solid rgba(255,255,255,0.1); padding:8px 14px; border-radius:20px; font-family:'Orbitron'; font-size:0.7rem; font-weight:bold; cursor:pointer; white-space:nowrap;">🇫🇷 Податки</button>
+                <button class="erp-tab" onclick="switchERPTab('erp-crm')" style="background:#1a2332; color:var(--text-sub); border:1px solid rgba(255,255,255,0.1); padding:8px 14px; border-radius:20px; font-family:'Orbitron'; font-size:0.7rem; font-weight:bold; cursor:pointer; white-space:nowrap;">💼 CRM</button>
+                <button class="erp-tab" onclick="switchERPTab('erp-master')" style="background:#1a2332; color:var(--text-sub); border:1px solid rgba(255,255,255,0.1); padding:8px 14px; border-radius:20px; font-family:'Orbitron'; font-size:0.7rem; font-weight:bold; cursor:pointer; white-space:nowrap;">💈 Майстер</button>
+                <button class="erp-tab" onclick="switchERPTab('erp-warehouse')" style="background:#1a2332; color:var(--text-sub); border:1px solid rgba(255,255,255,0.1); padding:8px 14px; border-radius:20px; font-family:'Orbitron'; font-size:0.7rem; font-weight:bold; cursor:pointer; white-space:nowrap;">📦 Склад</button>
             </div>
+        </div>
 
-            <div style="margin-top:20px;">
-                <h4 style="font-family:'Orbitron'; color:var(--cyber-blue); font-size:0.9rem; margin-bottom:10px;">📊 Дохід по Майстрах</h4>
-                <div id="dir-masters-stats">
-                    <!-- Заповнюється динамічно -->
+        <div id="erp-director" class="erp-panel" style="display:block;">
+            <div class="admin-card">
+                <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);">👑 ДИРЕКТОРСЬКА АНАЛІТИКА</h3>
+                <div style="display:flex; justify-content:space-between; align-items:center; background:#121926; border-radius:12px; padding:15px; margin-top:15px; border:1px solid rgba(0,230,118,0.3);">
+                    <div>
+                        <div style="font-size:0.75rem; color:var(--text-sub);">Загальний дохід (EUR)</div>
+                        <div id="dir-total-revenue" style="font-family:'Orbitron'; font-size:1.5rem; color:var(--accent-green); font-weight:bold; margin-top:5px;">0 €</div>
+                    </div>
+                    <div style="text-align:right;">
+                        <div style="font-size:0.75rem; color:var(--text-sub);">Чистий прибуток (55%)</div>
+                        <div id="dir-net-profit" style="font-family:'Orbitron'; font-size:1.2rem; color:#fff; font-weight:bold; margin-top:5px;">0 €</div>
+                    </div>
                 </div>
-            </div>
-
-            <div style="margin-top:20px;">
-                <h4 style="font-family:'Orbitron'; color:var(--cyber-gold); font-size:0.9rem; margin-bottom:10px;">📈 Графік Прибутковості</h4>
-                <div style="background:#121926; border-radius:12px; padding:10px; border:1px solid rgba(255,215,0,0.3);">
-                    <canvas id="revenueChart" style="width:100%; height:200px;"></canvas>
+                <div style="margin-top:20px;">
+                    <h4 style="font-family:'Orbitron'; color:var(--cyber-blue); font-size:0.9rem; margin-bottom:10px;">📊 Дохід по Майстрах</h4>
+                    <div id="dir-masters-stats"></div>
                 </div>
-            </div>
-
-            <div style="margin-top:20px;">
-                <h4 style="font-family:'Orbitron'; color:var(--cyber-gold); font-size:0.9rem; margin-bottom:10px;">🤖 AI Фінансовий Прогноз</h4>
-                <div style="background:rgba(255,215,0,0.1); border-left:3px solid var(--cyber-gold); padding:10px; border-radius:8px;">
-                    <div style="font-size:0.8rem; color:#fff; margin-bottom:5px;">Тренд: <span style="color:var(--accent-green);">Зростаючий ↗</span></div>
-                    <div style="font-size:0.75rem; color:var(--text-sub);">Прогнозований дохід наступного місяця: <b style="color:var(--cyber-gold);" id="dir-forecast">0 €</b> (на базі існуючих записів)</div>
+                <div style="margin-top:20px;">
+                    <h4 style="font-family:'Orbitron'; color:var(--cyber-gold); font-size:0.9rem; margin-bottom:10px;">📈 Графік Прибутковості</h4>
+                    <div style="background:#121926; border-radius:12px; padding:10px; border:1px solid rgba(255,215,0,0.3);">
+                        <canvas id="revenueChart" style="width:100%; height:200px;"></canvas>
+                    </div>
+                </div>
+                <div style="margin-top:20px;">
+                    <h4 style="font-family:'Orbitron'; color:var(--cyber-gold); font-size:0.9rem; margin-bottom:10px;">🤖 AI Фінансовий Прогноз</h4>
+                    <div style="background:rgba(255,215,0,0.1); border-left:3px solid var(--cyber-gold); padding:10px; border-radius:8px;">
+                        <div style="font-size:0.8rem; color:#fff; margin-bottom:5px;">Тренд: <span style="color:var(--accent-green);">Зростаючий ↗</span></div>
+                        <div style="font-size:0.75rem; color:var(--text-sub);">Прогнозований дохід: <b style="color:var(--cyber-gold);" id="dir-forecast">0 €</b></div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- 8. БУХГАЛТЕРИЯ ТА СКЛАД -->
-    <div id="page-accounting" class="page-section">
-        <div class="admin-card">
-            <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);" data-i18n="acc-title">🇫🇷 ПОДАТКИ (FRANCE)</h3>
-            <div class="form-group" style="margin-top:10px;">
-                <label>Витрати (Оренда, Матеріали) €:</label>
-                <input type="number" id="acc-expenses" value="1200" onchange="calculateAccounting()">
-            </div>
-            <div class="form-group" style="margin-top:10px;">
-                <label>Електроенергія €:</label>
-                <input type="number" id="acc-electricity" value="150" onchange="calculateAccounting()">
-            </div>
-            
-            <div style="background:#121926; border:1px solid rgba(255,255,255,0.1); border-radius:12px; padding:15px; margin-top:15px;">
-                <div style="display:flex; justify-content:space-between; margin-bottom:8px; font-size:0.85rem;">
-                    <span style="color:var(--text-sub);">Валовий дохід:</span> <span id="acc-gross" style="color:#fff; font-weight:bold;">0 €</span>
-                </div>
-                <div style="display:flex; justify-content:space-between; margin-bottom:8px; font-size:0.85rem;">
-                    <span style="color:var(--text-sub);">ПДВ (TVA 20%):</span> <span id="acc-tva" style="color:var(--accent-red); font-weight:bold;">0 €</span>
-                </div>
-                <div style="display:flex; justify-content:space-between; margin-bottom:8px; font-size:0.85rem;">
-                    <span style="color:var(--text-sub);">Соц. внески (URSSAF 22%):</span> <span id="acc-urssaf" style="color:var(--accent-red); font-weight:bold;">0 €</span>
-                </div>
-                <div style="display:flex; justify-content:space-between; margin-bottom:8px; font-size:0.85rem;">
-                    <span style="color:var(--text-sub);">Поточні витрати (вкл. Світло):</span> <span id="acc-exp-display" style="color:var(--accent-purple); font-weight:bold;">1350 €</span>
-                </div>
-                <hr style="border:0; border-top:1px dashed rgba(255,255,255,0.1); margin:10px 0;">
-                <div style="display:flex; justify-content:space-between; font-size:1rem;">
-                    <span style="color:var(--cyber-gold); font-weight:bold;">ЧИСТИЙ ПРИБУТОК:</span> <span id="acc-net" style="color:var(--accent-green); font-family:'Orbitron'; font-weight:900;">0 €</span>
+        <div id="erp-accounting" class="erp-panel" style="display:none;">
+            <div class="admin-card">
+                <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);">🇫🇷 ПОДАТКИ (FRANCE)</h3>
+                <div class="form-group" style="margin-top:10px;"><label>Витрати (Оренда, Матеріали) €:</label><input type="number" id="acc-expenses" value="1200" onchange="calculateAccounting()"></div>
+                <div class="form-group" style="margin-top:10px;"><label>Електроенергія €:</label><input type="number" id="acc-electricity" value="150" onchange="calculateAccounting()"></div>
+                <div style="background:#121926; border:1px solid rgba(255,255,255,0.1); border-radius:12px; padding:15px; margin-top:15px;">
+                    <div style="display:flex; justify-content:space-between; margin-bottom:8px; font-size:0.85rem;"><span style="color:var(--text-sub);">Валовий дохід:</span> <span id="acc-gross" style="color:#fff; font-weight:bold;">0 €</span></div>
+                    <div style="display:flex; justify-content:space-between; margin-bottom:8px; font-size:0.85rem;"><span style="color:var(--text-sub);">ПДВ (TVA 20%):</span> <span id="acc-tva" style="color:var(--accent-red); font-weight:bold;">0 €</span></div>
+                    <div style="display:flex; justify-content:space-between; margin-bottom:8px; font-size:0.85rem;"><span style="color:var(--text-sub);">Соц. внески (URSSAF 22%):</span> <span id="acc-urssaf" style="color:var(--accent-red); font-weight:bold;">0 €</span></div>
+                    <div style="display:flex; justify-content:space-between; margin-bottom:8px; font-size:0.85rem;"><span style="color:var(--text-sub);">Поточні витрати:</span> <span id="acc-exp-display" style="color:var(--accent-purple); font-weight:bold;">1350 €</span></div>
+                    <hr style="border:0; border-top:1px dashed rgba(255,255,255,0.1); margin:10px 0;">
+                    <div style="display:flex; justify-content:space-between; font-size:1rem;"><span style="color:var(--cyber-gold); font-weight:bold;">ЧИСТИЙ ПРИБУТОК:</span> <span id="acc-net" style="color:var(--accent-green); font-family:'Orbitron'; font-weight:900;">0 €</span></div>
                 </div>
             </div>
-
-            <h4 style="font-family:'Orbitron'; color:var(--cyber-blue); font-size:0.9rem; margin-top:20px; margin-bottom:10px;">📦 СКЛАД (Автосписання)</h4>
-            <div id="warehouse-list" style="display:flex; flex-direction:column; gap:8px;"></div>
         </div>
-    </div>
 
-    <!-- 9. CRM -->
-    <div id="page-admin" class="page-section">
-        <div class="admin-card" style="padding:15px 10px;">
-            <h3 style="font-family:'Orbitron'; color:var(--cyber-blue); text-align:center;" data-i18n="crm-title">💼 CRM КАНБАН</h3>
-            
-            <div style="display:flex; gap:10px; margin-top:15px; overflow-x:auto; padding-bottom:10px;">
-                <!-- Колонки -->
-                <div style="min-width:250px; background:rgba(255,255,255,0.02); border-radius:12px; padding:10px; border:1px solid rgba(255,255,255,0.05);">
-                    <div style="font-family:'Orbitron'; font-size:0.85rem; color:#fff; margin-bottom:10px; display:flex; justify-content:space-between;">
-                        Нові <span style="background:var(--cyber-blue); color:#000; padding:2px 6px; border-radius:10px; font-weight:bold;" id="count-new">0</span>
+        <div id="erp-crm" class="erp-panel" style="display:none;">
+            <div class="admin-card" style="padding:15px 10px;">
+                <h3 style="font-family:'Orbitron'; color:var(--cyber-blue); text-align:center;">💼 CRM КАНБАН</h3>
+                <div style="display:flex; gap:10px; margin-top:15px; overflow-x:auto; padding-bottom:10px;">
+                    <div style="min-width:250px; background:rgba(255,255,255,0.02); border-radius:12px; padding:10px; border:1px solid rgba(255,255,255,0.05);">
+                        <div style="font-family:'Orbitron'; font-size:0.85rem; color:#fff; margin-bottom:10px; display:flex; justify-content:space-between;">Нові <span style="background:var(--cyber-blue); color:#000; padding:2px 6px; border-radius:10px; font-weight:bold;" id="count-new">0</span></div>
+                        <div id="crm-col-new" style="min-height:100px;"></div>
                     </div>
-                    <div id="crm-col-new" style="min-height:100px;"></div>
-                </div>
-
-                <div style="min-width:250px; background:rgba(255,255,255,0.02); border-radius:12px; padding:10px; border:1px solid rgba(255,255,255,0.05);">
-                    <div style="font-family:'Orbitron'; font-size:0.85rem; color:#fff; margin-bottom:10px; display:flex; justify-content:space-between;">
-                        Підтверджені <span style="background:var(--cyber-gold); color:#000; padding:2px 6px; border-radius:10px; font-weight:bold;" id="count-conf">0</span>
+                    <div style="min-width:250px; background:rgba(255,255,255,0.02); border-radius:12px; padding:10px; border:1px solid rgba(255,255,255,0.05);">
+                        <div style="font-family:'Orbitron'; font-size:0.85rem; color:#fff; margin-bottom:10px; display:flex; justify-content:space-between;">Підтверджені <span style="background:var(--cyber-gold); color:#000; padding:2px 6px; border-radius:10px; font-weight:bold;" id="count-conf">0</span></div>
+                        <div id="crm-col-conf" style="min-height:100px;"></div>
                     </div>
-                    <div id="crm-col-conf" style="min-height:100px;"></div>
-                </div>
-
-                <div style="min-width:250px; background:rgba(255,255,255,0.02); border-radius:12px; padding:10px; border:1px solid rgba(255,255,255,0.05);">
-                    <div style="font-family:'Orbitron'; font-size:0.85rem; color:#fff; margin-bottom:10px; display:flex; justify-content:space-between;">
-                        Завершені <span style="background:var(--accent-green); color:#000; padding:2px 6px; border-radius:10px; font-weight:bold;" id="count-done">0</span>
+                    <div style="min-width:250px; background:rgba(255,255,255,0.02); border-radius:12px; padding:10px; border:1px solid rgba(255,255,255,0.05);">
+                        <div style="font-family:'Orbitron'; font-size:0.85rem; color:#fff; margin-bottom:10px; display:flex; justify-content:space-between;">Завершені <span style="background:var(--accent-green); color:#000; padding:2px 6px; border-radius:10px; font-weight:bold;" id="count-done">0</span></div>
+                        <div id="crm-col-done" style="min-height:100px;"></div>
                     </div>
-                    <div id="crm-col-done" style="min-height:100px;"></div>
                 </div>
+                <h4 style="font-family:'Orbitron'; color:var(--cyber-blue); font-size:0.9rem; margin-top:20px; text-align:center;">👥 База Клієнтів (LTV)</h4>
+                <div id="crm-clients-list" style="margin-top:10px;"></div>
+                <button class="action-btn-sm btn-receipt" style="width:100%; margin-top:15px; padding:12px;" onclick="openManualOrderModal()">➕ СТВОРИТИ ЗАПИС ВРУЧНУ</button>
             </div>
-            
-            <h4 style="font-family:'Orbitron'; color:var(--cyber-blue); font-size:0.9rem; margin-top:20px; text-align:center;">👥 База Клієнтів (LTV)</h4>
-            <div id="crm-clients-list" style="margin-top:10px;"></div>
-
-            <button class="action-btn-sm btn-receipt" style="width:100%; margin-top:15px; padding:12px;" onclick="openManualOrderModal()">➕ СТВОРИТИ ЗАПИС ВРУЧНУ</button>
         </div>
-    </div>
 
-    <!-- 10. МАСТЕР -->
-    <div id="page-master" class="page-section">
-        <div class="admin-card">
-            <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);" data-i18n="master-title">💈 КАБІНЕТ МАЙСТРА</h3>
-            
-            <div style="display:flex; justify-content:space-between; align-items:center; background:#121926; border-radius:12px; padding:15px; margin-top:15px; border:1px solid rgba(0,162,255,0.3); margin-bottom:15px;">
-                <div>
-                    <div style="font-size:0.75rem; color:var(--text-sub);">Комісія: <input type="number" id="master-percent" value="45" style="width:40px; background:transparent; border:1px solid var(--cyber-gold); color:var(--cyber-gold); text-align:center; border-radius:4px;" onchange="populateMasterSchedule()"> %</div>
-                    <div id="master-total-cut" style="font-family:'Orbitron'; font-size:1.5rem; color:var(--cyber-blue); font-weight:bold; margin-top:5px;">0 €</div>
+        <div id="erp-master" class="erp-panel" style="display:none;">
+            <div class="admin-card">
+                <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);">💈 КАБІНЕТ МАЙСТРА</h3>
+                <div style="display:flex; justify-content:space-between; align-items:center; background:#121926; border-radius:12px; padding:15px; margin-top:15px; border:1px solid rgba(0,162,255,0.3); margin-bottom:15px;">
+                    <div>
+                        <div style="font-size:0.75rem; color:var(--text-sub);">Комісія: <input type="number" id="master-percent" value="45" style="width:40px; background:transparent; border:1px solid var(--cyber-gold); color:var(--cyber-gold); text-align:center; border-radius:4px;" onchange="populateMasterSchedule()"> %</div>
+                        <div id="master-total-cut" style="font-family:'Orbitron'; font-size:1.5rem; color:var(--cyber-blue); font-weight:bold; margin-top:5px;">0 €</div>
+                    </div>
+                    <button class="action-btn-sm btn-payout" onclick="payMasterSalary()">💵 Виплатити ЗП</button>
                 </div>
-                <button class="action-btn-sm btn-payout" onclick="payMasterSalary()">💵 Виплатити ЗП</button>
+                <div id="master-schedule-list"></div>
             </div>
+        </div>
 
-            <div id="master-schedule-list"></div>
+        <div id="erp-warehouse" class="erp-panel" style="display:none;">
+            <div class="admin-card">
+                <h4 style="font-family:'Orbitron'; color:var(--cyber-blue); font-size:0.9rem; margin-bottom:10px;">📦 СКЛАД (Автосписання)</h4>
+                <div id="warehouse-list" style="display:flex; flex-direction:column; gap:8px;"></div>
+            </div>
         </div>
     </div>
 
@@ -527,10 +503,7 @@
         <button class="nav-btn" data-tab="chat" onclick="switchTab('chat')"><span class="nav-icon">💬</span><span data-i18n="role-chat">Чат 24/7</span></button>
         <button class="nav-btn" data-tab="shop" onclick="switchTab('shop')"><span class="nav-icon">🛍️</span><span data-i18n="role-shop">Маркет</span></button>
         <button class="nav-btn" data-tab="gifts" onclick="switchTab('gifts')"><span class="nav-icon">🎁</span><span data-i18n="role-gifts">Подарунки</span></button>
-        <button class="nav-btn" data-tab="director" onclick="switchTab('director')"><span class="nav-icon">👑</span><span data-i18n="role-director">Директор</span></button>
-        <button class="nav-btn" data-tab="accounting" onclick="switchTab('accounting')"><span class="nav-icon">🇫🇷</span><span data-i18n="role-accounting">Податки</span></button>
-        <button class="nav-btn" data-tab="admin" onclick="switchTab('admin')"><span class="nav-icon">💼</span><span data-i18n="role-admin">CRM</span></button>
-        <button class="nav-btn" data-tab="master" onclick="switchTab('master')"><span class="nav-icon">💈</span><span data-i18n="role-master">Майстер</span></button>
+                <button class="nav-btn" data-tab="erp" onclick="switchTab('erp')"><span class="nav-icon">👑</span><span data-i18n="role-erp">ERP</span></button>
     </div>
 </div>
 
@@ -1433,9 +1406,13 @@
             });
         }
 
-        if(pageId === 'admin') populateCRM();
-        if(pageId === 'master') populateMasterSchedule();
-        if(pageId === 'director') initDirectorStats();
+        if(pageId === 'erp') {
+            populateCRM();
+            populateMasterSchedule();
+            initDirectorStats();
+            calculateAccounting();
+            setTimeout(populateDirector, 100);
+        }
     }
 
     const modal = document.getElementById('booking-modal');
@@ -1514,6 +1491,33 @@
     
     // Инициализация языка
     changeLanguage('UA');
+
+    // === ERP підвкладки ===
+    function switchERPTab(panelId) {
+        triggerHaptic('light');
+        document.querySelectorAll('.erp-panel').forEach(p => p.style.display = 'none');
+        document.querySelectorAll('.erp-tab').forEach(b => {
+            b.style.background = '#1a2332';
+            b.style.color = 'var(--text-sub)';
+            b.style.border = '1px solid rgba(255,255,255,0.1)';
+        });
+        const panel = document.getElementById(panelId);
+        if (panel) panel.style.display = 'block';
+        const tabs = document.querySelectorAll('.erp-tab');
+        tabs.forEach(t => {
+            if (t.getAttribute('onclick').includes(panelId)) {
+                t.style.background = 'var(--cyber-gold)';
+                t.style.color = '#000';
+                t.style.border = 'none';
+            }
+        });
+        if (panelId === 'erp-director') { initDirectorStats(); setTimeout(populateDirector, 100); }
+        if (panelId === 'erp-crm') populateCRM();
+        if (panelId === 'erp-master') populateMasterSchedule();
+        if (panelId === 'erp-accounting') calculateAccounting();
+    }
+
+
 
     // --- ERP ENHANCEMENTS ---
     function deleteOrder(id) {
