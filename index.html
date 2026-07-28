@@ -312,6 +312,18 @@
             transform: scale(1.15);
         }
 
+
+        /* Micro-icon badges across elements */
+        .micro-badge {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            vertical-align: middle;
+            margin-right: 4px;
+            border: 1px solid var(--cyber-blue);
+            object-fit: cover;
+        }
+
     </style>
 </head>
 <body>
@@ -358,7 +370,7 @@
                     <div class="pay-badge-item" style="border-color:var(--cyber-gold); background:rgba(255,215,0,0.12); color:var(--cyber-gold);"><span style="font-size:0.9rem; margin-right:4px;">💳</span><span style="font-weight:800;">VISA / MC</span></div>
                 </div>
 
-                <button class="ticket-btn" style="margin-top:15px; display:flex; align-items:center; justify-content:center; gap:8px;" onclick="openModal()" id="txt-hero-btn" data-i18n="btn-book"><img src="icon_scissors.jpg" style="width:22px; height:22px; border-radius:50%; border:1px solid var(--cyber-gold);"> ⚡ ЗАПИСАТИСЯ ДО МАЙСТРА</button>
+                <button class="ticket-btn" style="margin-top:15px; display:flex; align-items:center; justify-content:center; gap:8px;" onclick="openModal()" id="txt-hero-btn" data-i18n="btn-book"><img src="m3gan_icon_nav.jpg" style="width:22px; height:22px; border-radius:50%; border:1px solid var(--cyber-gold);"> ⚡ ЗАПИСАТИСЯ ДО МАЙСТРА</button>
             </div>
         </section>
 
@@ -727,9 +739,9 @@
 
     <!-- НИЖНЯЯ НАВИГАЦИЯ -->
     <div class="bottom-nav">
-        <button class="nav-btn active" data-tab="client" onclick="switchTab('client')"><img src="icon_scissors.jpg" alt="Client" class="btn-icon-img"><span data-i18n="role-client">Клієнт</span></button>
+        <button class="nav-btn active" data-tab="client" onclick="switchTab('client')"><img src="m3gan_icon_nav.jpg" alt="Client" class="btn-icon-img"><span data-i18n="role-client">Клієнт</span></button>
         <button class="nav-btn" data-tab="bar" onclick="switchTab('bar')"><img src="icon_bar.jpg" alt="Bar" class="btn-icon-img"><span data-i18n="role-bar">VIP Бар</span></button>
-        <button class="nav-btn" data-tab="ai" onclick="switchTab('ai')"><img src="icon_ai.jpg" alt="AI" class="btn-icon-img"><span data-i18n="role-ai">AI Скан</span></button>
+        <button class="nav-btn" data-tab="ai" onclick="switchTab('ai')"><img src="m3gan_icon_nav.jpg" alt="AI" class="btn-icon-img"><span data-i18n="role-ai">AI Скан</span></button>
         <button class="nav-btn" data-tab="chat" onclick="switchTab('chat')"><span class="nav-icon">💬</span><span data-i18n="role-chat">Чат 24/7</span></button>
         <button class="nav-btn" data-tab="shop" onclick="switchTab('shop')"><span class="nav-icon">🛍️</span><span data-i18n="role-shop">Маркет</span></button>
         <button class="nav-btn" data-tab="gifts" onclick="switchTab('gifts')"><span class="nav-icon">🎁</span><span data-i18n="role-gifts">Подарунки</span></button>
