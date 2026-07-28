@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>MEGAN 2.0 — ERP DASHBOARD</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #030508;
+            --card-bg: #0b1019;
+            --cyber-blue: #00a2ff;
+            --cyber-gold: #ffd700;
+            --accent-green: #00e676;
+            --accent-red: #ff2a5f;
+            --text-main: #ffffff;
+            --text-sub: #9bb0c7;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background-color: #010204; color: var(--text-main); font-family: 'Montserrat', sans-serif; min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
+        .erp-container { width: 100%; max-width: 800px; padding: 20px; }
+        header { border-bottom: 2px solid var(--cyber-gold); padding-bottom: 15px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-family: 'Orbitron'; font-size: 1.5rem; color: var(--cyber-gold); }
+        .admin-card { background: var(--card-bg); border: 1px solid rgba(0, 162, 255, 0.35); border-radius: 12px; padding: 20px; margin-bottom: 20px; }
+        .chart-container { position: relative; height: 300px; width: 100%; margin-top: 15px; }
+        .btn-action { background: var(--cyber-blue); color: #fff; border: none; padding: 12px 20px; border-radius: 8px; font-family: 'Orbitron'; font-weight: bold; cursor: pointer; width: 100%; margin-top: 10px; }
+        .btn-action.gold { background: var(--cyber-gold); color: #000; }
+        .btn-action.red { background: var(--accent-red); color: #fff; }
+        input[type="text"], textarea { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--cyber-blue); background: #121926; color: #fff; margin-bottom: 10px; font-family: 'Montserrat'; outline: none; }
+        .nav-btn { color: var(--text-sub); text-decoration: none; font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+<div class="erp-container">
+    <header>
+        <div class="logo">MEGAN 2.0 ERP</div>
+        <a href="index.html" class="nav-btn">⬅ Повернутися</a>
+    </header>
+
+    <div class="admin-card">
+        <h3 style="font-family:'Orbitron'; color:var(--cyber-blue);">📊 АНАЛІТИКА ДОХОДІВ</h3>
+        <div class="chart-container">
+            <canvas id="revenueChart"></canvas>
+        </div>
+    </div>
+
+    <div class="admin-card" id="kpi-section">
+        <h3 style="font-family:'Orbitron'; color:var(--accent-green);">📈 KPI ТА ЗВІТИ (АВТОМАТИЗАЦІЯ)</h3>
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-top:15px;">
+            <div style="background:#121926; padding:15px; border-radius:8px; text-align:center;">
+                <div style="font-size:0.8rem; color:var(--text-sub);">Валовий дохід</div>
+                <div id="kpi-gross" style="font-family:'Orbitron'; color:var(--accent-green); font-size:1.2rem; font-weight:bold;">0 €</div>
+            </div>
+            <div style="background:#121926; padding:15px; border-radius:8px; text-align:center;">
+                <div style="font-size:0.8rem; color:var(--text-sub);">Всі Витрати</div>
+                <div id="kpi-expenses" style="font-family:'Orbitron'; color:var(--accent-red); font-size:1.2rem; font-weight:bold;">0 €</div>
+            </div>
+            <div style="background:#121926; padding:15px; border-radius:8px; text-align:center; grid-column: span 2; border:1px solid var(--cyber-gold);">
+                <div style="font-size:0.9rem; color:var(--text-sub);">💰 ЧИСТИЙ ПРИБУТОК (Net Profit)</div>
+                <div id="kpi-net" style="font-family:'Orbitron'; color:var(--cyber-gold); font-size:1.6rem; font-weight:900;">0 €</div>
+            </div>
+            <div style="background:#121926; padding:10px; border-radius:8px; font-size:0.8rem;">
+                <span style="color:var(--text-sub);">Топ Майстер:</span> <b id="kpi-top-master" style="color:#fff;">-</b>
+            </div>
+            <div style="background:#121926; padding:10px; border-radius:8px; font-size:0.8rem;">
+                <span style="color:var(--text-sub);">Топ Послуга:</span> <b id="kpi-top-service" style="color:#fff;">-</b>
+            </div>
+        </div>
+    </div>
+
+    <div class="admin-card">
+        <h3 style="font-family:'Orbitron'; color:var(--accent-red);">💳 ВИТРАТИ САЛОНУ</h3>
+        <p style="font-size:0.8rem; color:var(--text-sub); margin-bottom:15px;">Введіть суму, щоб вона віднялася від валового доходу.</p>
+        <div style="display:flex; gap:10px; margin-bottom:10px;">
+            <input type="text" id="exp-name" placeholder="Призначення (Оренда, L'Oréal...)" style="flex:2;">
+            <input type="number" id="exp-amount" placeholder="Сума (€)" style="flex:1;">
+        </div>
+        <button class="btn-action red" onclick="addExpense()">➖ ДОДАТИ ВИТРАТУ</button>
+    </div>
+
+    <div class="admin-card">
+        <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);">📨 МАСОВА РОЗСИЛКА (TELEGRAM)</h3>
+        <p style="font-size:0.8rem; color:var(--text-sub); margin-bottom:15px;">Напишіть повідомлення, і воно відправиться всім клієнтам з вашої бази.</p>
+        <textarea id="promo-msg" rows="4" placeholder="Увага! Знижка 20% на вихідні..."></textarea>
+        <button class="btn-action gold" onclick="sendMassMailing()">🚀 ВІДПРАВИТИ ВСІМ</button>
+    </div>
+
+    <div class="admin-card">
+        <h3 style="font-family:'Orbitron'; color:var(--cyber-blue);">⚙️ НАЛАШТУВАННЯ CRM (ПОСЛУГИ / МАЙСТРИ)</h3>
+        <p style="font-size:0.8rem; color:var(--text-sub); margin-bottom:15px;">Додавайте нові послуги та майстрів. Зміни миттєво з'являться в меню клієнта.</p>
+        
+        <div style="background:#121926; padding:15px; border-radius:8px; border:1px solid rgba(0,162,255,0.3); margin-bottom:15px;">
+            <h4 style="color:#fff; margin-bottom:10px;">➕ Нова Послуга</h4>
+            <input type="text" id="new-srv-name" placeholder="Назва послуги (напр. Кібер-Укладка)">
+            <input type="text" id="new-srv-desc" placeholder="Короткий опис">
+            <div style="display:flex; gap:10px;">
+                <input type="number" id="new-srv-price" placeholder="Ціна (€)" style="width:100%; padding:12px; border-radius:8px; border:1px solid var(--cyber-blue); background:#0b1019; color:#fff; outline:none;">
+                <input type="number" id="new-srv-dur" placeholder="Час (хв)" style="width:100%; padding:12px; border-radius:8px; border:1px solid var(--cyber-blue); background:#0b1019; color:#fff; outline:none;">
+            </div>
+            <button class="btn-action" onclick="addService()">Додати Послугу</button>
+        </div>
+
+        <div style="background:#121926; padding:15px; border-radius:8px; border:1px solid rgba(255,215,0,0.3);">
+            <h4 style="color:var(--cyber-gold); margin-bottom:10px;">👤 Новий Майстер</h4>
+            <input type="text" id="new-master-name" placeholder="Ім'я майстра (напр. ALEX VIP)">
+            <input type="number" id="new-master-cut" placeholder="Відсоток ЗП (напр. 45)" style="width:100%; padding:12px; border-radius:8px; border:1px solid var(--cyber-gold); background:#0b1019; color:#fff; outline:none;">
+            <button class="btn-action gold" onclick="addMaster()">Додати Майстра</button>
+        </div>
+    </div>
+
+    <div class="admin-card">
+        <h3 style="font-family:'Orbitron'; color:var(--accent-green);">📦 АВТО-СКЛАД</h3>
+        <p style="font-size:0.8rem; color:var(--text-sub); margin-bottom:15px;">Якщо запаси матеріалів критичні, система згенерує рахунок для постачальника L'Oréal.</p>
+        <div style="background:#121926; padding:15px; border-radius:8px; border:1px dashed var(--accent-green);">
+            <div style="display:flex; justify-content:space-between; margin-bottom:10px;"><span>Шампунь (мл)</span><span style="color:var(--accent-red);">500 / 5000 (КРИТИЧНО)</span></div>
+            <div style="display:flex; justify-content:space-between;"><span>Фарба Neon (мл)</span><span style="color:var(--accent-green);">1800 / 2000 (ОК)</span></div>
+        </div>
+        <button class="btn-action" style="background:var(--accent-green); color:#000; margin-top:15px;" onclick="orderSupplies()">🛒 ЗАМОВИТИ МАТЕРІАЛИ</button>
+    </div>
+</div>
+
+<script>
+    // Ініціалізація Графіка
+    const ctx = document.getElementById('revenueChart').getContext('2d');
+    const revenueChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Пн', 'Вв', 'Ср', 'Чт', 'Пт', 'Сб', 'Нд'],
+            datasets: [{
+                label: 'Дохід (€)',
+                data: [120, 190, 80, 250, 310, 420, 150],
+                backgroundColor: 'rgba(0, 162, 255, 0.6)',
+                borderColor: '#00a2ff',
+                borderWidth: 2,
+                borderRadius: 4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.1)' }, ticks: { color: '#9bb0c7' } },
+                x: { grid: { color: 'transparent' }, ticks: { color: '#9bb0c7' } }
+            },
+            plugins: { legend: { labels: { color: '#ffffff' } } }
+        }
+    });
+
+    async function sendMassMailing() {
+        const text = document.getElementById('promo-msg').value.trim();
+        if(!text) { alert('Введіть текст розсилки!'); return; }
+        
+        if(!confirm('Ви впевнені, що хочете відправити це повідомлення всім клієнтам бази?')) return;
+        
+        try {
+            // Отримуємо базу клієнтів (локально для демо, у продакшені - з сервера)
+            const db = JSON.parse(localStorage.getItem('vovan_db')) || { orders: [] };
+            let uniqueChats = [...new Set(db.orders.filter(o => o.chatId).map(o => o.chatId))];
+            
+            if(uniqueChats.length === 0) {
+                alert('У базі немає клієнтів із підключеним Telegram Chat ID.');
+                return;
+            }
+            
+            let sent = 0;
+            for(let chatId of uniqueChats) {
+                // Відправляємо на наш API (bot.js)
+                await fetch('http://localhost:3000/api/send-message', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ chatId: chatId, text: text })
+                });
+                sent++;
+            }
+            alert(`✅ Розсилка успішно надіслана ${sent} клієнтам!`);
+            document.getElementById('promo-msg').value = '';
+        } catch(e) {
+            alert('Помилка масової розсилки. Перевірте з\'єднання з сервером бота.');
+        }
+    }
+
+    function orderSupplies() {
+        alert('✅ Рахунок-фактура автоматично згенерована та відправлена постачальнику (Симуляція). Очікуйте доставку завтра!');
+    }
+    function addService() {
+        const name = document.getElementById('new-srv-name').value.trim();
+        const desc = document.getElementById('new-srv-desc').value.trim();
+        const price = parseInt(document.getElementById('new-srv-price').value);
+        const dur = parseInt(document.getElementById('new-srv-dur').value);
+
+        if(!name || !price || !dur) { alert('Будь ласка, заповніть Назву, Ціну та Час!'); return; }
+        
+        let db = JSON.parse(localStorage.getItem('vovan_db')) || { orders: [], warehouse: [], services: [], masters: [] };
+        if(!db.services) db.services = [];
+        
+        db.services.push({ id: 's' + Date.now(), name: name, desc: desc || '', price: price, duration: dur });
+        localStorage.setItem('vovan_db', JSON.stringify(db));
+        
+        alert(`✅ Послугу "${name}" успішно додано! Вона вже доступна клієнтам.`);
+        document.getElementById('new-srv-name').value = '';
+        document.getElementById('new-srv-desc').value = '';
+        document.getElementById('new-srv-price').value = '';
+        document.getElementById('new-srv-dur').value = '';
+    }
+
+    function addMaster() {
+        const name = document.getElementById('new-master-name').value.trim();
+        const cut = parseInt(document.getElementById('new-master-cut').value);
+
+        if(!name || !cut) { alert('Заповніть ім\'я та відсоток!'); return; }
+        
+        let db = JSON.parse(localStorage.getItem('vovan_db')) || { orders: [], warehouse: [], services: [], masters: [] };
+        if(!db.masters) db.masters = [];
+        
+        db.masters.push({ id: 'm' + Date.now(), name: name, cut: cut });
+        localStorage.setItem('vovan_db', JSON.stringify(db));
+        
+        alert(`✅ Майстра "${name}" додано!`);
+        document.getElementById('new-master-name').value = '';
+        document.getElementById('new-master-cut').value = '';
+    }
+    function addExpense() {
+        const name = document.getElementById('exp-name').value.trim();
+        const amount = parseFloat(document.getElementById('exp-amount').value);
+        if(!name || !amount) { alert('Введіть назву та суму витрати!'); return; }
+
+        let db = JSON.parse(localStorage.getItem('vovan_db')) || { orders: [], warehouse: [], services: [], masters: [], expenses: [] };
+        if(!db.expenses) db.expenses = [];
+
+        db.expenses.push({ id: 'e' + Date.now(), name: name, amount: amount, date: new Date().toISOString() });
+        localStorage.setItem('vovan_db', JSON.stringify(db));
+        
+        alert(`✅ Витрата "${name}" на суму ${amount}€ додана!`);
+        document.getElementById('exp-name').value = '';
+        document.getElementById('exp-amount').value = '';
+        initERPStats();
+    }
+
+    function initERPStats() {
+        let db = JSON.parse(localStorage.getItem('vovan_db')) || { orders: [], warehouse: [], services: [], masters: [], expenses: [] };
+        
+        let gross = 0;
+        let masterCutTotal = 0;
+        let serviceCounts = {};
+        let masterCounts = {};
+        
+        (db.orders || []).forEach(o => {
+            gross += o.Price || 0;
+            masterCutTotal += o.Master_Cut || 0;
+            
+            if(o.Service) serviceCounts[o.Service] = (serviceCounts[o.Service] || 0) + 1;
+            if(o.Master) masterCounts[o.Master] = (masterCounts[o.Master] || 0) + 1;
+        });
+
+        let expensesTotal = 0;
+        (db.expenses || []).forEach(e => {
+            expensesTotal += e.amount || 0;
+        });
+
+        let topService = "-";
+        if(Object.keys(serviceCounts).length > 0) {
+            topService = Object.keys(serviceCounts).reduce((a, b) => serviceCounts[a] > serviceCounts[b] ? a : b);
+        }
+
+        let topMaster = "-";
+        if(Object.keys(masterCounts).length > 0) {
+            topMaster = Object.keys(masterCounts).reduce((a, b) => masterCounts[a] > masterCounts[b] ? a : b);
+        }
+
+        let totalExpenses = expensesTotal + masterCutTotal;
+        let netProfit = gross - totalExpenses;
+
+        document.getElementById('kpi-gross').innerText = gross.toFixed(2) + " €";
+        document.getElementById('kpi-expenses').innerText = totalExpenses.toFixed(2) + " €";
+        document.getElementById('kpi-net').innerText = netProfit.toFixed(2) + " €";
+        document.getElementById('kpi-top-master').innerText = topMaster;
+        document.getElementById('kpi-top-service').innerText = topService;
+    }
+
+    // Call on load
+    initERPStats();
+</script>
+</body>
+</html>

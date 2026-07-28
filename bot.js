@@ -66,6 +66,61 @@ app.post('/api/orders', (req, res) => {
     res.json({ success: true, row: order });
 });
 
+// Parallel Database Sync (JSON + Google Sheets)
+app.post('/api/sync', async (req, res) => {
+    const db = req.body;
+    if (!db) return res.status(400).json({ error: "No DB provided" });
+    
+    // Save locally
+    saveDb(db);
+    
+    // Forward to Google Apps Script (Placeholder URL - User must deploy and replace)
+    const GOOGLE_SCRIPT_URL = process.env.GOOGLE_SCRIPT_URL || "YOUR_GOOGLE_SCRIPT_URL_HERE";
+    
+    if (GOOGLE_SCRIPT_URL !== "YOUR_GOOGLE_SCRIPT_URL_HERE") {
+        try {
+            // Pick latest order to append
+            if (db.orders && db.orders.length > 0) {
+                const latestOrder = db.orders[db.orders.length - 1];
+                const gData = {
+                    action: 'add',
+                    sheet: 'Orders',
+                    date: latestOrder.Date,
+                    clientName: latestOrder.Client,
+                    clientPhone: latestOrder.Phone || "",
+                    service: latestOrder.Service,
+                    master: latestOrder.Master,
+                    status: latestOrder.Status,
+                    price: latestOrder.Price
+                };
+                // Native fetch in Node 18+
+                await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(gData)
+                });
+            }
+        } catch (e) {
+            console.error("Google Sheets Sync Error:", e.message);
+        }
+    }
+    
+    res.json({ success: true });
+});
+
+// Endpoint to send message from CRM to Client
+app.post('/api/send-message', async (req, res) => {
+    const { chatId, text } = req.body;
+    if (!chatId || !text) return res.status(400).json({ error: "No chatId or text" });
+    try {
+        await bot.sendMessage(chatId, text, { parse_mode: 'HTML' });
+        res.json({ success: true });
+    } catch (error) {
+        console.error("SendMessage error:", error);
+        res.status(500).json({ success: false, error: error.message });
+    }
+});
+
 // Express endpoint for Payments
 app.post('/invoice', async (req, res) => {
     const { chatId, title, description, payload, price } = req.body;
@@ -99,13 +154,65 @@ bot.on('successful_payment', (msg) => {
 bot.onText(/\/(start|restart)/, async (msg) => {
     const chatId = msg.chat.id;
 
+    // Request contact keyboard
+    const contactOpts = {
+        reply_markup: {
+            keyboard: [[{ text: "📞 Поділитися контактом", request_contact: true }]],
+            resize_keyboard: true,
+            one_time_keyboard: true
+        }
+    };
+    await bot.sendMessage(chatId, `Привіт, ${msg.from.first_name || 'клієнт'}! Щоб створити ваш профіль, будь ласка, поділіться контактом.`, contactOpts);
+
+    // Web App Button
     const opts = {
         reply_markup: {
             inline_keyboard: [[{ text: "⚡ ВІДКРИТИ VOVAN BEAUTY ⚡", web_app: { url: webAppUrl } }]]
         }
     };
-    bot.sendMessage(chatId, `Привіт, ${msg.from.first_name || 'клієнт'}!\nЛаскаво просимо до VOVAN BEAUTY STUDIO.\n\nНатисніть кнопку нижче, щоб відкрити додаток 👇`, opts);
+    bot.sendMessage(chatId, `Ласкаво просимо до VOVAN BEAUTY STUDIO.\n\nНатисніть кнопку нижче, щоб відкрити додаток 👇`, opts);
 });
+
+// Обробка будь-яких інших команд (наприклад, старого /record) або тексту
+bot.on('message', (msg) => {
+    // Якщо це контакт або одна з основних команд - ігноруємо (вони обробляються вище)
+    if (msg.contact || (msg.text && msg.text.match(/\/(start|restart)/))) return;
+
+    const opts = {
+        reply_markup: {
+            inline_keyboard: [[{ text: "⚡ ВІДКРИТИ ДОДАТОК ⚡", web_app: { url: webAppUrl } }]]
+        }
+    };
+    bot.sendMessage(msg.chat.id, `Для того щоб записатися чи переглянути послуги, відкрийте наш додаток 👇`, opts);
+});
+
+// Зберігання контакту (опціонально можна зберігати в db.json)
+bot.on('contact', (msg) => {
+    const phone = msg.contact.phone_number;
+    bot.sendMessage(msg.chat.id, `Дякуємо! Ваш номер ${phone} збережено. Тепер ви можете відкрити додаток.`, {
+        reply_markup: { remove_keyboard: true }
+    });
+});
+
+// Нагадування (перевіряємо кожні 1 хв)
+setInterval(() => {
+    const db = getDb();
+    const now = Date.now();
+    // Припускаємо, що order.timestamp це час візиту
+    db.orders.forEach(order => {
+        if (order.timestamp && !order.reminderSent) {
+            const timeDiff = order.timestamp - now;
+            // Якщо до візиту залишилось менше 2 годин (7200000 мс) і більше 1.9 годин
+            if (timeDiff > 0 && timeDiff <= 7200000) {
+                if (order.chatId) {
+                    bot.sendMessage(order.chatId, `🤖 <b>MEGAN 2.0 Нагадує:</b>\nЧекаємо вас на послугу <b>${order.Service}</b> о ${order.Date}. Ваш майстер ${order.Master} вже готує інструменти!`, { parse_mode: 'HTML' });
+                }
+                order.reminderSent = true;
+                saveDb(db);
+            }
+        }
+    });
+}, 60000);
 
 bot.on('polling_error', (error) => { console.log(error.code); });
 

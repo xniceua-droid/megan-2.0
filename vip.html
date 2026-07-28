@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>MEGAN 2.0 — VIP HUB</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #030508;
+            --card-bg: #0b1019;
+            --cyber-blue: #00a2ff;
+            --cyber-gold: #ffd700;
+            --accent-green: #00e676;
+            --accent-purple: #a855f7;
+            --gold-glow: 0 0 25px rgba(255, 215, 0, 0.4);
+            --blue-glow: 0 0 25px rgba(0, 162, 255, 0.4);
+            --text-main: #ffffff;
+            --text-sub: #9bb0c7;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+        body { background-color: #010204; color: var(--text-main); font-family: 'Montserrat', sans-serif; overflow-x: hidden; width: 100%; margin: 0 auto; min-height: 100vh; }
+        .app-container { width: 100%; max-width: 600px; margin: 0 auto; background: var(--bg-color); position: relative; box-shadow: 0 0 80px rgba(0, 162, 255, 0.3); min-height: 100vh; padding-bottom: 40px; }
+        header { border-bottom: 2px solid var(--cyber-gold); background: rgba(11, 16, 25, 0.96); backdrop-filter: blur(12px); padding: 20px 16px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; }
+        .logo { font-family: 'Orbitron', sans-serif; font-size: 1.1rem; font-weight: 900; color: var(--cyber-gold); text-shadow: var(--gold-glow); }
+        .admin-card { background: var(--card-bg); border: 1px solid rgba(255, 215, 0, 0.35); border-radius: 16px; padding: 18px; margin: 15px; box-shadow: 0 8px 30px rgba(0,0,0,0.6); text-align: center; }
+        
+        .wheel-container { position: relative; width: 280px; height: 280px; margin: 20px auto; border-radius: 50%; border: 4px solid var(--cyber-gold); overflow: hidden; box-shadow: var(--gold-glow); transition: transform 4s cubic-bezier(0.1, 0.7, 0.1, 1); }
+        .wheel-slice { position: absolute; width: 50%; height: 50%; transform-origin: 100% 100%; display: flex; align-items: center; justify-content: center; font-family: 'Orbitron'; font-weight: bold; font-size: 0.9rem; color: #000; clip-path: polygon(100% 100%, 100% 0, 0 0); }
+        .wheel-pointer { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent; border-top: 30px solid var(--accent-red); z-index: 10; filter: drop-shadow(0 0 10px var(--accent-red)); }
+        
+        .ticket-btn { display: inline-block; background: linear-gradient(135deg, var(--cyber-gold) 0%, #ccaa00 100%); color: #000; font-family: 'Orbitron', sans-serif; font-weight: 900; font-size: 1rem; padding: 15px 25px; border-radius: 12px; border: 1px solid var(--cyber-gold); box-shadow: var(--gold-glow); width: 100%; cursor: pointer; text-align: center; margin-top:15px; }
+        
+        .ar-container { position: relative; width: 100%; height: 350px; background: #000; border-radius: 12px; overflow: hidden; border: 2px solid var(--cyber-purple); margin-top: 15px; }
+        .ar-video { width: 100%; height: 100%; object-fit: cover; }
+        
+        .music-player { display: flex; align-items: center; justify-content: space-between; background: rgba(0, 162, 255, 0.1); padding: 15px; border-radius: 12px; border: 1px solid var(--cyber-blue); margin-top: 20px; }
+        .btn-home { display: block; margin: 20px auto; text-align: center; color: var(--cyber-blue); font-family: 'Orbitron'; text-decoration: none; font-size: 0.9rem; border: 1px solid var(--cyber-blue); padding: 10px; border-radius: 8px; width: 80%; }
+    </style>
+</head>
+<body>
+<div class="app-container">
+    <header>
+        <div class="logo">MEGAN 2.0 VIP HUB 💎</div>
+    </header>
+
+    <div class="admin-card">
+        <h3 style="font-family:'Orbitron'; color:var(--cyber-gold); margin-bottom:10px;">🎰 КІБЕР-РУЛЕТКА</h3>
+        <p style="font-size:0.8rem; color:var(--text-sub);">Ваш щоденний шанс виграти знижку або VIP-напій!</p>
+        
+        <div style="position:relative; margin-top:20px;">
+            <div class="wheel-pointer"></div>
+            <div class="wheel-container" id="roulette-wheel">
+                <!-- Сектора малюємо через JS або CSS (спрощено) -->
+                <div style="width:100%; height:100%; border-radius:50%; background: conic-gradient(var(--cyber-blue) 0deg 90deg, var(--cyber-gold) 90deg 180deg, var(--accent-purple) 180deg 270deg, var(--accent-green) 270deg 360deg);"></div>
+            </div>
+        </div>
+        <button class="ticket-btn" onclick="spinWheel()" id="spin-btn">КРУТИТИ КОЛЕСО!</button>
+        <div id="win-result" style="margin-top:15px; font-size:1.1rem; color:var(--accent-green); font-weight:bold; font-family:'Orbitron'; display:none;"></div>
+    </div>
+
+    <div class="admin-card">
+        <h3 style="font-family:'Orbitron'; color:var(--cyber-blue); margin-bottom:10px;">📸 AR ДЗЕРКАЛО</h3>
+        <p style="font-size:0.8rem; color:var(--text-sub);">Приміряй неонові окуляри на себе!</p>
+        <div class="ar-container">
+            <video id="ar-video" class="ar-video" autoplay playsinline></video>
+            <!-- Overlay filter placeholder -->
+            <div id="ar-overlay" style="position:absolute; top:40%; left:50%; transform:translate(-50%, -50%); width:120px; height:40px; border:3px solid var(--accent-purple); border-radius:10px; background:rgba(168, 85, 247, 0.3); display:none; pointer-events:none; box-shadow:0 0 15px var(--accent-purple);"></div>
+        </div>
+        <button class="ticket-btn" style="background:linear-gradient(135deg, var(--cyber-blue) 0%, #0055b3 100%); color:#fff; border-color:var(--cyber-blue); box-shadow:var(--blue-glow);" onclick="startAR()">УВІМКНУТИ AR</button>
+    </div>
+
+    <div class="admin-card">
+        <h3 style="font-family:'Orbitron'; color:var(--text-main); margin-bottom:10px;">🎧 SYNTHWAVE RADIO</h3>
+        <div class="music-player">
+            <div>
+                <div style="font-size:0.9rem; font-weight:bold;">Neon Nights (Mix)</div>
+                <div style="font-size:0.7rem; color:var(--cyber-blue);">MEGAN 2.0 FM</div>
+            </div>
+            <button onclick="toggleMusic()" id="music-btn" style="background:var(--cyber-blue); border:none; padding:10px 20px; border-radius:20px; color:#fff; font-weight:bold; cursor:pointer;">▶ PLAY</button>
+            <audio id="bg-audio" loop>
+                <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+            </audio>
+        </div>
+    </div>
+
+    <a href="index.html" class="btn-home">⬅ ПОВЕРНУТИСЯ ДО САЛОНУ</a>
+</div>
+
+<script>
+    const tg = window.Telegram.WebApp;
+    tg.expand();
+    
+    // Рулетка
+    let spinning = false;
+    function spinWheel() {
+        if(spinning) return;
+        spinning = true;
+        const wheel = document.getElementById('roulette-wheel');
+        const result = document.getElementById('win-result');
+        const btn = document.getElementById('spin-btn');
+        
+        result.style.display = 'none';
+        btn.innerText = 'ОБЕРТАННЯ...';
+        
+        // Random spin
+        const randomDeg = Math.floor(Math.random() * 360) + 1440; // 4+ обертів
+        wheel.style.transform = `rotate(${randomDeg}deg)`;
+        
+        // Haptics during spin
+        let hapticInt = setInterval(() => {
+            if(tg.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
+        }, 300);
+
+        setTimeout(() => {
+            clearInterval(hapticInt);
+            if(tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+            spinning = false;
+            btn.innerText = 'ЗАВТРА ЗНОВУ!';
+            btn.disabled = true;
+            btn.style.opacity = '0.5';
+            
+            // Determine result (simplified based on colors)
+            const finalDeg = randomDeg % 360;
+            let winText = '';
+            if(finalDeg >= 0 && finalDeg < 90) winText = '🎉 Знижка 5% на Стрижку!';
+            else if(finalDeg >= 90 && finalDeg < 180) winText = '🍾 Безкоштовний Напій VIP!';
+            else if(finalDeg >= 180 && finalDeg < 270) winText = '😢 Нічого. Спробуйте завтра.';
+            else winText = '💎 Знижка 15% на Колір!';
+            
+            result.innerText = winText;
+            result.style.display = 'block';
+            
+            // Save to DB if needed (using localStorage or API)
+        }, 4000);
+    }
+
+    // AR Camera
+    let arStream = null;
+    async function startAR() {
+        const video = document.getElementById('ar-video');
+        const overlay = document.getElementById('ar-overlay');
+        try {
+            arStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } });
+            video.srcObject = arStream;
+            overlay.style.display = 'block'; // Shows glasses
+        } catch (err) {
+            alert('Немає доступу до камери!');
+        }
+    }
+
+    // Music
+    const audio = document.getElementById('bg-audio');
+    let isPlaying = false;
+    function toggleMusic() {
+        const btn = document.getElementById('music-btn');
+        if(isPlaying) {
+            audio.pause();
+            btn.innerText = '▶ PLAY';
+            isPlaying = false;
+        } else {
+            audio.play().catch(e => console.log('Audio blocked'));
+            btn.innerText = '⏸ PAUSE';
+            isPlaying = true;
+        }
+    }
+</script>
+</body>
+</html>
