@@ -1908,24 +1908,19 @@ function updateHtcClock_old() {
         <div class="modal-header"><h3 style="font-family:'Orbitron'; color:var(--cyber-gold);" data-i18n="modal-title">ЗАПИС ДО СТУДІЇ</h3></div>
         
         <form id="barber-form">
-            <div class="form-group">
-                <label data-i18n="lbl-name" style="display:flex; justify-content:space-between; align-items:center;">
-                    <span>👤 ВАШЕ ІМ'Я (TELEGRAM):</span>
-                    <span style="font-size:0.6rem; color:var(--cyber-blue); font-family:'Orbitron'; font-weight:700;">REQUIRED</span>
-                </label>
-                <div class="cyber-input-wrapper">
-                    <span class="input-icon">👤</span>
-                    <input type="text" id="client-name" placeholder="Введіть ваше ім'я..." required>
+            <!-- ⚡ MINIMALIST 2-COLUMN NAME & PHONE ROW -->
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px; margin-bottom:10px;">
+                <div>
+                    <div class="cyber-input-wrapper" style="margin:0; background:rgba(0,0,0,0.4); border-color:rgba(0,162,255,0.4); padding:8px 10px;">
+                        <span class="input-icon" style="font-size:0.85rem;">👤</span>
+                        <input type="text" id="client-name" placeholder="Ім'я (Telegram)" style="font-size:0.8rem;" required>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label data-i18n="lbl-phone" style="display:flex; justify-content:space-between; align-items:center;">
-                    <span>📱 ТЕЛЕФОН / КОНТАКТ:</span>
-                    <span style="font-size:0.6rem; color:var(--cyber-gold); font-family:'Orbitron'; font-weight:700;">VERIFIED</span>
-                </label>
-                <div class="cyber-input-wrapper">
-                    <span class="input-icon">📱</span>
-                    <input type="text" id="client-phone" placeholder="+33 6 12 34 56 78" required>
+                <div>
+                    <div class="cyber-input-wrapper" style="margin:0; background:rgba(0,0,0,0.4); border-color:rgba(255,215,0,0.4); padding:8px 10px;">
+                        <span class="input-icon" style="font-size:0.85rem;">📱</span>
+                        <input type="text" id="client-phone" placeholder="Телефон" style="font-size:0.8rem;" required>
+                    </div>
                 </div>
             </div>
             <div class="form-group">
