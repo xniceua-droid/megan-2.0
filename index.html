@@ -2120,6 +2120,41 @@
     }
 
     const modal = document.getElementById('booking-modal');
+    
+    // ⚡ ROBUST CHIP PICKER SELECTION 2026
+    window.pickServiceChip = function(val, el) {
+        if (typeof triggerHaptic === 'function') triggerHaptic('light');
+        const sel = document.getElementById('select-service');
+        if (sel) {
+            sel.value = val;
+            sel.dispatchEvent(new Event('change'));
+        }
+        document.querySelectorAll('#service-chips-container .cyber-chip').forEach(c => c.classList.remove('active'));
+        if (el) el.classList.add('active');
+    };
+
+    window.pickMasterCard = function(val, el) {
+        if (typeof triggerHaptic === 'function') triggerHaptic('light');
+        const sel = document.getElementById('select-barber');
+        if (sel) {
+            sel.value = val;
+            sel.dispatchEvent(new Event('change'));
+        }
+        document.querySelectorAll('#barber-picker-container .cyber-picker-btn').forEach(c => c.classList.remove('active'));
+        if (el) el.classList.add('active');
+    };
+
+    window.pickPaymentCard = function(val, el) {
+        if (typeof triggerHaptic === 'function') triggerHaptic('light');
+        const sel = document.getElementById('select-payment');
+        if (sel) {
+            sel.value = val;
+            sel.dispatchEvent(new Event('change'));
+        }
+        document.querySelectorAll('#payment-picker-container .cyber-picker-btn').forEach(c => c.classList.remove('active'));
+        if (el) el.classList.add('active');
+    };
+
     function openModal() { 
         triggerHaptic('medium'); 
         initTelegramUserData();
