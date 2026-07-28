@@ -1501,7 +1501,7 @@ function updateHtcClock_old() {
 </head>
 <body>
 
-<div id="preloader">
+<div id="preloader" onclick="hidePreloaderFast()">
     <div style="font-family:'Orbitron'; font-size:2rem; font-weight:900; color:var(--cyber-blue); text-shadow:var(--blue-glow);">MEGAN 2.0 OS</div>
     <div class="boot-text">
         <div class="typewriter">Booting AI Core...</div>
@@ -2131,10 +2131,12 @@ function updateHtcClock_old() {
         const preloader = document.getElementById('preloader');
         if (preloader && preloader.style.display !== 'none') {
             preloader.style.opacity = '0';
-            setTimeout(() => { preloader.style.display = 'none'; }, 200);
+            preloader.style.pointerEvents = 'none';
+            setTimeout(() => { preloader.style.display = 'none'; }, 100);
         }
     }
-    document.addEventListener('DOMContentLoaded', () => setTimeout(hidePreloaderFast, 300));
+    setTimeout(hidePreloaderFast, 100);
+    document.addEventListener('DOMContentLoaded', () => setTimeout(hidePreloaderFast, 50));
     window.addEventListener('load', hidePreloaderFast);
 
     const translations = {
