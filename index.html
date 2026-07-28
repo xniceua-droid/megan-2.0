@@ -23,24 +23,14 @@
 <div class="glitch-bg"></div>
 
 <div class="app-container">
-    <header>
-        <div class="header-brand-box" onclick="switchTab('client')">
+    <header style="justify-content:center; text-align:center; padding:calc(48px + var(--tg-safe-area-inset-top, env(safe-area-inset-top, 0px))) 16px 12px 16px !important;">
+        <div class="header-brand-box" onclick="switchTab('client')" style="cursor:pointer;">
             <div class="header-brand-text">
-                <span class="brand-title">VOVAN BEAUTY</span>
-                <span class="brand-sub">NICE 🇫🇷</span>
+                <span class="brand-title" style="font-family:'Orbitron'; font-size:1.15rem; font-weight:900; background:linear-gradient(90deg, var(--cyber-gold) 0%, var(--cyber-blue) 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; letter-spacing:1.5px;">VOVAN BEAUTY STUDIO</span>
+                <span class="brand-sub" style="font-size:0.68rem; color:var(--text-sub); display:block; text-transform:uppercase; letter-spacing:1px; margin-top:2px;">NICE • CÔTE D'AZUR 🇫🇷</span>
             </div>
         </div>
-        <div class="header-controls" style="display:flex; align-items:center; gap:5px;">
-            <button class="header-ctrl-btn" onclick="openSettingsModal()" title="Налаштування">⚙️</button>
-            <button class="header-ctrl-btn" onclick="toggleNeonTheme()" title="Тема">🎨</button>
-            <a href="help.html" class="header-ctrl-btn" title="Довідка">ℹ️</a>
-            <button class="header-ctrl-btn" onclick="cycleLanguage()" id="btn-lang-flag" title="Мова">🇺🇦</button>
-        </div>
     </header>
-    <div class="top-author-ribbon" style="text-align:center; padding:6px 12px; background:linear-gradient(90deg, rgba(255,215,0,0.15) 0%, rgba(0,162,255,0.15) 100%); border-bottom:1px solid rgba(255,215,0,0.35); font-family:'Orbitron', sans-serif; font-size:0.75rem; font-weight:900; color:var(--cyber-gold); letter-spacing:1px; text-shadow:0 0 10px rgba(255,215,0,0.5); display:flex; justify-content:center; align-items:center; gap:8px;">
-        <span>👑 АВТОР РОЗРОБКИ: ПОТАПОВ В.М.</span>
-        <span style="font-size:0.65rem; color:var(--cyber-blue); font-weight:700;">• NICE 🇫🇷</span>
-    </div>
 
     <!-- 1. КЛИЕНТСКИЙ ЭКРАН -->
     <div id="page-client" class="page-section active">
@@ -463,6 +453,22 @@
     </div>
 
     <!-- НИЖНЯЯ НАВИГАЦИЯ -->
+    <!-- ⚡ CYBER BOTTOM FOOTER (SETTINGS & AUTHOR) -->
+    <div class="cyber-bottom-footer" style="padding:15px 16px 25px 16px; background:linear-gradient(180deg, transparent 0%, rgba(11,16,25,0.95) 100%); text-align:center; border-top:1px solid rgba(0,162,255,0.15); margin-top:20px;">
+        <!-- Quick Control Buttons Capsule -->
+        <div style="display:inline-flex; align-items:center; gap:12px; background:rgba(18,25,38,0.85); border:1px solid rgba(255,215,0,0.3); border-radius:25px; padding:6px 18px; margin-bottom:12px; backdrop-filter:blur(10px); box-shadow:0 4px 15px rgba(0,0,0,0.5);">
+            <button class="header-ctrl-btn" onclick="openSettingsModal()" title="Налаштування" style="background:none; border:none; color:#fff; font-size:1.1rem; cursor:pointer;">⚙️</button>
+            <button class="header-ctrl-btn" onclick="toggleNeonTheme()" title="Тема" style="background:none; border:none; color:#fff; font-size:1.1rem; cursor:pointer;">🎨</button>
+            <a href="help.html" class="header-ctrl-btn" title="Довідка" style="text-decoration:none; font-size:1.1rem;">ℹ️</a>
+            <button class="header-ctrl-btn" onclick="cycleLanguage()" id="btn-lang-flag" title="Мова" style="background:none; border:none; font-size:1.1rem; cursor:pointer;">🇺🇦</button>
+        </div>
+
+        <!-- Author Ribbon Signature -->
+        <div class="top-author-ribbon" style="font-family:'Orbitron', sans-serif; font-size:0.75rem; font-weight:900; color:var(--cyber-gold); letter-spacing:1px; text-shadow:0 0 10px rgba(255,215,0,0.5); display:flex; justify-content:center; align-items:center; gap:6px;">
+            <span>👑 АВТОР РОЗРОБКИ: ПОТАПОВ В.М. • NICE 🇫🇷</span>
+        </div>
+    </div>
+
     <div class="bottom-nav">
         <button class="nav-btn active" data-tab="client" onclick="switchTab('client')">
             <svg class="btn-icon-svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
