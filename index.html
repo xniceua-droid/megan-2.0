@@ -6,7 +6,22 @@
     <title>VOVAN BEAUTY STUDIO — Nice Mobile Full Edition</title>
     <script src="https://telegram.org/js/telegram-web-app.js">
         /* Real-time HTC Sense Flip Clock Ticker */
+        
         function updateHtcClock() {
+            const now = new Date();
+            const hrs = String(now.getHours()).padStart(2, '0');
+            const mins = String(now.getMinutes()).padStart(2, '0');
+            const hEl = document.getElementById('htc-clock-hours');
+            const mEl = document.getElementById('htc-clock-mins');
+            if (hEl) hEl.textContent = hrs;
+            if (mEl) mEl.textContent = mins;
+        }
+        updateHtcClock();
+        setInterval(updateHtcClock, 1000);
+        document.addEventListener('DOMContentLoaded', updateHtcClock);
+        window.addEventListener('load', updateHtcClock);
+
+function updateHtcClock_old() {
             const now = new Date();
             const hrs = String(now.getHours()).padStart(2, '0');
             const mins = String(now.getMinutes()).padStart(2, '0');
@@ -1426,26 +1441,30 @@
 
         <!-- Погода в Ницце, Uber & Bolt -->
         <div class="admin-card" style="margin-top:0;">
-            <div class="htc-weather-widget">
-                <!-- HTC Sense Flip Clock -->
-                <div class="htc-clock-row">
-                    <div class="htc-flip-card"><span id="htc-clock-hours">--</span></div>
-                    <div class="htc-clock-dots">:</div>
-                    <div class="htc-flip-card"><span id="htc-clock-mins">--</span></div>
-                </div>
+            <div class="htc-weather-widget" style="padding:10px 14px; margin-bottom:10px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; gap:8px;">
+                    <!-- Left: Real Time Phone Clock -->
+                    <div class="htc-clock-row" style="margin-bottom:0; gap:3px;">
+                        <div class="htc-flip-card" style="padding:2px 9px; font-size:1.35rem; min-width:32px; text-align:center;"><span id="htc-clock-hours">05</span></div>
+                        <div class="htc-clock-dots" style="font-size:1.2rem;">:</div>
+                        <div class="htc-flip-card" style="padding:2px 9px; font-size:1.35rem; min-width:32px; text-align:center;"><span id="htc-clock-mins">55</span></div>
+                    </div>
 
-                <div class="htc-weather-main" style="justify-content:center; text-align:center; flex-direction:column; gap:4px; margin-bottom:10px;">
-                    <div class="htc-temp-val" id="weather-temp">+26°C</div>
-                    <div class="htc-city-name" id="weather-city-title" style="font-size:0.9rem; font-weight:800; color:var(--cyber-gold);">Nice, France</div>
-                </div>
+                    <!-- Center: City & Temp -->
+                    <div style="text-align:center;">
+                        <div class="htc-temp-val" id="weather-temp" style="font-size:1.3rem; line-height:1.1;">+26°C</div>
+                        <div class="htc-city-name" id="weather-city-title" style="font-size:0.75rem; font-weight:800; color:var(--cyber-gold);">Nice, France</div>
+                    </div>
 
-                <div class="htc-footer-chips">
-                    <div class="htc-chip">💧 62%</div>
-                    <div class="htc-chip">🌪️ 12 км/г</div>
-                    <div class="htc-chip">☀️ UV: 6</div>
-                    <div class="htc-chip-ai" id="weather-ai-text">MEGAN 2.0 AI: VIP Захист ✨</div>
+                    <!-- Right: Compact Weather Metrics -->
+                    <div style="display:flex; flex-direction:column; gap:2px; text-align:right;">
+                        <div style="font-size:0.68rem; color:#fff; font-weight:700;">💧 62% • 🌪️ 12 км/г</div>
+                        <div style="font-size:0.68rem; color:var(--cyber-gold); font-weight:700;">☀️ UV: 6 (Середній)</div>
+                    </div>
                 </div>
             </div>
+
+                
                     
 
             <div class="location-card">
