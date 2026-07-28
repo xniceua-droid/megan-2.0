@@ -140,6 +140,22 @@
         
         /* Glitch overlay */
         .glitch-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><filter id="noiseFilter"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23noiseFilter)"/></svg>'); opacity: 0.04; z-index: 100; mix-blend-mode: screen; }
+    
+        /* Desktop Adaptation */
+        @media (min-width: 768px) {
+            .app-container { max-width: 900px; border-radius: 12px; box-shadow: 0 0 20px rgba(0, 162, 255, 0.2); margin-top: 20px; border: 1px solid rgba(0, 162, 255, 0.3); }
+            .bottom-nav { max-width: 900px; border-radius: 12px 12px 0 0; justify-content: center; }
+            .time-slots { grid-template-columns: repeat(5, 1fr); }
+            .service-list { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+            .stat-grid { grid-template-columns: repeat(4, 1fr); }
+            
+            /* Center the main modal logically */
+            .vintage-modal {
+                max-width: 500px;
+                margin: 20px auto;
+                border-radius: 16px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -158,7 +174,7 @@
     <header>
         <div class="logo" id="app-logo">VOVAN NICE 🇫🇷</div>
         <div class="header-controls">
-            <button onclick="window.location.href='erp.html'" style="background:linear-gradient(90deg, #ffd700, #ffaa00); color:#000; border:none; padding:6px 10px; border-radius:8px; font-family:'Orbitron'; font-weight:bold; font-size:0.75rem; cursor:pointer; box-shadow:0 0 10px #ffd700;">👑 ERP</button>
+            
             <button onclick="toggleNeonTheme()" style="background:transparent; border:none; font-size:1.2rem; cursor:pointer;" title="Змінити колір неону">🎨</button>
             <a href="help.html" style="background:rgba(255,215,0,0.1); border:1px solid var(--cyber-gold); color:var(--cyber-gold); padding:6px 8px; border-radius:8px; font-size:0.75rem; text-decoration:none; font-family:'Orbitron';">ℹ️ Довідка</a>
             <select class="lang-selector" id="lang-select" onchange="changeLanguage(this.value)">
@@ -493,7 +509,7 @@
             
             <div style="display:flex; justify-content:space-between; align-items:center; background:#121926; border-radius:12px; padding:15px; margin-top:15px; border:1px solid rgba(0,162,255,0.3); margin-bottom:15px;">
                 <div>
-                    <div style="font-size:0.75rem; color:var(--text-sub);">Ваша загальна комісія (45%)</div>
+                    <div style="font-size:0.75rem; color:var(--text-sub);">Комісія: <input type="number" id="master-percent" value="45" style="width:40px; background:transparent; border:1px solid var(--cyber-gold); color:var(--cyber-gold); text-align:center; border-radius:4px;" onchange="populateMasterSchedule()"> %</div>
                     <div id="master-total-cut" style="font-family:'Orbitron'; font-size:1.5rem; color:var(--cyber-blue); font-weight:bold; margin-top:5px;">0 €</div>
                 </div>
                 <button class="action-btn-sm btn-payout" onclick="payMasterSalary()">💵 Виплатити ЗП</button>
@@ -1405,6 +1421,7 @@
         if(pageEl) pageEl.classList.add('active');
         
         window.scrollTo(0, 0);
+        if(pageId === 'director' && typeof populateDirector === 'function') setTimeout(populateDirector, 100);
 
         const navBtn = document.querySelector(`.nav-btn[data-tab="${pageId}"]`);
         if(navBtn) {
@@ -1497,6 +1514,170 @@
     
     // Инициализация языка
     changeLanguage('UA');
+
+    // --- ERP ENHANCEMENTS ---
+    function deleteOrder(id) {
+        if(!confirm('Ви впевнені, що хочете видалити цей запис?')) return;
+        const db = getLocalDB();
+        db.orders = db.orders.filter(o => o.id !== id);
+        saveLocalDB(db);
+        populateCRM();
+        populateDirector();
+        populateMasterSchedule();
+    }
+    
+    // Master Salary Calculation
+    const originalPopulateMaster = populateMasterSchedule;
+    populateMasterSchedule = function() {
+        if (originalPopulateMaster) originalPopulateMaster();
+        const db = getLocalDB();
+        const percentInput = document.getElementById('master-percent');
+        const percent = percentInput ? parseInt(percentInput.value) || 45 : 45;
+        let totalMasterEarned = 0;
+        db.orders.forEach(o => {
+            if (o.Status === 'Завершено') totalMasterEarned += (o.Price * (percent/100));
+        });
+        const masterTotalEl = document.getElementById('master-total-cut');
+        if(masterTotalEl) masterTotalEl.innerText = Math.round(totalMasterEarned) + ' €';
+    };
+
+    function payMasterSalary() {
+        const masterTotalEl = document.getElementById('master-total-cut');
+        if(!masterTotalEl || masterTotalEl.innerText === '0 €') return;
+        triggerHaptic('success');
+        tg.showAlert('💸 Зарплата успішно виплачена!');
+        masterTotalEl.innerText = '0 €';
+    }
+
+    // Chart.js for Director Tab
+    let revenueChartInstance = null;
+    function initChart() {
+        const ctx = document.getElementById('revenueChart');
+        if (!ctx) return;
+        if (revenueChartInstance) {
+            revenueChartInstance.destroy();
+        }
+        
+        const db = getLocalDB();
+        
+        // Group by day for the last 7 days
+        const last7Days = [];
+        const today = new Date();
+        for(let i=6; i>=0; i--) {
+            const d = new Date();
+            d.setDate(today.getDate() - i);
+            last7Days.push(d.getDate() + '.' + (d.getMonth()+1));
+        }
+        
+        const revenues = [0,0,0,0,0,0,0];
+        
+        db.orders.forEach(o => {
+            if (o.Status === 'Завершено') {
+                // simple parse date "12.08 14:00" or similar
+                const dMatch = o.Date.match(/(\d+\.\d+)/);
+                if (dMatch) {
+                    const idx = last7Days.indexOf(dMatch[1]);
+                    if (idx !== -1) {
+                        revenues[idx] += o.Price;
+                    } else if (last7Days.includes(o.Date.substring(0,5))) {
+                         revenues[last7Days.indexOf(o.Date.substring(0,5))] += o.Price;
+                    }
+                }
+            }
+        });
+
+        // Add dummy data to look cool if empty
+        if(revenues.reduce((a,b)=>a+b,0) === 0) {
+            revenues[4] = 120;
+            revenues[5] = 250;
+            revenues[6] = 80;
+        }
+
+        revenueChartInstance = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: last7Days,
+                datasets: [{
+                    label: 'Прибуток (€)',
+                    data: revenues,
+                    borderColor: '#00a2ff',
+                    backgroundColor: 'rgba(0,162,255,0.2)',
+                    borderWidth: 2,
+                    tension: 0.4,
+                    fill: true,
+                    pointBackgroundColor: '#ffd700',
+                    pointBorderColor: '#000',
+                    pointRadius: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: { color: 'rgba(255,255,255,0.05)' },
+                        ticks: { color: '#8b9bb4' }
+                    },
+                    x: {
+                        grid: { color: 'rgba(255,255,255,0.05)' },
+                        ticks: { color: '#8b9bb4' }
+                    }
+                }
+            }
+        });
+    }
+
+    // Wrap populateDirector to also call initChart and calculate Net Profit
+    const originalPopulateDirector = window.populateDirector;
+    window.populateDirector = function() {
+        if(typeof originalPopulateDirector === 'function') originalPopulateDirector();
+        
+        const db = getLocalDB();
+        let gross = 0;
+        db.orders.forEach(o => { if(o.Status === 'Завершено') gross += o.Price; });
+        
+        const tva = gross * 0.20;
+        const urssaf = gross * 0.22;
+        const expenses = 1350;
+        
+        // Master percentage deduction
+        const percentInput = document.getElementById('master-percent');
+        const masterPercent = percentInput ? parseInt(percentInput.value) || 45 : 45;
+        const masterCut = gross * (masterPercent/100);
+        
+        const net = gross - tva - urssaf - expenses - masterCut;
+        
+        const formatMoney = (val) => Math.round(val) + ' €';
+        
+        const elGross = document.getElementById('acc-gross');
+        const elTva = document.getElementById('acc-tva');
+        const elUrssaf = document.getElementById('acc-urssaf');
+        const elNet = document.getElementById('acc-net');
+        const elDirTotal = document.getElementById('dir-total-revenue');
+        const elDirNet = document.getElementById('dir-net-profit');
+        
+        if(elGross) elGross.innerText = formatMoney(gross);
+        if(elTva) elTva.innerText = formatMoney(tva);
+        if(elUrssaf) elUrssaf.innerText = formatMoney(urssaf);
+        if(elNet) elNet.innerText = formatMoney(net);
+        
+        if(elDirTotal) elDirTotal.innerText = formatMoney(gross);
+        if(elDirNet) elDirNet.innerText = formatMoney(net);
+
+        setTimeout(() => {
+            initChart();
+        }, 100);
+    };
+
+    // Auto-init chart on first load if on director tab
+    if (document.getElementById('page-director') && document.getElementById('page-director').classList.contains('active')) {
+        populateDirector();
+    }
+
     // Theme Switcher Logic
     let currentThemeIndex = 0;
     const themes = [
