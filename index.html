@@ -1292,6 +1292,62 @@
             user-select: none;
         }
 
+    
+        /* ⚡ IPHONE & ANDROID SAFE AREA RESPONSIVE FIT 2026 */
+        :root {
+            --safe-top: var(--tg-safe-area-inset-top, env(safe-area-inset-top, 0px));
+            --safe-bottom: var(--tg-safe-area-inset-bottom, env(safe-area-inset-bottom, 0px));
+        }
+
+        html, body {
+            margin: 0 !important;
+            padding: 0 !important;
+            width: 100% !important;
+            min-height: 100vh !important;
+            min-height: 100dvh !important;
+            overflow-x: hidden !important;
+            background-color: #000000 !important;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .app-container {
+            max-width: 480px !important;
+            margin: 0 auto !important;
+            min-height: 100vh !important;
+            min-height: 100dvh !important;
+            padding-bottom: calc(92px + var(--safe-bottom)) !important;
+            box-sizing: border-box !important;
+            position: relative !important;
+        }
+
+        header {
+            position: sticky !important;
+            top: 0 !important;
+            z-index: 999 !important;
+            padding-top: calc(8px + var(--safe-top)) !important;
+            padding-bottom: 8px !important;
+            padding-left: 14px !important;
+            padding-right: 14px !important;
+            background: rgba(6, 10, 18, 0.95) !important;
+            backdrop-filter: blur(20px) !important;
+            border-bottom: 1px solid rgba(0, 162, 255, 0.25) !important;
+        }
+
+        .bottom-nav {
+            position: fixed !important;
+            bottom: calc(10px + var(--safe-bottom)) !important;
+            left: 50% !important;
+            transform: translateX(-50%) !important;
+            width: calc(100% - 20px) !important;
+            max-width: 460px !important;
+            z-index: 1000 !important;
+        }
+
+        .page-section {
+            padding: 0 10px !important;
+            box-sizing: border-box !important;
+        }
+
     </style>
 </head>
 <body>
@@ -1311,7 +1367,7 @@
         <div class="header-brand-box" onclick="switchTab('client')">
             <div class="header-brand-text">
                 <span class="brand-title">VOVAN BEAUTY</span>
-                <span class="brand-sub" style="color:var(--cyber-gold); font-weight:800;">АВТОР: ПОТАПОВ В.М.</span>
+                <span class="brand-sub">NICE 🇫🇷</span>
             </div>
         </div>
         <div class="header-controls" style="display:flex; align-items:center; gap:6px;">
@@ -3251,10 +3307,8 @@
     </div>
 </div>
 
-<div class="author-footer">
-        <div style="font-family:'Orbitron', sans-serif; font-size:0.95rem; color:var(--cyber-gold); font-weight:900; letter-spacing:1.5px; text-shadow:0 0 15px rgba(255,215,0,0.5);">👑 АВТОР РОЗРОБКИ: ПОТАПОВ В.М.</div>
-        <div style="font-size:0.72rem; color:var(--cyber-blue); margin-top:5px; font-weight:700; font-family:'Orbitron', sans-serif;">VOVAN BEAUTY STUDIO • NICE 🇫🇷 • 2026 EDITION</div>
-    </div>
+
+        
 
 </body>
 </html>
