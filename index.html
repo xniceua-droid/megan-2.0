@@ -46,6 +46,33 @@ function updateHtcClock_old() {
 
         setTimeout(updateHtcClock, 100);
 
+
+        window.openFiscalReceipt = function(client, service, price, master) {
+            const modal = document.getElementById('fiscal-receipt-modal');
+            if (!modal) return;
+
+            const p = parseFloat(price) || 40;
+            const ht = (p / 1.2).toFixed(2);
+            const tva = (p - ht).toFixed(2);
+
+            document.getElementById('rec-id').innerText = 'FR-' + Math.floor(100000 + Math.random() * 900000);
+            document.getElementById('rec-date').innerText = new Date().toLocaleDateString('fr-FR');
+            document.getElementById('rec-service').innerText = service || 'Prestation Salon';
+            document.getElementById('rec-price').innerText = p.toFixed(2) + ' €';
+            document.getElementById('rec-ht').innerText = ht + ' €';
+            document.getElementById('rec-tva').innerText = tva + ' €';
+            document.getElementById('rec-ttc').innerText = p.toFixed(2) + ' €';
+            document.getElementById('rec-master').innerText = 'Coiffeur: ' + (master || 'VOVAN');
+
+            modal.classList.add('show');
+            if (typeof triggerHaptic === 'function') triggerHaptic('success');
+        };
+
+        window.closeFiscalReceiptModal = function() {
+            const modal = document.getElementById('fiscal-receipt-modal');
+            if (modal) modal.classList.remove('show');
+        };
+
 </script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
