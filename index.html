@@ -1467,7 +1467,7 @@ function updateHtcClock_old() {
             <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(0,162,255,0.2); padding-bottom:8px; margin-bottom:10px;">
                 <div style="display:flex; align-items:center; gap:6px; font-family:'Orbitron', sans-serif; font-size:0.88rem; color:var(--cyber-blue); font-weight:800;">
                     <span class="live-pulse-dot"></span>
-                    <span id="htc-clock-hours">05</span>:<span id="htc-clock-mins">56</span>
+                    <span id="htc-clock-hours">05</span>:<span id="htc-clock-mins">57</span>
                 </div>
                 <div style="font-size:0.78rem; color:var(--cyber-gold); font-weight:800; font-family:'Orbitron', sans-serif;" id="weather-city-title">
                     📍 Nice, France 🇫🇷
@@ -1477,44 +1477,52 @@ function updateHtcClock_old() {
             <!-- Main Temp & Condition -->
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
                 <div style="display:flex; align-items:center; gap:10px;">
-                    <div style="font-size:2.2rem; filter:drop-shadow(0 0 10px rgba(255,215,0,0.6));">☀️</div>
+                    <div style="font-size:2.2rem; filter:drop-shadow(0 0 10px rgba(255,215,0,0.6));" id="weather-main-icon">☀️</div>
                     <div>
                         <div id="weather-temp" style="font-family:'Orbitron', sans-serif; font-size:1.8rem; font-weight:900; color:#fff; text-shadow:0 0 15px rgba(255,215,0,0.4); line-height:1;">+26°C</div>
-                        <div style="font-size:0.7rem; color:var(--text-sub); margin-top:2px;">Сонячно • UV 6</div>
+                        <div style="font-size:0.7rem; color:var(--text-sub); margin-top:2px;" id="weather-cond-text">Сонячно • UV 6</div>
                     </div>
                 </div>
                 <!-- Micro Metrics Pill -->
                 <div style="background:rgba(18,25,38,0.8); border:1px solid rgba(0,162,255,0.3); border-radius:10px; padding:6px 10px; font-size:0.68rem; color:#fff; text-align:right;">
-                    <div>💧 <b>62%</b> Вологість</div>
-                    <div>🌪️ <b>12 км/г</b> Вітер</div>
+                    <div>💧 <b id="weather-humidity-val">62%</b> Вологість</div>
+                    <div>🌪️ <b id="weather-wind-val">12 км/г</b> Вітер</div>
                     <div style="color:var(--cyber-gold);">🌊 <b>24°C</b> Море</div>
                 </div>
             </div>
 
             <!-- Hourly Forecast Bar -->
             <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:6px; background:rgba(0,0,0,0.35); border-radius:10px; padding:6px;">
-                <div style="text-align:center; font-size:0.65rem;">
+                <div onclick="selectHourlyForecast(this, '09:00', '24°C')" style="text-align:center; font-size:0.65rem; padding:4px; border-radius:8px; cursor:pointer;" class="hourly-chip">
                     <div style="color:var(--text-sub);">09:00</div>
                     <div style="margin:2px 0;">☀️</div>
                     <div style="font-family:'Orbitron'; color:#fff; font-weight:bold;">24°C</div>
                 </div>
-                <div style="text-align:center; font-size:0.65rem;">
+                <div onclick="selectHourlyForecast(this, '13:00', '27°C')" style="text-align:center; font-size:0.65rem; padding:4px; border-radius:8px; cursor:pointer;" class="hourly-chip active-hourly">
                     <div style="color:var(--text-sub);">13:00</div>
                     <div style="margin:2px 0;">☀️</div>
                     <div style="font-family:'Orbitron'; color:var(--cyber-gold); font-weight:bold;">27°C</div>
                 </div>
-                <div style="text-align:center; font-size:0.65rem;">
+                <div onclick="selectHourlyForecast(this, '17:00', '26°C')" style="text-align:center; font-size:0.65rem; padding:4px; border-radius:8px; cursor:pointer;" class="hourly-chip">
                     <div style="color:var(--text-sub);">17:00</div>
                     <div style="margin:2px 0;">🌤️</div>
                     <div style="font-family:'Orbitron'; color:#fff; font-weight:bold;">26°C</div>
                 </div>
-                <div style="text-align:center; font-size:0.65rem;">
+                <div onclick="selectHourlyForecast(this, '21:00', '22°C')" style="text-align:center; font-size:0.65rem; padding:4px; border-radius:8px; cursor:pointer;" class="hourly-chip">
                     <div style="color:var(--text-sub);">21:00</div>
                     <div style="margin:2px 0;">🌙</div>
                     <div style="font-family:'Orbitron'; color:var(--cyber-blue); font-weight:bold;">22°C</div>
                 </div>
             </div>
+
+            <!-- MEGAN 2.0 AI Beauty Tip Ribbon -->
+            <div style="margin-top:8px; padding:6px 10px; background:rgba(255,215,0,0.08); border-left:3px solid var(--cyber-gold); border-radius:6px; font-size:0.68rem; color:#fff; display:flex; align-items:center; gap:6px;">
+                <span style="font-family:'Orbitron'; font-weight:bold; color:var(--cyber-gold);">🤖 MEGAN 2.0 AI:</span>
+                <span style="color:#eee;" id="weather-ai-tip">VIP Захист від сонця & морської солі ☀️</span>
+            </div>
         </div>
+
+            
 
                     
 
