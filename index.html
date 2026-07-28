@@ -140,15 +140,6 @@
         
         /* Glitch overlay */
         .glitch-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><filter id="noiseFilter"><feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23noiseFilter)"/></svg>'); opacity: 0.04; z-index: 100; mix-blend-mode: screen; }
-    
-        /* Desktop Adaptation */
-        @media (min-width: 768px) {
-            .app-container { max-width: 900px; border-radius: 12px; box-shadow: 0 0 20px rgba(0, 162, 255, 0.2); margin-top: 20px; border: 1px solid rgba(0, 162, 255, 0.3); }
-            .bottom-nav { max-width: 900px; border-radius: 12px 12px 0 0; }
-            .time-slots { grid-template-columns: repeat(5, 1fr); }
-            .erp-tabs { flex-wrap: nowrap; }
-            .service-list { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        }
     </style>
 </head>
 <body>
@@ -167,6 +158,7 @@
     <header>
         <div class="logo" id="app-logo">VOVAN NICE 🇫🇷</div>
         <div class="header-controls">
+            <button onclick="window.location.href='erp.html'" style="background:linear-gradient(90deg, #ffd700, #ffaa00); color:#000; border:none; padding:6px 10px; border-radius:8px; font-family:'Orbitron'; font-weight:bold; font-size:0.75rem; cursor:pointer; box-shadow:0 0 10px #ffd700;">👑 ERP</button>
             <button onclick="toggleNeonTheme()" style="background:transparent; border:none; font-size:1.2rem; cursor:pointer;" title="Змінити колір неону">🎨</button>
             <a href="help.html" style="background:rgba(255,215,0,0.1); border:1px solid var(--cyber-gold); color:var(--cyber-gold); padding:6px 8px; border-radius:8px; font-size:0.75rem; text-decoration:none; font-family:'Orbitron';">ℹ️ Довідка</a>
             <select class="lang-selector" id="lang-select" onchange="changeLanguage(this.value)">
