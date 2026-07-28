@@ -196,25 +196,30 @@ bot.on('contact', (msg) => {
     });
 });
 
-// Нагадування (перевіряємо кожні 1 хв)
+// Нагадування (перевіряємо кожні 5 хв, стабільна версія)
 setInterval(() => {
-    const db = getDb();
-    const now = Date.now();
-    // Припускаємо, що order.timestamp це час візиту
-    db.orders.forEach(order => {
-        if (order.timestamp && !order.reminderSent) {
-            const timeDiff = order.timestamp - now;
-            // Якщо до візиту залишилось менше 2 годин (7200000 мс) і більше 1.9 годин
-            if (timeDiff > 0 && timeDiff <= 7200000) {
-                if (order.chatId) {
-                    bot.sendMessage(order.chatId, `🤖 <b>MEGAN 2.0 Нагадує:</b>\nЧекаємо вас на послугу <b>${order.Service}</b> о ${order.Date}. Ваш майстер ${order.Master} вже готує інструменти!`, { parse_mode: 'HTML' });
+    try {
+        const db = getDb();
+        const now = Date.now();
+        let changed = false;
+        db.orders.forEach(order => {
+            if (order.timestamp && !order.reminderSent && order.chatId) {
+                const timeDiff = order.timestamp - now;
+                // Перевірка: timestamp має бути числом
+                if (isNaN(timeDiff)) return;
+                // Якщо до візиту від 0 до 2 годин
+                if (timeDiff > 0 && timeDiff <= 7200000) {
+                    bot.sendMessage(order.chatId, `🤖 <b>Нагадування:</b>\nЧекаємо вас на <b>${order.Service || 'послугу'}</b> о ${order.Date || ''}.\nВаш майстер ${order.Master || ''} вже готовий!`, { parse_mode: 'HTML' }).catch(() => {});
+                    order.reminderSent = true;
+                    changed = true;
                 }
-                order.reminderSent = true;
-                saveDb(db);
             }
-        }
-    });
-}, 60000);
+        });
+        if (changed) saveDb(db);
+    } catch(e) {
+        console.error('Reminder error:', e.message);
+    }
+}, 300000); // 5 хвилин
 
 bot.on('polling_error', (error) => { console.log(error.code); });
 
