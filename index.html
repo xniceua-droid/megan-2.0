@@ -1384,6 +1384,21 @@ function updateHtcClock_old() {
             display: inline-block;
         }
 
+    
+        /* ⚡ 2026 LUXURY METEO CAPSULE */
+        .meteo-capsule-2026 {
+            background: linear-gradient(135deg, rgba(14, 23, 38, 0.95) 0%, rgba(6, 10, 18, 0.98) 100%) !important;
+            border: 1px solid rgba(255, 215, 0, 0.4) !important;
+            border-radius: 50px !important;
+            padding: 10px 18px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.8), 0 0 20px rgba(255, 215, 0, 0.15) !important;
+            backdrop-filter: blur(25px) !important;
+            margin-bottom: 12px !important;
+        }
+
     </style>
 </head>
 <body>
@@ -1462,63 +1477,23 @@ function updateHtcClock_old() {
 
         <!-- Погода в Ницце, Uber & Bolt -->
         <div class="admin-card" style="margin-top:0;">
-            <div class="cyber-weather-card">
-            <!-- Top Bar: Real Time Clock & Location -->
-            <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(0,162,255,0.2); padding-bottom:8px; margin-bottom:10px;">
-                <div style="display:flex; align-items:center; gap:6px; font-family:'Orbitron', sans-serif; font-size:0.88rem; color:var(--cyber-blue); font-weight:800;">
-                    <span class="live-pulse-dot"></span>
-                    <span id="htc-clock-hours">05</span>:<span id="htc-clock-mins">57</span>
-                </div>
-                <div style="font-size:0.78rem; color:var(--cyber-gold); font-weight:800; font-family:'Orbitron', sans-serif;" id="weather-city-title">
-                    📍 Nice, France 🇫🇷
-                </div>
+            <div class="meteo-capsule-2026">
+            <!-- Left: Real Time Clock -->
+            <div style="display:flex; align-items:center; gap:6px; font-family:'Orbitron', sans-serif; font-size:0.85rem; color:var(--cyber-blue); font-weight:800;">
+                <span class="live-pulse-dot"></span>
+                <span id="htc-clock-hours">05</span>:<span id="htc-clock-mins">59</span>
             </div>
 
-            <!-- Main Temp & Condition -->
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-                <div style="display:flex; align-items:center; gap:10px;">
-                    <div style="font-size:2.2rem; filter:drop-shadow(0 0 10px rgba(255,215,0,0.6));" id="weather-main-icon">☀️</div>
-                    <div>
-                        <div id="weather-temp" style="font-family:'Orbitron', sans-serif; font-size:1.8rem; font-weight:900; color:#fff; text-shadow:0 0 15px rgba(255,215,0,0.4); line-height:1;">+26°C</div>
-                        <div style="font-size:0.7rem; color:var(--text-sub); margin-top:2px;" id="weather-cond-text">Сонячно • UV 6</div>
-                    </div>
-                </div>
-                <!-- Micro Metrics Pill -->
-                <div style="background:rgba(18,25,38,0.8); border:1px solid rgba(0,162,255,0.3); border-radius:10px; padding:6px 10px; font-size:0.68rem; color:#fff; text-align:right;">
-                    <div>💧 <b id="weather-humidity-val">62%</b> Вологість</div>
-                    <div>🌪️ <b id="weather-wind-val">12 км/г</b> Вітер</div>
-                    <div style="color:var(--cyber-gold);">🌊 <b>24°C</b> Море</div>
-                </div>
+            <!-- Center: Gold Temperature & Sun -->
+            <div style="display:flex; align-items:center; gap:6px;">
+                <span style="font-size:1.3rem;">☀️</span>
+                <span id="weather-temp" style="font-family:'Orbitron', sans-serif; font-size:1.15rem; font-weight:900; color:var(--cyber-gold); text-shadow:0 0 12px rgba(255,215,0,0.5);">+26°C</span>
             </div>
 
-            <!-- Hourly Forecast Bar -->
-            <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:6px; background:rgba(0,0,0,0.35); border-radius:10px; padding:6px;">
-                <div onclick="selectHourlyForecast(this, '09:00', '24°C')" style="text-align:center; font-size:0.65rem; padding:4px; border-radius:8px; cursor:pointer;" class="hourly-chip">
-                    <div style="color:var(--text-sub);">09:00</div>
-                    <div style="margin:2px 0;">☀️</div>
-                    <div style="font-family:'Orbitron'; color:#fff; font-weight:bold;">24°C</div>
-                </div>
-                <div onclick="selectHourlyForecast(this, '13:00', '27°C')" style="text-align:center; font-size:0.65rem; padding:4px; border-radius:8px; cursor:pointer;" class="hourly-chip active-hourly">
-                    <div style="color:var(--text-sub);">13:00</div>
-                    <div style="margin:2px 0;">☀️</div>
-                    <div style="font-family:'Orbitron'; color:var(--cyber-gold); font-weight:bold;">27°C</div>
-                </div>
-                <div onclick="selectHourlyForecast(this, '17:00', '26°C')" style="text-align:center; font-size:0.65rem; padding:4px; border-radius:8px; cursor:pointer;" class="hourly-chip">
-                    <div style="color:var(--text-sub);">17:00</div>
-                    <div style="margin:2px 0;">🌤️</div>
-                    <div style="font-family:'Orbitron'; color:#fff; font-weight:bold;">26°C</div>
-                </div>
-                <div onclick="selectHourlyForecast(this, '21:00', '22°C')" style="text-align:center; font-size:0.65rem; padding:4px; border-radius:8px; cursor:pointer;" class="hourly-chip">
-                    <div style="color:var(--text-sub);">21:00</div>
-                    <div style="margin:2px 0;">🌙</div>
-                    <div style="font-family:'Orbitron'; color:var(--cyber-blue); font-weight:bold;">22°C</div>
-                </div>
-            </div>
-
-            <!-- MEGAN 2.0 AI Beauty Tip Ribbon -->
-            <div style="margin-top:8px; padding:6px 10px; background:rgba(255,215,0,0.08); border-left:3px solid var(--cyber-gold); border-radius:6px; font-size:0.68rem; color:#fff; display:flex; align-items:center; gap:6px;">
-                <span style="font-family:'Orbitron'; font-weight:bold; color:var(--cyber-gold);">🤖 MEGAN 2.0 AI:</span>
-                <span style="color:#eee;" id="weather-ai-tip">VIP Захист від сонця & морської солі ☀️</span>
+            <!-- Right: Location & Sea Temp -->
+            <div style="display:flex; align-items:center; gap:6px; font-size:0.75rem; color:#fff; font-family:'Outfit', sans-serif; font-weight:700;" id="weather-city-title">
+                <span>📍 Nice</span>
+                <span style="color:var(--cyber-blue);">• 🌊 24°C</span>
             </div>
         </div>
 
