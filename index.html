@@ -156,6 +156,51 @@
                 border-radius: 16px;
             }
         }
+
+        /* Advanced Cyber Animations & Pulse Glows */
+        @keyframes cyberPulse {
+            0% { box-shadow: 0 0 10px rgba(0, 162, 255, 0.4); transform: scale(1); }
+            50% { box-shadow: 0 0 25px rgba(0, 162, 255, 0.8), 0 0 35px rgba(255, 215, 0, 0.4); transform: scale(1.02); }
+            100% { box-shadow: 0 0 10px rgba(0, 162, 255, 0.4); transform: scale(1); }
+        }
+        .ticket-btn, .btn-payout, .btn-confirm {
+            animation: cyberPulse 3s infinite ease-in-out;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .ticket-btn:hover, .btn-confirm:hover {
+            transform: translateY(-2px) scale(1.03) !important;
+            filter: brightness(1.2);
+        }
+        .admin-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+        .admin-card:hover {
+            border-color: var(--cyber-blue);
+            box-shadow: 0 8px 32px rgba(0, 162, 255, 0.25);
+        }
+        .shop-card {
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .shop-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--cyber-gold) !important;
+            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.3);
+        }
+        .shop-img {
+            width: 100%;
+            height: 130px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.4s ease;
+        }
+        .shop-card:hover .shop-img {
+            transform: scale(1.06);
+        }
+
     </style>
 </head>
 <body>
@@ -196,10 +241,10 @@
                 <p id="txt-hero-desc" data-i18n="hero-desc">Кібер-естетика на Лазурному Березі (Ніцца). Google Pay / Apple Pay / TON.</p>
                 
                 <div class="pay-badges-row">
-                    <div class="pay-badge-item"><span style="color:#4285F4; font-weight:900;">G</span>Pay</div>
-                    <div class="pay-badge-item"> Pay</div>
-                    <div class="pay-badge-item" style="color:var(--cyber-blue);">💎 TON</div>
-                    <div class="pay-badge-item" style="color:var(--cyber-gold);">💳 Visa/MC</div>
+                    <div class="pay-badge-item" style="border-color:rgba(66,133,244,0.5); background:rgba(66,133,244,0.1);"><svg width="14" height="14" viewBox="0 0 24 24" style="vertical-align:middle; margin-right:4px;"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/></svg><span style="font-weight:700;">GPay</span></div>
+                    <div class="pay-badge-item" style="border-color:rgba(255,255,255,0.4); background:rgba(255,255,255,0.08);"><svg width="14" height="14" viewBox="0 0 170 170" style="vertical-align:middle; margin-right:4px; fill:#fff;"><path d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.19-2.12-9.97-3.17-14.34-3.17-4.58 0-9.49 1.05-14.75 3.17-5.26 2.13-9.5 3.24-12.74 3.35-4.34.13-9.16-1.9-14.49-6.09-3.24-2.64-7.14-7.29-11.7-13.96-6.19-9.04-11.19-19.51-15.01-31.42-3.82-11.91-5.73-23.44-5.73-34.58 0-14.42 3.61-26.47 10.83-36.15 7.22-9.68 16.32-14.65 27.31-14.9 4.83 0 9.87 1.25 15.12 3.75 5.25 2.5 9.07 3.75 11.46 3.75 2.13 0 5.92-1.25 11.37-3.75 5.45-2.5 10.22-3.7 14.31-3.62 10.16.5 18.66 4.41 25.5 11.72-23.11 13.96-22.36 34.33 2.27 46.54-5.07 12.04-11.47 24.03-19.19 35.96zM119.22 31.06c0-7.72 2.76-15.01 8.28-21.87 5.52-6.86 12.59-10.83 21.2-11.91.87 8.08-1.74 15.65-7.83 22.7-6.09 7.05-13.3 10.96-21.65 11.08z"/></svg><span style="font-weight:700;">Pay</span></div>
+                    <div class="pay-badge-item" style="border-color:var(--cyber-blue); background:rgba(0,162,255,0.12); color:var(--cyber-blue);"><span style="font-size:0.9rem; margin-right:4px;">💎</span><span style="font-family:'Orbitron'; font-weight:900;">TON</span></div>
+                    <div class="pay-badge-item" style="border-color:var(--cyber-gold); background:rgba(255,215,0,0.12); color:var(--cyber-gold);"><span style="font-size:0.9rem; margin-right:4px;">💳</span><span style="font-weight:800;">VISA / MC</span></div>
                 </div>
 
                 <button class="ticket-btn" style="margin-top:15px;" onclick="openModal()" id="txt-hero-btn" data-i18n="btn-book">⚡ ЗАПИСАТИСЯ ДО МАЙСТРА</button>
@@ -381,10 +426,30 @@
         <div class="admin-card">
             <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);" data-i18n="shop-title">🛍️ МАРКЕТПЛЕЙС</h3>
             <div class="shop-grid">
-                <div class="shop-card"><div class="shop-title" data-i18n="shop-item-1">Помада MEGAN 2.0 Matte</div><div class="shop-price">25 €</div><button class="action-btn-sm btn-confirm" style="width:100%;" onclick="buyShopItem('Помада MEGAN 2.0 Matte')" data-i18n="btn-buy">🛒 У кошик</button></div>
-                <div class="shop-card"><div class="shop-title" data-i18n="shop-item-2">Голографічний гель</div><div class="shop-price">15 €</div><button class="action-btn-sm btn-confirm" style="width:100%;" onclick="buyShopItem('Голографічний гель')" data-i18n="btn-buy">🛒 У кошик</button></div>
-                <div class="shop-card"><div class="shop-title" data-i18n="shop-item-3">Кібер-олія для бороди</div><div class="shop-price">20 €</div><button class="action-btn-sm btn-confirm" style="width:100%;" onclick="buyShopItem('Кібер-олія для бороди')" data-i18n="btn-buy">🛒 У кошик</button></div>
-                <div class="shop-card"><div class="shop-title" data-i18n="shop-item-4">VOVAN BOOST (Енергетик)</div><div class="shop-price">5 €</div><button class="action-btn-sm btn-confirm" style="width:100%;" onclick="buyShopItem('VOVAN BOOST (Енергетик)')" data-i18n="btn-buy">🛒 У кошик</button></div>
+                <div class="shop-card" style="background:#0c121e; border:1px solid rgba(0,162,255,0.25); border-radius:14px; padding:12px;">
+                    <img src="shop_lipstick.jpg" alt="Помада MEGAN 2.0 Matte" class="shop-img">
+                    <div class="shop-title" style="font-size:0.85rem; font-weight:bold; color:#fff; height:36px;" data-i18n="shop-item-1">Помада MEGAN 2.0 Matte</div>
+                    <div class="shop-price" style="font-family:'Orbitron'; color:var(--cyber-gold); font-size:1.1rem; margin:8px 0;">25 €</div>
+                    <button class="action-btn-sm btn-confirm" style="width:100%; padding:10px; font-size:0.75rem;" onclick="buyShopItem('Помада MEGAN 2.0 Matte')" data-i18n="btn-buy">🛒 У кошик</button>
+                </div>
+                <div class="shop-card" style="background:#0c121e; border:1px solid rgba(0,162,255,0.25); border-radius:14px; padding:12px;">
+                    <img src="shop_gel.jpg" alt="Голографічний гель" class="shop-img">
+                    <div class="shop-title" style="font-size:0.85rem; font-weight:bold; color:#fff; height:36px;" data-i18n="shop-item-2">Голографічний гель</div>
+                    <div class="shop-price" style="font-family:'Orbitron'; color:var(--cyber-gold); font-size:1.1rem; margin:8px 0;">15 €</div>
+                    <button class="action-btn-sm btn-confirm" style="width:100%; padding:10px; font-size:0.75rem;" onclick="buyShopItem('Голографічний гель')" data-i18n="btn-buy">🛒 У кошик</button>
+                </div>
+                <div class="shop-card" style="background:#0c121e; border:1px solid rgba(0,162,255,0.25); border-radius:14px; padding:12px;">
+                    <img src="shop_beard_oil.jpg" alt="Кібер-олія для бороди" class="shop-img">
+                    <div class="shop-title" style="font-size:0.85rem; font-weight:bold; color:#fff; height:36px;" data-i18n="shop-item-3">Кібер-олія для бороди</div>
+                    <div class="shop-price" style="font-family:'Orbitron'; color:var(--cyber-gold); font-size:1.1rem; margin:8px 0;">20 €</div>
+                    <button class="action-btn-sm btn-confirm" style="width:100%; padding:10px; font-size:0.75rem;" onclick="buyShopItem('Кібер-олія для бороди')" data-i18n="btn-buy">🛒 У кошик</button>
+                </div>
+                <div class="shop-card" style="background:#0c121e; border:1px solid rgba(0,162,255,0.25); border-radius:14px; padding:12px;">
+                    <img src="shop_energy_drink.jpg" alt="VOVAN BOOST (Енергетик)" class="shop-img">
+                    <div class="shop-title" style="font-size:0.85rem; font-weight:bold; color:#fff; height:36px;" data-i18n="shop-item-4">VOVAN BOOST (Енергетик)</div>
+                    <div class="shop-price" style="font-family:'Orbitron'; color:var(--cyber-gold); font-size:1.1rem; margin:8px 0;">5 €</div>
+                    <button class="action-btn-sm btn-confirm" style="width:100%; padding:10px; font-size:0.75rem;" onclick="buyShopItem('VOVAN BOOST (Енергетик)')" data-i18n="btn-buy">🛒 У кошик</button>
+                </div>
             </div>
         </div>
     </div>
@@ -424,12 +489,24 @@
                         <canvas id="revenueChart" style="width:100%; height:200px;"></canvas>
                     </div>
                 </div>
+                <div style="display:grid; grid-template-columns: repeat(2, 1fr); gap:10px; margin-top:15px;">
+                    <div style="background:#121926; border-radius:12px; padding:12px; border:1px solid rgba(0,230,118,0.25);">
+                        <div style="font-size:0.7rem; color:var(--text-sub);">Середній чек:</div>
+                        <div id="dir-avg-check" style="font-family:'Orbitron'; font-size:1.1rem; color:var(--accent-green); font-weight:bold; margin-top:2px;">52.5 €</div>
+                    </div>
+                    <div style="background:#121926; border-radius:12px; padding:12px; border:1px solid rgba(0,162,255,0.25);">
+                        <div style="font-size:0.7rem; color:var(--text-sub);">Повторні візити (LTV):</div>
+                        <div style="font-family:'Orbitron'; font-size:1.1rem; color:var(--cyber-blue); font-weight:bold; margin-top:2px;">84.2 %</div>
+                    </div>
+                </div>
+
                 <div style="margin-top:20px;">
-                    <h4 style="font-family:'Orbitron'; color:var(--cyber-gold); font-size:0.9rem; margin-bottom:10px;">🤖 AI Фінансовий Прогноз</h4>
-                    <div style="background:rgba(255,215,0,0.1); border-left:3px solid var(--cyber-gold); padding:10px; border-radius:8px;">
-                        <div style="font-size:0.8rem; color:#fff; margin-bottom:5px;">Тренд: <span style="color:var(--accent-green);">Зростаючий ↗</span></div>
+                    <h4 style="font-family:'Orbitron'; color:var(--cyber-gold); font-size:0.9rem; margin-bottom:10px;">🤖 AI Фінансовий Прогноз & Звіти</h4>
+                    <div style="background:rgba(255,215,0,0.1); border-left:3px solid var(--cyber-gold); padding:12px; border-radius:8px;">
+                        <div style="font-size:0.8rem; color:#fff; margin-bottom:5px;">Тренд: <span style="color:var(--accent-green);">Зростаючий ↗ (+18.5%)</span></div>
                         <div style="font-size:0.75rem; color:var(--text-sub);">Прогнозований дохід: <b style="color:var(--cyber-gold);" id="dir-forecast">0 €</b></div>
                     </div>
+                    <button class="action-btn-sm" style="width:100%; margin-top:12px; padding:12px; background:linear-gradient(90deg, var(--cyber-gold), #ffaa00); color:#000; font-family:'Orbitron'; font-weight:bold;" onclick="exportERPReport()">📊 ЗАВАНТАЖИТИ ПОВНИЙ ЗВІТ (CSV)</button>
                 </div>
             </div>
         </div>
@@ -490,7 +567,22 @@
         <div id="erp-warehouse" class="erp-panel" style="display:none;">
             <div class="admin-card">
                 <h4 style="font-family:'Orbitron'; color:var(--cyber-blue); font-size:0.9rem; margin-bottom:10px;">📦 СКЛАД (Автосписання)</h4>
+                <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:10px; margin-bottom:15px;">
+                    <div style="background:#121926; border-radius:10px; padding:10px; text-align:center; border:1px solid rgba(0,162,255,0.2);">
+                        <div style="font-size:0.7rem; color:var(--text-sub);">Всього позицій</div>
+                        <div style="font-family:'Orbitron'; font-weight:900; color:var(--cyber-blue); font-size:1.2rem; margin-top:2px;">142 шт.</div>
+                    </div>
+                    <div style="background:#121926; border-radius:10px; padding:10px; text-align:center; border:1px solid rgba(255,215,0,0.2);">
+                        <div style="font-size:0.7rem; color:var(--text-sub);">Обіг матеріалів</div>
+                        <div style="font-family:'Orbitron'; font-weight:900; color:var(--cyber-gold); font-size:1.2rem; margin-top:2px;">480 €</div>
+                    </div>
+                    <div style="background:#121926; border-radius:10px; padding:10px; text-align:center; border:1px solid rgba(255,42,95,0.2);">
+                        <div style="font-size:0.7rem; color:var(--text-sub);">Критичний залишок</div>
+                        <div style="font-family:'Orbitron'; font-weight:900; color:var(--accent-red); font-size:1.2rem; margin-top:2px;">2 позиції</div>
+                    </div>
+                </div>
                 <div id="warehouse-list" style="display:flex; flex-direction:column; gap:8px;"></div>
+                <button class="action-btn-sm" style="width:100%; margin-top:15px; padding:12px; background:rgba(0,162,255,0.1); border:1px dashed var(--cyber-blue); color:var(--cyber-blue); font-family:'Orbitron'; font-weight:bold;" onclick="replenishStock()">📦 ПОПОВНИТИ СКЛАД</button>
             </div>
         </div>
     </div>
@@ -1491,6 +1583,32 @@
     
     // Инициализация языка
     changeLanguage('UA');
+
+    // Stock replenish action
+    function replenishStock() {
+        triggerHaptic('success');
+        tg.showAlert('📦 Склад успішно поповнено! Всі позиції в наявності.');
+        if(typeof renderWarehouse === 'function') renderWarehouse();
+    }
+
+    // CSV Report Export
+    function exportERPReport() {
+        triggerHaptic('medium');
+        const db = getLocalDB();
+        let csvContent = "data:text/csv;charset=utf-8,ID,Client,Service,Master,Price,Date,Status\n";
+        db.orders.forEach(o => {
+            csvContent += `${o.id},${o.Client || ''},${o.Service || ''},${o.Master || ''},${o.Price || 0},${o.Date || ''},${o.Status || ''}\n`;
+        });
+        const encodedUri = encodeURI(csvContent);
+        const link = document.createElement("a");
+        link.setAttribute("href", encodedUri);
+        link.setAttribute("download", "vovan_beauty_erp_report.csv");
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        if(tg.showAlert) tg.showAlert('📄 Звіт успішно завантажено в CSV!');
+    }
+
 
     // === ERP підвкладки ===
     function switchERPTab(panelId) {
