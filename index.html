@@ -324,6 +324,105 @@
             object-fit: cover;
         }
 
+
+        /* ⚡ SUPER COOL CYBER WEATHER WIDGET 2026 */
+        .cyber-weather-widget {
+            background: linear-gradient(135deg, rgba(0, 162, 255, 0.14) 0%, rgba(255, 215, 0, 0.08) 50%, rgba(11, 16, 25, 0.95) 100%);
+            border: 1px solid rgba(0, 162, 255, 0.4);
+            border-radius: 16px;
+            padding: 16px;
+            box-shadow: 0 8px 32px rgba(0, 162, 255, 0.2), inset 0 0 20px rgba(0, 162, 255, 0.1);
+            backdrop-filter: blur(16px);
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+        .cyber-weather-widget::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0, 162, 255, 0.1) 0%, transparent 60%);
+            animation: rotateShimmer 10s linear infinite;
+            pointer-events: none;
+        }
+        @keyframes rotateShimmer {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .weather-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent-green);
+            box-shadow: 0 0 10px var(--accent-green);
+            animation: livePulse 1.5s infinite ease-in-out;
+        }
+        @keyframes livePulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.5); opacity: 0.4; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .satellite-tag {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.62rem;
+            color: var(--cyber-blue);
+            background: rgba(0, 162, 255, 0.12);
+            border: 1px solid rgba(0, 162, 255, 0.3);
+            padding: 3px 8px;
+            border-radius: 10px;
+            font-weight: 700;
+        }
+        .weather-main-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+        }
+        .weather-temp-glow {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 900;
+            background: linear-gradient(90deg, #ffffff 0%, var(--cyber-gold) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 25px rgba(255, 215, 0, 0.4);
+        }
+        .weather-ai-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(0, 230, 118, 0.1);
+            border: 1px solid rgba(0, 230, 118, 0.3);
+            border-radius: 12px;
+            padding: 8px 12px;
+            font-size: 0.72rem;
+            color: var(--accent-green);
+            font-weight: 600;
+        }
+        .weather-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+        .weather-stat-chip {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            padding: 6px 8px;
+            font-size: 0.68rem;
+            color: var(--text-sub);
+            text-align: center;
+        }
+
     </style>
 </head>
 <body>
@@ -376,13 +475,27 @@
 
         <!-- Погода в Ницце, Uber & Bolt -->
         <div class="admin-card" style="margin-top:0;">
-            <div class="weather-card">
-                <div>
-                    <div style="font-size:0.75rem; color:var(--text-sub);" id="weather-city-title" data-i18n="weather-title">☀️ Погода у Ніцці (Côte d'Azur):</div>
-                    <div id="weather-temp" style="font-family:'Orbitron'; font-size:1.1rem; color:var(--cyber-gold); font-weight:900;">Оновлення...</div>
+            <div class="cyber-weather-widget">
+                <div class="weather-header-row">
+                    <div style="display:flex; align-items:center; gap:6px;">
+                        <span class="live-dot"></span>
+                        <div style="font-size:0.75rem; color:var(--text-sub); font-weight:700;" id="weather-city-title" data-i18n="weather-title">☀️ ПОГОДА У НІЦЦІ (CÔTE D'AZUR):</div>
+                    </div>
+                    <div class="satellite-tag">🛰 OPEN-METEO LIVE</div>
                 </div>
-                <div id="weather-ai-text" style="font-size:0.72rem; color:var(--accent-green); text-align:right;" data-i18n="weather-ai">
-                    MEGAN 2.0 AI:<br>VIP Захист волосся ☀️
+
+                <div class="weather-main-row">
+                    <div class="weather-temp-glow" id="weather-temp">+26°C | ☀️</div>
+                    <div class="weather-ai-badge" id="weather-ai-text">
+                        <img src="m3gan_icon_nav.jpg" class="micro-badge">
+                        <span>MEGAN 2.0 AI:<br>VIP Захист волосся ☀️</span>
+                    </div>
+                </div>
+
+                <div class="weather-stats-grid">
+                    <div class="weather-stat-chip">💧 Вологість: <b style="color:#fff;">62%</b></div>
+                    <div class="weather-stat-chip">🌪️ Вітер: <b style="color:#fff;">12 км/г</b></div>
+                    <div class="weather-stat-chip">☀️ UV: <b style="color:var(--cyber-gold);">6 (Середній)</b></div>
                 </div>
             </div>
 
