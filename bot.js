@@ -16,14 +16,13 @@ const webAppUrl = 'https://xniceua-droid.github.io/megan-2.0/';
 
 // Налаштування глобальних команд і кнопки меню для бота
 bot.setMyCommands([
-    { command: '/start', description: '🚀 Запустити додаток' },
-    { command: '/restart', description: '🔄 Оновити / Перезапустити' }
+    { command: '/start', description: '🚀 Старт — Запустити додаток' }
 ]).catch(e => console.error("setMyCommands error:", e));
 
 bot.setChatMenuButton({
     menu_button: JSON.stringify({
         type: 'web_app',
-        text: '📱 Відкрити VOVAN BEAUTY',
+        text: '🚀 Старт',
         web_app: { url: webAppUrl }
     })
 }).catch(e => console.error("setChatMenuButton error:", e));
@@ -151,39 +150,42 @@ bot.on('successful_payment', (msg) => {
     bot.sendMessage(msg.chat.id, "✅ Оплата успішна! Дякуємо за довіру до VOVAN BEAUTY STUDIO.");
 });
 
-bot.onText(/\/(start|restart)/, async (msg) => {
+bot.onText(/\/start/, async (msg) => {
     const chatId = msg.chat.id;
+    const name = msg.from.first_name || 'друже';
 
-    // Request contact keyboard
-    const contactOpts = {
-        reply_markup: {
-            keyboard: [[{ text: "📞 Поділитися контактом", request_contact: true }]],
-            resize_keyboard: true,
-            one_time_keyboard: true
-        }
-    };
-    await bot.sendMessage(chatId, `Привіт, ${msg.from.first_name || 'клієнт'}! Щоб створити ваш профіль, будь ласка, поділіться контактом.`, contactOpts);
-
-    // Web App Button
     const opts = {
+        parse_mode: 'HTML',
         reply_markup: {
-            inline_keyboard: [[{ text: "⚡ ВІДКРИТИ VOVAN BEAUTY ⚡", web_app: { url: webAppUrl } }]]
+            inline_keyboard: [
+                [{ text: "✂️ ЗАПИСАТИСЯ", web_app: { url: webAppUrl } }],
+                [{ text: "📞 Зателефонувати", url: "tel:+33000000000" }, { text: "📍 Як дістатися", url: "https://maps.google.com" }]
+            ]
         }
     };
-    bot.sendMessage(chatId, `Ласкаво просимо до VOVAN BEAUTY STUDIO.\n\nНатисніть кнопку нижче, щоб відкрити додаток 👇`, opts);
+    bot.sendMessage(chatId, 
+        `🔥 <b>Вітаємо, ${name}!</b>\n\n` +
+        `💈 <b>VOVAN BEAUTY STUDIO</b> — преміум барбершоп у Парижі 🇫🇷\n\n` +
+        `✂️ Стрижки • 🧔 Бороди • 💆 SPA\n` +
+        `⭐ Кращі майстри • 🎨 Кібер-дизайн\n\n` +
+        `Натисніть кнопку нижче, щоб відкрити додаток 👇`, opts);
 });
 
-// Обробка будь-яких інших команд (наприклад, старого /record) або тексту
+// Обробка будь-яких інших повідомлень — завжди відкриваємо додаток
 bot.on('message', (msg) => {
-    // Якщо це контакт або одна з основних команд - ігноруємо (вони обробляються вище)
-    if (msg.contact || (msg.text && msg.text.match(/\/(start|restart)/))) return;
+    // Контакт або /start — обробляється окремо
+    if (msg.contact || (msg.text && msg.text.startsWith('/start'))) return;
+    // Якщо web_app_data — ігноруємо
+    if (msg.web_app_data) return;
 
     const opts = {
+        parse_mode: 'HTML',
         reply_markup: {
-            inline_keyboard: [[{ text: "⚡ ВІДКРИТИ ДОДАТОК ⚡", web_app: { url: webAppUrl } }]]
+            inline_keyboard: [[{ text: "✂️ ЗАПИСАТИСЯ", web_app: { url: webAppUrl } }]]
         }
     };
-    bot.sendMessage(msg.chat.id, `Для того щоб записатися чи переглянути послуги, відкрийте наш додаток 👇`, opts);
+    bot.sendMessage(msg.chat.id, 
+        `💈 Щоб записатися або переглянути послуги — натисніть кнопку нижче 👇`, opts);
 });
 
 // Зберігання контакту (опціонально можна зберігати в db.json)
