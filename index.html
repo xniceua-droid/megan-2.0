@@ -769,6 +769,78 @@
             font-weight: 500;
         }
 
+
+        /* ⚡ 2026 MODERN DESIGN SYSTEM OVERHAUL */
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800;900&family=Orbitron:wght@500;700;900&display=swap');
+
+        body {
+            font-family: 'Outfit', sans-serif !important;
+            background-color: #000000 !important;
+            color: #ffffff !important;
+            letter-spacing: 0.2px;
+        }
+
+        /* Glass Cards 2026 */
+        .admin-card, .vintage-menu, .location-card, .vintage-modal {
+            background: linear-gradient(135deg, rgba(12, 19, 32, 0.95) 0%, rgba(3, 5, 8, 0.98) 100%) !important;
+            border: 1px solid rgba(0, 162, 255, 0.35) !important;
+            border-radius: 18px !important;
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.8), inset 0 0 15px rgba(0, 162, 255, 0.08) !important;
+            backdrop-filter: blur(20px) !important;
+        }
+
+        /* Menu Items */
+        .menu-item {
+            background: rgba(255, 255, 255, 0.02) !important;
+            border: 1px solid rgba(255, 255, 255, 0.05) !important;
+            border-radius: 14px !important;
+            padding: 14px !important;
+            margin-bottom: 10px !important;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+        }
+        .menu-item:hover {
+            border-color: var(--cyber-gold) !important;
+            transform: translateX(4px) scale(1.01) !important;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.25) !important;
+        }
+
+        /* Barber Cards */
+        .barber-card {
+            background: linear-gradient(135deg, rgba(14, 23, 38, 0.9) 0%, rgba(6, 10, 18, 0.95) 100%) !important;
+            border: 1px solid rgba(0, 162, 255, 0.3) !important;
+            border-radius: 16px !important;
+            padding: 15px !important;
+            text-align: center !important;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6) !important;
+            transition: all 0.3s ease !important;
+        }
+        .barber-card:hover {
+            border-color: var(--cyber-gold) !important;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.3) !important;
+        }
+        .barber-img {
+            width: 100% !important;
+            height: 190px !important;
+            object-fit: cover !important;
+            border-radius: 12px !important;
+            border: 1.5px solid rgba(0, 162, 255, 0.4) !important;
+            margin-bottom: 12px !important;
+        }
+
+        /* Action Buttons */
+        .action-btn-sm {
+            border-radius: 10px !important;
+            padding: 9px 14px !important;
+            font-family: 'Orbitron', sans-serif !important;
+            font-weight: 700 !important;
+            font-size: 0.76rem !important;
+            transition: all 0.25s ease !important;
+        }
+        .action-btn-sm:hover {
+            transform: translateY(-2px) !important;
+            filter: brightness(1.15) !important;
+        }
+
     </style>
 </head>
 <body>
