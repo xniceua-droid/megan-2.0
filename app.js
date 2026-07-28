@@ -1446,19 +1446,10 @@ function switchTab(pageId) {
         try { if (tg.setHeaderColor) tg.setHeaderColor('#0b1019'); } catch(e){}
         try { if (tg.setBackgroundColor) tg.setBackgroundColor('#000000'); } catch(e){}
 
-        // Sync Native Telegram MainButton for 1-Tap Booking
+        // Disable Telegram Native MainButton to eliminate duplicate "Записатися" button
         try {
             if (tg.MainButton) {
-                tg.MainButton.setText('⚡ ЗАПИСАТИСЯ ДО САЛОНУ (NICE 🇫🇷)');
-                tg.MainButton.setParams({
-                    color: '#ffd700',
-                    text_color: '#000000',
-                    is_active: true,
-                    is_visible: true
-                });
-                tg.MainButton.onClick(function() {
-                    if (typeof openModal === 'function') openModal();
-                });
+                tg.MainButton.hide();
             }
         } catch(e){}
 
