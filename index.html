@@ -294,6 +294,24 @@
             margin-top: 12px;
         }
 
+
+        /* Generated 3D Button & Navigation Icons */
+        .btn-icon-img {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 2px;
+            border: 1px solid var(--cyber-blue);
+            box-shadow: 0 0 8px rgba(0, 162, 255, 0.4);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+        .nav-btn.active .btn-icon-img {
+            border-color: var(--cyber-gold);
+            box-shadow: 0 0 12px var(--cyber-gold);
+            transform: scale(1.15);
+        }
+
     </style>
 </head>
 <body>
@@ -340,7 +358,7 @@
                     <div class="pay-badge-item" style="border-color:var(--cyber-gold); background:rgba(255,215,0,0.12); color:var(--cyber-gold);"><span style="font-size:0.9rem; margin-right:4px;">💳</span><span style="font-weight:800;">VISA / MC</span></div>
                 </div>
 
-                <button class="ticket-btn" style="margin-top:15px;" onclick="openModal()" id="txt-hero-btn" data-i18n="btn-book">⚡ ЗАПИСАТИСЯ ДО МАЙСТРА</button>
+                <button class="ticket-btn" style="margin-top:15px; display:flex; align-items:center; justify-content:center; gap:8px;" onclick="openModal()" id="txt-hero-btn" data-i18n="btn-book"><img src="icon_scissors.jpg" style="width:22px; height:22px; border-radius:50%; border:1px solid var(--cyber-gold);"> ⚡ ЗАПИСАТИСЯ ДО МАЙСТРА</button>
             </div>
         </section>
 
@@ -709,13 +727,13 @@
 
     <!-- НИЖНЯЯ НАВИГАЦИЯ -->
     <div class="bottom-nav">
-        <button class="nav-btn active" data-tab="client" onclick="switchTab('client')"><span class="nav-icon">🎟</span><span data-i18n="role-client">Клієнт</span></button>
-        <button class="nav-btn" data-tab="bar" onclick="switchTab('bar')"><span class="nav-icon">🍾</span><span data-i18n="role-bar">VIP Бар</span></button>
-        <button class="nav-btn" data-tab="ai" onclick="switchTab('ai')"><span class="nav-icon">🤖</span><span data-i18n="role-ai">AI Скан</span></button>
+        <button class="nav-btn active" data-tab="client" onclick="switchTab('client')"><img src="icon_scissors.jpg" alt="Client" class="btn-icon-img"><span data-i18n="role-client">Клієнт</span></button>
+        <button class="nav-btn" data-tab="bar" onclick="switchTab('bar')"><img src="icon_bar.jpg" alt="Bar" class="btn-icon-img"><span data-i18n="role-bar">VIP Бар</span></button>
+        <button class="nav-btn" data-tab="ai" onclick="switchTab('ai')"><img src="icon_ai.jpg" alt="AI" class="btn-icon-img"><span data-i18n="role-ai">AI Скан</span></button>
         <button class="nav-btn" data-tab="chat" onclick="switchTab('chat')"><span class="nav-icon">💬</span><span data-i18n="role-chat">Чат 24/7</span></button>
         <button class="nav-btn" data-tab="shop" onclick="switchTab('shop')"><span class="nav-icon">🛍️</span><span data-i18n="role-shop">Маркет</span></button>
         <button class="nav-btn" data-tab="gifts" onclick="switchTab('gifts')"><span class="nav-icon">🎁</span><span data-i18n="role-gifts">Подарунки</span></button>
-                <button class="nav-btn" data-tab="erp" onclick="switchTab('erp')"><span class="nav-icon">👑</span><span data-i18n="role-erp">ERP</span></button>
+                <button class="nav-btn" data-tab="erp" onclick="switchTab('erp')"><img src="icon_erp.jpg" alt="ERP" class="btn-icon-img"><span data-i18n="role-erp">ERP</span></button>
     </div>
 </div>
 
