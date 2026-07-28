@@ -1645,7 +1645,10 @@ function updateHtcClock_old() {
     <!-- 4. AI ЧАТ -->
     <div id="page-chat" class="page-section">
         <div class="admin-card">
-            <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);" data-i18n="chat-title">💬 MEGAN 2.0 AI ЧАТ</h3>
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);" data-i18n="chat-title">💬 MEGAN 2.0 AI ЧАТ</h3>
+                <button class="action-btn-sm" onclick="toggleVoiceSpeech()" id="btn-voice-toggle" style="padding:4px 10px; font-size:0.7rem; background:rgba(0,162,255,0.15); border:1px solid var(--cyber-blue); color:#fff; border-radius:12px;">🔊 Озвучка</button>
+            </div>
             <div class="chat-box" id="chat-box-el"><div class="chat-msg bot" data-i18n="chat-welcome">Bonjour! Я MEGAN 2.0 AI. Чим можу допомогти? 😊</div></div>
             <div class="chat-input-container">
                 <input type="text" id="chat-input-msg" class="chat-input" placeholder="Напишіть повідомлення...">
@@ -2221,7 +2224,36 @@ function updateHtcClock_old() {
         sendBotNotification(msg);
     }
     
-    function sendChatMessage() {
+    
+        /* MEGAN 2.0 Voice Speech Synthesizer */
+        let isVoiceEnabled = false;
+        window.toggleVoiceSpeech = function() {
+            isVoiceEnabled = !isVoiceEnabled;
+            const btn = document.getElementById('btn-voice-toggle');
+            if (btn) {
+                btn.style.borderColor = isVoiceEnabled ? 'var(--accent-green)' : 'var(--cyber-blue)';
+                btn.style.color = isVoiceEnabled ? 'var(--accent-green)' : '#fff';
+                btn.textContent = isVoiceEnabled ? '🔊 Голос увімкнений' : '🔇 Голос вимкнений';
+            }
+            if (typeof showCyberToast === 'function') {
+                showCyberToast(isVoiceEnabled ? 'Озвучка MEGAN 2.0 УВІМКНЕНА 🔊' : 'Озвучка ВИМКНЕНА 🔇', '🤖');
+            }
+        };
+
+        function speakMeganText(text) {
+            if (!isVoiceEnabled || !('speechSynthesis' in window)) return;
+            try {
+                window.speechSynthesis.cancel();
+                const cleanText = text.replace(/<[^>]*>?/gm, '');
+                const utterance = new SpeechSynthesisUtterance(cleanText);
+                utterance.lang = 'fr-FR';
+                utterance.pitch = 1.1;
+                utterance.rate = 1.0;
+                window.speechSynthesis.speak(utterance);
+            } catch(e) {}
+        }
+
+function sendChatMessage() {
         const input = document.getElementById('chat-input-msg');
         const box = document.getElementById('chat-box-el');
         const text = input.value.trim();
