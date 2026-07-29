@@ -778,13 +778,19 @@ function sendChatMessage() {
 
         window.openHelpModal = function() {
             const modal = document.getElementById('help-modal');
-            if (modal) modal.classList.add('show');
+            if (modal) {
+                modal.classList.add('active');
+                modal.classList.add('show');
+            }
             if (typeof triggerHaptic === 'function') triggerHaptic('medium');
         };
 
         window.closeHelpModal = function() {
             const modal = document.getElementById('help-modal');
-            if (modal) modal.classList.remove('show');
+            if (modal) {
+                modal.classList.remove('active');
+                modal.classList.remove('show');
+            }
             if (typeof triggerHaptic === 'function') triggerHaptic('light');
         };
 

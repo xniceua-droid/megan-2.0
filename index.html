@@ -86,10 +86,11 @@
             <div class="location-card" style="background:rgba(11,16,25,0.7); border:1px solid rgba(0,162,255,0.25); border-radius:14px; padding:14px;">
                 <div class="location-title" data-i18n="loc-title" style="font-family:'Orbitron'; font-size:0.85rem; color:var(--cyber-gold); font-weight:800;">📍 СТУДІЯ У НІЦЦІ (CÔTE D'AZUR)</div>
                 <p style="font-size:0.78rem; color:var(--text-sub); margin-top:4px;">15 Promenade des Anglais, 06000 Nice, France</p>
-                <div style="display:flex; gap:6px; margin-top:12px;">
-                    <button class="action-btn-sm" style="flex:1; padding:8px 6px; font-size:0.72rem; background:rgba(0,162,255,0.12); border:1px solid var(--cyber-blue); color:var(--cyber-blue); border-radius:10px; font-weight:700;" onclick="openNiceMap()" data-i18n="btn-maps">🗺 Maps</button>
-                    <button class="action-btn-sm" style="flex:1; padding:8px 6px; font-size:0.72rem; background:rgba(255,215,0,0.12); border:1px solid var(--cyber-gold); color:var(--cyber-gold); border-radius:10px; font-weight:700;" onclick="openGalleryModal()">📸 3D Тур</button>
-                    <button class="action-btn-sm" style="flex:1; padding:8px 6px; font-size:0.72rem; background:rgba(0,230,118,0.12); border:1px solid var(--accent-green); color:var(--accent-green); border-radius:10px; font-weight:700;" onclick="openConciergeModal('Uber')">🚕 Uber</button>
+                <div style="display:flex; gap:5px; margin-top:12px;">
+                    <button class="action-btn-sm" style="flex:1; padding:7px 2px; font-size:0.68rem; background:rgba(0,162,255,0.12); border:1px solid var(--cyber-blue); color:var(--cyber-blue); border-radius:8px; font-weight:700;" onclick="openNiceMap()" data-i18n="btn-maps">🗺 Maps</button>
+                    <button class="action-btn-sm" style="flex:1; padding:7px 2px; font-size:0.68rem; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.3); color:#fff; border-radius:8px; font-weight:700;" onclick="openConciergeModal('Uber')">🚕 Uber</button>
+                    <button class="action-btn-sm" style="flex:1; padding:7px 2px; font-size:0.68rem; background:rgba(0,230,118,0.12); border:1px solid var(--accent-green); color:var(--accent-green); border-radius:8px; font-weight:700;" onclick="openConciergeModal('Bolt')">⚡ Bolt</button>
+                    <button class="action-btn-sm" style="flex:1; padding:7px 2px; font-size:0.68rem; background:rgba(255,215,0,0.12); border:1px solid var(--cyber-gold); color:var(--cyber-gold); border-radius:8px; font-weight:700;" onclick="openGalleryModal()">📸 3D Тур</button>
                 </div>
                 <button class="action-btn-sm" style="width:100%; margin-top:8px; padding:10px; font-size:0.78rem; background:rgba(168,85,247,0.15); border:1px solid var(--accent-purple); color:var(--accent-purple); border-radius:10px; font-weight:800; font-family:'Orbitron';" onclick="openConciergeModal('Таксі ДОДОМУ')">🚕 ВИКЛИКАТИ ТАКСІ ДОДОМУ</button>
             </div>
@@ -942,18 +943,19 @@
 <div id="gallery-modal" class="modal-overlay">
     <div class="vintage-modal" style="max-width:460px; text-align:center;">
         <button class="close-modal" onclick="closeGalleryModal()">&times;</button>
-        <h3 style="font-family:'Orbitron'; color:var(--cyber-gold); margin-bottom:8px;">📸 СТУДІЯ У НІЦЦІ (3D TOUR)</h3>
+        <h3 style="font-family:'Orbitron'; color:var(--cyber-gold); margin-bottom:6px;">📸 СТУДІЯ У НІЦЦІ (3D TOUR)</h3>
         <p style="font-size:0.75rem; color:var(--text-sub); margin-bottom:12px;">15 Promenade des Anglais, Côte d'Azur 🇫🇷</p>
         
-        <div style="border-radius:14px; overflow:hidden; border:1px solid var(--cyber-blue); margin-bottom:12px; height:200px;">
-            <img id="gallery-main-img" src="m3gan_cyber_interior.jpg" style="width:100%; height:100%; object-fit:cover; transition:all 0.3s ease;">
+        <div style="border-radius:14px; overflow:hidden; border:1px solid var(--cyber-blue); margin-bottom:12px; height:210px;">
+            <img id="gallery-main-img" src="m3gan_cyber.jpg" style="width:100%; height:100%; object-fit:cover; transition:all 0.3s ease;">
         </div>
 
-        <div style="display:flex; gap:6px; overflow-x:auto; padding-bottom:6px; scrollbar-width:none;">
-            <img src="m3gan_cyber_interior.jpg" onclick="switchGalleryImg('m3gan_cyber_interior.jpg')" style="width:65px; height:50px; object-fit:cover; border-radius:8px; border:1.5px solid var(--cyber-gold); cursor:pointer;">
-            <img src="m3gan_studio_banner.jpg" onclick="switchGalleryImg('m3gan_studio_banner.jpg')" style="width:65px; height:50px; object-fit:cover; border-radius:8px; border:1px solid rgba(255,255,255,0.2); cursor:pointer;">
-            <img src="m3gan_master_vovan.jpg" onclick="switchGalleryImg('m3gan_master_vovan.jpg')" style="width:65px; height:50px; object-fit:cover; border-radius:8px; border:1px solid rgba(255,255,255,0.2); cursor:pointer;">
-            <img src="m3gan_stylist_girl.jpg" onclick="switchGalleryImg('m3gan_stylist_girl.jpg')" style="width:65px; height:50px; object-fit:cover; border-radius:8px; border:1px solid rgba(255,255,255,0.2); cursor:pointer;">
+        <div style="display:flex; gap:6px; overflow-x:auto; padding-bottom:6px; scrollbar-width:none; justify-content:center;">
+            <img src="m3gan_cyber.jpg" onclick="switchGalleryImg('m3gan_cyber.jpg')" style="width:65px; height:50px; object-fit:cover; border-radius:8px; border:1.5px solid var(--cyber-gold); cursor:pointer;">
+            <img src="vovan.jpg" onclick="switchGalleryImg('vovan.jpg')" style="width:65px; height:50px; object-fit:cover; border-radius:8px; border:1px solid rgba(255,255,255,0.2); cursor:pointer;">
+            <img src="banner.jpg" onclick="switchGalleryImg('banner.jpg')" style="width:65px; height:50px; object-fit:cover; border-radius:8px; border:1px solid rgba(255,255,255,0.2); cursor:pointer;">
+            <img src="bar_champagne.jpg" onclick="switchGalleryImg('bar_champagne.jpg')" style="width:65px; height:50px; object-fit:cover; border-radius:8px; border:1px solid rgba(255,255,255,0.2); cursor:pointer;">
+            <img src="m3gan.jpg" onclick="switchGalleryImg('m3gan.jpg')" style="width:65px; height:50px; object-fit:cover; border-radius:8px; border:1px solid rgba(255,255,255,0.2); cursor:pointer;">
         </div>
     </div>
 </div>
