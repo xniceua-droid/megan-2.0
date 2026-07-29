@@ -7,12 +7,12 @@
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" href="style.css">
-    <script src="app.js" defer></script>
+    <link rel="stylesheet" href="style.css?v=2026_CYBER_FINAL_v99">
+    <script src="app.js?v=2026_CYBER_FINAL_v99"></script>
 </head>
 <body>
 
-<div id="preloader" onclick="hidePreloaderSmooth()">
+<div id="preloader" style="display:none !important; pointer-events:none !important; opacity:0 !important;" onclick="hidePreloaderSmooth()">
     <div style="font-family:'Orbitron', sans-serif; font-size:2.2rem; font-weight:900; color:var(--cyber-blue); text-shadow:var(--blue-glow); letter-spacing:2px; margin-bottom:4px;">MEGAN 2.0 OS</div>
     <div style="font-family:'Orbitron', sans-serif; font-size:0.72rem; color:var(--cyber-gold); letter-spacing:2.5px; text-transform:uppercase; margin-bottom:15px; opacity:0.9;">Neural Barber Interface v2.0</div>
     <div class="boot-text" style="width:320px;">
@@ -1401,6 +1401,62 @@
         <button class="cyber-unified-btn" style="width:100%; padding:10px;" onclick="printFrenchInvoice()">🖨️ НАДРУКУВАТИ / ЗБЕРЕГТИ FACTURE</button>
     </div>
 </div>
+
+
+<script>
+    // ⚡ INLINE EMERGENCY CLICK HANDLERS (ZERO DELAY GUARANTEE)
+    window.openModal = function() {
+        console.log("⚡ openModal triggered!");
+        var modal = document.getElementById('booking-modal');
+        if (modal) {
+            modal.style.display = 'flex';
+            modal.classList.add('active');
+        }
+    };
+
+    window.closeModal = function() {
+        var modal = document.getElementById('booking-modal');
+        if (modal) {
+            modal.style.display = 'none';
+            modal.classList.remove('active');
+        }
+    };
+
+    window.switchTab = function(tabId) {
+        console.log("⚡ switchTab triggered:", tabId);
+        var sections = document.querySelectorAll('.page-section');
+        for (var i = 0; i < sections.length; i++) {
+            sections[i].style.display = 'none';
+            sections[i].classList.remove('active');
+        }
+        var target = document.getElementById('page-' + tabId);
+        if (target) {
+            target.style.display = 'block';
+            target.classList.add('active');
+        }
+        var navBtns = document.querySelectorAll('.bottom-nav .nav-btn');
+        for (var j = 0; j < navBtns.length; j++) {
+            navBtns[j].classList.remove('active');
+            if (navBtns[j].getAttribute('data-tab') === tabId) {
+                navBtns[j].classList.add('active');
+            }
+        }
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    window.switchERPTab = function(erpTabId) {
+        var panels = document.querySelectorAll('.erp-panel');
+        for (var i = 0; i < panels.length; i++) {
+            panels[i].style.display = 'none';
+            panels[i].classList.remove('active');
+        }
+        var target = document.getElementById(erpTabId);
+        if (target) {
+            target.style.display = 'block';
+            target.classList.add('active');
+        }
+    };
+</script>
 
 </body>
 </html>
