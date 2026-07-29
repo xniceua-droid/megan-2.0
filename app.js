@@ -1627,3 +1627,40 @@ const tg = window.Telegram.WebApp;
         const modal = document.getElementById('master-timeline-modal');
         if (modal) modal.classList.remove('active');
     };
+
+    // 📦 WAREHOUSE REPLENISH LOGIC
+    window.replenishStock = function() {
+        if (typeof triggerHaptic === 'function') triggerHaptic('medium');
+        if (typeof playCyberAudioFx === 'function') playCyberAudioFx('click');
+        const modal = document.getElementById('warehouse-modal');
+        if (modal) modal.classList.add('active');
+    };
+
+    window.closeWarehouseModal = function() {
+        if (typeof triggerHaptic === 'function') triggerHaptic('light');
+        const modal = document.getElementById('warehouse-modal');
+        if (modal) modal.classList.remove('active');
+    };
+
+    window.confirmWarehouseReplenish = function() {
+        const addShampoo = parseInt(document.getElementById('wh-add-shampoo').value) || 0;
+        const addPaint = parseInt(document.getElementById('wh-add-paint').value) || 0;
+        const addCoffee = parseInt(document.getElementById('wh-add-coffee').value) || 0;
+
+        const db = getLocalDB();
+        if (db.warehouse) {
+            db.warehouse.forEach(w => {
+                if (w.item.includes('Шампунь')) w.amount = Math.min(w.max, w.amount + addShampoo);
+                if (w.item.includes('Фарба')) w.amount = Math.min(w.max, w.amount + addPaint);
+                if (w.item.includes('Кава')) w.amount = Math.min(w.max, w.amount + addCoffee);
+            });
+            saveLocalDB(db);
+            if (typeof populateWarehouse === 'function') populateWarehouse();
+        }
+
+        if (typeof triggerHaptic === 'function') triggerHaptic('success');
+        if (typeof playCyberAudioFx === 'function') playCyberAudioFx('success');
+        if (typeof showCyberToast === 'function') showCyberToast('Склад успішно поповнено!', '📦');
+        
+        window.closeWarehouseModal();
+    };

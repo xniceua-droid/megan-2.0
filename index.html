@@ -1180,5 +1180,32 @@
     </div>
 </div>
 
+
+<!-- 📦 ПОПОВНЕННЯ СКЛАДУ МОДАЛЬНЕ ВІКНО -->
+<div id="warehouse-modal" class="modal-overlay">
+    <div class="vintage-modal" style="max-width:420px; text-align:center;">
+        <button class="close-modal" onclick="closeWarehouseModal()">&times;</button>
+        <h3 style="font-family:'Orbitron'; color:var(--cyber-blue); margin-bottom:6px;">📦 ПОПОВНЕННЯ СКЛАДУ</h3>
+        <p style="font-size:0.75rem; color:var(--text-sub); margin-bottom:12px;">Введіть обсяги поповнення матеріалів студії</p>
+
+        <div style="display:flex; flex-direction:column; gap:8px; margin-bottom:14px; text-align:left;">
+            <div class="form-group" style="margin:0;">
+                <label style="font-size:0.75rem; color:#fff;">🧴 Шампунь (мл):</label>
+                <input type="number" id="wh-add-shampoo" value="1000" style="background:#080c14; border:1px solid rgba(0,162,255,0.3); color:#fff; padding:6px; border-radius:6px; font-size:0.8rem;">
+            </div>
+            <div class="form-group" style="margin:0;">
+                <label style="font-size:0.75rem; color:#fff;">🎨 Фарба Neon (мл):</label>
+                <input type="number" id="wh-add-paint" value="500" style="background:#080c14; border:1px solid rgba(0,162,255,0.3); color:#fff; padding:6px; border-radius:6px; font-size:0.8rem;">
+            </div>
+            <div class="form-group" style="margin:0;">
+                <label style="font-size:0.75rem; color:#fff;">☕ Кава в зернах (г):</label>
+                <input type="number" id="wh-add-coffee" value="1000" style="background:#080c14; border:1px solid rgba(0,162,255,0.3); color:#fff; padding:6px; border-radius:6px; font-size:0.8rem;">
+            </div>
+        </div>
+
+        <button class="cyber-unified-btn" style="width:100%; padding:10px;" onclick="confirmWarehouseReplenish()">✅ ПОПОВНИТИ ЗОБРАЖЕНІ ПОЗИЦІЇ</button>
+    </div>
+</div>
+
 </body>
 </html>
