@@ -614,26 +614,12 @@
     </div>
 </div>
 
-<!-- Модальне вікно запису -->
+<!-- Модальное окно записи с ПОЛНЫМИ ПОЛЯМИ -->
 <div id="booking-modal" class="modal-overlay">
     <div class="vintage-modal">
         <button class="close-modal" onclick="closeModal()">&times;</button>
-
-        <!-- 🎯 ЗАГОЛОВОК ФОРМИ -->
-        <div style="text-align:center; margin-bottom:12px; padding-bottom:10px; border-bottom:1px solid rgba(0,162,255,0.2);">
-            <div style="font-family:'Orbitron',sans-serif; font-size:1rem; font-weight:900; background:linear-gradient(90deg,var(--cyber-gold),var(--cyber-blue)); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">⚡ ЗАПИС ДО МАЙСТРА</div>
-            <div style="font-size:0.68rem; color:var(--text-sub); margin-top:3px;">VOVAN BEAUTY STUDIO • Nice 🇫🇷</div>
-        </div>
-
-        <!-- 🤖 TELEGRAM AUTO-FILL BANNER -->
-        <div id="tg-autofill-banner" style="background:rgba(0,162,255,0.1); border:1px solid rgba(0,162,255,0.3); border-radius:10px; padding:7px 12px; margin-bottom:10px; display:flex; align-items:center; gap:8px;">
-            <span style="font-size:1rem;">🤖</span>
-            <div>
-                <div style="font-size:0.7rem; color:var(--cyber-blue); font-weight:700;">Дані з Telegram підставлено автоматично</div>
-                <div style="font-size:0.64rem; color:var(--text-sub);">Перевірте та за потреби відредагуйте</div>
-            </div>
-        </div>
-
+        
+        
         <form id="barber-form">
             <!-- ⚡ HYPER-COMPACT NAME & PHONE ROW -->
             <div style="display:grid; grid-template-columns: 1fr 1fr; gap:5px; margin-bottom:6px;">
@@ -713,21 +699,18 @@
                 </div>
             </div>
 
-            <!-- 💬 COMMENT FIELD -->
-            <div style="margin-top:8px; margin-bottom:6px;">
-                <div class="cyber-input-wrapper" style="margin:0; background:rgba(0,0,0,0.6); border-color:rgba(168,85,247,0.35); padding:4px 8px; border-radius:8px; height:auto; align-items:flex-start;">
-                    <span class="input-icon" style="font-size:0.68rem; margin-right:4px; margin-top:2px;">💬</span>
-                    <textarea id="booking-comment" placeholder="Побажання (необов'язково)" style="font-size:0.68rem; padding:2px 0 !important; height:44px; resize:none; background:transparent; border:none; outline:none; color:#fff; width:100%; font-family:'Montserrat',sans-serif;"></textarea>
+            
+            <!-- 🎟️ PROMO CODE FIELD -->
+            <div style="display:flex; gap:6px; margin-top:8px; margin-bottom:4px;">
+                <div class="cyber-input-wrapper" style="flex:1; margin:0; background:rgba(0,0,0,0.6); border-color:rgba(0,162,255,0.35); padding:2px 6px; border-radius:6px; height:30px;">
+                    <span class="input-icon" style="font-size:0.68rem; margin-right:4px;">🎟️</span>
+                    <input type="text" id="promo-code-input" placeholder="Промокод (MEGAN2026)" style="font-size:0.68rem; text-transform:uppercase; padding:2px 0 !important; height:100%;">
                 </div>
+                <button type="button" class="action-btn-sm" onclick="applyPromoCode()" style="padding:4px 10px; font-size:0.68rem; font-weight:bold; background:rgba(0,162,255,0.2); border:1px solid var(--cyber-blue); color:#fff; border-radius:6px; cursor:pointer;">Застосувати</button>
             </div>
+            <div id="promo-discount-badge" style="font-size:0.7rem; color:var(--accent-green); font-weight:bold; display:none; margin-bottom:6px;">✅ Промокод застосовано: Скидка -10 €!</div>
 
-            <!-- ⚡ SUMMARY PREVIEW -->
-            <div id="booking-summary" style="background:rgba(0,162,255,0.07); border:1px solid rgba(0,162,255,0.2); border-radius:10px; padding:8px 12px; margin-bottom:10px; font-size:0.71rem; color:var(--text-sub); display:none;">
-                <div style="color:#fff; font-weight:700; margin-bottom:4px;">📋 Ваш запис:</div>
-                <div id="booking-summary-text"></div>
-            </div>
-
-            <button type="submit" id="btn-booking-submit" class="ticket-btn" style="width:100%; margin-top:6px; font-size:0.88rem;" data-i18n="btn-confirm">⚡ ПІДТВЕРДИТИ ЗАПИС</button>
+            <button type="submit" class="ticket-btn" style="width:100%; margin-top:10px;" data-i18n="btn-confirm">⚡ ПІДТВЕРДИТИ ЗАПИС</button>
 
         </form>
     </div>
@@ -1426,99 +1409,7 @@
     window.openModal = function() {
         var modal = document.getElementById('booking-modal');
         if (modal) { modal.style.display = 'flex'; modal.classList.add('active'); }
-
-        // ─── 🤖 Автозаповнення з Telegram WebApp ──────────────────────────
-        try {
-            var tgUser = window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe
-                ? window.Telegram.WebApp.initDataUnsafe.user : null;
-
-            var nameEl = document.getElementById('client-name');
-            var phoneEl = document.getElementById('client-phone');
-            var banner = document.getElementById('tg-autofill-banner');
-
-            if (tgUser) {
-                var fullName = ((tgUser.first_name || '') + ' ' + (tgUser.last_name || '')).trim();
-                if (fullName && nameEl && !nameEl.value) nameEl.value = fullName;
-
-                var contact = tgUser.username ? '@' + tgUser.username : (tgUser.id ? 'TG:' + tgUser.id : '');
-                if (contact && phoneEl && !phoneEl.value) phoneEl.value = contact;
-
-                if (banner) banner.style.display = 'flex';
-            } else {
-                if (banner) banner.style.display = 'none';
-            }
-        } catch(e) {
-            var b2 = document.getElementById('tg-autofill-banner');
-            if (b2) b2.style.display = 'none';
-        }
-
-        // ─── 📅 Ініціалізація дат якщо порожньо ──────────────────────────
-        try {
-            var datePicker = document.getElementById('date-picker-container');
-            if (datePicker && datePicker.children.length === 0) {
-                // Генеруємо 7 днів
-                var today = new Date();
-                var days = ['Нд','Пн','Вт','Ср','Чт','Пт','Сб'];
-                var months = ['січ','лют','бер','кві','тра','чер','лип','сер','вер','жов','лис','гру'];
-                for (var i = 0; i < 7; i++) {
-                    var d = new Date(today);
-                    d.setDate(today.getDate() + i);
-                    var label = (i === 0 ? 'Сьогодні' : (i === 1 ? 'Завтра' : days[d.getDay()]));
-                    var dateStr = d.getDate() + ' ' + months[d.getMonth()];
-                    var fullDate = dateStr + ' ' + d.getFullYear();
-                    var card = document.createElement('div');
-                    card.className = 'date-card' + (i === 0 ? ' selected' : '');
-                    card.style.cssText = 'display:inline-flex;flex-direction:column;align-items:center;justify-content:center;' +
-                        'background:' + (i === 0 ? 'rgba(0,162,255,0.25)' : 'rgba(255,255,255,0.04)') + ';' +
-                        'border:1px solid ' + (i === 0 ? 'var(--cyber-blue,#00a2ff)' : 'rgba(255,255,255,0.12)') + ';' +
-                        'border-radius:10px;padding:7px 10px;min-width:52px;cursor:pointer;margin-right:6px;flex-shrink:0;transition:all 0.2s;';
-                    card.innerHTML = '<span style="font-size:0.65rem;color:var(--text-sub,#8b9ab5);">' + label + '</span>' +
-                        '<span style="font-size:0.8rem;font-weight:800;color:#fff;margin-top:2px;">' + dateStr + '</span>';
-                    (function(dd, cc) {
-                        cc.onclick = function() {
-                            document.querySelectorAll('.date-card').forEach(function(x) {
-                                x.style.background = 'rgba(255,255,255,0.04)';
-                                x.style.borderColor = 'rgba(255,255,255,0.12)';
-                                x.classList.remove('selected');
-                            });
-                            cc.style.background = 'rgba(0,162,255,0.25)';
-                            cc.style.borderColor = 'var(--cyber-blue,#00a2ff)';
-                            cc.classList.add('selected');
-                            window.selectedDateText = dd;
-                            if (typeof window.checkAvailableSlots === 'function') window.checkAvailableSlots();
-                        };
-                    })(fullDate, card);
-                    datePicker.appendChild(card);
-                }
-                // Встановлюємо сьогоднішній день за замовч.
-                window.selectedDateText = today.getDate() + ' ' + months[today.getMonth()] + ' ' + today.getFullYear();
-            }
-        } catch(e2) {}
-
-        // ─── ⏰ Активуємо перший слот якщо не вибраний ───────────────────
-        try {
-            var slots = document.querySelectorAll('.slot-btn');
-            if (slots.length > 0 && !window.selectedTimeText) {
-                var first = slots[0];
-                first.classList.add('selected');
-                first.style.background = 'rgba(0,162,255,0.3)';
-                first.style.borderColor = 'var(--cyber-blue,#00a2ff)';
-                first.style.color = '#fff';
-                window.selectedTimeText = first.textContent.trim();
-            }
-        } catch(e3) {}
-
-        // ─── ✂️ Активуємо перший чіп послуги якщо не вибраний ────────────
-        try {
-            var chips = document.querySelectorAll('#service-chips-container .cyber-chip');
-            var hasActive = false;
-            chips.forEach(function(c) { if (c.classList.contains('active')) hasActive = true; });
-            if (!hasActive && chips.length > 0) {
-                chips[0].classList.add('active');
-            }
-        } catch(e4) {}
     };
-
     window.closeModal = function() {
         var modal = document.getElementById('booking-modal');
         if (modal) { modal.style.display = 'none'; modal.classList.remove('active'); }
