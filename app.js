@@ -1739,3 +1739,52 @@ function switchTab(pageId) {
             }, 150);
         }
     };
+
+    // ⭐️ REVIEW SYSTEM LOGIC
+    window.currentReviewRating = 5;
+
+    window.openReviewModal = function() {
+        if (typeof triggerHaptic === 'function') triggerHaptic('medium');
+        const modal = document.getElementById('review-modal');
+        if (modal) modal.classList.add('active');
+    };
+
+    window.closeReviewModal = function() {
+        if (typeof triggerHaptic === 'function') triggerHaptic('light');
+        const modal = document.getElementById('review-modal');
+        if (modal) modal.classList.remove('active');
+    };
+
+    window.setReviewRating = function(stars) {
+        if (typeof triggerHaptic === 'function') triggerHaptic('light');
+        window.currentReviewRating = stars;
+        const container = document.getElementById('review-stars-container');
+        if (container) {
+            const spans = container.querySelectorAll('span');
+            spans.forEach((s, idx) => {
+                s.style.opacity = idx < stars ? '1' : '0.3';
+                s.style.filter = idx < stars ? 'drop-shadow(0 0 8px var(--cyber-gold))' : 'none';
+            });
+        }
+    };
+
+    window.submitReview = function() {
+        const textInput = document.getElementById('review-text-input');
+        const text = textInput ? textInput.value.trim() : '';
+        const msg = `⭐️ <b>НОВИЙ ВІДГУК КЛІЄНТА!</b>\nОцінка: <b>${'⭐'.repeat(window.currentReviewRating)}</b>\nКоментар: ${text || 'Без коментаря'}`;
+
+        if (typeof sendBotNotification === 'function') sendBotNotification(msg);
+        if (typeof triggerHaptic === 'function') triggerHaptic('success');
+        if (typeof showCyberToast === 'function') showCyberToast('Дякуємо за ваш відгук! ⭐️', '✨');
+
+        if (textInput) textInput.value = '';
+        window.closeReviewModal();
+    };
+
+    window.openModalWithMaster = function(masterName) {
+        if (typeof pickMasterCard === 'function') {
+            const btn = Array.from(document.querySelectorAll('#barber-picker-container .cyber-picker-btn')).find(b => b.innerText.includes(masterName));
+            if (btn) pickMasterCard(masterName, btn);
+        }
+        if (typeof openModal === 'function') openModal();
+    };
