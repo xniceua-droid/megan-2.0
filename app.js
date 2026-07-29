@@ -1853,3 +1853,35 @@ function switchTab(pageId) {
         const modal = document.getElementById('portfolio-modal');
         if (modal) modal.classList.remove('active');
     };
+
+    // ⚡ SERVICE CATEGORY FILTER LOGIC
+    window.filterServicesCategory = function(cat, el) {
+        if (typeof triggerHaptic === 'function') triggerHaptic('light');
+        if (typeof playCyberAudioFx === 'function') playCyberAudioFx('click');
+
+        document.querySelectorAll('.vintage-menu .cyber-chip').forEach(c => {
+            c.classList.remove('active');
+            c.style.background = 'rgba(255,255,255,0.05)';
+            c.style.borderColor = 'rgba(255,255,255,0.15)';
+            c.style.color = 'var(--text-sub)';
+        });
+
+        if (el) {
+            el.classList.add('active');
+            el.style.background = 'rgba(0,162,255,0.2)';
+            el.style.borderColor = 'var(--cyber-blue)';
+            el.style.color = '#ffffff';
+        }
+
+        const items = document.querySelectorAll('.vintage-menu .menu-item');
+        items.forEach(item => {
+            const itemCat = item.getAttribute('data-cat') || 'haircut';
+            if (cat === 'all' || itemCat === cat) {
+                item.style.display = 'flex';
+                item.style.opacity = '1';
+            } else {
+                item.style.display = 'none';
+                item.style.opacity = '0';
+            }
+        });
+    };
