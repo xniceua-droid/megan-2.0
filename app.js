@@ -1773,7 +1773,7 @@ const tg = window.Telegram.WebApp;
         if (typeof triggerHaptic === 'function') triggerHaptic('light');
         document.querySelectorAll('.pay-method-btn').forEach(b => b.classList.remove('active'));
         if (el) el.classList.add('active');
-        if (methodType === 'apple') window.selectedPaymentMethod = 'Apple Pay / Google Pay';
+        if (methodType === 'google') window.selectedPaymentMethod = 'Google Pay'; else if (methodType === 'apple') window.selectedPaymentMethod = 'Apple Pay';
         else if (methodType === 'ton') window.selectedPaymentMethod = 'TON Crypto';
         else window.selectedPaymentMethod = 'Готівкою в салоні';
     };

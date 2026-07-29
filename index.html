@@ -1276,8 +1276,11 @@
 
         <!-- Payment Method Selection Grid -->
         <div style="display:flex; flex-direction:column; gap:8px; margin-bottom:14px;">
-            <button class="cyber-unified-btn pay-method-btn active" onclick="selectPayMethod('apple', this)" style="background:rgba(255,255,255,0.1); border:1px solid #fff; justify-content:center; gap:8px;">
-                🍎 Apple Pay / 🤖 Google Pay
+            <button class="cyber-unified-btn pay-method-btn active" onclick="selectPayMethod('google', this)" style="background:rgba(66,133,244,0.18); border:1px solid #4285f4; color:#4285f4; justify-content:center; gap:8px; font-weight:bold;">
+                🌐 Google Pay (1-Tap GPay)
+            </button>
+            <button class="cyber-unified-btn pay-method-btn" onclick="selectPayMethod('apple', this)" style="background:rgba(255,255,255,0.1); border:1px solid #fff; justify-content:center; gap:8px; font-weight:bold;">
+                🍎 Apple Pay
             </button>
             <button class="cyber-unified-btn pay-method-btn" onclick="selectPayMethod('ton', this)" style="background:rgba(0,152,234,0.15); border:1px solid #0098ea; color:#0098ea; justify-content:center; gap:8px;">
                 💎 TON Crypto (Telegram Wallet)
