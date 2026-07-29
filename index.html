@@ -7,8 +7,8 @@
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" href="style.css?v=2026_CYBER_FINAL_v99">
-    <script src="app.js?v=2026_CYBER_FINAL_v99"></script>
+    <link rel="stylesheet" href="style.css?v=2026_CYBER_FINAL_v100">
+    <script src="app.js?v=2026_CYBER_FINAL_v100" defer></script>
 </head>
 <body>
 
@@ -1404,46 +1404,40 @@
 
 
 <script>
-    // ⚡ INLINE EMERGENCY CLICK HANDLERS (ZERO DELAY GUARANTEE)
+    // ⚡ INLINE EMERGENCY HANDLERS v2 — МИТТЄВИЙ ВІДГУК (без defer затримки)
+    // ─── MODAL: ЗАПИС ──────────────────────────────────────────────────────
     window.openModal = function() {
-        console.log("⚡ openModal triggered!");
         var modal = document.getElementById('booking-modal');
-        if (modal) {
-            modal.style.display = 'flex';
-            modal.classList.add('active');
-        }
+        if (modal) { modal.style.display = 'flex'; modal.classList.add('active'); }
     };
-
     window.closeModal = function() {
         var modal = document.getElementById('booking-modal');
-        if (modal) {
-            modal.style.display = 'none';
-            modal.classList.remove('active');
-        }
+        if (modal) { modal.style.display = 'none'; modal.classList.remove('active'); }
     };
 
+    // ─── НАВІГАЦІЯ ─────────────────────────────────────────────────────────
     window.switchTab = function(tabId) {
-        console.log("⚡ switchTab triggered:", tabId);
         var sections = document.querySelectorAll('.page-section');
         for (var i = 0; i < sections.length; i++) {
             sections[i].style.display = 'none';
             sections[i].classList.remove('active');
         }
         var target = document.getElementById('page-' + tabId);
-        if (target) {
-            target.style.display = 'block';
-            target.classList.add('active');
-        }
+        if (target) { target.style.display = 'block'; target.classList.add('active'); }
         var navBtns = document.querySelectorAll('.bottom-nav .nav-btn');
         for (var j = 0; j < navBtns.length; j++) {
             navBtns[j].classList.remove('active');
-            if (navBtns[j].getAttribute('data-tab') === tabId) {
-                navBtns[j].classList.add('active');
-            }
+            if (navBtns[j].getAttribute('data-tab') === tabId) navBtns[j].classList.add('active');
         }
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        try { window.scrollTo({ top: 0, behavior: 'smooth' }); } catch(e) {}
+        // Ініціалізація при переключенні вкладки
+        setTimeout(function() {
+            if (tabId === 'erp' && typeof window.populateCRM === 'function') try { window.populateCRM(); } catch(e) {}
+            if (tabId === 'erp' && typeof window.populateDirector === 'function') try { window.populateDirector(); } catch(e) {}
+        }, 50);
     };
 
+    // ─── ERP TABS ──────────────────────────────────────────────────────────
     window.switchERPTab = function(erpTabId) {
         var panels = document.querySelectorAll('.erp-panel');
         for (var i = 0; i < panels.length; i++) {
@@ -1451,11 +1445,160 @@
             panels[i].classList.remove('active');
         }
         var target = document.getElementById(erpTabId);
-        if (target) {
-            target.style.display = 'block';
-            target.classList.add('active');
+        if (target) { target.style.display = 'block'; target.classList.add('active'); }
+        var erpTabs = document.querySelectorAll('.erp-tab');
+        for (var j = 0; j < erpTabs.length; j++) {
+            erpTabs[j].style.background = '#1a2332';
+            erpTabs[j].style.color = 'var(--text-sub, #8b9ab5)';
+        }
+        var onclickBtns = document.querySelectorAll('.erp-tab');
+        for (var k = 0; k < onclickBtns.length; k++) {
+            var oc = onclickBtns[k].getAttribute('onclick') || '';
+            if (oc.indexOf(erpTabId) !== -1) {
+                onclickBtns[k].style.background = 'var(--cyber-gold, #ffd700)';
+                onclickBtns[k].style.color = '#000';
+                break;
+            }
+        }
+        // Populate CRM data when switching to CRM tabs
+        setTimeout(function() {
+            if (erpTabId === 'erp-crm' && typeof window.populateCRM === 'function') try { window.populateCRM(); } catch(e) {}
+            if (erpTabId === 'erp-director' && typeof window.populateDirector === 'function') try { window.populateDirector(); } catch(e) {}
+            if (erpTabId === 'erp-schedule' && typeof window.populateMasterSchedule === 'function') try { window.populateMasterSchedule(); } catch(e) {}
+        }, 50);
+    };
+
+    // ─── CONCIERGE / TAXI ──────────────────────────────────────────────────
+    window.openConciergeModal = function(service) {
+        window._currentTaxiService = service;
+        var modal = document.getElementById('concierge-modal');
+        if (modal) { modal.style.display = 'flex'; modal.classList.add('active'); }
+    };
+    window.closeConciergeModal = function() {
+        var modal = document.getElementById('concierge-modal');
+        if (modal) { modal.style.display = 'none'; modal.classList.remove('active'); }
+    };
+
+    // ─── MASTER SELECT ─────────────────────────────────────────────────────
+    window.selectBarberModal = function(masterName) {
+        var select = document.getElementById('select-barber');
+        if (select) {
+            for (var i = 0; i < select.options.length; i++) {
+                if (select.options[i].text.indexOf(masterName) !== -1) {
+                    select.value = select.options[i].value; break;
+                }
+            }
+        }
+        window.openModal();
+    };
+
+    // ─── QR MODAL ──────────────────────────────────────────────────────────
+    window.openQRModal = function() {
+        var modal = document.getElementById('qr-modal');
+        if (modal) { modal.style.display = 'flex'; modal.classList.add('active'); }
+    };
+    window.closeQRModal = function() {
+        var modal = document.getElementById('qr-modal');
+        if (modal) { modal.style.display = 'none'; modal.classList.remove('active'); }
+    };
+
+    // ─── SETTINGS MODAL ────────────────────────────────────────────────────
+    window.openSettingsModal = function() {
+        var modal = document.getElementById('settings-modal');
+        if (modal) { modal.style.display = 'flex'; modal.classList.add('active'); }
+    };
+    window.closeSettingsModal = function() {
+        var modal = document.getElementById('settings-modal');
+        if (modal) { modal.style.display = 'none'; modal.classList.remove('active'); }
+    };
+
+    // ─── HELP MODAL ────────────────────────────────────────────────────────
+    window.openHelpModal = function() {
+        var modal = document.getElementById('help-modal');
+        if (modal) { modal.style.display = 'flex'; modal.classList.add('active'); }
+    };
+    window.closeHelpModal = function() {
+        var modal = document.getElementById('help-modal');
+        if (modal) { modal.style.display = 'none'; modal.classList.remove('active'); }
+    };
+
+    // ─── GALLERY MODAL ─────────────────────────────────────────────────────
+    window.openGalleryModal = function() {
+        var modal = document.getElementById('gallery-modal');
+        if (modal) { modal.style.display = 'flex'; modal.classList.add('active'); }
+    };
+    window.closeGalleryModal = function() {
+        var modal = document.getElementById('gallery-modal');
+        if (modal) { modal.style.display = 'none'; modal.classList.remove('active'); }
+    };
+
+    // ─── CART MODAL ────────────────────────────────────────────────────────
+    window.openCartModal = function() {
+        var modal = document.getElementById('cart-modal');
+        if (modal) { modal.style.display = 'flex'; modal.classList.add('active'); }
+        if (typeof window._openCartModalFull === 'function') window._openCartModalFull();
+    };
+    window.closeCartModal = function() {
+        var modal = document.getElementById('cart-modal');
+        if (modal) { modal.style.display = 'none'; modal.classList.remove('active'); }
+    };
+
+    // ─── GIFT MODAL ────────────────────────────────────────────────────────
+    window.closeGiftModal = function() {
+        var modal = document.getElementById('gift-modal');
+        if (modal) { modal.style.display = 'none'; modal.classList.remove('active'); }
+    };
+
+    // ─── REVIEW MODAL ──────────────────────────────────────────────────────
+    window.openReviewModal = function() {
+        var modal = document.getElementById('review-modal');
+        if (modal) { modal.style.display = 'flex'; modal.classList.add('active'); }
+    };
+    window.closeReviewModal = function() {
+        var modal = document.getElementById('review-modal');
+        if (modal) { modal.style.display = 'none'; modal.classList.remove('active'); }
+    };
+
+    // ─── MAPS ──────────────────────────────────────────────────────────────
+    window.openNiceMap = function() {
+        window.open('https://maps.google.com/?q=15+Promenade+des+Anglais+Nice+France', '_blank');
+    };
+
+    // ─── THEME TOGGLE ──────────────────────────────────────────────────────
+    window.toggleNeonTheme = function() {
+        var themes = [
+            { blue: '#00a2ff', gold: '#ffd700' },
+            { blue: '#ff2a2a', gold: '#ff8800' },
+            { blue: '#00ff41', gold: '#00ff41' },
+            { blue: '#a855f7', gold: '#ffd700' }
+        ];
+        window._themeIdx = ((window._themeIdx || 0) + 1) % themes.length;
+        var t = themes[window._themeIdx];
+        document.documentElement.style.setProperty('--cyber-blue', t.blue);
+        document.documentElement.style.setProperty('--cyber-gold', t.gold);
+        if (typeof window.showCyberToast === 'function') window.showCyberToast('🎨 Тема змінена!', '🎨');
+    };
+
+    // ─── CYCLE LANGUAGE ────────────────────────────────────────────────────
+    window.cycleLanguage = function() {
+        if (typeof window._cycleLanguageFull === 'function') window._cycleLanguageFull();
+        else {
+            var langs = ['uk', 'fr', 'en'];
+            window._langIdx = ((window._langIdx || 0) + 1) % langs.length;
+            if (typeof window.changeLanguage === 'function') window.changeLanguage(langs[window._langIdx]);
         }
     };
+
+    // ─── GENERIC MODAL CLOSER ──────────────────────────────────────────────
+    // Закрити будь-який modal по кліку на overlay
+    document.addEventListener('click', function(e) {
+        if (e.target && e.target.classList && e.target.classList.contains('modal-overlay')) {
+            e.target.style.display = 'none';
+            e.target.classList.remove('active');
+        }
+    });
+
+    console.log('✅ MEGAN 2.0: Inline emergency handlers v2 loaded');
 </script>
 
 </body>

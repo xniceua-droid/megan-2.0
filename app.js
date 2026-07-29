@@ -2088,87 +2088,226 @@ window.payMasterSalary = typeof payMasterSalary !== 'undefined' ? payMasterSalar
         if (p) { p.style.opacity = '0'; p.style.pointerEvents = 'none'; setTimeout(function(){ p.style.display = 'none'; }, 300); }
     }, 1500);
 
-    // ⚡ CRITICAL CORE UI HANDLERS (GUARANTEED WORKING)
-    window.openModal = function() {
-        if (typeof triggerHaptic === 'function') triggerHaptic('medium');
-        if (typeof playCyberAudioFx === 'function') playCyberAudioFx('click');
-        const modal = document.getElementById('booking-modal');
-        if (modal) {
-            modal.classList.add('active');
-            modal.style.display = 'flex';
+    // (Duplicate handlers removed - using top-level definitions)
+
+// ─── ВСІ ВІДСУТНІ ФУНКЦІЇ (ПОВНЕ ДОПОВНЕННЯ) ─────────────────────────────
+
+// ⚙️ Settings Modal
+window.openSettingsModal = window.openSettingsModal || function() {
+    if (typeof triggerHaptic === 'function') triggerHaptic('medium');
+    const modal = document.getElementById('settings-modal');
+    if (modal) { modal.classList.add('active'); modal.style.display = 'flex'; }
+};
+
+window.closeSettingsModal = window.closeSettingsModal || function() {
+    if (typeof triggerHaptic === 'function') triggerHaptic('light');
+    const modal = document.getElementById('settings-modal');
+    if (modal) { modal.classList.remove('active'); modal.style.display = 'none'; }
+};
+
+// 🎟️ QR Loyalty Modal
+window.openQRModal = window.openQRModal || function() {
+    if (typeof triggerHaptic === 'function') triggerHaptic('success');
+    const modal = document.getElementById('qr-modal');
+    if (modal) { modal.classList.add('active'); modal.style.display = 'flex'; }
+};
+
+window.closeQRModal = window.closeQRModal || function() {
+    if (typeof triggerHaptic === 'function') triggerHaptic('light');
+    const modal = document.getElementById('qr-modal');
+    if (modal) { modal.classList.remove('active'); modal.style.display = 'none'; }
+};
+
+// 💈 Pick Master Card (для вибору майстра в booking modal)
+window.pickMasterCard = window.pickMasterCard || function(masterName, el) {
+    if (typeof triggerHaptic === 'function') triggerHaptic('light');
+    document.querySelectorAll('#barber-picker-container .cyber-picker-btn').forEach(b => {
+        b.classList.remove('active');
+        b.style.borderColor = 'rgba(255,255,255,0.15)';
+        b.style.background = 'rgba(255,255,255,0.05)';
+    });
+    if (el) {
+        el.classList.add('active');
+        el.style.borderColor = 'var(--cyber-gold)';
+        el.style.background = 'rgba(255,215,0,0.15)';
+    }
+    const selectEl = document.getElementById('select-barber');
+    if (selectEl) {
+        for (let opt of selectEl.options) {
+            if (opt.text.includes(masterName)) { selectEl.value = opt.value; break; }
         }
-    };
+    }
+    if (typeof checkAvailableSlots === 'function') checkAvailableSlots();
+};
 
-    window.closeModal = function() {
-        if (typeof triggerHaptic === 'function') triggerHaptic('light');
-        const modal = document.getElementById('booking-modal');
-        if (modal) {
-            modal.classList.remove('active');
-            modal.style.display = 'none';
+// 🎟️ Pick Service Chip
+window.pickServiceChip = window.pickServiceChip || function(serviceName, el) {
+    if (typeof triggerHaptic === 'function') triggerHaptic('light');
+    document.querySelectorAll('#service-picker-container .cyber-picker-btn').forEach(b => {
+        b.classList.remove('active');
+        b.style.borderColor = 'rgba(255,255,255,0.15)';
+        b.style.background = 'rgba(255,255,255,0.05)';
+    });
+    if (el) {
+        el.classList.add('active');
+        el.style.borderColor = 'var(--cyber-blue)';
+        el.style.background = 'rgba(0,162,255,0.15)';
+    }
+    const serviceSelect = document.getElementById('select-service');
+    if (serviceSelect) {
+        for (let opt of serviceSelect.options) {
+            if (opt.text.includes(serviceName)) { serviceSelect.value = opt.value; break; }
         }
-    };
+    }
+};
 
-    window.switchTab = function(tabId) {
-        if (typeof triggerHaptic === 'function') triggerHaptic('light');
-        if (typeof playCyberAudioFx === 'function') playCyberAudioFx('click');
+// ⏰ Select Time Slot
+window.selectTimeSlot = window.selectTimeSlot || function(time, el) {
+    if (typeof triggerHaptic === 'function') triggerHaptic('light');
+    document.querySelectorAll('.slot-btn').forEach(s => s.classList.remove('selected'));
+    if (el) el.classList.add('selected');
+    if (typeof window !== 'undefined') window.selectedTimeText = time;
+};
 
-        document.querySelectorAll('.page-section').forEach(sec => {
-            sec.classList.remove('active');
-            sec.style.display = 'none';
-        });
+// 📅 Select Date Card
+window.selectDateCard = window.selectDateCard || function(date, el) {
+    if (typeof triggerHaptic === 'function') triggerHaptic('light');
+    document.querySelectorAll('.date-card').forEach(d => d.classList.remove('selected'));
+    if (el) el.classList.add('selected');
+    if (typeof window !== 'undefined') window.selectedDateText = date;
+    if (typeof checkAvailableSlots === 'function') checkAvailableSlots();
+};
 
-        const target = document.getElementById('page-' + tabId);
-        if (target) {
-            target.classList.add('active');
-            target.style.display = 'block';
+// 🚕 Concierge Modal (taxi)
+window.closeConciergeModal = window.closeConciergeModal || function() {
+    if (typeof triggerHaptic === 'function') triggerHaptic('light');
+    const modal = document.getElementById('concierge-modal');
+    if (modal) { modal.classList.remove('active'); modal.style.display = 'none'; }
+};
+
+window.confirmConcierge = window.confirmConcierge || function(drink) {
+    if (typeof triggerHaptic === 'function') triggerHaptic('success');
+    window.closeConciergeModal();
+    const svc = window._currentTaxiService || 'Таксі';
+    if (typeof showCyberToast === 'function') showCyberToast('🚕 ' + svc + ' викликано! ' + (drink !== 'Без напою' ? drink + ' чекає на вас.' : ''), '🚕');
+    if (typeof sendBotNotification === 'function') sendBotNotification('🚕 ЗАМОВЛЕННЯ ТАКСІ!\nСервіс: ' + svc + '\nНапій: ' + drink);
+};
+
+window.openConciergeModal = window.openConciergeModal || function(service) {
+    if (typeof triggerHaptic === 'function') triggerHaptic('medium');
+    window._currentTaxiService = service;
+    const modal = document.getElementById('concierge-modal');
+    if (modal) { modal.classList.add('active'); modal.style.display = 'flex'; }
+};
+
+// 🎨 Neon Theme Toggle
+window.toggleNeonTheme = window.toggleNeonTheme || function() {
+    if (typeof triggerHaptic === 'function') triggerHaptic('medium');
+    const themes = [
+        { blue: '#00a2ff', glow: 'rgba(0,162,255,0.6)', gold: '#ffd700' },
+        { blue: '#ff2a2a', glow: 'rgba(255,42,42,0.6)', gold: '#ff8800' },
+        { blue: '#00ff41', glow: 'rgba(0,255,65,0.6)', gold: '#00ff41' },
+        { blue: '#a855f7', glow: 'rgba(168,85,247,0.6)', gold: '#ffd700' },
+    ];
+    window._themeIdx = ((window._themeIdx || 0) + 1) % themes.length;
+    const t = themes[window._themeIdx];
+    const r = document.documentElement;
+    r.style.setProperty('--cyber-blue', t.blue);
+    r.style.setProperty('--blue-glow', t.glow);
+    r.style.setProperty('--cyber-gold', t.gold);
+    if (typeof showCyberToast === 'function') showCyberToast('🎨 Тема змінена!', '🎨');
+};
+
+// 📸 Open Nice Map
+window.openNiceMap = window.openNiceMap || function() {
+    if (typeof triggerHaptic === 'function') triggerHaptic('medium');
+    try {
+        if (tg && typeof tg.openLink === 'function') {
+            tg.openLink('https://maps.google.com/?q=15+Promenade+des+Anglais+Nice+France');
+        } else {
+            window.open('https://maps.google.com/?q=15+Promenade+des+Anglais+Nice+France', '_blank');
         }
+    } catch(e) {
+        window.open('https://maps.google.com/?q=15+Promenade+des+Anglais+Nice+France', '_blank');
+    }
+};
 
-        document.querySelectorAll('.bottom-nav .nav-btn').forEach(btn => {
-            btn.classList.remove('active');
-            if (btn.getAttribute('data-tab') === tabId) {
-                btn.classList.add('active');
+// ⭐ Master Tip
+window.closeMasterTipModal = window.closeMasterTipModal || function() {
+    const modal = document.getElementById('tip-modal');
+    if (modal) { modal.classList.remove('active'); modal.style.display = 'none'; }
+};
+
+// 📦 Warehouse replenish
+window.replenishStock = window.replenishStock || function() {
+    if (typeof triggerHaptic === 'function') triggerHaptic('medium');
+    const modal = document.getElementById('warehouse-modal');
+    if (modal) { modal.classList.add('active'); modal.style.display = 'flex'; }
+};
+
+// 💳 Payment
+window.updateCartQty = window.updateCartQty || function(index, delta) {
+    if (typeof window.updateCartItemQty === 'function') window.updateCartItemQty(index, delta);
+};
+
+// 🔄 Booking form init (викликається після DOM завантаження)
+function initBookingForm() {
+    const form = document.getElementById('booking-form') || document.querySelector('#booking-modal form');
+    if (form && !form._initDone) {
+        form._initDone = true;
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            if (typeof window.processBooking === 'function') {
+                window.processBooking();
+            } else {
+                // Fallback booking submission
+                const nameEl = document.getElementById('client-name') || document.querySelector('#booking-modal [name="name"]');
+                const phoneEl = document.getElementById('client-phone') || document.querySelector('#booking-modal [name="phone"]');
+                const serviceEl = document.getElementById('select-service');
+                const masterEl = document.getElementById('select-barber');
+                const name = nameEl ? nameEl.value.trim() : 'Клієнт';
+                const phone = phoneEl ? phoneEl.value.trim() : '';
+                const service = serviceEl ? serviceEl.options[serviceEl.selectedIndex].text : 'Стрижка';
+                const master = masterEl ? masterEl.options[masterEl.selectedIndex].text : 'VOVAN';
+                const date = window.selectedDateText || 'Сьогодні';
+                const time = window.selectedTimeText || '14:00';
+                const msg = '📅 <b>НОВИЙ ЗАПИС!</b>\n' +
+                    'Клієнт: <b>' + name + '</b>\n' +
+                    'Телефон: <b>' + phone + '</b>\n' +
+                    'Послуга: <b>' + service + '</b>\n' +
+                    'Майстер: <b>' + master + '</b>\n' +
+                    'Дата: <b>' + date + ' ' + time + '</b>';
+                if (typeof sendBotNotification === 'function') sendBotNotification(msg);
+                if (typeof triggerHaptic === 'function') triggerHaptic('success');
+                if (typeof showCyberToast === 'function') showCyberToast('✅ Запис підтверджено! Чекаємо на вас!', '🎉');
+                if (typeof closeModal === 'function') closeModal();
+                // Add to local DB
+                try {
+                    const db = getLocalDB();
+                    const newId = db.orders.length > 0 ? Math.max(...db.orders.map(o => o.id)) + 1 : 100;
+                    db.orders.push({ id: newId, Client: name, Service: service, Price: 40, Date: date + ' ' + time, Status: 'Новий', Master: master.replace(' (Головний Стиліст)', '').replace(' (Кібер-Майстер)', ''), Master_Cut: 18, Payment: window.selectedPaymentMethod || 'В салоні' });
+                    saveLocalDB(db);
+                } catch(e) {}
             }
         });
+    }
+}
 
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    };
+// CRM populate expose
+window.populateCRM = window.populateCRM || function() { if (typeof populateCRM === 'function') populateCRM(); };
+window.populateDirector = window.populateDirector || function() {};
 
-    window.switchERPTab = function(erpTabId) {
-        if (typeof triggerHaptic === 'function') triggerHaptic('light');
-        if (typeof playCyberAudioFx === 'function') playCyberAudioFx('click');
-
-        document.querySelectorAll('.erp-panel').forEach(p => {
-            p.classList.remove('active');
-            p.style.display = 'none';
-        });
-
-        const target = document.getElementById(erpTabId);
-        if (target) {
-            target.classList.add('active');
-            target.style.display = 'block';
-        }
-
-        document.querySelectorAll('.erp-tab').forEach(t => {
-            t.style.background = '#1a2332';
-            t.style.color = 'var(--text-sub)';
-        });
-
-        const activeBtn = Array.from(document.querySelectorAll('.erp-tab')).find(b => b.getAttribute('onclick') && b.getAttribute('onclick').includes(erpTabId));
-        if (activeBtn) {
-            activeBtn.style.background = 'var(--cyber-gold)';
-            activeBtn.style.color = '#000000';
-        }
-    };
-
-    window.selectBarberModal = function(masterName) {
-        const select = document.getElementById('select-barber');
-        if (select) {
-            for (let opt of select.options) {
-                if (opt.text.includes(masterName)) {
-                    select.value = opt.value;
-                    break;
-                }
-            }
-        }
-        window.openModal();
-    };
+// ⚡ ГАРАНТОВАНИЙ ЗАПУСК ПІСЛЯ DOM
+document.addEventListener('DOMContentLoaded', function() {
+    // Ініціалізація форми запису
+    initBookingForm();
+    // Ініціалізація CRM якщо є
+    if (typeof populateCRM === 'function') { try { populateCRM(); } catch(e) {} }
+    // Ініціалізація директор
+    if (typeof populateDirector === 'function') { try { populateDirector(); } catch(e) {} }
+    // Ініціалізація складу
+    if (typeof populateWarehouse === 'function') { try { populateWarehouse(); } catch(e) {} }
+    // Ініціалізація розкладу майстра
+    if (typeof window.populateMasterSchedule === 'function') { try { window.populateMasterSchedule(); } catch(e) {} }
+    console.log('✅ MEGAN 2.0: All modules initialized');
+});
