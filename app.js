@@ -424,6 +424,9 @@ const tg = window.Telegram.WebApp;
         let htmlNew = '', htmlConf = '', htmlDone = '';
 
         const filteredOrders = db.orders.filter(o => {
+            if (window.selectedCrmMasterFilter && window.selectedCrmMasterFilter !== 'all') {
+                if (o.Master !== window.selectedCrmMasterFilter) return false;
+            }
             if (!query) return true;
             return (o.Client && o.Client.toLowerCase().includes(query)) ||
                    (o.Service && o.Service.toLowerCase().includes(query)) ||
@@ -1897,4 +1900,18 @@ const tg = window.Telegram.WebApp;
         }
 
         window.closeCrmEditModal();
+    };
+
+    // 💈 CRM MASTER FILTER LOGIC
+    window.selectedCrmMasterFilter = 'all';
+
+    window.filterCrmByMaster = function(master, el) {
+        if (typeof triggerHaptic === 'function') triggerHaptic('light');
+        if (typeof playCyberAudioFx === 'function') playCyberAudioFx('click');
+        window.selectedCrmMasterFilter = master;
+
+        document.querySelectorAll('#crm-master-filter-container .cyber-chip').forEach(c => c.classList.remove('active'));
+        if (el) el.classList.add('active');
+
+        if (typeof populateCRM === 'function') populateCRM();
     };
