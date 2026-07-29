@@ -2311,3 +2311,92 @@ document.addEventListener('DOMContentLoaded', function() {
     if (typeof window.populateMasterSchedule === 'function') { try { window.populateMasterSchedule(); } catch(e) {} }
     console.log('✅ MEGAN 2.0: All modules initialized');
 });
+
+// ─── ⚡ 9 MISSING UI HANDLERS (GUARANTEED CLICK RESPONSE) ───────────────
+window.startAIScanSimulation = window.startAIScanSimulation || function() {
+    if (typeof triggerHaptic === 'function') triggerHaptic('medium');
+    const line = document.getElementById('ai-scan-line');
+    const status = document.getElementById('ai-scan-status');
+    if (line) line.style.display = 'block';
+    if (status) status.innerText = '⚡ СКАНУВАННЯ ОБЛИЧЧЯ 3D...';
+    setTimeout(() => {
+        if (line) line.style.display = 'none';
+        const style = window.selectedAiStyle || 'Cyberpunk Fade';
+        if (status) status.innerText = '✅ ОБРАНО СТИЛЬ: ' + style.toUpperCase();
+        if (typeof showCyberToast === 'function') showCyberToast('✅ 3D Аналіз успішно завершено! Стиль: ' + style, '🤖');
+        if (typeof triggerHaptic === 'function') triggerHaptic('success');
+    }, 2000);
+};
+
+window.exportERPReport = window.exportERPReport || function() {
+    if (typeof triggerHaptic === 'function') triggerHaptic('success');
+    const db = typeof getLocalDB === 'function' ? getLocalDB() : { orders: [] };
+    let total = 0;
+    (db.orders || []).forEach(o => total += (o.Price || 0));
+    if (typeof showCyberToast === 'function') showCyberToast('📊 Звіт ERP: ' + (db.orders ? db.orders.length : 0) + ' замовлень (' + total + ' €)', '💼');
+};
+
+window.exportJSONReport = window.exportJSONReport || function() {
+    if (typeof triggerHaptic === 'function') triggerHaptic('success');
+    const db = typeof getLocalDB === 'function' ? getLocalDB() : { orders: [] };
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(db, null, 2));
+    const dlAnchorElem = document.createElement('a');
+    dlAnchorElem.setAttribute("href", dataStr);
+    dlAnchorElem.setAttribute("download", "megan_erp_report.json");
+    dlAnchorElem.click();
+    if (typeof showCyberToast === 'function') showCyberToast('💾 JSON Звіт завантажено!', '📥');
+};
+
+window.exportHTMLReport = window.exportHTMLReport || function() {
+    if (typeof triggerHaptic === 'function') triggerHaptic('success');
+    const db = typeof getLocalDB === 'function' ? getLocalDB() : { orders: [] };
+    let rows = (db.orders || []).map(o => '<tr><td>#' + o.id + '</td><td>' + o.Client + '</td><td>' + o.Service + '</td><td>' + o.Price + ' €</td><td>' + o.Master + '</td><td>' + o.Date + '</td></tr>').join('');
+    let htmlContent = '<html><head><title>MEGAN 2.0 ERP Report</title><style>body{font-family:sans-serif;padding:20px;background:#0b1019;color:#fff;}table{width:100%;border-collapse:collapse;}th,td{border:1px solid #333;padding:8px;text-align:left;}th{background:#1a2332;color:#ffd700;}</style></head><body><h2>📊 MEGAN 2.0 ERP REPORT</h2><table><thead><tr><th>ID</th><th>Клієнт</th><th>Послуга</th><th>Ціна</th><th>Майстер</th><th>Дата</th></tr></thead><tbody>' + rows + '</tbody></table></body></html>';
+    const blob = new Blob([htmlContent], { type: 'text/html' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'megan_erp_report.html';
+    a.click();
+    if (typeof showCyberToast === 'function') showCyberToast('📄 HTML Звіт згенеровано!', '🖨️');
+};
+
+window.openGoogleSheetsLink = window.openGoogleSheetsLink || function() {
+    if (typeof triggerHaptic === 'function') triggerHaptic('medium');
+    try {
+        if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.openLink) {
+            window.Telegram.WebApp.openLink('https://docs.google.com/spreadsheets/');
+        } else {
+            window.open('https://docs.google.com/spreadsheets/', '_blank');
+        }
+    } catch(e) {
+        window.open('https://docs.google.com/spreadsheets/', '_blank');
+    }
+};
+
+window.openManualOrderModal = window.openManualOrderModal || function() {
+    if (typeof triggerHaptic === 'function') triggerHaptic('medium');
+    const modal = document.getElementById('crm-add-order-modal') || document.getElementById('manual-order-modal');
+    if (modal) { modal.classList.add('active'); modal.style.display = 'flex'; }
+};
+
+window.closeManualOrderModal = window.closeManualOrderModal || function() {
+    if (typeof triggerHaptic === 'function') triggerHaptic('light');
+    const modal = document.getElementById('crm-add-order-modal') || document.getElementById('manual-order-modal');
+    if (modal) { modal.classList.remove('active'); modal.style.display = 'none'; }
+};
+
+window.submitManualOrder = window.submitManualOrder || function(e) {
+    if (typeof window.submitCrmAddOrder === 'function') {
+        window.submitCrmAddOrder(e);
+    }
+};
+
+window.resetAppSettings = window.resetAppSettings || function() {
+    if (typeof triggerHaptic === 'function') triggerHaptic('medium');
+    if (confirm('Скинути всі налаштування додатку за замовчуванням?')) {
+        localStorage.clear();
+        if (typeof showCyberToast === 'function') showCyberToast('🔄 Налаштування скинуто!', '⚙️');
+        setTimeout(function() { location.reload(); }, 1000);
+    }
+};
