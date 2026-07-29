@@ -447,6 +447,7 @@ const tg = window.Telegram.WebApp;
                 <div style="display:flex; gap:4px; margin-top:8px;">
                     ${o.Status === 'Новий' ? `<button class="action-btn-sm" style="flex:1; padding:4px; font-size:0.68rem; background:rgba(0,162,255,0.2); border:1px solid var(--cyber-blue); color:#fff;" onclick="updateOrderStatus(${o.id}, 'Підтверджено')">⚡ Підтвердити</button>` : ''}
                     ${o.Status !== 'Завершено' ? `<button class="action-btn-sm" style="flex:1; padding:4px; font-size:0.68rem; background:rgba(0,230,118,0.2); border:1px solid var(--accent-green); color:#fff;" onclick="updateOrderStatus(${o.id}, 'Завершено')">✅ Завершити</button>` : ''}
+                    <button class="action-btn-sm" style="padding:4px 6px; font-size:0.68rem; background:rgba(255,215,0,0.15); border:1px solid var(--cyber-gold); color:var(--cyber-gold);" onclick="editOrderModal(${o.id})">✏️</button>
                     <button class="action-btn-sm" style="padding:4px 6px; font-size:0.68rem; background:rgba(255,42,42,0.15); border:1px solid var(--accent-red); color:var(--accent-red);" onclick="deleteOrder(${o.id})">🗑️</button>
                 </div>
             </div>`;
@@ -1846,4 +1847,54 @@ const tg = window.Telegram.WebApp;
 
         if (tg.showAlert) tg.showAlert('📊 Звіт CRM: Всього замовлень ' + db.orders.length + ' на суму ' + total + ' €');
         else alert('📊 Звіт CRM: Всього замовлень ' + db.orders.length + ' на суму ' + total + ' €');
+    };
+
+    // 💼 MAX CRM EDIT & PHONE CALL LOGIC
+    window.editOrderModal = function(id) {
+        if (typeof triggerHaptic === 'function') triggerHaptic('medium');
+        const db = getLocalDB();
+        const order = db.orders.find(o => o.id === id);
+        if (order) {
+            document.getElementById('crm-edit-id').value = order.id;
+            document.getElementById('crm-edit-name').value = order.Client;
+            document.getElementById('crm-edit-service').value = order.Service;
+            document.getElementById('crm-edit-price').value = order.Price;
+            document.getElementById('crm-edit-date').value = order.Date;
+
+            const modal = document.getElementById('crm-edit-order-modal');
+            if (modal) modal.classList.add('active');
+        }
+    };
+
+    window.closeCrmEditModal = function() {
+        if (typeof triggerHaptic === 'function') triggerHaptic('light');
+        const modal = document.getElementById('crm-edit-order-modal');
+        if (modal) modal.classList.remove('active');
+    };
+
+    window.submitCrmEditOrder = function(e) {
+        if (e) e.preventDefault();
+        const id = parseInt(document.getElementById('crm-edit-id').value);
+        const name = document.getElementById('crm-edit-name').value.trim();
+        const service = document.getElementById('crm-edit-service').value.trim();
+        const price = parseInt(document.getElementById('crm-edit-price').value) || 0;
+        const date = document.getElementById('crm-edit-date').value.trim();
+
+        const db = getLocalDB();
+        const order = db.orders.find(o => o.id === id);
+        if (order) {
+            order.Client = name;
+            order.Service = service;
+            order.Price = price;
+            order.Date = date;
+            saveLocalDB(db);
+
+            if (typeof populateCRM === 'function') populateCRM();
+            if (typeof populateDirector === 'function') populateDirector();
+
+            if (typeof triggerHaptic === 'function') triggerHaptic('success');
+            if (typeof showCyberToast === 'function') showCyberToast('Запис #' + id + ' оновлено!', '💼');
+        }
+
+        window.closeCrmEditModal();
     };

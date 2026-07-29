@@ -1340,5 +1340,41 @@
     </div>
 </div>
 
+
+<!-- 💼 CRM РЕДАГУВАННЯ ЗАПИСУ МОДАЛЬНЕ ВІКНО -->
+<div id="crm-edit-order-modal" class="modal-overlay">
+    <div class="vintage-modal" style="max-width:440px; text-align:center;">
+        <button class="close-modal" onclick="closeCrmEditModal()">&times;</button>
+        <h3 style="font-family:'Orbitron'; color:var(--cyber-gold); margin-bottom:4px;">✏️ РЕДАГУВАННЯ ЗАПИСУ</h3>
+        <p style="font-size:0.75rem; color:var(--text-sub); margin-bottom:12px;">Зміна параметрів замовлення клієнта</p>
+
+        <form id="crm-edit-form" onsubmit="submitCrmEditOrder(event)">
+            <input type="hidden" id="crm-edit-id">
+            <div style="display:flex; flex-direction:column; gap:8px; text-align:left; margin-bottom:14px;">
+                <div class="form-group" style="margin:0;">
+                    <label style="font-size:0.75rem; color:#fff;">Клієнт:</label>
+                    <input type="text" id="crm-edit-name" required style="background:#080c14; border:1px solid rgba(0,162,255,0.3); color:#fff; padding:6px; border-radius:6px; font-size:0.8rem; height:30px;">
+                </div>
+                <div class="form-group" style="margin:0;">
+                    <label style="font-size:0.75rem; color:#fff;">Послуга:</label>
+                    <input type="text" id="crm-edit-service" required style="background:#080c14; border:1px solid rgba(0,162,255,0.3); color:#fff; padding:6px; border-radius:6px; font-size:0.8rem; height:30px;">
+                </div>
+                <div style="display:flex; gap:8px;">
+                    <div class="form-group" style="flex:1; margin:0;">
+                        <label style="font-size:0.75rem; color:#fff;">Ціна (€):</label>
+                        <input type="number" id="crm-edit-price" required style="background:#080c14; border:1px solid rgba(0,162,255,0.3); color:#fff; padding:6px; border-radius:6px; font-size:0.8rem; height:30px;">
+                    </div>
+                    <div class="form-group" style="flex:1; margin:0;">
+                        <label style="font-size:0.75rem; color:#fff;">Час:</label>
+                        <input type="text" id="crm-edit-date" required style="background:#080c14; border:1px solid rgba(0,162,255,0.3); color:#fff; padding:6px; border-radius:6px; font-size:0.8rem; height:30px;">
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="cyber-unified-btn" style="width:100%; padding:10px;">💾 ЗБЕРЕГТИ ЗМІНИ</button>
+        </form>
+    </div>
+</div>
+
 </body>
 </html>
