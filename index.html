@@ -285,29 +285,38 @@
 
     <!-- 5. ПОДАРУНКИ -->
     <div id="page-gifts" class="page-section">
-        <div class="admin-card">
-            <h3 style="font-family:'Orbitron'; color:var(--cyber-gold); text-align:center;" data-i18n="gifts-title">🎁 NFT ПОДАРУНКОВІ СЕРТИФІКАТИ</h3>
-            <p style="font-size:0.75rem; color:var(--text-sub); text-align:center; margin-top:4px;">Ексклюзивні цифрові картки на послуги та барбершоп у Ніцці</p>
-            
-            <div class="nft-cert-card">
-                <div style="display:flex; justify-content:space-between; align-items:center;">
-                    <span style="font-family:'Orbitron'; color:var(--cyber-gold); font-weight:900;">SILVER VIP</span>
-                    <span style="font-size:0.7rem; color:var(--cyber-blue); font-family:'Orbitron';">#NFT-2026-050</span>
-                </div>
-                <div style="font-family:'Orbitron'; font-size:1.6rem; color:#fff; font-weight:900; margin:10px 0;">50 €</div>
-                <div style="font-size:0.72rem; color:var(--text-sub);">Включає стрижку Cyber Style + VIP напої в барі</div>
-                <button class="action-btn-sm btn-confirm" style="width:100%; margin-top:12px; padding:10px;" onclick="buyGiftCard('Silver VIP 50€')">🎁 Подарувати Silver (50€)</button>
+        <div class="admin-card" style="text-align:center;">
+            <h3 style="font-family:'Orbitron'; color:var(--cyber-gold); margin-bottom:6px;">🎁 ПОДАРУНКОВІ NFT СЕРТИФІКАТИ</h3>
+            <p style="font-size:0.75rem; color:var(--text-sub); margin-bottom:14px;">Персоналізовані віртуальні картки з миттєвою доставкою у Telegram</p>
+
+            <!-- ⚡ LIVE 3D GIFT CARD PREVIEW -->
+            <div style="background:linear-gradient(135deg, #121926 0%, #0a0f1d 100%); border:2px solid var(--cyber-gold); border-radius:16px; padding:18px; max-width:340px; margin:0 auto 16px auto; box-shadow:0 0 20px rgba(255,215,0,0.3); position:relative; overflow:hidden;">
+                <div style="position:absolute; top:-20px; right:-20px; width:80px; height:80px; background:rgba(255,215,0,0.1); border-radius:50%; pointer-events:none;"></div>
+                <div style="font-family:'Orbitron'; color:var(--cyber-gold); font-size:0.8rem; letter-spacing:1px; margin-bottom:4px;">VOVAN BEAUTY STUDIO</div>
+                <div style="font-size:0.7rem; color:var(--text-sub);">NICE CÔTE D'AZUR 🇫🇷</div>
+                <div id="gift-preview-amount" style="font-family:'Orbitron'; font-size:2.2rem; color:#fff; font-weight:900; margin:14px 0 6px 0;">100 €</div>
+                <div id="gift-preview-to" style="font-size:0.85rem; color:var(--cyber-blue); font-weight:bold;">Отримувач: Для Коханої</div>
+                <div id="gift-preview-wishes" style="font-size:0.72rem; color:var(--text-sub); font-style:italic; margin-top:4px;">«З найкращими побажаннями!»</div>
             </div>
 
-            <div class="nft-cert-card" style="border-color:var(--cyber-blue); box-shadow:0 0 25px rgba(0,162,255,0.25);">
-                <div style="display:flex; justify-content:space-between; align-items:center;">
-                    <span style="font-family:'Orbitron'; color:var(--cyber-blue); font-weight:900;">GOLD CYBER VIP</span>
-                    <span style="font-size:0.7rem; color:var(--cyber-gold); font-family:'Orbitron';">#NFT-2026-100</span>
+            <!-- CUSTOMIZER INPUTS -->
+            <div style="display:flex; flex-direction:column; gap:8px; max-width:340px; margin:0 auto 14px auto;">
+                <div class="cyber-input-wrapper" style="margin:0; background:rgba(0,0,0,0.6); border-color:rgba(0,162,255,0.35); padding:4px 8px; border-radius:8px; height:34px;">
+                    <input type="text" id="gift-recipient-input" placeholder="Ім'я отримувача (напр. Для Мами)" oninput="updateGiftPreview()" style="font-size:0.75rem; color:#fff; width:100%; border:none; background:transparent; outline:none;">
                 </div>
-                <div style="font-family:'Orbitron'; font-size:1.6rem; color:var(--cyber-gold); font-weight:900; margin:10px 0;">100 €</div>
-                <div style="font-size:0.72rem; color:var(--text-sub);">Повний комплекс VOVAN VIP + Косметика MEGAN 2.0</div>
-                <button class="action-btn-sm btn-confirm" style="width:100%; margin-top:12px; padding:10px; background:linear-gradient(90deg, var(--cyber-blue), #0077ff);" onclick="buyGiftCard('Gold Cyber VIP 100€')">💎 Подарувати Gold (100€)</button>
+                <div class="cyber-input-wrapper" style="margin:0; background:rgba(0,0,0,0.6); border-color:rgba(255,215,0,0.35); padding:4px 8px; border-radius:8px; height:34px;">
+                    <input type="text" id="gift-wishes-input" placeholder="Ваші побажання..." oninput="updateGiftPreview()" style="font-size:0.75rem; color:#fff; width:100%; border:none; background:transparent; outline:none;">
+                </div>
             </div>
+
+            <!-- DENOMINATION CHIPS -->
+            <div style="display:flex; justify-content:center; gap:8px; margin-bottom:15px;">
+                <button class="action-btn-sm" onclick="setGiftAmount(50, this)" style="padding:8px 16px; font-family:'Orbitron'; font-weight:bold; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.15); color:#fff; border-radius:10px;">50 €</button>
+                <button class="action-btn-sm active" onclick="setGiftAmount(100, this)" style="padding:8px 16px; font-family:'Orbitron'; font-weight:bold; background:rgba(255,215,0,0.2); border:1px solid var(--cyber-gold); color:var(--cyber-gold); border-radius:10px;">100 €</button>
+                <button class="action-btn-sm" onclick="setGiftAmount(200, this)" style="padding:8px 16px; font-family:'Orbitron'; font-weight:bold; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.15); color:#fff; border-radius:10px;">200 €</button>
+            </div>
+
+            <button class="cyber-unified-btn" style="width:100%; max-width:340px; padding:12px; background:linear-gradient(135deg, var(--cyber-gold) 0%, #ffaa00 100%); color:#000; font-family:'Orbitron'; font-weight:900;" onclick="purchaseGiftCard()">🚀 ПРИДБАТИ СЕРТИФІКАТ</button>
         </div>
     </div>
 

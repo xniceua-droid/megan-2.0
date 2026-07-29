@@ -1387,3 +1387,51 @@ window.sendQuickChatMessage = function(text) {
         
         window.closeBarOrderModal();
     };
+
+    // 🎁 GIFT CARD CUSTOMIZER LOGIC
+    window.currentGiftAmountVal = 100;
+
+    window.setGiftAmount = function(amount, el) {
+        if (typeof triggerHaptic === 'function') triggerHaptic('light');
+        if (typeof playCyberAudioFx === 'function') playCyberAudioFx('click');
+        
+        window.currentGiftAmountVal = amount;
+        const prevAmount = document.getElementById('gift-preview-amount');
+        if (prevAmount) prevAmount.innerText = amount + ' €';
+
+        document.querySelectorAll('#page-gifts .action-btn-sm').forEach(b => {
+            b.style.background = 'rgba(255,255,255,0.05)';
+            b.style.borderColor = 'rgba(255,255,255,0.15)';
+            b.style.color = '#fff';
+        });
+
+        if (el) {
+            el.style.background = 'rgba(255,215,0,0.2)';
+            el.style.borderColor = 'var(--cyber-gold)';
+            el.style.color = 'var(--cyber-gold)';
+        }
+    };
+
+    window.updateGiftPreview = function() {
+        const recipInput = document.getElementById('gift-recipient-input');
+        const wishesInput = document.getElementById('gift-wishes-input');
+        const prevTo = document.getElementById('gift-preview-to');
+        const prevWishes = document.getElementById('gift-preview-wishes');
+
+        if (prevTo) prevTo.innerText = 'Отримувач: ' + (recipInput && recipInput.value.trim() ? recipInput.value.trim() : 'Для Коханої');
+        if (prevWishes) prevWishes.innerText = '«' + (wishesInput && wishesInput.value.trim() ? wishesInput.value.trim() : 'З найкращими побажаннями!') + '»';
+    };
+
+    window.purchaseGiftCard = function() {
+        const recipInput = document.getElementById('gift-recipient-input');
+        const wishesInput = document.getElementById('gift-wishes-input');
+        const recipient = recipInput && recipInput.value.trim() ? recipInput.value.trim() : 'Для Коханої';
+        const wishes = wishesInput && wishesInput.value.trim() ? wishesInput.value.trim() : 'З найкращими побажаннями!';
+
+        const msg = `🎁 <b>НОВИЙ NFT ПОДАРУНКОВИЙ СЕРТИФІКАТ!</b>\nСума: <b>${window.currentGiftAmountVal} €</b>\nОтримувач: <b>${recipient}</b>\nПобажання: <i>${wishes}</i>`;
+
+        if (typeof sendBotNotification === 'function') sendBotNotification(msg);
+        if (typeof triggerHaptic === 'function') triggerHaptic('success');
+        if (typeof playCyberAudioFx === 'function') playCyberAudioFx('success');
+        if (typeof showCyberToast === 'function') showCyberToast('Сертифікат на ' + window.currentGiftAmountVal + '€ успішно оформлено!', '🎁');
+    };
