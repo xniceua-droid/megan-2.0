@@ -1809,3 +1809,47 @@ function switchTab(pageId) {
             if (typeof showCyberToast === 'function') showCyberToast('Невірний промокод!', '⚠️');
         }
     };
+
+    // 🔊 CYBERPUNK WEB AUDIO SYNTHESIZER FX
+    window.playCyberAudioFx = function(type) {
+        try {
+            const ctx = new (window.AudioContext || window.webkitAudioContext)();
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+
+            if (type === 'click') {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(800, ctx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(400, ctx.currentTime + 0.05);
+                gain.gain.setValueAtTime(0.15, ctx.currentTime);
+                gain.gain.linearRampToValueAtTime(0.01, ctx.currentTime + 0.05);
+                osc.start();
+                osc.stop(ctx.currentTime + 0.05);
+            } else if (type === 'success') {
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(523.25, ctx.currentTime); // C5
+                osc.frequency.setValueAtTime(659.25, ctx.currentTime + 0.08); // E5
+                osc.frequency.setValueAtTime(783.99, ctx.currentTime + 0.16); // G5
+                gain.gain.setValueAtTime(0.2, ctx.currentTime);
+                gain.gain.linearRampToValueAtTime(0.01, ctx.currentTime + 0.3);
+                osc.start();
+                osc.stop(ctx.currentTime + 0.3);
+            }
+        } catch(e) {}
+    };
+
+    // 💈 PORTFOLIO MODAL LOGIC
+    window.openPortfolioModal = function() {
+        if (typeof triggerHaptic === 'function') triggerHaptic('medium');
+        window.playCyberAudioFx('click');
+        const modal = document.getElementById('portfolio-modal');
+        if (modal) modal.classList.add('active');
+    };
+
+    window.closePortfolioModal = function() {
+        if (typeof triggerHaptic === 'function') triggerHaptic('light');
+        const modal = document.getElementById('portfolio-modal');
+        if (modal) modal.classList.remove('active');
+    };
