@@ -1,21 +1,97 @@
-const tg = window.Telegram.WebApp;
-    tg.ready();
-    if (tg.expand) tg.expand();
-    if (tg.requestFullscreen) {
-        try { tg.requestFullscreen(); } catch(e) {}
-    }
-    
-    function hidePreloaderSmooth() {
-        const preloader = document.getElementById('preloader');
-        if (preloader && preloader.style.display !== 'none') {
-            preloader.style.opacity = '0';
-            preloader.style.pointerEvents = 'none';
-            setTimeout(() => { preloader.style.display = 'none'; }, 400);
+// ⚡ КРИТИЧНИЙ ЗАХИСТ: безпечна ініціалізація Telegram WebApp API
+// Якщо SDK не завантажено (браузер, помилка мережі) — скрипт НЕ падає
+let tg;
+try {
+    tg = (window.Telegram && window.Telegram.WebApp) ? window.Telegram.WebApp : {};
+    if (typeof tg.ready === 'function') tg.ready();
+    if (typeof tg.expand === 'function') tg.expand();
+    if (typeof tg.requestFullscreen === 'function') { try { tg.requestFullscreen(); } catch(e) {} }
+} catch(e) {
+    tg = {};
+    console.warn('Telegram WebApp API недоступний — режим браузера');
+}
+
+// ✅ CORE HELPERS — визначаються ПЕРШИМИ щоб не було ReferenceError
+function triggerHaptic(type) {
+    try {
+        if (tg && tg.HapticFeedback) {
+            if (type === 'success') tg.HapticFeedback.notificationOccurred('success');
+            else if (type === 'medium') tg.HapticFeedback.impactOccurred('medium');
+            else if (type === 'light') tg.HapticFeedback.impactOccurred('light');
+            else if (type === 'error') tg.HapticFeedback.notificationOccurred('error');
         }
+    } catch(e) {}
+}
+window.triggerHaptic = triggerHaptic;
+
+function showCyberToast(message, icon) {
+    try {
+        icon = icon || '⚡';
+        let toast = document.getElementById('cyber-toast');
+        if (!toast) {
+            toast = document.createElement('div');
+            toast.id = 'cyber-toast';
+            toast.style.cssText = 'position:fixed;top:20px;left:50%;transform:translateX(-50%) scale(0.8);background:rgba(10,14,22,0.97);border:1px solid var(--cyber-gold,#ffd700);color:#fff;padding:10px 20px;border-radius:12px;font-size:0.82rem;font-weight:700;z-index:9999;pointer-events:none;opacity:0;transition:all 0.35s cubic-bezier(0.34,1.56,0.64,1);box-shadow:0 0 20px rgba(255,215,0,0.4);max-width:90%;text-align:center;';
+            document.body.appendChild(toast);
+        }
+        toast.innerHTML = icon + ' ' + message;
+        toast.style.opacity = '1';
+        toast.style.transform = 'translateX(-50%) scale(1)';
+        clearTimeout(toast._hideTimer);
+        toast._hideTimer = setTimeout(() => {
+            toast.style.opacity = '0';
+            toast.style.transform = 'translateX(-50%) scale(0.8)';
+        }, 3000);
+    } catch(e) {}
+}
+window.showCyberToast = showCyberToast;
+
+// ✅ CORE NAVIGATION — визначаються ПЕРШИМИ щоб onclick в HTML одразу працював
+window.openModal = function() {
+    triggerHaptic('medium');
+    const modal = document.getElementById('booking-modal');
+    if (modal) { modal.classList.add('active'); modal.style.display = 'flex'; }
+};
+
+window.closeModal = function() {
+    triggerHaptic('light');
+    const modal = document.getElementById('booking-modal');
+    if (modal) { modal.classList.remove('active'); modal.style.display = 'none'; }
+};
+
+window.switchTab = function(tabId) {
+    triggerHaptic('light');
+    document.querySelectorAll('.page-section').forEach(s => { s.style.display = 'none'; s.classList.remove('active'); });
+    const target = document.getElementById('page-' + tabId);
+    if (target) { target.style.display = 'block'; target.classList.add('active'); }
+    document.querySelectorAll('.bottom-nav .nav-btn').forEach(b => {
+        b.classList.remove('active');
+        if (b.getAttribute('data-tab') === tabId) b.classList.add('active');
+    });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+};
+
+window.switchERPTab = function(erpTabId) {
+    triggerHaptic('light');
+    document.querySelectorAll('.erp-panel').forEach(p => { p.style.display = 'none'; p.classList.remove('active'); });
+    const target = document.getElementById(erpTabId);
+    if (target) { target.style.display = 'block'; target.classList.add('active'); }
+    document.querySelectorAll('.erp-tab').forEach(t => { t.style.background = '#1a2332'; t.style.color = 'var(--text-sub)'; });
+    const activeBtn = Array.from(document.querySelectorAll('.erp-tab')).find(b => b.getAttribute('onclick') && b.getAttribute('onclick').includes(erpTabId));
+    if (activeBtn) { activeBtn.style.background = 'var(--cyber-gold)'; activeBtn.style.color = '#000'; }
+};
+
+function hidePreloaderSmooth() {
+    const preloader = document.getElementById('preloader');
+    if (preloader) {
+        preloader.style.opacity = '0';
+        preloader.style.pointerEvents = 'none';
+        setTimeout(() => { preloader.style.display = 'none'; }, 300);
     }
-    // ⚡ Extended Boot Animation (1.8s duration for full typewriter Cyber AI sequence)
-    document.addEventListener('DOMContentLoaded', () => setTimeout(hidePreloaderSmooth, 3600));
-    window.addEventListener('load', () => setTimeout(hidePreloaderSmooth, 3600));
+}
+// ⚡ Приховати прелоадер через 800ms — не блокувати інтерфейс
+document.addEventListener('DOMContentLoaded', () => setTimeout(hidePreloaderSmooth, 800));
+window.addEventListener('load', () => setTimeout(hidePreloaderSmooth, 800));
 
     const translations = {
         'UA': {
@@ -537,14 +613,14 @@ const tg = window.Telegram.WebApp;
         db.orders = db.orders.filter(o => o.id !== id);
         saveLocalDB(db);
         populateCRM();
-        populateDirector();
-        populateMasterSchedule();
+        if (typeof populateDirector === 'function') populateDirector();
+        if (typeof populateMasterSchedule === 'function') populateMasterSchedule();
     }
     
     // Master Salary Calculation
-    const originalPopulateMaster = populateMasterSchedule;
-    populateMasterSchedule = function() {
-        if (originalPopulateMaster) originalPopulateMaster();
+    const _origPopulateMaster = (typeof populateMasterSchedule !== 'undefined') ? populateMasterSchedule : null;
+    window.populateMasterSchedule = function() {
+        if (typeof _origPopulateMaster === 'function') _origPopulateMaster();
         const db = getLocalDB();
         const percentInput = document.getElementById('master-percent');
         const percent = percentInput ? parseInt(percentInput.value) || 45 : 45;
@@ -560,7 +636,8 @@ const tg = window.Telegram.WebApp;
         const masterTotalEl = document.getElementById('master-total-cut');
         if(!masterTotalEl || masterTotalEl.innerText === '0 €') return;
         triggerHaptic('success');
-        tg.showAlert('💸 Зарплата успішно виплачена!');
+        if (tg && typeof tg.showAlert === 'function') tg.showAlert('💸 Зарплата успішно виплачена!');
+        else showCyberToast('💸 Зарплата успішно виплачена!', '💰');
         masterTotalEl.innerText = '0 €';
     }
 
@@ -690,7 +767,7 @@ const tg = window.Telegram.WebApp;
 
     // Auto-init chart on first load if on director tab
     if (document.getElementById('page-erp') && document.getElementById('page-erp').classList.contains('active')) {
-        populateDirector();
+        if (typeof populateDirector === 'function') populateDirector();
     }
 
     // Theme Switcher Logic
