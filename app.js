@@ -1885,3 +1885,14 @@ function switchTab(pageId) {
             }
         });
     };
+
+    // 🇫🇷 LIVE NICE CÔTE D'AZUR LOCAL CLOCK
+    function updateNiceLiveClock() {
+        const clockEl = document.getElementById('header-nice-clock');
+        if (!clockEl) return;
+        const now = new Date();
+        const timeStr = now.toLocaleTimeString('fr-FR', { timeZone: 'Europe/Paris', hour: '2-digit', minute: '2-digit', second: '2-digit' });
+        clockEl.innerText = timeStr;
+    }
+    setInterval(updateNiceLiveClock, 1000);
+    updateNiceLiveClock();
