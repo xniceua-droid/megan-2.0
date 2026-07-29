@@ -1524,3 +1524,29 @@
             animation: none !important;
             transition: none !important;
         }
+
+        /* ⚡ FLOATING NAV NOTIFICATION BADGES 2026 */
+        .nav-badge {
+            position: absolute;
+            top: -2px;
+            right: 6px;
+            background: var(--cyber-blue);
+            color: #ffffff;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.58rem;
+            font-weight: 900;
+            padding: 1px 5px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px var(--cyber-blue);
+            z-index: 10;
+        }
+        .nav-badge.gold {
+            background: var(--cyber-gold);
+            color: #000000;
+            box-shadow: 0 0 10px var(--cyber-gold);
+        }
+        .nav-badge.green {
+            background: var(--accent-green);
+            color: #000000;
+            box-shadow: 0 0 10px var(--accent-green);
+        }
