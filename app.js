@@ -1547,3 +1547,38 @@ const tg = window.Telegram.WebApp;
             if (typeof showCyberToast === 'function') showCyberToast('Тема змінена: Неон 🧪', '✨');
         }
     };
+
+    // 💈 SERVICE DETAIL MODAL LOGIC
+    window.selectedDetailServiceName = 'Стрижка MEGAN 2.0 Cyber Style (40 €)';
+
+    window.selectServiceModal = function(serviceName, servicePrice, imgSrc) {
+        window.selectedDetailServiceName = serviceName;
+        if (typeof triggerHaptic === 'function') triggerHaptic('medium');
+        if (typeof playCyberAudioFx === 'function') playCyberAudioFx('click');
+
+        const modal = document.getElementById('service-detail-modal');
+        const titleEl = document.getElementById('srv-detail-title');
+        const priceEl = document.getElementById('srv-detail-price');
+        const imgEl = document.getElementById('srv-detail-img');
+
+        if (titleEl) titleEl.innerText = serviceName;
+        if (priceEl) priceEl.innerText = (servicePrice || '40') + ' € • ⏱️ 45 хв';
+        if (imgEl && imgSrc) imgEl.src = imgSrc;
+
+        if (modal) modal.classList.add('active');
+    };
+
+    window.closeServiceDetailModal = function() {
+        if (typeof triggerHaptic === 'function') triggerHaptic('light');
+        const modal = document.getElementById('service-detail-modal');
+        if (modal) modal.classList.remove('active');
+    };
+
+    window.confirmServiceDetailBooking = function() {
+        window.closeServiceDetailModal();
+        if (typeof pickServiceChip === 'function') {
+            const chip = Array.from(document.querySelectorAll('#service-chips-container .cyber-chip')).find(c => c.innerText.includes(window.selectedDetailServiceName.substring(0, 8)));
+            if (chip) pickServiceChip(window.selectedDetailServiceName, chip);
+        }
+        if (typeof openModal === 'function') openModal();
+    };
