@@ -1945,3 +1945,23 @@ const tg = window.Telegram.WebApp;
         window.print();
         window.closeReceiptGenModal();
     };
+
+    // 🕒 NICE CLOCK TOAST LOGIC
+    window.showClockToast = function() {
+        if (typeof triggerHaptic === 'function') triggerHaptic('light');
+        if (typeof playCyberAudioFx === 'function') playCyberAudioFx('click');
+        const now = new Date();
+        const timeStr = now.toLocaleTimeString('fr-FR', { timeZone: 'Europe/Paris' });
+        if (typeof showCyberToast === 'function') showCyberToast(`Точний час у Ніцці (Côte d'Azur): ${timeStr} 🇫🇷`, "🕒");
+    };
+
+    // Global Safety Fallbacks for missing modals
+    window.openNiceMap = window.openNiceMap || function() {
+        if (typeof triggerHaptic === 'function') triggerHaptic('medium');
+        window.open('https://maps.google.com/?q=15+Promenade+des+Anglais+Nice+France', '_blank');
+    };
+
+    window.openConciergeModal = window.openConciergeModal || function(service) {
+        if (typeof triggerHaptic === 'function') triggerHaptic('medium');
+        if (typeof showCyberToast === 'function') showCyberToast('Виклик таксі ' + service + ' до Promenade des Anglais ⚡', '🚕');
+    };
