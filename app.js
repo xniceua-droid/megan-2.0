@@ -1789,3 +1789,61 @@ const tg = window.Telegram.WebApp;
 
         window.closePaymentCheckoutModal();
     };
+
+    // 💼 CRM MANUAL ORDER ENTRY & EXPORT LOGIC
+    window.openCrmAddModal = function() {
+        if (typeof triggerHaptic === 'function') triggerHaptic('medium');
+        if (typeof playCyberAudioFx === 'function') playCyberAudioFx('click');
+        const modal = document.getElementById('crm-add-order-modal');
+        if (modal) modal.classList.add('active');
+    };
+
+    window.closeCrmAddModal = function() {
+        if (typeof triggerHaptic === 'function') triggerHaptic('light');
+        const modal = document.getElementById('crm-add-order-modal');
+        if (modal) modal.classList.remove('active');
+    };
+
+    window.submitCrmAddOrder = function(e) {
+        if (e) e.preventDefault();
+        const name = document.getElementById('crm-add-name').value.trim() || 'Клієнт';
+        const service = document.getElementById('crm-add-service').value;
+        const master = document.getElementById('crm-add-master').value;
+        const price = parseInt(document.getElementById('crm-add-price').value) || 40;
+        const time = document.getElementById('crm-add-time').value.trim() || 'Сьогодні 15:00';
+
+        const db = getLocalDB();
+        const newId = db.orders.length > 0 ? Math.max(...db.orders.map(o => o.id)) + 1 : 1;
+
+        db.orders.push({
+            id: newId,
+            Client: name,
+            Service: service,
+            Price: price,
+            Date: time,
+            Status: 'Новий',
+            Master: master,
+            Master_Cut: price * 0.45,
+            Payment: 'В салоні'
+        });
+
+        saveLocalDB(db);
+        if (typeof populateCRM === 'function') populateCRM();
+        if (typeof populateDirector === 'function') populateDirector();
+
+        if (typeof triggerHaptic === 'function') triggerHaptic('success');
+        if (typeof playCyberAudioFx === 'function') playCyberAudioFx('success');
+        if (typeof showCyberToast === 'function') showCyberToast('Новий запис для ' + name + ' додано в CRM!', '💼');
+
+        window.closeCrmAddModal();
+    };
+
+    window.exportCrmReport = function() {
+        if (typeof triggerHaptic === 'function') triggerHaptic('success');
+        const db = getLocalDB();
+        let total = 0;
+        db.orders.forEach(o => total += (o.Price || 0));
+
+        if (tg.showAlert) tg.showAlert('📊 Звіт CRM: Всього замовлень ' + db.orders.length + ' на суму ' + total + ' €');
+        else alert('📊 Звіт CRM: Всього замовлень ' + db.orders.length + ' на суму ' + total + ' €');
+    };

@@ -1294,5 +1294,51 @@
     </div>
 </div>
 
+
+<!-- 💼 CRM РУЧНЕ СТВОРЕННЯ ЗАПИСУ МОДАЛЬНЕ ВІКНО -->
+<div id="crm-add-order-modal" class="modal-overlay">
+    <div class="vintage-modal" style="max-width:440px; text-align:center;">
+        <button class="close-modal" onclick="closeCrmAddModal()">&times;</button>
+        <h3 style="font-family:'Orbitron'; color:var(--cyber-blue); margin-bottom:4px;">➕ СТВОРИТИ НОВИЙ ЗАПИС</h3>
+        <p style="font-size:0.75rem; color:var(--text-sub); margin-bottom:12px;">Ручне додавання клієнта у CRM систему</p>
+
+        <form id="crm-add-form" onsubmit="submitCrmAddOrder(event)">
+            <div style="display:flex; flex-direction:column; gap:8px; text-align:left; margin-bottom:14px;">
+                <div class="form-group" style="margin:0;">
+                    <label style="font-size:0.75rem; color:#fff;">Ім'я клієнта:</label>
+                    <input type="text" id="crm-add-name" required placeholder="Олена М." style="background:#080c14; border:1px solid rgba(0,162,255,0.3); color:#fff; padding:6px; border-radius:6px; font-size:0.8rem; height:30px;">
+                </div>
+                <div class="form-group" style="margin:0;">
+                    <label style="font-size:0.75rem; color:#fff;">Послуга:</label>
+                    <select id="crm-add-service" style="background:#080c14; border:1px solid rgba(0,162,255,0.3); color:#fff; padding:4px; border-radius:6px; font-size:0.8rem;">
+                        <option value="Стрижка MEGAN 2.0 Cyber Style">Стрижка Cyber Style (40 €)</option>
+                        <option value="Б'юті-комплекс VOVAN VIP">Комплекс VOVAN VIP (65 €)</option>
+                        <option value="VIP Догляд та Кератин">VIP Догляд (80 €)</option>
+                    </select>
+                </div>
+                <div class="form-group" style="margin:0;">
+                    <label style="font-size:0.75rem; color:#fff;">Майстер:</label>
+                    <select id="crm-add-master" style="background:#080c14; border:1px solid rgba(0,162,255,0.3); color:#fff; padding:4px; border-radius:6px; font-size:0.8rem;">
+                        <option value="VOVAN">VOVAN (Головний Стиліст)</option>
+                        <option value="MEGAN 2.0 AI">MEGAN 2.0 AI (Кібер-Майстер)</option>
+                    </select>
+                </div>
+                <div style="display:flex; gap:8px;">
+                    <div class="form-group" style="flex:1; margin:0;">
+                        <label style="font-size:0.75rem; color:#fff;">Ціна (€):</label>
+                        <input type="number" id="crm-add-price" value="40" style="background:#080c14; border:1px solid rgba(0,162,255,0.3); color:#fff; padding:6px; border-radius:6px; font-size:0.8rem; height:30px;">
+                    </div>
+                    <div class="form-group" style="flex:1; margin:0;">
+                        <label style="font-size:0.75rem; color:#fff;">Час:</label>
+                        <input type="text" id="crm-add-time" value="Сьогодні 15:00" style="background:#080c14; border:1px solid rgba(0,162,255,0.3); color:#fff; padding:6px; border-radius:6px; font-size:0.8rem; height:30px;">
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="cyber-unified-btn" style="width:100%; padding:10px;">⚡ ЗБЕРЕГТИ В CRM</button>
+        </form>
+    </div>
+</div>
+
 </body>
 </html>
