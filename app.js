@@ -205,7 +205,17 @@ const tg = window.Telegram.WebApp;
             } catch(e) {}
         }
 
-window.sendQuickChatMessage = function(text) {
+// 💬 ULTIMATE AI CHAT ENGINE WITH INLINE ACTIONS
+    window.clearChatHistory = function() {
+        if (typeof triggerHaptic === 'function') triggerHaptic('medium');
+        const box = document.getElementById('chat-box-el');
+        if (box) {
+            box.innerHTML = '<div class="chat-msg bot" data-i18n="chat-welcome">Bonjour! Я MEGAN 2.0 AI. Чим можу допомогти? 😊</div>';
+        }
+        if (typeof showCyberToast === 'function') showCyberToast('Історію чату очищено!', '🗑️');
+    };
+
+    window.sendQuickChatMessage = function(text) {
         const input = document.getElementById('chat-input-msg');
         if (input) {
             input.value = text;
@@ -239,7 +249,7 @@ window.sendQuickChatMessage = function(text) {
         box.appendChild(typingEl);
         box.scrollTop = box.scrollHeight;
 
-        // Smart Bot AI Reply Engine
+        // Smart Bot AI Reply Engine with inline quick actions
         setTimeout(() => {
             if (box.contains(typingEl)) box.removeChild(typingEl);
             if (typeof triggerHaptic === 'function') triggerHaptic('success');
@@ -250,15 +260,15 @@ window.sendQuickChatMessage = function(text) {
             
             const lower = text.toLowerCase();
             if (lower.includes('привіт') || lower.includes('hello') || lower.includes('bonjour')) {
-                bMsg.innerText = 'Bonjour! Рада вас бачити у VOVAN BEAUTY STUDIO! Чим можу допомогти? 😊';
+                bMsg.innerHTML = 'Bonjour! Рада вас бачити у VOVAN BEAUTY STUDIO! Чим можу допомогти? 😊<div style="margin-top:8px;"><button class="action-btn-sm" style="padding:4px 8px; font-size:0.68rem; background:rgba(0,162,255,0.2); border:1px solid var(--cyber-blue); color:#fff; border-radius:6px;" onclick="openModal()">⚡ Записатися до майстра</button></div>';
             } else if (lower.includes('цін') || lower.includes('price') || lower.includes('скільки')) {
-                bMsg.innerText = 'Наші ціни: Стрижка Cyber Style — 40€, Комплекс VOVAN VIP — 65€, Королівське Гоління — 45€, Android Spa — 120€. Оплата в EUR, TON або карткою!';
+                bMsg.innerHTML = 'Наші ціни: Стрижка Cyber Style — 40€, Комплекс VOVAN VIP — 65€, Гоління — 45€, Android Spa — 120€. Оплата в EUR, TON або карткою!<div style="margin-top:8px;"><button class="action-btn-sm" style="padding:4px 8px; font-size:0.68rem; background:rgba(255,215,0,0.2); border:1px solid var(--cyber-gold); color:var(--cyber-gold); border-radius:6px;" onclick="openModal()">🎟️ Обрати послугу</button></div>';
             } else if (lower.includes('адрес') || lower.includes('де') || lower.includes('локаці')) {
-                bMsg.innerText = 'Студія знаходиться на Лазурному Березі у Ніцці: 15 Promenade des Anglais, 06000 Nice 🇫🇷. Натисніть кнопку "Uber" або "Bolt" у додатоку для швидкого доїзду!';
+                bMsg.innerHTML = 'Студія знаходиться у Ніцці: 15 Promenade des Anglais, 06000 Nice 🇫🇷.<div style="margin-top:8px; display:flex; gap:4px;"><button class="action-btn-sm" style="padding:4px 8px; font-size:0.68rem; background:rgba(0,162,255,0.2); border:1px solid var(--cyber-blue); color:#fff; border-radius:6px;" onclick="openNiceMap()">🗺 Maps</button><button class="action-btn-sm" style="padding:4px 8px; font-size:0.68rem; background:rgba(0,230,118,0.2); border:1px solid var(--accent-green); color:#fff; border-radius:6px;" onclick="openConciergeModal(\'Bolt\')">⚡ Bolt</button></div>';
             } else if (lower.includes('тренд') || lower.includes('зачіск') || lower.includes('стрижк')) {
-                bMsg.innerText = 'У 2026 році у тренді: Cyber Fade з точним контуром, класичний французький квіфф та VIP кератиновий догляд. Натисніть «⚡ ЗАПИСАТИСЯ ДО МАЙСТРА» для вибору часу!';
+                bMsg.innerHTML = 'У 2026 році у тренді: Cyber Fade з точним контуром, класичний французький квіфф та VIP кератиновий догляд.<div style="margin-top:8px;"><button class="action-btn-sm" style="padding:4px 8px; font-size:0.68rem; background:rgba(0,162,255,0.2); border:1px solid var(--cyber-blue); color:#fff; border-radius:6px;" onclick="openPortfolioModal()">💈 Переглянути портфоліо</button></div>';
             } else if (lower.includes('бар') || lower.includes('напо')) {
-                bMsg.innerText = 'У нашому VIP Барі доступні: Еспресо, Капучино, Cyber Matcha, Whiskey Chivas (15€) та Dom Pérignon (120€). Подача прямо у крісло!';
+                bMsg.innerHTML = 'У нашому VIP Барі: Еспресо, Капучино, Cyber Matcha, Whiskey Chivas (15€) та Dom Pérignon (120€).<div style="margin-top:8px;"><button class="action-btn-sm" style="padding:4px 8px; font-size:0.68rem; background:rgba(255,215,0,0.2); border:1px solid var(--cyber-gold); color:var(--cyber-gold); border-radius:6px;" onclick="orderDrink(\'Dom Pérignon Champagne\')">🍾 Замовити в крісло</button></div>';
             } else {
                 bMsg.innerText = 'Дякую за питання! Я зафіксувала його. Якщо бажаєте обрати час візиту, скористайтесь кнопкою бронювання у головному меню!';
             }

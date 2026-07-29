@@ -267,7 +267,10 @@
         <div class="admin-card">
             <div style="display:flex; justify-content:space-between; align-items:center;">
                 <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);" data-i18n="chat-title">💬 MEGAN 2.0 AI ЧАТ</h3>
-                <button class="action-btn-sm" onclick="toggleVoiceSpeech()" id="btn-voice-toggle" style="padding:4px 10px; font-size:0.7rem; background:rgba(0,162,255,0.15); border:1px solid var(--cyber-blue); color:#fff; border-radius:12px;">🔊 Озвучка</button>
+                <div style="display:flex; gap:6px;">
+                    <button class="action-btn-sm" onclick="clearChatHistory()" style="padding:4px 8px; font-size:0.7rem; background:rgba(255,42,95,0.15); border:1px solid var(--accent-red); color:var(--accent-red); border-radius:12px;">🗑️ Очистити</button>
+                    <button class="action-btn-sm" onclick="toggleVoiceSpeech()" id="btn-voice-toggle" style="padding:4px 10px; font-size:0.7rem; background:rgba(0,162,255,0.15); border:1px solid var(--cyber-blue); color:#fff; border-radius:12px;">🔊 Озвучка</button>
+                </div>
             </div>
             <div class="chat-box" id="chat-box-el"><div class="chat-msg bot" data-i18n="chat-welcome">Bonjour! Я MEGAN 2.0 AI. Чим можу допомогти? 😊</div></div>
             <div class="chat-input-container">
