@@ -1636,3 +1636,81 @@ function switchTab(pageId) {
         const statusEl = document.getElementById('ai-scan-status');
         if (statusEl) statusEl.innerText = 'ОБРАНО СТИЛЬ: ' + styleName.toUpperCase();
     };
+
+    // 🎁 NFT GIFT CUSTOMIZER LOGIC
+    window.currentGiftAmount = 50;
+
+    window.buyGiftCard = function(giftTitle) {
+        if (typeof triggerHaptic === 'function') triggerHaptic('medium');
+        const modal = document.getElementById('gift-modal');
+        const prevTitle = document.getElementById('nft-prev-title');
+        if (prevTitle) prevTitle.innerText = giftTitle.toUpperCase();
+        if (modal) modal.classList.add('active');
+    };
+
+    window.closeGiftModal = function() {
+        if (typeof triggerHaptic === 'function') triggerHaptic('light');
+        const modal = document.getElementById('gift-modal');
+        if (modal) modal.classList.remove('active');
+    };
+
+    window.setGiftAmount = function(amount, el) {
+        if (typeof triggerHaptic === 'function') triggerHaptic('light');
+        window.currentGiftAmount = amount;
+        document.querySelectorAll('#gift-modal .cyber-chip').forEach(c => {
+            c.classList.remove('active');
+            c.style.background = 'rgba(255,255,255,0.05)';
+        });
+        if (el) {
+            el.classList.add('active');
+            el.style.background = 'rgba(0,162,255,0.2)';
+        }
+        const priceEl = document.getElementById('nft-prev-price');
+        if (priceEl) priceEl.innerText = amount + ' €';
+    };
+
+    window.updateNftPreview = function() {
+        const input = document.getElementById('gift-to-name');
+        const toEl = document.getElementById('nft-prev-to');
+        if (input && toEl) {
+            toEl.innerText = 'Для: ' + (input.value.trim() || 'Шановного Клієнта');
+        }
+    };
+
+    window.confirmGiftPurchase = function() {
+        const input = document.getElementById('gift-to-name');
+        const name = input ? input.value.trim() : 'Шановного Клієнта';
+        const msg = `🎁 <b>НОВИЙ NFT СЕРТИФІКАТ СТВОРЕНО!</b>\nОдержувач: <b>${name}</b>\nНомінал: <b>${window.currentGiftAmount} €</b>`;
+        
+        if (typeof sendBotNotification === 'function') sendBotNotification(msg);
+        if (typeof triggerHaptic === 'function') triggerHaptic('success');
+        if (typeof showCyberToast === 'function') showCyberToast('NFT Сертифікат створено для ' + name + '! 🎁', '💎');
+
+        window.closeGiftModal();
+    };
+
+    // 💸 MASTER TIP SYSTEM LOGIC
+    window.currentMasterForTip = 'VOVAN';
+
+    window.openMasterTipModal = function(masterName) {
+        if (typeof triggerHaptic === 'function') triggerHaptic('medium');
+        window.currentMasterForTip = masterName || 'VOVAN';
+        const titleEl = document.getElementById('tip-master-name');
+        if (titleEl) titleEl.innerText = 'Майстер: ' + window.currentMasterForTip;
+        const modal = document.getElementById('tip-modal');
+        if (modal) modal.classList.add('active');
+    };
+
+    window.closeTipModal = function() {
+        if (typeof triggerHaptic === 'function') triggerHaptic('light');
+        const modal = document.getElementById('tip-modal');
+        if (modal) modal.classList.remove('active');
+    };
+
+    window.sendMasterTip = function(amount) {
+        const msg = `💸 <b>ЧАЙОВІ ДЛЯ МАЙСТРА!</b>\nМайстер: <b>${window.currentMasterForTip}</b>\nСума: <b>${amount} €</b>`;
+        if (typeof sendBotNotification === 'function') sendBotNotification(msg);
+        if (typeof triggerHaptic === 'function') triggerHaptic('success');
+        if (typeof showCyberToast === 'function') showCyberToast('Дякуємо за чайові ' + amount + '€ для ' + window.currentMasterForTip + '! 💸', '✨');
+        window.closeTipModal();
+    };
