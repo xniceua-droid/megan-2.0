@@ -1966,11 +1966,11 @@ const tg = window.Telegram.WebApp;
         if (typeof showCyberToast === 'function') showCyberToast('Виклик таксі ' + service + ' до Promenade des Anglais ⚡', '🚕');
     };
 
-window.openModal = typeof openModal !== 'undefined' ? openModal : function(){};
-window.closeModal = typeof closeModal !== 'undefined' ? closeModal : function(){};
-window.switchTab = typeof switchTab !== 'undefined' ? switchTab : function(){};
-window.switchERPTab = typeof switchERPTab !== 'undefined' ? switchERPTab : function(){};
-window.selectBarberModal = typeof selectBarberModal !== 'undefined' ? selectBarberModal : function(){};
+
+
+
+
+
 window.pickMasterCard = typeof pickMasterCard !== 'undefined' ? pickMasterCard : function(){};
 window.pickServiceChip = typeof pickServiceChip !== 'undefined' ? pickServiceChip : function(){};
 window.closeConciergeModal = typeof closeConciergeModal !== 'undefined' ? closeConciergeModal : function(){};
@@ -1991,3 +1991,88 @@ window.payMasterSalary = typeof payMasterSalary !== 'undefined' ? payMasterSalar
         const p = document.getElementById('preloader');
         if (p) { p.style.opacity = '0'; p.style.pointerEvents = 'none'; setTimeout(function(){ p.style.display = 'none'; }, 300); }
     }, 1500);
+
+    // ⚡ CRITICAL CORE UI HANDLERS (GUARANTEED WORKING)
+    window.openModal = function() {
+        if (typeof triggerHaptic === 'function') triggerHaptic('medium');
+        if (typeof playCyberAudioFx === 'function') playCyberAudioFx('click');
+        const modal = document.getElementById('booking-modal');
+        if (modal) {
+            modal.classList.add('active');
+            modal.style.display = 'flex';
+        }
+    };
+
+    window.closeModal = function() {
+        if (typeof triggerHaptic === 'function') triggerHaptic('light');
+        const modal = document.getElementById('booking-modal');
+        if (modal) {
+            modal.classList.remove('active');
+            modal.style.display = 'none';
+        }
+    };
+
+    window.switchTab = function(tabId) {
+        if (typeof triggerHaptic === 'function') triggerHaptic('light');
+        if (typeof playCyberAudioFx === 'function') playCyberAudioFx('click');
+
+        document.querySelectorAll('.page-section').forEach(sec => {
+            sec.classList.remove('active');
+            sec.style.display = 'none';
+        });
+
+        const target = document.getElementById('page-' + tabId);
+        if (target) {
+            target.classList.add('active');
+            target.style.display = 'block';
+        }
+
+        document.querySelectorAll('.bottom-nav .nav-btn').forEach(btn => {
+            btn.classList.remove('active');
+            if (btn.getAttribute('data-tab') === tabId) {
+                btn.classList.add('active');
+            }
+        });
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    window.switchERPTab = function(erpTabId) {
+        if (typeof triggerHaptic === 'function') triggerHaptic('light');
+        if (typeof playCyberAudioFx === 'function') playCyberAudioFx('click');
+
+        document.querySelectorAll('.erp-panel').forEach(p => {
+            p.classList.remove('active');
+            p.style.display = 'none';
+        });
+
+        const target = document.getElementById(erpTabId);
+        if (target) {
+            target.classList.add('active');
+            target.style.display = 'block';
+        }
+
+        document.querySelectorAll('.erp-tab').forEach(t => {
+            t.style.background = '#1a2332';
+            t.style.color = 'var(--text-sub)';
+        });
+
+        const activeBtn = Array.from(document.querySelectorAll('.erp-tab')).find(b => b.getAttribute('onclick') && b.getAttribute('onclick').includes(erpTabId));
+        if (activeBtn) {
+            activeBtn.style.background = 'var(--cyber-gold)';
+            activeBtn.style.color = '#000000';
+        }
+    };
+
+    window.selectBarberModal = function(masterName) {
+        const select = document.getElementById('select-barber');
+        if (select) {
+            for (let opt of select.options) {
+                if (opt.text.includes(masterName)) {
+                    select.value = opt.value;
+                    break;
+                }
+            }
+        }
+        window.openModal();
+    };
