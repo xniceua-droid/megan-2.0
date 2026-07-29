@@ -362,772 +362,126 @@ function sendChatMessage() {
         localStorage.setItem('vovan_db', JSON.stringify(db));
     }
 
-    // CRM POPULATE (Kanban & Clients)
+    // 💼 ENTERPRISE CRM POPULATE LOGIC WITH SEARCH & STATUS CONTROL
     function populateCRM() {
         const db = getLocalDB();
         
         const colNew = document.getElementById('crm-col-new');
         const colConf = document.getElementById('crm-col-conf');
         const colDone = document.getElementById('crm-col-done');
-        if(!colNew) return;
+        if (!colNew) return;
         
+        const searchInput = document.getElementById('crm-search-input');
+        const query = searchInput ? searchInput.value.trim().toLowerCase() : '';
+
         let countNew = 0, countConf = 0, countDone = 0;
+        let totalRevenueSum = 0;
         let htmlNew = '', htmlConf = '', htmlDone = '';
 
-        const renderCard = (order) => `
-            <div style="background:#121926; border:1px solid rgba(0,162,255,0.2); border-radius:8px; padding:10px; margin-bottom:8px;">
-                <div style="display:flex; justify-content:space-between;">
-                    <span style="font-weight:bold; color:#fff; font-size:0.9rem;">${order.Client}</span>
-                    <span style="color:var(--cyber-blue); font-family:'Orbitron'; font-size:0.9rem;">${order.Price} €</span>
-                </div>
-                <div style="font-size:0.75rem; color:var(--text-sub); margin-top:4px;">${order.Service}</div>
-                <div style="font-size:0.7rem; color:var(--cyber-gold); margin-top:2px;">📅 ${order.Date} | 💈 ${order.Master}</div>
-                <div style="font-size:0.7rem; color:${order.Payment === 'Наперед' ? 'var(--accent-green)' : 'var(--cyber-gold)'}; margin-top:2px; font-weight:bold;">💳 Оплата: ${order.Payment || 'Готівка'}</div>
-                <div style="margin-top:8px; display:flex; gap:6px;">
-                    ${order.Status === 'Новий' ? `<button class="action-btn-sm" style="flex:1; padding:4px; font-size:0.7rem;" onclick="changeOrderStatus(${order.id}, 'Підтверджено')">Підтвердити</button>` : ''}
-                    ${order.Status === 'Підтверджено' ? `<button class="action-btn-sm" style="flex:1; padding:4px; font-size:0.7rem;" onclick="changeOrderStatus(${order.id}, 'Завершено')">Завершити</button>` : ''}
-                </div>
-            </div>
-        `;
-
-        db.orders.forEach(order => {
-            if (order.Status === 'Новий') { htmlNew += renderCard(order); countNew++; }
-            else if (order.Status === 'Підтверджено') { htmlConf += renderCard(order); countConf++; }
-            else { htmlDone += renderCard(order); countDone++; }
+        const filteredOrders = db.orders.filter(o => {
+            if (!query) return true;
+            return (o.Client && o.Client.toLowerCase().includes(query)) ||
+                   (o.Service && o.Service.toLowerCase().includes(query)) ||
+                   (o.Master && o.Master.toLowerCase().includes(query)) ||
+                   (o.Date && o.Date.toLowerCase().includes(query));
         });
 
-        colNew.innerHTML = htmlNew; document.getElementById('count-new').innerText = countNew;
-        colConf.innerHTML = htmlConf; document.getElementById('count-conf').innerText = countConf;
-        colDone.innerHTML = htmlDone; document.getElementById('count-done').innerText = countDone;
-
-        // Популейт базы клиентов (LTV)
-        const clientsDiv = document.getElementById('crm-clients-list');
-        const clientsMap = {};
-        db.orders.forEach(o => {
-            if(!clientsMap[o.Client]) clientsMap[o.Client] = { total: 0, visits: 0 };
-            clientsMap[o.Client].total += o.Price;
-            clientsMap[o.Client].visits += 1;
-        });
-
-        let clientsHtml = '';
-        Object.keys(clientsMap).forEach(name => {
-            const total = clientsMap[name].total;
-            let loyaltyBadge = '<span style="color:#cd7f32">🥉 Бронза</span>';
-            if (total > 50 && total <= 100) loyaltyBadge = '<span style="color:silver">🥈 Срібло (5%)</span>';
-            if (total > 100) loyaltyBadge = '<span style="color:var(--cyber-gold); text-shadow:0 0 5px var(--cyber-gold);">🥇 Золото (10%)</span>';
-            
-            clientsHtml += `
-            <div style="display:flex; justify-content:space-between; align-items:center; background:rgba(255,255,255,0.02); border-bottom:1px solid rgba(255,255,255,0.05); padding:10px; transition: background 0.3s;" onmouseover="this.style.background='rgba(0,162,255,0.1)'" onmouseout="this.style.background='rgba(255,255,255,0.02)'">
-                <div><div style="color:#fff; font-weight:bold;">${name}</div><div style="font-size:0.7rem; color:var(--text-sub);">Візитів: ${clientsMap[name].visits} | Рівень: ${loyaltyBadge}</div></div>
-                <div style="text-align:right;"><div style="color:var(--accent-green); font-family:'Orbitron'; font-weight:bold;">${clientsMap[name].total} €</div><div style="font-size:0.7rem; color:var(--text-sub);">LTV</div></div>
+        filteredOrders.forEach(o => {
+            totalRevenueSum += o.Price || 0;
+            const cardHtml = `
+            <div style="background:#121926; border:1px solid rgba(0,162,255,0.2); border-radius:10px; padding:10px; margin-bottom:8px; box-shadow:0 4px 10px rgba(0,0,0,0.5);">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <span style="font-weight:bold; color:#fff; font-size:0.85rem;">${o.Client}</span>
+                    <span style="font-family:'Orbitron'; font-size:0.85rem; color:var(--cyber-gold); font-weight:bold;">${o.Price} €</span>
+                </div>
+                <div style="font-size:0.75rem; color:var(--text-sub); margin-top:4px;">${o.Service}</div>
+                <div style="display:flex; justify-content:space-between; font-size:0.7rem; color:var(--cyber-blue); margin-top:4px;">
+                    <span>💈 ${o.Master}</span>
+                    <span>📅 ${o.Date}</span>
+                </div>
+                <div style="display:flex; gap:4px; margin-top:8px;">
+                    ${o.Status === 'Новий' ? `<button class="action-btn-sm" style="flex:1; padding:4px; font-size:0.68rem; background:rgba(0,162,255,0.2); border:1px solid var(--cyber-blue); color:#fff;" onclick="updateOrderStatus(${o.id}, 'Підтверджено')">⚡ Підтвердити</button>` : ''}
+                    ${o.Status !== 'Завершено' ? `<button class="action-btn-sm" style="flex:1; padding:4px; font-size:0.68rem; background:rgba(0,230,118,0.2); border:1px solid var(--accent-green); color:#fff;" onclick="updateOrderStatus(${o.id}, 'Завершено')">✅ Завершити</button>` : ''}
+                    <button class="action-btn-sm" style="padding:4px 6px; font-size:0.68rem; background:rgba(255,42,42,0.15); border:1px solid var(--accent-red); color:var(--accent-red);" onclick="deleteOrder(${o.id})">🗑️</button>
+                </div>
             </div>`;
+
+            if (o.Status === 'Новий') { countNew++; htmlNew += cardHtml; }
+            else if (o.Status === 'Підтверджено') { countConf++; htmlConf += cardHtml; }
+            else { countDone++; htmlDone += cardHtml; }
         });
-        clientsDiv.innerHTML = clientsHtml;
+
+        colNew.innerHTML = htmlNew || '<div style="font-size:0.75rem; color:var(--text-sub); text-align:center; padding:15px;">Порожньо</div>';
+        colConf.innerHTML = htmlConf || '<div style="font-size:0.75rem; color:var(--text-sub); text-align:center; padding:15px;">Порожньо</div>';
+        colDone.innerHTML = htmlDone || '<div style="font-size:0.75rem; color:var(--text-sub); text-align:center; padding:15px;">Порожньо</div>';
+
+        document.getElementById('count-new').innerText = countNew;
+        document.getElementById('count-conf').innerText = countConf;
+        document.getElementById('count-done').innerText = countDone;
+
+        const statTotal = document.getElementById('crm-stat-total');
+        const statRevenue = document.getElementById('crm-stat-revenue');
+        const statDone = document.getElementById('crm-stat-done');
+
+        if (statTotal) statTotal.innerText = filteredOrders.length;
+        if (statRevenue) statRevenue.innerText = totalRevenueSum + ' €';
+        if (statDone) statDone.innerText = countDone;
+
+        // Populate Clients LTV Base
+        populateClientsBase(db.orders);
     }
 
-    function changeOrderStatus(id, newStatus) {
-        triggerHaptic('light');
+    function populateClientsBase(orders) {
+        const clientList = document.getElementById('crm-clients-list');
+        if (!clientList) return;
+
+        const clientMap = {};
+        orders.forEach(o => {
+            if (!clientMap[o.Client]) {
+                clientMap[o.Client] = { count: 0, total: 0, lastDate: o.Date };
+            }
+            clientMap[o.Client].count++;
+            clientMap[o.Client].total += o.Price || 0;
+            clientMap[o.Client].lastDate = o.Date;
+        });
+
+        let html = '';
+        Object.keys(clientMap).forEach(name => {
+            const c = clientMap[name];
+            let tierBadge = '🥉 Bronze';
+            let tierColor = 'var(--text-sub)';
+            if (c.total >= 150) { tierBadge = '👑 Gold VIP'; tierColor = 'var(--cyber-gold)'; }
+            else if (c.total >= 80) { tierBadge = '🥈 Silver VIP'; tierColor = 'var(--cyber-blue)'; }
+
+            html += `
+            <div style="background:#121926; border:1px solid rgba(255,255,255,0.08); border-radius:10px; padding:10px; margin-bottom:8px; display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                    <div style="font-weight:bold; color:#fff; font-size:0.85rem;">${name}</div>
+                    <div style="font-size:0.72rem; color:var(--text-sub);">Візитів: ${c.count} • Останній: ${c.lastDate}</div>
+                </div>
+                <div style="text-align:right;">
+                    <div style="font-family:'Orbitron'; font-size:0.9rem; color:${tierColor}; font-weight:bold;">${c.total} €</div>
+                    <div style="font-size:0.68rem; color:${tierColor}; font-weight:bold;">${tierBadge}</div>
+                </div>
+            </div>`;
+        });
+        clientList.innerHTML = html || '<div style="font-size:0.75rem; color:var(--text-sub); text-align:center;">База порожня</div>';
+    }
+
+    function updateOrderStatus(id, newStatus) {
         const db = getLocalDB();
         const order = db.orders.find(o => o.id === id);
         if (order) {
             order.Status = newStatus;
-            
-            // Автосписання зі складу при завершенні послуги
-            if (newStatus === 'Завершено') {
-                const w = db.warehouse;
-                if (order.Service.includes('Стрижка') || order.Service.includes('Королівське')) {
-                    const sh = w.find(x => x.item === 'Шампунь (мл)');
-                    if(sh) sh.amount -= 30;
-                }
-                if (order.Service.includes('Highlight') || order.Service.includes('Silver') || order.Service.includes('Камуфляж')) {
-                    const p = w.find(x => x.item === 'Фарба Neon (мл)');
-                    if(p) p.amount -= 60;
-                }
-                
-                // Перевірка запасів
-                w.forEach(item => {
-                    if(item.amount < (item.max * 0.15)) {
-                        sendBotNotification(`⚠️ <b>АВТОЗАМОВЛЕННЯ СКЛАДУ!</b>\nЗакінчується: <b>${item.item}</b> (Залишилося: ${item.amount}).`);
-                    }
-                });
-                
-                // Відгук клієнта (mock)
-                setTimeout(() => {
-                    sendBotNotification(`⭐ <b>ВІДГУК ВІД КЛІЄНТА!</b>\n${order.Client} оцінив візит на 5 зірок! "Дуже дякую майстру ${order.Master}!"`);
-                }, 3000);
-            }
-        }
-        saveLocalDB(db);
-        populateCRM();
-        initDirectorStats();
-        populateWarehouse();
-    }
-    
-    function openManualOrderModal() {
-        triggerHaptic('medium');
-        document.getElementById('manual-order-modal').classList.add('active');
-    }
-    
-    function closeManualOrderModal() {
-        triggerHaptic('light');
-        document.getElementById('manual-order-modal').classList.remove('active');
-    }
-    
-    function submitManualOrder() {
-        const clientName = document.getElementById('manual-client-name').value;
-        const service = document.getElementById('manual-service').value;
-        const price = parseFloat(document.getElementById('manual-price').value) || 0;
-        const master = document.getElementById('manual-master').value;
-        
-        if(!clientName || !service) {
-            alert('Введіть ім\'я та послугу!');
-            return;
-        }
-        
-        triggerHaptic('success');
-        const db = getLocalDB();
-        db.orders.push({
-            id: Date.now(),
-            Client: clientName,
-            Price: price,
-            Service: service,
-            Date: 'Сьогодні (Admin)',
-            Status: 'Підтверджено',
-            Master: master,
-            Master_Cut: price * 0.45,
-            Payment: 'Готівка'
-        });
-        saveLocalDB(db);
-        populateCRM();
-        populateMasterSchedule();
-        initDirectorStats();
-        closeManualOrderModal();
-    }
-    
-    function calculateAccounting() {
-        const db = getLocalDB();
-        let totalRev = 0;
-        db.orders.forEach(o => totalRev += o.Price);
-        
-        const expenses = parseFloat(document.getElementById('acc-expenses').value) || 0;
-        const electricity = parseFloat(document.getElementById('acc-electricity').value) || 0;
-        const tva = totalRev * 0.20;
-        const urssaf = totalRev * 0.22;
-        
-        // Мастера получают свою долю (45%). То есть салон оставляет 55%.
-        const netProfit = (totalRev * 0.55) - (expenses + electricity) - tva - urssaf;
-        
-        document.getElementById('acc-gross').innerText = totalRev.toFixed(2) + ' €';
-        document.getElementById('acc-tva').innerText = tva.toFixed(2) + ' €';
-        document.getElementById('acc-urssaf').innerText = urssaf.toFixed(2) + ' €';
-        document.getElementById('acc-exp-display').innerText = (expenses + electricity).toFixed(2) + ' €';
-        document.getElementById('acc-net').innerText = netProfit.toFixed(2) + ' €';
-    }
-
-    function populateWarehouse() {
-        const db = getLocalDB();
-        const list = document.getElementById('warehouse-list');
-        if(!list) return;
-        let html = '';
-        db.warehouse.forEach(w => {
-            const perc = (w.amount / w.max) * 100;
-            const color = perc > 50 ? 'var(--accent-green)' : (perc > 15 ? 'var(--cyber-gold)' : 'var(--accent-red)');
-            html += `
-            <div style="background:#121926; padding:10px; border-radius:8px; border:1px solid rgba(255,255,255,0.05);">
-                <div style="display:flex; justify-content:space-between; font-size:0.8rem; margin-bottom:4px;">
-                    <span style="color:#fff;">${w.item}</span>
-                    <span style="color:${color}; font-weight:bold;">${w.amount} / ${w.max}</span>
-                </div>
-                <div style="width:100%; height:6px; background:rgba(255,255,255,0.1); border-radius:3px; overflow:hidden;">
-                    <div style="width:${perc}%; height:100%; background:${color}; box-shadow:0 0 8px ${color};"></div>
-                </div>
-            </div>`;
-        });
-        list.innerHTML = html;
-    }
-
-    // MASTER POPULATE (Timeline)
-    function populateMasterSchedule() {
-        const masterList = document.getElementById('master-schedule-list');
-        if(!masterList) return;
-        
-        const db = getLocalDB();
-        let totalCut = 0;
-        let html = '';
-
-        const times = ['09:00', '11:00', '13:00', '15:00', '17:00', '19:00'];
-        const todayOrders = db.orders.filter(o => o.Date.includes('Сьогодні'));
-        
-        times.forEach(t => {
-            const match = todayOrders.find(o => o.Date.includes(t));
-            html += `<div class="timeline-row"><div class="time-col">${t}</div><div class="slot-col">`;
-            
-            if (match) {
-                totalCut += match.Master_Cut || 0;
-                html += `
-                    <div class="slot-booked">
-                        <div style="display:flex; justify-content:space-between;">
-                            <span style="font-weight:bold; color:var(--cyber-gold);">${match.Client}</span>
-                            <span>
-                                <button class="action-btn-sm" style="padding:2px 6px; margin:0; background:rgba(0,162,255,0.2); color:#fff; border:1px solid var(--cyber-blue);" onclick="shiftTime(15, '${match.id}')">+15m</button>
-                                <button class="action-btn-sm" style="padding:2px 6px; margin:0; background:rgba(255,215,0,0.2); color:#fff; border:1px solid var(--cyber-gold);" onclick="shiftTime(-15, '${match.id}')">-15m</button>
-                            </span>
-                        </div>
-                        <div style="font-size:0.75rem; color:var(--text-sub); margin-top:4px;">${match.Service}</div>
-                        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:2px;">
-                            <div style="font-size:0.7rem; color:var(--accent-green);">Дохід: ${match.Master_Cut} €</div>
-                            <div style="font-size:0.7rem; color:${match.Payment === 'Наперед' ? 'var(--accent-green)' : 'var(--cyber-gold)'}; font-weight:bold;">${match.Payment || 'Готівка'}</div>
-                        </div>
-                        <button class="action-btn-sm btn-payout" style="margin-top:6px; width:100%;" onclick="leaveTip('${match.Master}')">💸 Чайові (5€)</button>
-                    </div>`;
-            } else {
-                html += `<div class="slot-free">Вільний слот</div>`;
-            }
-            html += `</div></div>`;
-        });
-        
-        // Додамо інші дні (простим списком)
-        const otherOrders = db.orders.filter(o => !o.Date.includes('Сьогодні'));
-        if(otherOrders.length > 0) {
-            html += `<h4 style="font-family:'Orbitron'; color:var(--cyber-blue); font-size:0.85rem; margin-top:20px;">Інші дні</h4>`;
-            otherOrders.forEach(match => {
-                totalCut += match.Master_Cut || 0;
-                html += `<div class="timeline-row"><div class="time-col" style="font-size:0.6rem;">${match.Date}</div><div class="slot-col">`;
-                html += `
-                    <div class="slot-booked">
-                        <div style="font-weight:bold; color:var(--cyber-gold);">${match.Client}</div>
-                        <div style="font-size:0.75rem; color:var(--text-sub);">${match.Service}</div>
-                    </div></div></div>`;
-            });
-        }
-        
-        masterList.innerHTML = html;
-        document.getElementById('master-total-cut').innerText = totalCut.toFixed(2) + ' €';
-    }
-
-    function shiftTime(mins, orderId) {
-        triggerHaptic('medium');
-        if (tg.showAlert) tg.showAlert(`⏳ Автокорекція! Графік зсунуто на ${mins > 0 ? '+'+mins : mins} хвилин!`);
-        else alert(`⏳ Автокорекція! Графік зсунуто на ${mins > 0 ? '+'+mins : mins} хвилин!`);
-        // У реальному додатку тут би перераховувалися рядки 'Сьогодні 11:00' -> 'Сьогодні 11:15'
-    }
-
-    function payMasterSalary() {
-        triggerHaptic('success');
-        const db = getLocalDB();
-        db.orders.forEach(o => { o.Master_Cut = 0; });
-        saveLocalDB(db);
-        populateMasterSchedule();
-        initDirectorStats();
-        if (tg.showAlert) tg.showAlert(`💸 Зарплата успішно виплачена майстрам! Баланси обнулені.`);
-        else alert(`💸 Зарплата успішно виплачена майстрам! Баланси обнулені.`);
-    }
-
-    // DIRECTOR POPULATE
-    let chartInstance = null;
-    function initDirectorStats() {
-        const db = getLocalDB();
-        let totalRev = 0;
-        let masterStats = {};
-
-        db.orders.forEach(o => {
-            totalRev += o.Price;
-            if(!masterStats[o.Master]) masterStats[o.Master] = { rev: 0, cut: 0 };
-            masterStats[o.Master].rev += o.Price;
-            masterStats[o.Master].cut += o.Master_Cut || 0;
-        });
-
-        const netProfit = totalRev * 0.55;
-        document.getElementById('dir-total-revenue').innerText = totalRev.toFixed(2) + ' €';
-        document.getElementById('dir-net-profit').innerText = netProfit.toFixed(2) + ' €';
-        
-        const forecastEl = document.getElementById('dir-forecast');
-        if(forecastEl) forecastEl.innerText = (totalRev * 1.35).toFixed(2) + ' €';
-
-        let html = '';
-        Object.keys(masterStats).forEach((m, idx) => {
-            let p = (masterStats[m].rev / totalRev) * 100 || 0;
-            html += `
-            <div style="margin-bottom:12px;">
-                <div style="display:flex; justify-content:space-between; margin-bottom:4px; font-size:0.85rem; color:#fff;">
-                    <span>${m}</span> <span>${masterStats[m].rev.toFixed(2)} €</span>
-                </div>
-                <div style="width:100%; height:8px; background:rgba(255,255,255,0.1); border-radius:4px; overflow:hidden;">
-                    <div style="width:0%; height:100%; background:var(--cyber-blue); transition: width 1.5s cubic-bezier(0.25, 1, 0.5, 1); box-shadow:0 0 10px var(--cyber-blue);" id="bar-${idx}" data-target="${p}"></div>
-                </div>
-                <div style="font-size:0.7rem; color:var(--text-sub); margin-top:2px;">Комісія виплачено: ${masterStats[m].cut.toFixed(2)} €</div>
-            </div>`;
-        });
-        
-        const statsEl = document.getElementById('dir-masters-stats');
-        if(statsEl) {
-            statsEl.innerHTML = html;
-            setTimeout(() => {
-                Object.keys(masterStats).forEach((m, idx) => {
-                    const bar = document.getElementById('bar-'+idx);
-                    if(bar) bar.style.width = bar.getAttribute('data-target') + '%';
-                });
-            }, 50);
-        }
-        
-        // Ініціалізація Chart.js
-        const ctx = document.getElementById('revenueChart');
-        if(ctx) {
-            if(chartInstance) chartInstance.destroy();
-            chartInstance = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Нд'],
-                    datasets: [{
-                        label: 'Дохід (€)',
-                        data: [120, 190, 80, 250, 400, 310, totalRev],
-                        borderColor: '#ffd700',
-                        backgroundColor: 'rgba(255, 215, 0, 0.1)',
-                        borderWidth: 2,
-                        tension: 0.4,
-                        fill: true,
-                        pointBackgroundColor: '#00a2ff',
-                        pointBorderColor: '#fff',
-                        pointRadius: 4
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
-                    scales: {
-                        y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#9bb0c7' } },
-                        x: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#9bb0c7' } }
-                    }
-                }
-            });
-        }
-        
-        // Оновлюємо і бухгалтерію
-        calculateAccounting();
-    }
-
-    // 📱 АВТО-ПОДТЯГИВАНИЕ ДАННЫХ ИЗ TELEGRAM С ТЕЛЕФОНА
-    function initTelegramUserData() {
-        if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
-            const u = tg.initDataUnsafe.user;
-            const fullName = `${u.first_name || ''} ${u.last_name || ''}`.trim();
-            if (fullName) {
-                document.getElementById('client-name').value = fullName;
-            }
-            if (u.username) {
-                document.getElementById('client-phone').value = `@${u.username}`;
-            }
-        }
-    }
-
-    let audioCtx = null;
-    function playCyberBeep(freq, type, duration) {
-        try {
-            if(!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            if(audioCtx.state === 'suspended') audioCtx.resume();
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
-            osc.type = type; osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-            gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
-            osc.connect(gain); gain.connect(audioCtx.destination);
-            osc.start(); osc.stop(audioCtx.currentTime + duration);
-        } catch(e){}
-    }
-
-    function triggerHaptic(type = 'light') {
-        if (tg.HapticFeedback) {
-            if (type === 'success') tg.HapticFeedback.notificationOccurred('success');
-            else if (type === 'medium') tg.HapticFeedback.impactOccurred('medium');
-            else tg.HapticFeedback.impactOccurred('light');
-        }
-        
-        if (type === 'success') playCyberBeep(880, 'square', 0.15);
-        else if (type === 'medium') playCyberBeep(440, 'triangle', 0.1);
-        else playCyberBeep(600, 'sine', 0.05);
-    }
-    
-    function leaveTip(master) {
-        triggerHaptic('success');
-        if (tg.showConfirm) {
-            tg.showConfirm(`Залишити 5€ чайових для ${master}?`, (res) => {
-                if(res) {
-                    if (tg.showAlert) tg.showAlert(`Дякуємо! 5€ додано до доходу майстра ${master}.`);
-                    sendBotNotification(`💸 <b>ЧАЙОВІ!</b>\nКлієнт залишив 5€ для майстра ${master}.`);
-                }
-            });
-        } else {
-            alert(`Дякуємо! 5€ додано до доходу майстра ${master}.`);
-            sendBotNotification(`💸 <b>ЧАЙОВІ!</b>\nКлієнт залишив 5€ для майстра ${master}.`);
-        }
-    }
-
-    let selectedTimeText = "11:00";
-    function selectTimeSlot(time, el) {
-        triggerHaptic('light');
-        selectedTimeText = time;
-        document.querySelectorAll('.time-slots .slot-btn').forEach(b => b.classList.remove('selected'));
-        el.classList.add('selected');
-    }
-
-    const datePicker = document.getElementById('date-picker-container');
-    let selectedDateText = "Сьогодні";
-    function initDatePicker() {
-        if (!datePicker) return;
-        datePicker.innerHTML = '';
-        const today = new Date(); const days = ['Нд', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб'];
-        for (let i = 0; i < 14; i++) {
-            const d = new Date(); d.setDate(today.getDate() + i);
-            const dayName = i === 0 ? 'Сьогодні' : i === 1 ? 'Завтра' : days[d.getDay()];
-            const dayStr = String(d.getDate()).padStart(2, '0'); const monthStr = String(d.getMonth() + 1).padStart(2, '0'); const dateNum = `${dayStr}.${monthStr}`;
-            const card = document.createElement('div');
-            card.className = `date-card ${i === 0 ? 'selected' : ''}`;
-            card.innerHTML = `<div style="font-size:0.75rem;">${dayName}</div><div style="font-weight:bold;">${dateNum}</div>`;
-            card.addEventListener('click', () => {
-                triggerHaptic('light');
-                document.querySelectorAll('.date-card').forEach(c => c.classList.remove('selected'));
-                card.classList.add('selected'); selectedDateText = `${dayName} (${dateNum})`;
-                if(typeof checkAvailableSlots === 'function') checkAvailableSlots();
-            });
-            datePicker.appendChild(card);
-        }
-    }
-
-    function selectServiceModal(name, price) { 
-        openModal(); 
-        const chips = document.querySelectorAll('#service-chips-container .cyber-chip');
-        chips.forEach(chip => {
-            if (chip.textContent.includes(name) || name.includes(chip.textContent.trim())) {
-                chip.click();
-            }
-        });
-    }
-    function selectBarberModal(barberName) { 
-        openModal(); 
-        document.getElementById('select-barber').value = barberName; 
-        const btns = document.querySelectorAll('#barber-picker-container .cyber-picker-btn');
-        btns.forEach(btn => {
-            if (btn.textContent.includes(barberName)) {
-                btn.click();
-            }
-        });
-    }
-
-    
-        /* Settings Modal & Options Handlers */
-        let hapticsEnabled = true;
-        let pushEnabled = true;
-
-        window.openSettingsModal = function() {
-            triggerHaptic('medium');
-            const modal = document.getElementById('settings-modal');
-            if (modal) modal.classList.add('active');
-            
-            const userInfo = document.getElementById('sett-user-info');
-            if (userInfo && window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user) {
-                const user = window.Telegram.WebApp.initDataUnsafe.user;
-                userInfo.textContent = "👤 " + (user.first_name || 'Client') + " (ID: " + user.id + ")";
-            }
-        };
-
-        window.closeSettingsModal = function() {
-            triggerHaptic('light');
-            const modal = document.getElementById('settings-modal');
-            if (modal) modal.classList.remove('active');
-        };
-
-        window.setAccentTheme = function(colorKey) {
-            triggerHaptic('light');
-            const root = document.documentElement;
-            if (colorKey === 'gold') {
-                root.style.setProperty('--cyber-gold', '#ffd700');
-            } else if (colorKey === 'cyan') {
-                root.style.setProperty('--cyber-gold', '#00a2ff');
-            } else if (colorKey === 'green') {
-                root.style.setProperty('--cyber-gold', '#00e676');
-            }
-            if (typeof tg !== 'undefined' && tg.showAlert) tg.showAlert('🎨 Тему оновлено!');
-        };
-
-        window.toggleHapticsSetting = function(val) {
-            hapticsEnabled = val;
-            if (val) triggerHaptic('success');
-        };
-
-        window.togglePushSetting = function(val) {
-            pushEnabled = val;
-            triggerHaptic('light');
-        };
-
-        window.resetAppSettings = function() {
-            triggerHaptic('warning');
-            if (confirm('Очистити кеш та скинути налаштування додатка?')) {
-                localStorage.clear();
-                location.reload();
-            }
-        };
-
-
-
-        /* Cyber Toast System 2026 Dynamic Island HUD */
-        window.showCyberToast = function(msg, icon = '⚡') {
-            let toast = document.getElementById('cyber-toast');
-            if (!toast) {
-                toast = document.createElement('div');
-                toast.id = 'cyber-toast';
-                toast.className = 'cyber-toast';
-                document.body.appendChild(toast);
-            }
-            toast.innerHTML = `<span class="toast-beacon"></span><span style="font-size:1.1rem;">${icon}</span> <span>${msg}</span>`;
-            toast.classList.add('show');
-            if (typeof triggerHaptic === 'function') triggerHaptic('medium');
-            setTimeout(() => toast.classList.remove('show'), 3000);
-        };
-
-
-function switchTab(pageId) {
-        triggerHaptic('light');
-        if(pageId === 'ai' || pageId === 'chat') {
-            // Cyber sounds
-            setTimeout(() => playCyberBeep(900, 'square', 0.05), 0);
-            setTimeout(() => playCyberBeep(1200, 'square', 0.05), 100);
-            setTimeout(() => playCyberBeep(1800, 'square', 0.1), 200);
-        }
-
-        document.querySelectorAll('.page-section').forEach(p => p.classList.remove('active'));
-        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-
-        const pageEl = document.getElementById(`page-${pageId}`);
-        if(pageEl) pageEl.classList.add('active');
-        
-        window.scrollTo(0, 0);
-        if(pageId === 'director' && typeof populateDirector === 'function') setTimeout(populateDirector, 100);
-
-        const navBtn = document.querySelector(`.nav-btn[data-tab="${pageId}"]`);
-        if(navBtn) {
-            navBtn.classList.add('active');
-            const navContainer = navBtn.parentNode;
-            navContainer.scrollTo({
-                left: navBtn.offsetLeft - navContainer.offsetWidth / 2 + navBtn.offsetWidth / 2,
-                behavior: 'smooth'
-            });
-        }
-
-        if(pageId === 'erp') {
+            saveLocalDB(db);
             populateCRM();
-            populateMasterSchedule();
-            initDirectorStats();
-            calculateAccounting();
-            setTimeout(populateDirector, 100);
+            if (typeof populateDirector === 'function') populateDirector();
+            if (typeof populateMasterSchedule === 'function') populateMasterSchedule();
+            if (typeof triggerHaptic === 'function') triggerHaptic('success');
+            if (typeof showCyberToast === 'function') showCyberToast('Статус змінено на: ' + newStatus, '💼');
         }
     }
 
-    const modal = document.getElementById('booking-modal');
-    
-    // ⚡ ROBUST CHIP PICKER SELECTION 2026
-    window.pickServiceChip = function(val, el) {
-        if (typeof triggerHaptic === 'function') triggerHaptic('light');
-        const sel = document.getElementById('select-service');
-        if (sel) {
-            sel.value = val;
-            sel.dispatchEvent(new Event('change'));
-        }
-        document.querySelectorAll('#service-chips-container .cyber-chip').forEach(c => c.classList.remove('active'));
-        if (el) el.classList.add('active');
-    };
-
-    window.pickMasterCard = function(val, el) {
-        if (typeof triggerHaptic === 'function') triggerHaptic('light');
-        const sel = document.getElementById('select-barber');
-        if (sel) {
-            sel.value = val;
-            sel.dispatchEvent(new Event('change'));
-        }
-        document.querySelectorAll('#barber-picker-container .cyber-picker-btn').forEach(c => c.classList.remove('active'));
-        if (el) el.classList.add('active');
-    };
-
-    window.pickPaymentCard = function(val, el) {
-        if (typeof triggerHaptic === 'function') triggerHaptic('light');
-        const sel = document.getElementById('select-payment');
-        if (sel) {
-            sel.value = val;
-            sel.dispatchEvent(new Event('change'));
-        }
-        document.querySelectorAll('#payment-picker-container .cyber-picker-btn').forEach(c => c.classList.remove('active'));
-        if (el) el.classList.add('active');
-    };
-
-    function openModal() { 
-        triggerHaptic('medium'); 
-        initTelegramUserData();
-        modal.classList.add('active'); 
-    }
-    function closeModal() { triggerHaptic('light'); modal.classList.remove('active'); }
-
-    document.getElementById('barber-form').addEventListener('submit', async (e) => {
-        e.preventDefault();
-        triggerHaptic('success');
-        const clientName = document.getElementById('client-name').value;
-        const clientPhone = document.getElementById('client-phone').value;
-        const service = document.getElementById('select-service').value;
-        const barber = document.getElementById('select-barber').value;
-        const payment = document.getElementById('select-payment') ? document.getElementById('select-payment').value : 'Оплата в салоні (Готівка/Термінал)';
-        
-        let priceMatch = service.match(/(\d+)\s*€/);
-        let price = priceMatch ? parseInt(priceMatch[1]) : 0;
-
-        const adminMessageText = 
-            `🌊 <b>НОВИЙ ЗАПИС З ТЕЛЕФОНУ (NICE CÔTE D'AZUR)!</b>\n` +
-            `━━━━━━━━━━━━━━━━━━━━━━\n` +
-            `👤 <b>Клієнт:</b> ${clientName}\n` +
-            `📞 <b>Контакти:</b> ${clientPhone}\n` +
-            `✂️ <b>Послуга:</b> ${service}\n` +
-            `💈 <b>Майстер:</b> ${barber}\n` +
-            `📅 <b>Дата:</b> ${selectedDateText}\n` +
-            `⏰ <b>Час:</b> ${selectedTimeText}\n` +
-            `💳 <b>Оплата:</b> ${payment}`;
-
-        sendBotNotification(adminMessageText);
-        
-        // Збереження локально у БД
-        const db = getLocalDB();
-        db.orders.push({
-            id: Date.now(),
-            Client: clientName,
-            Price: price,
-            Service: service,
-            Date: selectedDateText + " " + selectedTimeText,
-            Status: 'Новий',
-            Master: barber,
-            Master_Cut: price * 0.45,
-            Payment: payment
-        });
-        saveLocalDB(db);
-        populateCRM();
-        populateMasterSchedule();
-        initDirectorStats();
-
-        if (tg.showAlert) tg.showAlert(`✨ Запис успішно створено! До зустрічі ${selectedDateText} о ${selectedTimeText}!`);
-        closeModal();
-    });
-
-    function checkReminders() {
-        const db = getLocalDB();
-        const tomorrowOrder = db.orders.find(o => o.Date.includes('Завтра'));
-        if (tomorrowOrder && !sessionStorage.getItem('reminder_sent')) {
-            setTimeout(() => {
-                sendBotNotification(`🔔 <b>АВТО-НАГАДУВАННЯ КЛІЄНТУ!</b>\nНадіслано до: ${tomorrowOrder.Client}\nТекст: "Чекаємо на вас завтра у салоні!"`);
-                sessionStorage.setItem('reminder_sent', 'true');
-            }, 5000);
-        }
-    }
-
-    initDatePicker();
-    
-    // Популейт данных при старте
-    populateCRM();
-    populateMasterSchedule();
-    populateWarehouse();
-    checkReminders();
-    
-    // Инициализация языка
-    changeLanguage('UA');
-
-    // Stock replenish action
-    function replenishStock() {
-        triggerHaptic('success');
-        tg.showAlert('📦 Склад успішно поповнено! Всі позиції в наявності.');
-        if(typeof renderWarehouse === 'function') renderWarehouse();
-    }
-
-    // CSV Report Export
-    
-    // Multi-format Reports
-    function exportJSONReport() {
-        triggerHaptic('medium');
-        const db = getLocalDB();
-        const jsonStr = JSON.stringify(db, null, 2);
-        const blob = new Blob([jsonStr], { type: 'application/json' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'vovan_beauty_erp_database.json';
-        a.click();
-        URL.revokeObjectURL(url);
-        if(tg.showAlert) tg.showAlert('📦 JSON База успішно вивантажена!');
-    }
-
-    function exportHTMLReport() {
-        triggerHaptic('medium');
-        const db = getLocalDB();
-        let rows = '';
-        db.orders.forEach(o => {
-            rows += `<tr><td>${o.id}</td><td>${o.Client}</td><td>${o.Service}</td><td>${o.Master}</td><td>${o.Price} €</td><td>${o.Date}</td><td>${o.Status}</td></tr>`;
-        });
-        const htmlDoc = `<!DOCTYPE html><html><head><title>ERP Звіт VOVAN BEAUTY</title><style>body{background:#000;color:#fff;font-family:sans-serif;padding:20px;}table{width:100%;border-collapse:collapse;}th,td{border:1px solid #00a2ff;padding:10px;text-align:left;}th{background:#0d1522;color:#ffd700;}</style></head><body><h1>👑 Звіт ERP - VOVAN BEAUTY STUDIO (Nice)</h1><table><thead><tr><th>ID</th><th>Клієнт</th><th>Послуга</th><th>Майстер</th><th>Ціна</th><th>Дата</th><th>Статус</th></tr></thead><tbody>${rows}</tbody></table></body></html>`;
-        const blob = new Blob([htmlDoc], { type: 'text/html' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'vovan_beauty_erp_report.html';
-        a.click();
-        URL.revokeObjectURL(url);
-        if(tg.showAlert) tg.showAlert('📄 HTML Звіт вивантажено!');
-    }
-
-    function openGoogleSheetsLink() {
-        triggerHaptic('medium');
-        window.open('https://docs.google.com/spreadsheets/', '_blank');
-    }
-
-    function exportERPReport() {
-        triggerHaptic('medium');
-        const db = getLocalDB();
-        let csvContent = "data:text/csv;charset=utf-8,ID,Client,Service,Master,Price,Date,Status\n";
-        db.orders.forEach(o => {
-            csvContent += `${o.id},${o.Client || ''},${o.Service || ''},${o.Master || ''},${o.Price || 0},${o.Date || ''},${o.Status || ''}\n`;
-        });
-        const encodedUri = encodeURI(csvContent);
-        const link = document.createElement("a");
-        link.setAttribute("href", encodedUri);
-        link.setAttribute("download", "vovan_beauty_erp_report.csv");
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        if(tg.showAlert) tg.showAlert('📄 Звіт успішно завантажено в CSV!');
-    }
-
-
-    // === ERP підвкладки ===
-    function switchERPTab(panelId) {
-        triggerHaptic('light');
-        document.querySelectorAll('.erp-panel').forEach(p => p.style.display = 'none');
-        document.querySelectorAll('.erp-tab').forEach(b => {
-            b.style.background = '#1a2332';
-            b.style.color = 'var(--text-sub)';
-            b.style.border = '1px solid rgba(255,255,255,0.1)';
-        });
-        const panel = document.getElementById(panelId);
-        if (panel) panel.style.display = 'block';
-        const tabs = document.querySelectorAll('.erp-tab');
-        tabs.forEach(t => {
-            if (t.getAttribute('onclick').includes(panelId)) {
-                t.style.background = 'var(--cyber-gold)';
-                t.style.color = '#000';
-                t.style.border = 'none';
-            }
-        });
-        if (panelId === 'erp-director') { initDirectorStats(); setTimeout(populateDirector, 100); }
-        if (panelId === 'erp-crm') populateCRM();
-        if (panelId === 'erp-master') populateMasterSchedule();
-        if (panelId === 'erp-accounting') calculateAccounting();
-    }
-
-
-
-    // --- ERP ENHANCEMENTS ---
     function deleteOrder(id) {
         if(!confirm('Ви впевнені, що хочете видалити цей запис?')) return;
         const db = getLocalDB();
