@@ -699,16 +699,7 @@
                 </div>
             </div>
 
-            
-            <!-- 🎟️ PROMO CODE FIELD -->
-            <div style="display:flex; gap:6px; margin-top:8px; margin-bottom:4px;">
-                <div class="cyber-input-wrapper" style="flex:1; margin:0; background:rgba(0,0,0,0.6); border-color:rgba(0,162,255,0.35); padding:2px 6px; border-radius:6px; height:30px;">
-                    <span class="input-icon" style="font-size:0.68rem; margin-right:4px;">🎟️</span>
-                    <input type="text" id="promo-code-input" placeholder="Промокод (MEGAN2026)" style="font-size:0.68rem; text-transform:uppercase; padding:2px 0 !important; height:100%;">
-                </div>
-                <button type="button" class="action-btn-sm" onclick="applyPromoCode()" style="padding:4px 10px; font-size:0.68rem; font-weight:bold; background:rgba(0,162,255,0.2); border:1px solid var(--cyber-blue); color:#fff; border-radius:6px; cursor:pointer;">Застосувати</button>
-            </div>
-            <div id="promo-discount-badge" style="font-size:0.7rem; color:var(--accent-green); font-weight:bold; display:none; margin-bottom:6px;">✅ Промокод застосовано: Скидка -10 €!</div>
+
 
             <button type="submit" class="ticket-btn" style="width:100%; margin-top:10px;" data-i18n="btn-confirm">⚡ ПІДТВЕРДИТИ ЗАПИС</button>
 
@@ -1409,6 +1400,59 @@
     window.openModal = function() {
         var modal = document.getElementById('booking-modal');
         if (modal) { modal.style.display = 'flex'; modal.classList.add('active'); }
+        // 🤖 Автозаповнення з Telegram
+        try {
+            var tgU = window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe
+                ? window.Telegram.WebApp.initDataUnsafe.user : null;
+            var nameEl = document.getElementById('client-name');
+            var phoneEl = document.getElementById('client-phone');
+            if (tgU && nameEl && !nameEl.value) {
+                nameEl.value = ((tgU.first_name || '') + ' ' + (tgU.last_name || '')).trim();
+            }
+            if (tgU && phoneEl && !phoneEl.value) {
+                phoneEl.value = tgU.username ? '@' + tgU.username : (tgU.id ? 'TG:' + tgU.id : '');
+            }
+        } catch(e) {}
+        // 📅 Генерація дат якщо порожньо
+        try {
+            var dp = document.getElementById('date-picker-container');
+            if (dp && dp.children.length === 0) {
+                var now = new Date();
+                var mn = ['січ','лют','бер','кві','тра','чер','лип','сер','вер','жов','лис','гру'];
+                var dn = ['Нд','Пн','Вт','Ср','Чт','Пт','Сб'];
+                for (var i = 0; i < 7; i++) {
+                    var dd = new Date(now); dd.setDate(now.getDate() + i);
+                    var lbl = i===0 ? 'Сьогодні' : (i===1 ? 'Завтра' : dn[dd.getDay()]);
+                    var ds = dd.getDate() + ' ' + mn[dd.getMonth()];
+                    var fd = ds + ' ' + dd.getFullYear();
+                    var c = document.createElement('div');
+                    c.className = 'date-card' + (i===0 ? ' selected' : '');
+                    c.style.cssText = 'display:inline-flex;flex-direction:column;align-items:center;' +
+                        'background:' + (i===0 ? 'rgba(0,162,255,0.2)' : 'rgba(255,255,255,0.04)') + ';' +
+                        'border:1px solid ' + (i===0 ? 'var(--cyber-blue,#00a2ff)' : 'rgba(255,255,255,0.12)') + ';' +
+                        'border-radius:10px;padding:7px 10px;min-width:52px;cursor:pointer;margin-right:6px;flex-shrink:0;';
+                    c.innerHTML = '<span style="font-size:0.62rem;color:var(--text-sub);">' + lbl + '</span>' +
+                        '<span style="font-size:0.8rem;font-weight:800;color:#fff;margin-top:1px;">' + ds + '</span>';
+                    (function(fdt, card) {
+                        card.onclick = function() {
+                            document.querySelectorAll('.date-card').forEach(function(x) {
+                                x.style.background='rgba(255,255,255,0.04)';
+                                x.style.borderColor='rgba(255,255,255,0.12)';
+                            });
+                            card.style.background='rgba(0,162,255,0.2)';
+                            card.style.borderColor='var(--cyber-blue,#00a2ff)';
+                            window.selectedDateText = fdt;
+                        };
+                    })(fd, c);
+                    dp.appendChild(c);
+                }
+                window.selectedDateText = now.getDate() + ' ' + mn[now.getMonth()] + ' ' + now.getFullYear();
+            }
+        } catch(e2) {}
+        // ⏰ Дефолтний слот часу
+        try {
+            if (!window.selectedTimeText) window.selectedTimeText = '09:00';
+        } catch(e3) {}
     };
     window.closeModal = function() {
         var modal = document.getElementById('booking-modal');

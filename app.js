@@ -2143,7 +2143,7 @@ window.pickMasterCard = window.pickMasterCard || function(masterName, el) {
 // 🎟️ Pick Service Chip
 window.pickServiceChip = window.pickServiceChip || function(serviceName, el) {
     if (typeof triggerHaptic === 'function') triggerHaptic('light');
-    document.querySelectorAll('#service-picker-container .cyber-picker-btn').forEach(b => {
+    document.querySelectorAll('#service-chips-container .cyber-chip').forEach(b => {
         b.classList.remove('active');
         b.style.borderColor = 'rgba(255,255,255,0.15)';
         b.style.background = 'rgba(255,255,255,0.05)';
