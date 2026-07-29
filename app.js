@@ -822,7 +822,8 @@ window.addEventListener('load', () => setTimeout(hidePreloaderSmooth, 800));
 
             const weatherRes = await fetch('https://api.open-meteo.com/v1/forecast?latitude=' + lat + '&longitude=' + lon + '&current_weather=true');
             const data = await weatherRes.json();
-            const weather = data.current_weather;
+            const weather = data && data.current_weather;
+            if (!weather) throw new Error('No weather data received');
             const temp = Math.round(weather.temperature);
             const code = weather.weathercode;
 
@@ -853,7 +854,9 @@ window.addEventListener('load', () => setTimeout(hidePreloaderSmooth, 800));
     // SMART TIME SLOTS
     function checkAvailableSlots() {
         const db = getLocalDB();
-        const master = document.getElementById('select-barber').value;
+        const barberEl = document.getElementById('select-barber');
+        if (!barberEl) return;
+        const master = barberEl.value;
         const slots = document.querySelectorAll('.slot-btn');
         
         slots.forEach(slot => {
@@ -861,9 +864,9 @@ window.addEventListener('load', () => setTimeout(hidePreloaderSmooth, 800));
             slot.style.opacity = '1';
             slot.style.pointerEvents = 'auto';
             const time = slot.innerText.trim();
-            const fullDateStr = selectedDateText + " " + time;
+            const fullDateStr = (typeof selectedDateText !== 'undefined' ? selectedDateText : '') + " " + time;
             
-            // Check if there is already an order in DB with this master and date+time
+            // Перевіряємо чи слот вже зайнятий у БД
             const isBooked = db.orders.some(o => o.Master === master && o.Date === fullDateStr);
             if (isBooked) {
                 slot.classList.add('disabled');
@@ -873,7 +876,7 @@ window.addEventListener('load', () => setTimeout(hidePreloaderSmooth, 800));
             }
         });
         
-        // Auto-select first free slot
+        // Авто-вибір першого вільного слоту
         const firstFree = Array.from(slots).find(s => !s.classList.contains('disabled'));
         if (firstFree) {
             slots.forEach(s => s.classList.remove('selected'));
@@ -1887,11 +1890,16 @@ window.addEventListener('load', () => setTimeout(hidePreloaderSmooth, 800));
 
     window.submitCrmAddOrder = function(e) {
         if (e) e.preventDefault();
-        const name = document.getElementById('crm-add-name').value.trim() || 'Клієнт';
-        const service = document.getElementById('crm-add-service').value;
-        const master = document.getElementById('crm-add-master').value;
-        const price = parseInt(document.getElementById('crm-add-price').value) || 40;
-        const time = document.getElementById('crm-add-time').value.trim() || 'Сьогодні 15:00';
+        const nameEl = document.getElementById('crm-add-name');
+        const serviceEl = document.getElementById('crm-add-service');
+        const masterEl = document.getElementById('crm-add-master');
+        const priceEl = document.getElementById('crm-add-price');
+        const timeEl = document.getElementById('crm-add-time');
+        const name = nameEl ? (nameEl.value.trim() || 'Клієнт') : 'Клієнт';
+        const service = serviceEl ? serviceEl.value : 'Стрижка MEGAN 2.0';
+        const master = masterEl ? masterEl.value : 'VOVAN';
+        const price = priceEl ? (parseInt(priceEl.value) || 40) : 40;
+        const time = timeEl ? (timeEl.value.trim() || 'Сьогодні 15:00') : 'Сьогодні 15:00';
 
         const db = getLocalDB();
         const newId = db.orders.length > 0 ? Math.max(...db.orders.map(o => o.id)) + 1 : 1;
@@ -1935,11 +1943,16 @@ window.addEventListener('load', () => setTimeout(hidePreloaderSmooth, 800));
         const db = getLocalDB();
         const order = db.orders.find(o => o.id === id);
         if (order) {
-            document.getElementById('crm-edit-id').value = order.id;
-            document.getElementById('crm-edit-name').value = order.Client;
-            document.getElementById('crm-edit-service').value = order.Service;
-            document.getElementById('crm-edit-price').value = order.Price;
-            document.getElementById('crm-edit-date').value = order.Date;
+            const f_id = document.getElementById('crm-edit-id');
+            const f_name = document.getElementById('crm-edit-name');
+            const f_service = document.getElementById('crm-edit-service');
+            const f_price = document.getElementById('crm-edit-price');
+            const f_date = document.getElementById('crm-edit-date');
+            if (f_id) f_id.value = order.id;
+            if (f_name) f_name.value = order.Client;
+            if (f_service) f_service.value = order.Service;
+            if (f_price) f_price.value = order.Price;
+            if (f_date) f_date.value = order.Date;
 
             const modal = document.getElementById('crm-edit-order-modal');
             if (modal) modal.classList.add('active');
@@ -1954,11 +1967,17 @@ window.addEventListener('load', () => setTimeout(hidePreloaderSmooth, 800));
 
     window.submitCrmEditOrder = function(e) {
         if (e) e.preventDefault();
-        const id = parseInt(document.getElementById('crm-edit-id').value);
-        const name = document.getElementById('crm-edit-name').value.trim();
-        const service = document.getElementById('crm-edit-service').value.trim();
-        const price = parseInt(document.getElementById('crm-edit-price').value) || 0;
-        const date = document.getElementById('crm-edit-date').value.trim();
+        const idEl = document.getElementById('crm-edit-id');
+        const nameEl = document.getElementById('crm-edit-name');
+        const serviceEl = document.getElementById('crm-edit-service');
+        const priceEl = document.getElementById('crm-edit-price');
+        const dateEl = document.getElementById('crm-edit-date');
+        if (!idEl) return;
+        const id = parseInt(idEl.value);
+        const name = nameEl ? nameEl.value.trim() : '';
+        const service = serviceEl ? serviceEl.value.trim() : '';
+        const price = priceEl ? (parseInt(priceEl.value) || 0) : 0;
+        const date = dateEl ? dateEl.value.trim() : '';
 
         const db = getLocalDB();
         const order = db.orders.find(o => o.id === id);
