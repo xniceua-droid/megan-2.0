@@ -1477,3 +1477,31 @@ const tg = window.Telegram.WebApp;
             }
         });
     };
+
+    // 🎟️ BOOKING SUCCESS RECEIPT MODAL LOGIC
+    window.showBookingReceiptModal = function(client, master, service, dateTime, price) {
+        if (typeof triggerHaptic === 'function') triggerHaptic('success');
+        if (typeof playCyberAudioFx === 'function') playCyberAudioFx('success');
+
+        const modal = document.getElementById('booking-success-modal');
+        const elClient = document.getElementById('rec-client-name');
+        const elMaster = document.getElementById('rec-master-name');
+        const elService = document.getElementById('rec-service-name');
+        const elDate = document.getElementById('rec-date-time');
+        const elPrice = document.getElementById('rec-final-price');
+
+        if (elClient) elClient.innerText = client;
+        if (elMaster) elMaster.innerText = master;
+        if (elService) elService.innerText = service;
+        if (elDate) elDate.innerText = dateTime;
+        if (elPrice) elPrice.innerText = price + ' €';
+
+        if (modal) modal.classList.add('active');
+    };
+
+    window.closeBookingSuccessModal = function() {
+        if (typeof triggerHaptic === 'function') triggerHaptic('light');
+        const modal = document.getElementById('booking-success-modal');
+        if (modal) modal.classList.remove('active');
+        if (typeof closeModal === 'function') closeModal();
+    };
