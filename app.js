@@ -1714,3 +1714,28 @@ function switchTab(pageId) {
         if (typeof showCyberToast === 'function') showCyberToast('Дякуємо за чайові ' + amount + '€ для ' + window.currentMasterForTip + '! 💸', '✨');
         window.closeTipModal();
     };
+
+    // 📸 GALLERY MODAL LOGIC
+    window.openGalleryModal = function() {
+        if (typeof triggerHaptic === 'function') triggerHaptic('medium');
+        const modal = document.getElementById('gallery-modal');
+        if (modal) modal.classList.add('active');
+    };
+
+    window.closeGalleryModal = function() {
+        if (typeof triggerHaptic === 'function') triggerHaptic('light');
+        const modal = document.getElementById('gallery-modal');
+        if (modal) modal.classList.remove('active');
+    };
+
+    window.switchGalleryImg = function(imgSrc) {
+        if (typeof triggerHaptic === 'function') triggerHaptic('light');
+        const mainImg = document.getElementById('gallery-main-img');
+        if (mainImg) {
+            mainImg.style.opacity = '0.3';
+            setTimeout(() => {
+                mainImg.src = imgSrc;
+                mainImg.style.opacity = '1';
+            }, 150);
+        }
+    };
