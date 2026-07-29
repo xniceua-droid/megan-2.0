@@ -1357,3 +1357,33 @@ window.sendQuickChatMessage = function(text) {
         if (typeof showCyberToast === 'function') showCyberToast('+50 бонусів нараховано клієнту ' + window.selectedCrmClient + '!', '🎁');
         window.closeCrmClientModal();
     };
+
+    // 🍾 VIP BAR SEAT ORDER LOGIC
+    window.selectedDrinkToOrder = '';
+
+    window.orderDrink = function(drinkName) {
+        window.selectedDrinkToOrder = drinkName;
+        if (typeof triggerHaptic === 'function') triggerHaptic('medium');
+        if (typeof playCyberAudioFx === 'function') playCyberAudioFx('click');
+        
+        const modal = document.getElementById('bar-order-modal');
+        const titleEl = document.getElementById('bar-modal-drink-name');
+        if (titleEl) titleEl.innerText = '🍾 ' + drinkName;
+        if (modal) modal.classList.add('active');
+    };
+
+    window.closeBarOrderModal = function() {
+        if (typeof triggerHaptic === 'function') triggerHaptic('light');
+        const modal = document.getElementById('bar-order-modal');
+        if (modal) modal.classList.remove('active');
+    };
+
+    window.confirmBarSeatOrder = function(seatLocation) {
+        const msg = `🍾 <b>НОВЕ ЗАМОВЛЕННЯ В КРІСЛО!</b>\nНапій: <b>${window.selectedDrinkToOrder}</b>\nЛокація: <b>${seatLocation}</b>`;
+        if (typeof sendBotNotification === 'function') sendBotNotification(msg);
+        if (typeof triggerHaptic === 'function') triggerHaptic('success');
+        if (typeof playCyberAudioFx === 'function') playCyberAudioFx('success');
+        if (typeof showCyberToast === 'function') showCyberToast('Замовлення ' + window.selectedDrinkToOrder + ' прийнято! Подача в ' + seatLocation, '🍾');
+        
+        window.closeBarOrderModal();
+    };

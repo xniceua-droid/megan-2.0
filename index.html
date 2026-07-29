@@ -1040,5 +1040,22 @@
     </div>
 </div>
 
+
+<!-- 🍾 VIP БАР ЗАМОВЛЕННЯ В КРІСЛО МОДАЛЬНЕ ВІКНО -->
+<div id="bar-order-modal" class="modal-overlay">
+    <div class="vintage-modal" style="max-width:400px; text-align:center;">
+        <button class="close-modal" onclick="closeBarOrderModal()">&times;</button>
+        <h3 style="font-family:'Orbitron'; color:var(--cyber-gold); margin-bottom:6px;" id="bar-modal-drink-name">🍾 ЗАМОВЛЕННЯ В КРІСЛО</h3>
+        <p style="font-size:0.75rem; color:var(--text-sub); margin-bottom:12px;">Оберіть ваше крісло для швидкої подачі напою</p>
+        
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px; margin-bottom:14px;">
+            <button class="action-btn-sm" onclick="confirmBarSeatOrder('Крісло #1 (VOVAN VIP)')" style="padding:10px; font-size:0.75rem; background:rgba(0,162,255,0.15); border:1px solid var(--cyber-blue); color:#fff;">🪑 Крісло #1</button>
+            <button class="action-btn-sm" onclick="confirmBarSeatOrder('Крісло #2 (MEGAN AI)')" style="padding:10px; font-size:0.75rem; background:rgba(0,162,255,0.15); border:1px solid var(--cyber-blue); color:#fff;">🪑 Крісло #2</button>
+            <button class="action-btn-sm" onclick="confirmBarSeatOrder('VIP Лаунж Диван')" style="padding:10px; font-size:0.75rem; background:rgba(255,215,0,0.15); border:1px solid var(--cyber-gold); color:var(--cyber-gold);">🛋 VIP Лаунж</button>
+            <button class="action-btn-sm" onclick="confirmBarSeatOrder('Рецепція')" style="padding:10px; font-size:0.75rem; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.2); color:#fff;">📍 Рецепція</button>
+        </div>
+    </div>
+</div>
+
 </body>
 </html>
