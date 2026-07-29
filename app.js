@@ -46,11 +46,43 @@ function showCyberToast(message, icon) {
 }
 window.showCyberToast = showCyberToast;
 
-// ✅ CORE NAVIGATION — визначаються ПЕРШИМИ щоб onclick в HTML одразу працював
+// ✅ openModal — автозаповнення з Telegram + відкриття модального вікна
 window.openModal = function() {
     triggerHaptic('medium');
     const modal = document.getElementById('booking-modal');
     if (modal) { modal.classList.add('active'); modal.style.display = 'flex'; }
+
+    // 🤖 Автозаповнення даних користувача з Telegram WebApp
+    try {
+        const tgUser = (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe)
+            ? window.Telegram.WebApp.initDataUnsafe.user
+            : null;
+
+        const nameEl = document.getElementById('client-name');
+        const phoneEl = document.getElementById('client-phone');
+        const banner = document.getElementById('tg-autofill-banner');
+
+        if (tgUser && nameEl) {
+            // Складаємо імʼя з first_name + last_name
+            const fullName = [tgUser.first_name || '', tgUser.last_name || ''].filter(Boolean).join(' ');
+            if (fullName && !nameEl.value) nameEl.value = fullName;
+        }
+
+        if (tgUser && phoneEl) {
+            // Телефон недоступний через WebApp — підставляємо username або Telegram ID
+            const contact = tgUser.username
+                ? '@' + tgUser.username
+                : (tgUser.id ? 'TG:' + tgUser.id : '');
+            if (contact && !phoneEl.value) phoneEl.value = contact;
+        }
+
+        if (banner) {
+            banner.style.display = tgUser ? 'flex' : 'none';
+        }
+    } catch(e) {
+        const banner = document.getElementById('tg-autofill-banner');
+        if (banner) banner.style.display = 'none';
+    }
 };
 
 window.closeModal = function() {
@@ -2250,47 +2282,143 @@ window.updateCartQty = window.updateCartQty || function(index, delta) {
     if (typeof window.updateCartItemQty === 'function') window.updateCartItemQty(index, delta);
 };
 
-// 🔄 Booking form init (викликається після DOM завантаження)
+// ─── 🔄 ІНІЦІАЛІЗАЦІЯ ФОРМИ ЗАПИСУ (повна версія) ──────────────────────────
 function initBookingForm() {
-    const form = document.getElementById('booking-form') || document.querySelector('#booking-modal form');
-    if (form && !form._initDone) {
-        form._initDone = true;
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
-            if (typeof window.processBooking === 'function') {
-                window.processBooking();
-            } else {
-                // Fallback booking submission
-                const nameEl = document.getElementById('client-name') || document.querySelector('#booking-modal [name="name"]');
-                const phoneEl = document.getElementById('client-phone') || document.querySelector('#booking-modal [name="phone"]');
-                const serviceEl = document.getElementById('select-service');
-                const masterEl = document.getElementById('select-barber');
-                const name = nameEl ? nameEl.value.trim() : 'Клієнт';
-                const phone = phoneEl ? phoneEl.value.trim() : '';
-                const service = serviceEl ? serviceEl.options[serviceEl.selectedIndex].text : 'Стрижка';
-                const master = masterEl ? masterEl.options[masterEl.selectedIndex].text : 'VOVAN';
-                const date = window.selectedDateText || 'Сьогодні';
-                const time = window.selectedTimeText || '14:00';
-                const msg = '📅 <b>НОВИЙ ЗАПИС!</b>\n' +
-                    'Клієнт: <b>' + name + '</b>\n' +
-                    'Телефон: <b>' + phone + '</b>\n' +
-                    'Послуга: <b>' + service + '</b>\n' +
-                    'Майстер: <b>' + master + '</b>\n' +
-                    'Дата: <b>' + date + ' ' + time + '</b>';
-                if (typeof sendBotNotification === 'function') sendBotNotification(msg);
-                if (typeof triggerHaptic === 'function') triggerHaptic('success');
-                if (typeof showCyberToast === 'function') showCyberToast('✅ Запис підтверджено! Чекаємо на вас!', '🎉');
-                if (typeof closeModal === 'function') closeModal();
-                // Add to local DB
-                try {
-                    const db = getLocalDB();
-                    const newId = db.orders.length > 0 ? Math.max(...db.orders.map(o => o.id)) + 1 : 100;
-                    db.orders.push({ id: newId, Client: name, Service: service, Price: 40, Date: date + ' ' + time, Status: 'Новий', Master: master.replace(' (Головний Стиліст)', '').replace(' (Кібер-Майстер)', ''), Master_Cut: 18, Payment: window.selectedPaymentMethod || 'В салоні' });
-                    saveLocalDB(db);
-                } catch(e) {}
-            }
-        });
+    // Форма id="barber-form" (назва в HTML)
+    const form = document.getElementById('barber-form') || document.querySelector('#booking-modal form');
+    if (!form || form._initDone) return;
+    form._initDone = true;
+
+    // 📌 LIVE SUMMARY — оновлення прев'ю при змінах
+    function updateBookingSummary() {
+        const summaryEl = document.getElementById('booking-summary');
+        const summaryText = document.getElementById('booking-summary-text');
+        if (!summaryEl || !summaryText) return;
+        const nameEl = document.getElementById('client-name');
+        const serviceEl = document.getElementById('select-service');
+        const masterEl = document.getElementById('select-barber');
+        const name = nameEl ? nameEl.value.trim() : '';
+        const service = (serviceEl && serviceEl.selectedIndex >= 0)
+            ? serviceEl.options[serviceEl.selectedIndex].text : 'Стрижка';
+        const master = masterEl ? (masterEl.value || 'VOVAN') : 'VOVAN';
+        const date = window.selectedDateText || '';
+        const time = window.selectedTimeText || '';
+        if (name || service) {
+            summaryEl.style.display = 'block';
+            summaryText.innerHTML =
+                (name ? '👤 <b>' + name + '</b><br>' : '') +
+                '✂️ ' + service + '<br>' +
+                '👑 ' + master +
+                (date ? '<br>📅 ' + date + (time ? ' о ' + time : '') : '');
+        } else {
+            summaryEl.style.display = 'none';
+        }
     }
+
+    // Слухачі для live preview
+    ['client-name', 'client-phone'].forEach(function(id) {
+        var el = document.getElementById(id);
+        if (el) el.addEventListener('input', updateBookingSummary);
+    });
+    var serviceEl = document.getElementById('select-service');
+    var masterEl = document.getElementById('select-barber');
+    if (serviceEl) serviceEl.addEventListener('change', updateBookingSummary);
+    if (masterEl) masterEl.addEventListener('change', updateBookingSummary);
+    updateBookingSummary();
+
+    // 📨 SUBMIT HANDLER
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        var btn = document.getElementById('btn-booking-submit');
+        if (btn) { btn.disabled = true; btn.textContent = '⏳ Відправляємо...'; }
+
+        var nameEl2 = document.getElementById('client-name');
+        var phoneEl2 = document.getElementById('client-phone');
+        var commentEl = document.getElementById('booking-comment');
+        var name = nameEl2 ? nameEl2.value.trim() : '';
+        var phone = phoneEl2 ? phoneEl2.value.trim() : '';
+        var comment = commentEl ? commentEl.value.trim() : '';
+
+        // Валідація
+        if (!name) {
+            if (nameEl2) { nameEl2.focus(); }
+            if (typeof showCyberToast === 'function') showCyberToast('⚠️ Вкажіть ваше ім\'я!', '📌');
+            if (btn) { btn.disabled = false; btn.textContent = '⚡ ПІДТВЕРДИТИ ЗАПИС'; }
+            return;
+        }
+
+        var serviceSel = document.getElementById('select-service');
+        var masterSel = document.getElementById('select-barber');
+        var serviceText = (serviceSel && serviceSel.selectedIndex >= 0)
+            ? serviceSel.options[serviceSel.selectedIndex].text
+            : (window.selectedServiceText || 'Стрижка MEGAN 2.0 Cyber Style');
+        var masterText = masterSel ? (masterSel.value || 'VOVAN') : (window.selectedMasterText || 'VOVAN');
+        var dateText = window.selectedDateText || 'Сьогодні';
+        var timeText = window.selectedTimeText || '14:00';
+
+        var priceMatch = serviceText.match(/(\d+)\s*€/);
+        var price = priceMatch ? parseInt(priceMatch[1]) : 40;
+
+        // Telegram username
+        var tgUsername = '';
+        try {
+            var tgU = window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe
+                ? window.Telegram.WebApp.initDataUnsafe.user : null;
+            if (tgU) tgUsername = tgU.username ? '@' + tgU.username : ('TG:' + tgU.id);
+        } catch(err) {}
+
+        var contactLine = phone || tgUsername || 'Не вказано';
+
+        // Повідомлення в Telegram
+        var msg = '📅 <b>НОВИЙ ЗАПИС ДО СТУДІЇ!</b>\n' +
+            '👤 Клієнт: <b>' + name + '</b>\n' +
+            '📱 Контакт: <b>' + contactLine + '</b>\n' +
+            '✂️ Послуга: <b>' + serviceText + '</b>\n' +
+            '👑 Майстер: <b>' + masterText + '</b>\n' +
+            '📅 Дата: <b>' + dateText + ' о ' + timeText + '</b>\n' +
+            '💰 Ціна: <b>' + price + ' €</b>' +
+            (comment ? '\n💬 Побажання: ' + comment : '');
+        if (typeof sendBotNotification === 'function') {
+            try { sendBotNotification(msg); } catch(err) {}
+        }
+
+        // Збереження в DB
+        try {
+            var db = getLocalDB();
+            var newId = db.orders.length > 0 ? Math.max.apply(null, db.orders.map(function(o) { return o.id; })) + 1 : 100;
+            db.orders.unshift({
+                id: newId,
+                Client: name,
+                Service: serviceText.replace(/\s*—\s*\d+\s*€/, '').replace(/^\W+\s*/, ''),
+                Price: price,
+                Date: dateText + ' ' + timeText,
+                Status: 'Новий',
+                Master: masterText,
+                Master_Cut: Math.round(price * 0.45),
+                Payment: 'В салоні',
+                Phone: contactLine,
+                Comment: comment
+            });
+            saveLocalDB(db);
+        } catch(err) {}
+
+        if (typeof triggerHaptic === 'function') triggerHaptic('success');
+        if (typeof showCyberToast === 'function') {
+            showCyberToast('✅ ' + name + ', запис підтверджено! Чекаємо на вас 🏰', '🎉');
+        }
+
+        setTimeout(function() {
+            if (typeof closeModal === 'function') closeModal();
+            form.reset();
+            window.selectedDateText = '';
+            window.selectedTimeText = '';
+            var summary = document.getElementById('booking-summary');
+            if (summary) summary.style.display = 'none';
+            if (btn) { btn.disabled = false; btn.textContent = '⚡ ПІДТВЕРДИТИ ЗАПИС'; }
+            // Оновити CRM
+            if (typeof populateCRM === 'function') { try { populateCRM(); } catch(err) {} }
+        }, 400);
+    });
 }
 
 // CRM populate expose
@@ -2299,15 +2427,10 @@ window.populateDirector = window.populateDirector || function() {};
 
 // ⚡ ГАРАНТОВАНИЙ ЗАПУСК ПІСЛЯ DOM
 document.addEventListener('DOMContentLoaded', function() {
-    // Ініціалізація форми запису
     initBookingForm();
-    // Ініціалізація CRM якщо є
     if (typeof populateCRM === 'function') { try { populateCRM(); } catch(e) {} }
-    // Ініціалізація директор
     if (typeof populateDirector === 'function') { try { populateDirector(); } catch(e) {} }
-    // Ініціалізація складу
     if (typeof populateWarehouse === 'function') { try { populateWarehouse(); } catch(e) {} }
-    // Ініціалізація розкладу майстра
     if (typeof window.populateMasterSchedule === 'function') { try { window.populateMasterSchedule(); } catch(e) {} }
     console.log('✅ MEGAN 2.0: All modules initialized');
 });

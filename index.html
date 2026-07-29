@@ -614,12 +614,26 @@
     </div>
 </div>
 
-<!-- Модальное окно записи с ПОЛНЫМИ ПОЛЯМИ -->
+<!-- Модальне вікно запису -->
 <div id="booking-modal" class="modal-overlay">
     <div class="vintage-modal">
         <button class="close-modal" onclick="closeModal()">&times;</button>
-        
-        
+
+        <!-- 🎯 ЗАГОЛОВОК ФОРМИ -->
+        <div style="text-align:center; margin-bottom:12px; padding-bottom:10px; border-bottom:1px solid rgba(0,162,255,0.2);">
+            <div style="font-family:'Orbitron',sans-serif; font-size:1rem; font-weight:900; background:linear-gradient(90deg,var(--cyber-gold),var(--cyber-blue)); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">⚡ ЗАПИС ДО МАЙСТРА</div>
+            <div style="font-size:0.68rem; color:var(--text-sub); margin-top:3px;">VOVAN BEAUTY STUDIO • Nice 🇫🇷</div>
+        </div>
+
+        <!-- 🤖 TELEGRAM AUTO-FILL BANNER -->
+        <div id="tg-autofill-banner" style="background:rgba(0,162,255,0.1); border:1px solid rgba(0,162,255,0.3); border-radius:10px; padding:7px 12px; margin-bottom:10px; display:flex; align-items:center; gap:8px;">
+            <span style="font-size:1rem;">🤖</span>
+            <div>
+                <div style="font-size:0.7rem; color:var(--cyber-blue); font-weight:700;">Дані з Telegram підставлено автоматично</div>
+                <div style="font-size:0.64rem; color:var(--text-sub);">Перевірте та за потреби відредагуйте</div>
+            </div>
+        </div>
+
         <form id="barber-form">
             <!-- ⚡ HYPER-COMPACT NAME & PHONE ROW -->
             <div style="display:grid; grid-template-columns: 1fr 1fr; gap:5px; margin-bottom:6px;">
@@ -699,18 +713,21 @@
                 </div>
             </div>
 
-            
-            <!-- 🎟️ PROMO CODE FIELD -->
-            <div style="display:flex; gap:6px; margin-top:8px; margin-bottom:4px;">
-                <div class="cyber-input-wrapper" style="flex:1; margin:0; background:rgba(0,0,0,0.6); border-color:rgba(0,162,255,0.35); padding:2px 6px; border-radius:6px; height:30px;">
-                    <span class="input-icon" style="font-size:0.68rem; margin-right:4px;">🎟️</span>
-                    <input type="text" id="promo-code-input" placeholder="Промокод (MEGAN2026)" style="font-size:0.68rem; text-transform:uppercase; padding:2px 0 !important; height:100%;">
+            <!-- 💬 COMMENT FIELD -->
+            <div style="margin-top:8px; margin-bottom:6px;">
+                <div class="cyber-input-wrapper" style="margin:0; background:rgba(0,0,0,0.6); border-color:rgba(168,85,247,0.35); padding:4px 8px; border-radius:8px; height:auto; align-items:flex-start;">
+                    <span class="input-icon" style="font-size:0.68rem; margin-right:4px; margin-top:2px;">💬</span>
+                    <textarea id="booking-comment" placeholder="Побажання (необов'язково)" style="font-size:0.68rem; padding:2px 0 !important; height:44px; resize:none; background:transparent; border:none; outline:none; color:#fff; width:100%; font-family:'Montserrat',sans-serif;"></textarea>
                 </div>
-                <button type="button" class="action-btn-sm" onclick="applyPromoCode()" style="padding:4px 10px; font-size:0.68rem; font-weight:bold; background:rgba(0,162,255,0.2); border:1px solid var(--cyber-blue); color:#fff; border-radius:6px; cursor:pointer;">Застосувати</button>
             </div>
-            <div id="promo-discount-badge" style="font-size:0.7rem; color:var(--accent-green); font-weight:bold; display:none; margin-bottom:6px;">✅ Промокод застосовано: Скидка -10 €!</div>
 
-            <button type="submit" class="ticket-btn" style="width:100%; margin-top:10px;" data-i18n="btn-confirm">⚡ ПІДТВЕРДИТИ ЗАПИС</button>
+            <!-- ⚡ SUMMARY PREVIEW -->
+            <div id="booking-summary" style="background:rgba(0,162,255,0.07); border:1px solid rgba(0,162,255,0.2); border-radius:10px; padding:8px 12px; margin-bottom:10px; font-size:0.71rem; color:var(--text-sub); display:none;">
+                <div style="color:#fff; font-weight:700; margin-bottom:4px;">📋 Ваш запис:</div>
+                <div id="booking-summary-text"></div>
+            </div>
+
+            <button type="submit" id="btn-booking-submit" class="ticket-btn" style="width:100%; margin-top:6px; font-size:0.88rem;" data-i18n="btn-confirm">⚡ ПІДТВЕРДИТИ ЗАПИС</button>
 
         </form>
     </div>
