@@ -1012,5 +1012,33 @@
     </div>
 </div>
 
+
+<!-- 💼 CRM КЛІЄНТ ДІЇ МОДАЛЬНЕ ВІКНО -->
+<div id="crm-client-action-modal" class="modal-overlay">
+    <div class="vintage-modal" style="max-width:420px; text-align:center;">
+        <button class="close-modal" onclick="closeCrmClientModal()">&times;</button>
+        <h3 style="font-family:'Orbitron'; color:var(--cyber-gold); margin-bottom:6px;" id="crm-modal-client-name">👤 КЛІЄНТ</h3>
+        <div style="font-size:0.75rem; color:var(--cyber-blue); font-weight:bold; margin-bottom:12px;" id="crm-modal-client-tier">👑 VIP GOLD TIER</div>
+
+        <div style="background:#121926; border:1px solid rgba(0,162,255,0.2); border-radius:12px; padding:12px; margin-bottom:14px;">
+            <div style="display:flex; justify-content:space-around; text-align:center;">
+                <div>
+                    <div style="font-size:0.7rem; color:var(--text-sub);">Загальний LTV:</div>
+                    <div style="font-family:'Orbitron'; font-size:1.1rem; color:var(--cyber-gold); font-weight:bold;" id="crm-modal-client-ltv">0 €</div>
+                </div>
+                <div>
+                    <div style="font-size:0.7rem; color:var(--text-sub);">Всього візитів:</div>
+                    <div style="font-family:'Orbitron'; font-size:1.1rem; color:var(--accent-green); font-weight:bold;" id="crm-modal-client-visits">0</div>
+                </div>
+            </div>
+        </div>
+
+        <div style="display:flex; flex-direction:column; gap:8px; margin-bottom:12px;">
+            <button class="cyber-unified-btn" style="padding:10px; background:linear-gradient(135deg, var(--cyber-blue) 0%, #0055b3 100%);" onclick="notifyClientTelegram()">💬 НАДІСЛАТИ НАГАДУВАННЯ У TELEGRAM</button>
+            <button class="action-btn-sm" style="padding:10px; background:rgba(255,215,0,0.15); border:1px solid var(--cyber-gold); color:var(--cyber-gold); font-weight:bold;" onclick="awardLoyaltyPoints()">🎁 НАРАХУВАТИ +50 БОНУСНИХ БАЛІВ</button>
+        </div>
+    </div>
+</div>
+
 </body>
 </html>

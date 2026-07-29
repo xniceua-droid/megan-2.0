@@ -489,7 +489,7 @@ window.sendQuickChatMessage = function(text) {
             else if (c.total >= 80) { tierBadge = '🥈 Silver VIP'; tierColor = 'var(--cyber-blue)'; }
 
             html += `
-            <div style="background:#121926; border:1px solid rgba(255,255,255,0.08); border-radius:10px; padding:10px; margin-bottom:8px; display:flex; justify-content:space-between; align-items:center;">
+            <div style="background:#121926; border:1px solid rgba(255,255,255,0.08); border-radius:10px; padding:10px; margin-bottom:8px; display:flex; justify-content:space-between; align-items:center; cursor:pointer;" onclick="openCrmClientModal(\'${name}\', ${c.total}, ${c.count}, \`${tierBadge}\`)">
                 <div>
                     <div style="font-weight:bold; color:#fff; font-size:0.85rem;">${name}</div>
                     <div style="font-size:0.72rem; color:var(--text-sub);">Візитів: ${c.count} • Останній: ${c.lastDate}</div>
@@ -1315,4 +1315,45 @@ window.sendQuickChatMessage = function(text) {
     window.takeMasterBreak = function() {
         if (typeof triggerHaptic === 'function') triggerHaptic('medium');
         if (typeof showCyberToast === 'function') showCyberToast('Паузу на 15 хвилин додано у розклад!', '☕');
+    };
+
+    // 💼 CRM CLIENT ACTION MODAL LOGIC
+    window.selectedCrmClient = '';
+
+    window.openCrmClientModal = function(name, ltv, visits, tier) {
+        window.selectedCrmClient = name;
+        if (typeof triggerHaptic === 'function') triggerHaptic('medium');
+        
+        const modal = document.getElementById('crm-client-action-modal');
+        const elName = document.getElementById('crm-modal-client-name');
+        const elTier = document.getElementById('crm-modal-client-tier');
+        const elLtv = document.getElementById('crm-modal-client-ltv');
+        const elVisits = document.getElementById('crm-modal-client-visits');
+
+        if (elName) elName.innerText = '👤 ' + name;
+        if (elTier) elTier.innerText = tier;
+        if (elLtv) elLtv.innerText = ltv + ' €';
+        if (elVisits) elVisits.innerText = visits;
+
+        if (modal) modal.classList.add('active');
+    };
+
+    window.closeCrmClientModal = function() {
+        if (typeof triggerHaptic === 'function') triggerHaptic('light');
+        const modal = document.getElementById('crm-client-action-modal');
+        if (modal) modal.classList.remove('active');
+    };
+
+    window.notifyClientTelegram = function() {
+        const msg = `🔔 <b>НАГАДУВАННЯ КЛІЄНТУ</b>\nДоброго дня, ${window.selectedCrmClient}! Нагадуємо про ваш візит у VOVAN BEAUTY STUDIO у Ніцці 🇫🇷.`;
+        if (typeof sendBotNotification === 'function') sendBotNotification(msg);
+        if (typeof triggerHaptic === 'function') triggerHaptic('success');
+        if (typeof showCyberToast === 'function') showCyberToast('Нагадування надіслано ' + window.selectedCrmClient + '!', '💬');
+        window.closeCrmClientModal();
+    };
+
+    window.awardLoyaltyPoints = function() {
+        if (typeof triggerHaptic === 'function') triggerHaptic('success');
+        if (typeof showCyberToast === 'function') showCyberToast('+50 бонусів нараховано клієнту ' + window.selectedCrmClient + '!', '🎁');
+        window.closeCrmClientModal();
     };
