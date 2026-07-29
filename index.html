@@ -347,19 +347,19 @@
             <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);" data-i18n="shop-title">🛍️ МАРКЕТПЛЕЙС</h3>
             <div class="shop-grid">
                 <div class="shop-card">
-                    <img src="shop_lipstick.jpg" alt="Помада MEGAN 2.0 Matte" class="shop-img">
+                    <img src="shop_lipstick.jpg" alt="Помада MEGAN 2.0 Matte" class="shop-img" onclick="openShopItemModal('Помада MEGAN 2.0 Matte', 25, 'shop_lipstick.jpg')" style="cursor:pointer;">
                     <div class="shop-title" style="font-size:0.82rem; font-weight:bold; color:#fff; height:36px;" data-i18n="shop-item-1">Помада MEGAN 2.0 Matte</div>
                     <div class="shop-price" style="font-family:'Orbitron'; color:var(--cyber-gold); font-size:1.05rem; margin:6px 0;">25 €</div>
                     <button class="cyber-unified-btn" onclick="buyShopItem('Помада MEGAN 2.0 Matte')" data-i18n="btn-buy">🛒 У кошик</button>
                 </div>
                 <div class="shop-card">
-                    <img src="shop_gel.jpg" alt="Голографічний гель" class="shop-img">
+                    <img src="shop_gel.jpg" alt="Голографічний гель" class="shop-img" onclick="openShopItemModal('Голографічний гель', 15, 'shop_gel.jpg')" style="cursor:pointer;">
                     <div class="shop-title" style="font-size:0.82rem; font-weight:bold; color:#fff; height:36px;" data-i18n="shop-item-2">Голографічний гель</div>
                     <div class="shop-price" style="font-family:'Orbitron'; color:var(--cyber-gold); font-size:1.05rem; margin:6px 0;">15 €</div>
                     <button class="cyber-unified-btn" onclick="buyShopItem('Голографічний гель')" data-i18n="btn-buy">🛒 У кошик</button>
                 </div>
                 <div class="shop-card">
-                    <img src="shop_beard_oil.jpg" alt="Кібер-олія для бороди" class="shop-img">
+                    <img src="shop_beard_oil.jpg" alt="Кібер-олія для бороди" class="shop-img" onclick="openShopItemModal('Кібер-олія для бороди', 20, 'shop_beard_oil.jpg')" style="cursor:pointer;">
                     <div class="shop-title" style="font-size:0.82rem; font-weight:bold; color:#fff; height:36px;" data-i18n="shop-item-3">Кібер-олія для бороди</div>
                     <div class="shop-price" style="font-family:'Orbitron'; color:var(--cyber-gold); font-size:1.05rem; margin:6px 0;">20 €</div>
                     <button class="cyber-unified-btn" onclick="buyShopItem('Кібер-олія для бороди')" data-i18n="btn-buy">🛒 У кошик</button>
@@ -1232,6 +1232,29 @@
         </div>
 
         <button class="cyber-unified-btn" style="width:100%; padding:12px;" onclick="confirmAiScanBooking()">⚡ ЗАПИСАТИСЯ НА РЕКОМЕНДОВАНИЙ СТИЛЬ</button>
+    </div>
+</div>
+
+
+<!-- 🛍️ МАРКЕТПЛЕЙС ТОВАР ДЕТАЛІ МОДАЛЬНЕ ВІКНО -->
+<div id="shop-item-modal" class="modal-overlay">
+    <div class="vintage-modal" style="max-width:420px; text-align:center;">
+        <button class="close-modal" onclick="closeShopItemModal()">&times;</button>
+        <h3 style="font-family:'Orbitron'; color:var(--cyber-gold); margin-bottom:4px;" id="shop-modal-title">🛍️ ПОМАДА MEGAN 2.0 MATTE</h3>
+        <div style="font-size:0.78rem; color:var(--cyber-blue); font-weight:bold; margin-bottom:10px;" id="shop-modal-price">25 € • 50 мл</div>
+
+        <div style="border-radius:12px; overflow:hidden; border:1px solid var(--cyber-gold); margin-bottom:12px; height:180px;">
+            <img id="shop-modal-img" src="shop_lipstick.jpg" style="width:100%; height:100%; object-fit:cover;">
+        </div>
+
+        <div style="background:#121926; border:1px solid rgba(255,255,255,0.08); border-radius:10px; padding:10px; text-align:left; font-size:0.75rem; color:var(--text-sub); margin-bottom:12px; display:flex; flex-direction:column; gap:4px;">
+            <div>✨ <b>Опис та характеристики:</b></div>
+            <div>• Професійна преміум-косметика французького бренду</div>
+            <div>• Стійкість 24 години без пересушування</div>
+            <div>• Виробництво: Франція (Nice, Côte d'Azur 🇫🇷)</div>
+        </div>
+
+        <button class="cyber-unified-btn" style="width:100%; padding:12px; background:linear-gradient(135deg, var(--cyber-gold) 0%, #ffaa00 100%); color:#000; font-family:'Orbitron'; font-weight:900;" onclick="confirmShopItemAdd()">🛒 ДОДАТИ У КОШИК</button>
     </div>
 </div>
 

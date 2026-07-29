@@ -1697,3 +1697,39 @@ const tg = window.Telegram.WebApp;
         window.closeAiScannerModal();
         if (typeof openModal === 'function') openModal();
     };
+
+    // 🛍️ SHOP ITEM DETAIL MODAL LOGIC
+    window.selectedShopItemName = 'Помада MEGAN 2.0 Matte';
+    window.selectedShopItemPrice = 25;
+
+    window.openShopItemModal = function(itemName, price, imgSrc) {
+        window.selectedShopItemName = itemName;
+        window.selectedShopItemPrice = price || 25;
+
+        if (typeof triggerHaptic === 'function') triggerHaptic('medium');
+        if (typeof playCyberAudioFx === 'function') playCyberAudioFx('click');
+
+        const modal = document.getElementById('shop-item-modal');
+        const titleEl = document.getElementById('shop-modal-title');
+        const priceEl = document.getElementById('shop-modal-price');
+        const imgEl = document.getElementById('shop-modal-img');
+
+        if (titleEl) titleEl.innerText = itemName;
+        if (priceEl) priceEl.innerText = price + ' € • 50 мл';
+        if (imgEl && imgSrc) imgEl.src = imgSrc;
+
+        if (modal) modal.classList.add('active');
+    };
+
+    window.closeShopItemModal = function() {
+        if (typeof triggerHaptic === 'function') triggerHaptic('light');
+        const modal = document.getElementById('shop-item-modal');
+        if (modal) modal.classList.remove('active');
+    };
+
+    window.confirmShopItemAdd = function() {
+        if (typeof buyShopItem === 'function') {
+            buyShopItem(window.selectedShopItemName, window.selectedShopItemPrice);
+        }
+        window.closeShopItemModal();
+    };
