@@ -1965,3 +1965,29 @@ const tg = window.Telegram.WebApp;
         if (typeof triggerHaptic === 'function') triggerHaptic('medium');
         if (typeof showCyberToast === 'function') showCyberToast('Виклик таксі ' + service + ' до Promenade des Anglais ⚡', '🚕');
     };
+
+window.openModal = typeof openModal !== 'undefined' ? openModal : function(){};
+window.closeModal = typeof closeModal !== 'undefined' ? closeModal : function(){};
+window.switchTab = typeof switchTab !== 'undefined' ? switchTab : function(){};
+window.switchERPTab = typeof switchERPTab !== 'undefined' ? switchERPTab : function(){};
+window.selectBarberModal = typeof selectBarberModal !== 'undefined' ? selectBarberModal : function(){};
+window.pickMasterCard = typeof pickMasterCard !== 'undefined' ? pickMasterCard : function(){};
+window.pickServiceChip = typeof pickServiceChip !== 'undefined' ? pickServiceChip : function(){};
+window.closeConciergeModal = typeof closeConciergeModal !== 'undefined' ? closeConciergeModal : function(){};
+window.confirmConcierge = typeof confirmConcierge !== 'undefined' ? confirmConcierge : function(){};
+window.openSettingsModal = typeof openSettingsModal !== 'undefined' ? openSettingsModal : function(){};
+window.closeSettingsModal = typeof closeSettingsModal !== 'undefined' ? closeSettingsModal : function(){};
+window.openQRModal = typeof openQRModal !== 'undefined' ? openQRModal : function(){};
+window.closeQRModal = typeof closeQRModal !== 'undefined' ? closeQRModal : function(){};
+window.closeMasterTipModal = typeof closeMasterTipModal !== 'undefined' ? closeMasterTipModal : function(){};
+window.sendTip = typeof sendTip !== 'undefined' ? sendTip : function(){};
+window.updateCartQty = typeof updateCartQty !== 'undefined' ? updateCartQty : function(){};
+window.toggleNeonTheme = typeof toggleNeonTheme !== 'undefined' ? toggleNeonTheme : function(){};
+window.updateOrderStatus = typeof updateOrderStatus !== 'undefined' ? updateOrderStatus : function(){};
+window.deleteOrder = typeof deleteOrder !== 'undefined' ? deleteOrder : function(){};
+window.payMasterSalary = typeof payMasterSalary !== 'undefined' ? payMasterSalary : function(){};
+    // ⚡ Guaranteed Boot Preloader Hide
+    setTimeout(function() {
+        const p = document.getElementById('preloader');
+        if (p) { p.style.opacity = '0'; p.style.pointerEvents = 'none'; setTimeout(function(){ p.style.display = 'none'; }, 300); }
+    }, 1500);
