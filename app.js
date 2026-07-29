@@ -1788,3 +1788,24 @@ function switchTab(pageId) {
         }
         if (typeof openModal === 'function') openModal();
     };
+
+    // 🎟️ PROMO CODE SYSTEM
+    window.appliedPromoDiscount = 0;
+
+    window.applyPromoCode = function() {
+        const input = document.getElementById('promo-code-input');
+        const badge = document.getElementById('promo-discount-badge');
+        const code = input ? input.value.trim().toUpperCase() : '';
+
+        if (code === 'MEGAN2026' || code === 'VOVAN10' || code === 'VIP10') {
+            window.appliedPromoDiscount = 10;
+            if (badge) badge.style.display = 'block';
+            if (typeof triggerHaptic === 'function') triggerHaptic('success');
+            if (typeof showCyberToast === 'function') showCyberToast('Промокод ' + code + ' застосовано (-10€)!', '🎟️');
+        } else {
+            window.appliedPromoDiscount = 0;
+            if (badge) badge.style.display = 'none';
+            if (typeof triggerHaptic === 'function') triggerHaptic('error');
+            if (typeof showCyberToast === 'function') showCyberToast('Невірний промокод!', '⚠️');
+        }
+    };
