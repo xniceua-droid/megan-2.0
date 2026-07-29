@@ -1733,3 +1733,59 @@ const tg = window.Telegram.WebApp;
         }
         window.closeShopItemModal();
     };
+
+    // 💳 PAYMENT GATEWAY SYSTEM LOGIC
+    window.selectedPaymentMethod = 'Apple Pay';
+    window.currentCheckoutAmount = 40;
+
+    window.setBookingPaymentMethod = function(method, el) {
+        if (typeof triggerHaptic === 'function') triggerHaptic('light');
+        window.selectedPaymentMethod = method;
+        const container = el.parentElement;
+        if (container) {
+            container.querySelectorAll('.cyber-chip').forEach(c => c.classList.remove('active'));
+            el.classList.add('active');
+        }
+    };
+
+    window.openPaymentCheckoutModal = function(amount) {
+        window.currentCheckoutAmount = amount || 40;
+        if (typeof triggerHaptic === 'function') triggerHaptic('medium');
+        if (typeof playCyberAudioFx === 'function') playCyberAudioFx('click');
+
+        const modal = document.getElementById('payment-checkout-modal');
+        const amountEl = document.getElementById('pay-total-amount');
+        const tonEl = document.getElementById('pay-ton-equivalent');
+
+        if (amountEl) amountEl.innerText = window.currentCheckoutAmount + ' €';
+        if (tonEl) tonEl.innerText = '💎 Еквівалент TON: ~' + (window.currentCheckoutAmount / 6.5).toFixed(2) + ' TON';
+
+        if (modal) modal.classList.add('active');
+    };
+
+    window.closePaymentCheckoutModal = function() {
+        if (typeof triggerHaptic === 'function') triggerHaptic('light');
+        const modal = document.getElementById('payment-checkout-modal');
+        if (modal) modal.classList.remove('active');
+    };
+
+    window.selectPayMethod = function(methodType, el) {
+        if (typeof triggerHaptic === 'function') triggerHaptic('light');
+        document.querySelectorAll('.pay-method-btn').forEach(b => b.classList.remove('active'));
+        if (el) el.classList.add('active');
+        if (methodType === 'apple') window.selectedPaymentMethod = 'Apple Pay / Google Pay';
+        else if (methodType === 'ton') window.selectedPaymentMethod = 'TON Crypto';
+        else window.selectedPaymentMethod = 'Готівкою в салоні';
+    };
+
+    window.processPaymentCheckout = function() {
+        if (typeof triggerHaptic === 'function') triggerHaptic('success');
+        if (typeof playCyberAudioFx === 'function') playCyberAudioFx('success');
+
+        const msg = `💳 <b>ОПЛАТУ ПІДТВЕРДЖЕНО!</b>\nСума: <b>${window.currentCheckoutAmount} €</b>\nСпосіб: <b>${window.selectedPaymentMethod}</b>`;
+
+        if (typeof sendBotNotification === 'function') sendBotNotification(msg);
+        if (typeof showCyberToast === 'function') showCyberToast('Оплата на ' + window.currentCheckoutAmount + '€ успішна! 💳', '✅');
+
+        window.closePaymentCheckoutModal();
+    };

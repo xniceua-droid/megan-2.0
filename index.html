@@ -1258,5 +1258,38 @@
     </div>
 </div>
 
+
+<!-- 💳 СИСТЕМА ОПЛАТИ (PAYMENT CHECKOUT GATEWAY 2026) -->
+<div id="payment-checkout-modal" class="modal-overlay">
+    <div class="vintage-modal" style="max-width:440px; text-align:center;">
+        <button class="close-modal" onclick="closePaymentCheckoutModal()">&times;</button>
+        <h3 style="font-family:'Orbitron'; color:var(--cyber-gold); margin-bottom:4px;">💳 ОПЛАТА ПОСЛУГИ / ТОВАРУ</h3>
+        <div style="font-size:0.78rem; color:var(--text-sub); margin-bottom:12px;">Оберіть зручний спосіб безконтактної оплати</div>
+
+        <div style="background:#121926; border:1px solid var(--cyber-blue); border-radius:12px; padding:12px; margin-bottom:14px; text-align:left;">
+            <div style="display:flex; justify-content:space-between; font-size:0.85rem; color:#fff; font-weight:bold; margin-bottom:6px;">
+                <span>Сума до сплати:</span>
+                <span style="font-family:'Orbitron'; color:var(--accent-green);" id="pay-total-amount">40 €</span>
+            </div>
+            <div style="font-size:0.72rem; color:var(--cyber-blue);" id="pay-ton-equivalent">💎 Еквівалент TON: ~6.2 TON</div>
+        </div>
+
+        <!-- Payment Method Selection Grid -->
+        <div style="display:flex; flex-direction:column; gap:8px; margin-bottom:14px;">
+            <button class="cyber-unified-btn pay-method-btn active" onclick="selectPayMethod('apple', this)" style="background:rgba(255,255,255,0.1); border:1px solid #fff; justify-content:center; gap:8px;">
+                🍎 Apple Pay / 🤖 Google Pay
+            </button>
+            <button class="cyber-unified-btn pay-method-btn" onclick="selectPayMethod('ton', this)" style="background:rgba(0,152,234,0.15); border:1px solid #0098ea; color:#0098ea; justify-content:center; gap:8px;">
+                💎 TON Crypto (Telegram Wallet)
+            </button>
+            <button class="cyber-unified-btn pay-method-btn" onclick="selectPayMethod('cash', this)" style="background:rgba(0,230,118,0.15); border:1px solid var(--accent-green); color:var(--accent-green); justify-content:center; gap:8px;">
+                💶 Готівкою або карткою в салоні (Ніцца)
+            </button>
+        </div>
+
+        <button class="cyber-unified-btn" style="width:100%; padding:12px; background:linear-gradient(135deg, var(--accent-green) 0%, #009944 100%); font-weight:bold;" onclick="processPaymentCheckout()">⚡ СТИЧНО ОПЛАТИТИ 1-TAP</button>
+    </div>
+</div>
+
 </body>
 </html>
