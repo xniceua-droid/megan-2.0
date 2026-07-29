@@ -2099,8 +2099,8 @@ window.addEventListener('load', () => setTimeout(hidePreloaderSmooth, 800));
 
 
 
-window.pickMasterCard = typeof pickMasterCard !== 'undefined' ? pickMasterCard : function(){};
-window.pickServiceChip = typeof pickServiceChip !== 'undefined' ? pickServiceChip : function(){};
+// pickMasterCard - визначається нижче (force override)
+// pickServiceChip - визначається нижче (force override)
 window.closeConciergeModal = typeof closeConciergeModal !== 'undefined' ? closeConciergeModal : function(){};
 window.confirmConcierge = typeof confirmConcierge !== 'undefined' ? confirmConcierge : function(){};
 window.openSettingsModal = typeof openSettingsModal !== 'undefined' ? openSettingsModal : function(){};
@@ -2151,56 +2151,163 @@ window.closeQRModal = window.closeQRModal || function() {
 };
 
 // 💈 Pick Master Card (для вибору майстра в booking modal)
-window.pickMasterCard = window.pickMasterCard || function(masterName, el) {
+// 💈 Pick Master Card — FORCE OVERRIDE
+window.pickMasterCard = function(masterName, el) {
     if (typeof triggerHaptic === 'function') triggerHaptic('light');
-    document.querySelectorAll('#barber-picker-container .cyber-picker-btn').forEach(b => {
+
+    // Скидаємо всі кнопки майстра
+    document.querySelectorAll('#barber-picker-container .cyber-picker-btn').forEach(function(b) {
         b.classList.remove('active');
-        b.style.borderColor = 'rgba(255,255,255,0.15)';
+        b.style.borderColor = 'rgba(255,255,255,0.2)';
         b.style.background = 'rgba(255,255,255,0.05)';
+        b.style.color = 'var(--text-sub, #8b9ab5)';
     });
+
+    // Активуємо вибраного
     if (el) {
         el.classList.add('active');
-        el.style.borderColor = 'var(--cyber-gold)';
-        el.style.background = 'rgba(255,215,0,0.15)';
+        el.style.borderColor = 'var(--cyber-gold, #ffd700)';
+        el.style.background = 'rgba(255,215,0,0.2)';
+        el.style.color = '#fff';
     }
+
+    // Оновлюємо select
     const selectEl = document.getElementById('select-barber');
     if (selectEl) {
-        for (let opt of selectEl.options) {
-            if (opt.text.includes(masterName)) { selectEl.value = opt.value; break; }
+        for (let i = 0; i < selectEl.options.length; i++) {
+            if (selectEl.options[i].value === masterName || 
+                selectEl.options[i].text.indexOf(masterName) !== -1) {
+                selectEl.selectedIndex = i;
+                break;
+            }
         }
     }
-    if (typeof checkAvailableSlots === 'function') checkAvailableSlots();
-};
+    window.selectedMasterText = masterName;
 
-// 🎟️ Pick Service Chip
-window.pickServiceChip = window.pickServiceChip || function(serviceName, el) {
+    // Оновлюємо слоти
+    if (typeof checkAvailableSlots === 'function') {
+        try { checkAvailableSlots(); } catch(e) {}
+    }
+
+    // Оновити live summary
+    var summaryEl = document.getElementById('booking-summary');
+    if (summaryEl && summaryEl.style.display !== 'none') {
+        var summaryText = document.getElementById('booking-summary-text');
+        if (summaryText) {
+            var nameEl = document.getElementById('client-name');
+            var nm = nameEl ? nameEl.value.trim() : '';
+            var svc = window.selectedServiceText || '✂️ Послуга';
+            var date = window.selectedDateText || '';
+            var time = window.selectedTimeText || '';
+            summaryText.innerHTML =
+                (nm ? '👤 <b>' + nm + '</b><br>' : '') +
+                '✂️ <b>' + svc + '</b><br>' +
+                '👑 <b>' + masterName + '</b>' +
+                (date ? '<br>📅 ' + date + (time ? ' о ' + time : '') : '');
+        }
+    }
+};
+// 🎟️ Pick Service Chip — FORCE OVERRIDE (правильний контейнер)
+window.pickServiceChip = function(serviceName, el) {
     if (typeof triggerHaptic === 'function') triggerHaptic('light');
-    document.querySelectorAll('#service-picker-container .cyber-picker-btn').forEach(b => {
+
+    // Скидаємо всі чіпи послуг (клас .cyber-chip в #service-chips-container)
+    document.querySelectorAll('#service-chips-container .cyber-chip').forEach(function(b) {
         b.classList.remove('active');
         b.style.borderColor = 'rgba(255,255,255,0.15)';
         b.style.background = 'rgba(255,255,255,0.05)';
+        b.style.color = 'var(--text-sub, #8b9ab5)';
     });
+
+    // Активуємо натиснутий
     if (el) {
         el.classList.add('active');
-        el.style.borderColor = 'var(--cyber-blue)';
-        el.style.background = 'rgba(0,162,255,0.15)';
+        el.style.borderColor = 'var(--cyber-blue, #00a2ff)';
+        el.style.background = 'rgba(0,162,255,0.2)';
+        el.style.color = '#fff';
     }
+
+    // Оновлюємо прихований select
     const serviceSelect = document.getElementById('select-service');
     if (serviceSelect) {
-        for (let opt of serviceSelect.options) {
-            if (opt.text.includes(serviceName)) { serviceSelect.value = opt.value; break; }
+        for (let i = 0; i < serviceSelect.options.length; i++) {
+            const optVal = serviceSelect.options[i].value || '';
+            const optText = serviceSelect.options[i].text || '';
+            if (optVal === serviceName || optText === serviceName || 
+                optVal.indexOf(serviceName.replace(/ (.*)$/, '')) !== -1) {
+                serviceSelect.value = serviceSelect.options[i].value;
+                break;
+            }
         }
+        // Якщо точного збігу немає — пробуємо по частині
+        if (!serviceSelect.value && serviceSelect.options.length > 0) {
+            for (let i = 0; i < serviceSelect.options.length; i++) {
+                if (serviceSelect.options[i].value === serviceName) {
+                    serviceSelect.selectedIndex = i;
+                    break;
+                }
+            }
+        }
+        // Зберігаємо для submit
+        window.selectedServiceText = serviceName;
+    }
+
+    // Оновити live summary
+    var summaryEl = document.getElementById('booking-summary');
+    var summaryText = document.getElementById('booking-summary-text');
+    if (summaryEl && summaryText) {
+        var nameEl = document.getElementById('client-name');
+        var name = nameEl ? nameEl.value.trim() : '';
+        var masterSel = document.getElementById('select-barber');
+        var master = masterSel ? (masterSel.value || 'VOVAN') : 'VOVAN';
+        var date = window.selectedDateText || '';
+        var time = window.selectedTimeText || '';
+        summaryEl.style.display = 'block';
+        summaryText.innerHTML =
+            (name ? '👤 <b>' + name + '</b><br>' : '') +
+            '✂️ <b>' + serviceName + '</b><br>' +
+            '👑 ' + master +
+            (date ? '<br>📅 ' + date + (time ? ' о ' + time : '') : '');
     }
 };
 
 // ⏰ Select Time Slot
-window.selectTimeSlot = window.selectTimeSlot || function(time, el) {
+// ⏰ Select Time Slot — FORCE OVERRIDE
+window.selectTimeSlot = function(time, el) {
     if (typeof triggerHaptic === 'function') triggerHaptic('light');
-    document.querySelectorAll('.slot-btn').forEach(s => s.classList.remove('selected'));
-    if (el) el.classList.add('selected');
-    if (typeof window !== 'undefined') window.selectedTimeText = time;
-};
+    document.querySelectorAll('.slot-btn').forEach(function(s) {
+        s.classList.remove('selected');
+        s.style.background = 'rgba(0,162,255,0.08)';
+        s.style.borderColor = 'rgba(0,162,255,0.25)';
+        s.style.color = 'var(--cyber-blue, #00a2ff)';
+    });
+    if (el) {
+        el.classList.add('selected');
+        el.style.background = 'rgba(0,162,255,0.3)';
+        el.style.borderColor = 'var(--cyber-blue, #00a2ff)';
+        el.style.color = '#fff';
+        el.style.fontWeight = '900';
+    }
+    window.selectedTimeText = time;
 
+    // Оновити live summary
+    var summaryEl = document.getElementById('booking-summary');
+    if (summaryEl && summaryEl.style.display !== 'none') {
+        var summaryText = document.getElementById('booking-summary-text');
+        if (summaryText) {
+            var nameEl = document.getElementById('client-name');
+            var nm = nameEl ? nameEl.value.trim() : '';
+            var svc = window.selectedServiceText || '';
+            var master = window.selectedMasterText || 'VOVAN';
+            var date = window.selectedDateText || 'Сьогодні';
+            summaryText.innerHTML =
+                (nm ? '👤 <b>' + nm + '</b><br>' : '') +
+                (svc ? '✂️ <b>' + svc + '</b><br>' : '') +
+                '👑 ' + master +
+                '<br>📅 <b>' + date + ' о ' + time + '</b>';
+        }
+    }
+};
 // 📅 Select Date Card
 window.selectDateCard = window.selectDateCard || function(date, el) {
     if (typeof triggerHaptic === 'function') triggerHaptic('light');
