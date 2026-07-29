@@ -1250,3 +1250,28 @@ function sendChatMessage() {
     }
     setInterval(updateNiceLiveClock, 1000);
     updateNiceLiveClock();
+
+    // 💈 MASTER SHIFT & BREAK CONTROLLER
+    window.isMasterOnShift = true;
+
+    window.toggleMasterShift = function() {
+        window.isMasterOnShift = !window.isMasterOnShift;
+        const statusEl = document.getElementById('master-shift-status');
+        const btnEl = document.getElementById('btn-master-shift');
+
+        if (statusEl) {
+            statusEl.innerText = window.isMasterOnShift ? '🟢 НА ЗМІНІ' : '🔴 ЗМІНУ ЗАВЕРШЕНО';
+            statusEl.style.color = window.isMasterOnShift ? 'var(--accent-green)' : 'var(--accent-red)';
+        }
+        if (btnEl) {
+            btnEl.innerText = window.isMasterOnShift ? '🔴 Завершити зміну' : '🟢 Розпочати зміну';
+        }
+
+        if (typeof triggerHaptic === 'function') triggerHaptic('medium');
+        if (typeof showCyberToast === 'function') showCyberToast(window.isMasterOnShift ? 'Зміну розпочато!' : 'Зміну завершено!', '💈');
+    };
+
+    window.takeMasterBreak = function() {
+        if (typeof triggerHaptic === 'function') triggerHaptic('medium');
+        if (typeof showCyberToast === 'function') showCyberToast('Паузу на 15 хвилин додано у розклад!', '☕');
+    };
