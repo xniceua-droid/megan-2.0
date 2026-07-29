@@ -205,13 +205,24 @@ const tg = window.Telegram.WebApp;
             } catch(e) {}
         }
 
-function sendChatMessage() {
+window.sendQuickChatMessage = function(text) {
+        const input = document.getElementById('chat-input-msg');
+        if (input) {
+            input.value = text;
+            sendChatMessage();
+        }
+    };
+
+    function sendChatMessage() {
         const input = document.getElementById('chat-input-msg');
         const box = document.getElementById('chat-box-el');
+        if (!input || !box) return;
         const text = input.value.trim();
-        if(!text) return;
+        if (!text) return;
         
-        triggerHaptic('light');
+        if (typeof triggerHaptic === 'function') triggerHaptic('light');
+        if (typeof playCyberAudioFx === 'function') playCyberAudioFx('click');
+
         // Add User Message
         const uMsg = document.createElement('div');
         uMsg.className = 'chat-msg user';
@@ -220,26 +231,50 @@ function sendChatMessage() {
         input.value = '';
         box.scrollTop = box.scrollHeight;
         
-        // Bot Reply
+        // Typing indicator
+        const typingEl = document.createElement('div');
+        typingEl.className = 'chat-msg bot';
+        typingEl.style.opacity = '0.75';
+        typingEl.innerText = 'MEGAN 2.0 AI друкує... 🤖';
+        box.appendChild(typingEl);
+        box.scrollTop = box.scrollHeight;
+
+        // Smart Bot AI Reply Engine
         setTimeout(() => {
-            triggerHaptic('success');
+            if (box.contains(typingEl)) box.removeChild(typingEl);
+            if (typeof triggerHaptic === 'function') triggerHaptic('success');
+            if (typeof playCyberAudioFx === 'function') playCyberAudioFx('success');
+
             const bMsg = document.createElement('div');
             bMsg.className = 'chat-msg bot';
             
             const lower = text.toLowerCase();
-            if(lower.includes('привіт') || lower.includes('hello')) {
-                bMsg.innerText = 'Привіт! Я готова забронювати вам час. З якого ви міста?';
-            } else if (lower.includes('цін') || lower.includes('price')) {
-                bMsg.innerText = 'Наші ціни починаються від 35€ за базові послуги та 120€ за VIP. Деталі в меню послуг!';
-            } else if (lower.includes('адрес') || lower.includes('де')) {
-                bMsg.innerText = 'Ми знаходимося в центрі Ніцци: 15 Promenade des Anglais. Замовляйте Uber прямо з додатку!';
+            if (lower.includes('привіт') || lower.includes('hello') || lower.includes('bonjour')) {
+                bMsg.innerText = 'Bonjour! Рада вас бачити у VOVAN BEAUTY STUDIO! Чим можу допомогти? 😊';
+            } else if (lower.includes('цін') || lower.includes('price') || lower.includes('скільки')) {
+                bMsg.innerText = 'Наші ціни: Стрижка Cyber Style — 40€, Комплекс VOVAN VIP — 65€, Королівське Гоління — 45€, Android Spa — 120€. Оплата в EUR, TON або карткою!';
+            } else if (lower.includes('адрес') || lower.includes('де') || lower.includes('локаці')) {
+                bMsg.innerText = 'Студія знаходиться на Лазурному Березі у Ніцці: 15 Promenade des Anglais, 06000 Nice 🇫🇷. Натисніть кнопку "Uber" або "Bolt" у додатоку для швидкого доїзду!';
+            } else if (lower.includes('тренд') || lower.includes('зачіск') || lower.includes('стрижк')) {
+                bMsg.innerText = 'У 2026 році у тренді: Cyber Fade з точним контуром, класичний французький квіфф та VIP кератиновий догляд. Натисніть «⚡ ЗАПИСАТИСЯ ДО МАЙСТРА» для вибору часу!';
+            } else if (lower.includes('бар') || lower.includes('напо')) {
+                bMsg.innerText = 'У нашому VIP Барі доступні: Еспресо, Капучино, Cyber Matcha, Whiskey Chivas (15€) та Dom Pérignon (120€). Подача прямо у крісло!';
             } else {
-                bMsg.innerText = 'Звучить чудово! Якщо у вас є питання щодо запису до VOVAN, я завжди тут.';
+                bMsg.innerText = 'Дякую за питання! Я зафіксувала його. Якщо бажаєте обрати час візиту, скористайтесь кнопкою бронювання у головному меню!';
             }
             
             box.appendChild(bMsg);
             box.scrollTop = box.scrollHeight;
-        }, 1200);
+
+            if (typeof isVoiceEnabled !== 'undefined' && isVoiceEnabled && 'speechSynthesis' in window) {
+                const cleanText = bMsg.innerText.replace(/[😀-🙏🌀-🗿🚀-🛿☀-⛿✀-➿]/gu, '');
+                const utterance = new SpeechSynthesisUtterance(cleanText);
+                utterance.lang = 'uk-UA';
+                utterance.pitch = 1.0;
+                utterance.rate = 1.0;
+                window.speechSynthesis.speak(utterance);
+            }
+        }, 800);
     }
 
     function orderDrink(drink) {
