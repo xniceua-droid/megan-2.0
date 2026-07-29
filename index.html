@@ -223,10 +223,19 @@
                 <div id="ai-scan-status" style="position:absolute; bottom:12px; background:rgba(0,0,0,0.85); color:var(--cyber-gold); font-family:'Orbitron'; font-size:0.72rem; padding:4px 12px; border-radius:12px; border:1px solid var(--cyber-gold);">ГОТОВИЙ ДО СКАНУВАННЯ</div>
             </div>
 
+            
+            <!-- ⚡ AI STYLE PRESET CHIPS -->
+            <div style="display:flex; gap:6px; overflow-x:auto; margin-bottom:12px; scrollbar-width:none;">
+                <div class="cyber-chip active" onclick="setAiStylePreset('Cyberpunk Fade', this)" style="white-space:nowrap; background:rgba(0,162,255,0.2); border:1px solid var(--cyber-blue); padding:5px 10px; border-radius:14px; font-size:0.7rem; font-weight:bold; cursor:pointer; color:#fff;">💈 Cyber Fade</div>
+                <div class="cyber-chip" onclick="setAiStylePreset('French Riviera Classic', this)" style="white-space:nowrap; background:rgba(255,215,0,0.12); border:1px solid rgba(255,215,0,0.3); padding:5px 10px; border-radius:14px; font-size:0.7rem; font-weight:bold; cursor:pointer; color:var(--cyber-gold);">👑 Riviera Classic</div>
+                <div class="cyber-chip" onclick="setAiStylePreset('Neon Hair Glow', this)" style="white-space:nowrap; background:rgba(168,85,247,0.12); border:1px solid rgba(168,85,247,0.3); padding:5px 10px; border-radius:14px; font-size:0.7rem; font-weight:bold; cursor:pointer; color:var(--accent-purple);">⚡ Neon Glow</div>
+            </div>
+
             <div style="display:flex; gap:8px;">
                 <button class="cyber-unified-btn" onclick="startAIScanSimulation()">📸 ЗАПУСТИТИ 3D СКАН</button>
-                <button class="cyber-unified-btn" style="border-color:var(--accent-green); background:rgba(0,230,118,0.15);" onclick="openBookingModal()">✂️ ЗАПИСАТИСЯ</button>
+                <button class="cyber-unified-btn" style="border-color:var(--accent-green); background:rgba(0,230,118,0.15);" onclick="openModal()">✂️ ЗАПИСАТИСЯ</button>
             </div>
+
         </div>
     </div>
 
@@ -772,6 +781,25 @@
                 ✕ ЗАКРИТИ ДОВІДКУ
             </button>
         </div>
+    </div>
+</div>
+
+
+<!-- 🛒 МАРКЕТ КОШИК МОДАЛЬНЕ ВІКНО -->
+<div id="cart-modal" class="modal-overlay">
+    <div class="vintage-modal" style="max-width:440px;">
+        <button class="close-modal" onclick="closeCartModal()">&times;</button>
+        <div class="modal-header" style="text-align:center; margin-bottom:12px;">
+            <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);">🛒 ВАШ КІБЕР-КОШИК</h3>
+        </div>
+        <div id="cart-items-container" style="max-height:220px; overflow-y:auto; margin-bottom:14px;">
+            <!-- Cart items populated dynamically -->
+        </div>
+        <div style="background:rgba(0,162,255,0.1); border:1px solid var(--cyber-blue); border-radius:12px; padding:12px; margin-bottom:14px; display:flex; justify-content:space-between; align-items:center;">
+            <span style="color:var(--text-sub); font-size:0.85rem;">РАЗОМ ДО СПЛАТИ:</span>
+            <span id="cart-total-price" style="font-family:'Orbitron'; font-size:1.3rem; font-weight:900; color:var(--cyber-gold);">0 €</span>
+        </div>
+        <button class="cyber-unified-btn" style="width:100%; padding:12px; background:linear-gradient(135deg, var(--accent-green) 0%, #009624 100%);" onclick="checkoutCart()">⚡ ОФОРМИТИ ЗАМОВЛЕННЯ</button>
     </div>
 </div>
 

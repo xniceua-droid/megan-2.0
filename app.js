@@ -1500,3 +1500,139 @@ function switchTab(pageId) {
             window.selectTimeSlot(slots[0], firstBtn);
         }
     };
+
+    // 🛒 INTERACTIVE CART MANAGEMENT SYSTEM
+    window.shoppingCart = [];
+
+    const originalBuyShopItemImpl = window.buyShopItem;
+    window.buyShopItem = function(itemName, itemPrice) {
+        const priceMap = {
+            'Помада MEGAN 2.0 Matte': 25,
+            'Голографічний гель': 15,
+            'Кібер-олія для бороди': 20,
+            'VOVAN BOOST (Енергетик)': 5
+        };
+        const price = itemPrice || priceMap[itemName] || 20;
+        
+        const existing = window.shoppingCart.find(i => i.name === itemName);
+        if (existing) {
+            existing.qty++;
+        } else {
+            window.shoppingCart.push({ name: itemName, price: price, qty: 1 });
+        }
+
+        let totalItems = 0;
+        window.shoppingCart.forEach(i => totalItems += i.qty);
+
+        const badge = document.getElementById('nav-shop-badge');
+        if (badge) {
+            badge.innerText = totalItems;
+            badge.style.display = totalItems > 0 ? 'inline-block' : 'none';
+        }
+
+        if (typeof showCyberToast === 'function') {
+            showCyberToast('Додано у кошик: ' + itemName + ' (' + price + '€)', '🛒');
+        }
+        if (typeof triggerHaptic === 'function') triggerHaptic('medium');
+    };
+
+    // Make Market nav badge clickable to open Cart Modal
+    document.addEventListener('DOMContentLoaded', () => {
+        const shopBadge = document.getElementById('nav-shop-badge');
+        if (shopBadge) {
+            shopBadge.style.cursor = 'pointer';
+            shopBadge.onclick = function(e) {
+                e.stopPropagation();
+                window.openCartModal();
+            };
+        }
+    });
+
+    window.openCartModal = function() {
+        if (typeof triggerHaptic === 'function') triggerHaptic('medium');
+        const modal = document.getElementById('cart-modal');
+        const container = document.getElementById('cart-items-container');
+        const totalEl = document.getElementById('cart-total-price');
+
+        if (!container) return;
+
+        if (window.shoppingCart.length === 0) {
+            container.innerHTML = '<p style="text-align:center; color:var(--text-sub); font-size:0.85rem; padding:20px 0;">Ваш кошик порожній 🛒</p>';
+            if (totalEl) totalEl.innerText = '0 €';
+        } else {
+            let html = '';
+            let total = 0;
+            window.shoppingCart.forEach((item, index) => {
+                const itemTotal = item.price * item.qty;
+                total += itemTotal;
+                html += `
+                <div style="display:flex; justify-content:space-between; align-items:center; background:#121926; border:1px solid rgba(0,162,255,0.2); border-radius:10px; padding:10px; margin-bottom:8px;">
+                    <div>
+                        <div style="font-weight:bold; color:#fff; font-size:0.82rem;">${item.name}</div>
+                        <div style="font-size:0.75rem; color:var(--cyber-gold);">${item.price} € x ${item.qty} = ${itemTotal} €</div>
+                    </div>
+                    <div style="display:flex; gap:6px; align-items:center;">
+                        <button style="background:rgba(255,215,0,0.2); border:1px solid var(--cyber-gold); color:#fff; width:26px; height:26px; border-radius:6px; font-weight:bold; cursor:pointer;" onclick="updateCartItemQty(${index}, -1)">-</button>
+                        <span style="font-size:0.85rem; color:#fff; font-weight:bold; min-width:16px; text-align:center;">${item.qty}</span>
+                        <button style="background:rgba(0,230,118,0.2); border:1px solid var(--accent-green); color:#fff; width:26px; height:26px; border-radius:6px; font-weight:bold; cursor:pointer;" onclick="updateCartItemQty(${index}, 1)">+</button>
+                    </div>
+                </div>`;
+            });
+            container.innerHTML = html;
+            if (totalEl) totalEl.innerText = total + ' €';
+        }
+
+        if (modal) modal.classList.add('active');
+    };
+
+    window.closeCartModal = function() {
+        if (typeof triggerHaptic === 'function') triggerHaptic('light');
+        const modal = document.getElementById('cart-modal');
+        if (modal) modal.classList.remove('active');
+    };
+
+    window.updateCartItemQty = function(index, delta) {
+        if (window.shoppingCart[index]) {
+            window.shoppingCart[index].qty += delta;
+            if (window.shoppingCart[index].qty <= 0) {
+                window.shoppingCart.splice(index, 1);
+            }
+        }
+        window.openCartModal();
+    };
+
+    window.checkoutCart = function() {
+        if (window.shoppingCart.length === 0) {
+            if (typeof showCyberToast === 'function') showCyberToast('Ваш кошик порожній!', '⚠️');
+            return;
+        }
+        let total = 0;
+        let summaryText = '🛒 <b>НОВЕ ЗАМОВЛЕННЯ З МАРКЕТУ!</b>\n';
+        window.shoppingCart.forEach(i => {
+            const sum = i.price * i.qty;
+            total += sum;
+            summaryText += `• ${i.name} (${i.qty} шт.) — ${sum} €\n`;
+        });
+        summaryText += `\n<b>Загалом: ${total} €</b>`;
+
+        if (typeof sendBotNotification === 'function') sendBotNotification(summaryText);
+        if (typeof triggerHaptic === 'function') triggerHaptic('success');
+        if (typeof showCyberToast === 'function') showCyberToast('Замовлення оформлено! Дякуємо! 🛍️', '✨');
+
+        window.shoppingCart = [];
+        const badge = document.getElementById('nav-shop-badge');
+        if (badge) badge.style.display = 'none';
+
+        window.closeCartModal();
+    };
+
+    // 💈 AI STYLE PRESETS
+    window.selectedAiStyle = 'Cyberpunk Fade';
+    window.setAiStylePreset = function(styleName, el) {
+        if (typeof triggerHaptic === 'function') triggerHaptic('light');
+        window.selectedAiStyle = styleName;
+        document.querySelectorAll('#page-ai .cyber-chip').forEach(c => c.classList.remove('active'));
+        if (el) el.classList.add('active');
+        const statusEl = document.getElementById('ai-scan-status');
+        if (statusEl) statusEl.innerText = 'ОБРАНО СТИЛЬ: ' + styleName.toUpperCase();
+    };
