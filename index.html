@@ -850,23 +850,57 @@
         
 
 
-<!-- Модальне вікно ДОВІДКИ (HELP / INFO MODAL) -->
+<!-- Модальне вікно ДОВІДКИ (HELP / INFO MODAL 2026) -->
 <div id="help-modal" class="modal-overlay">
-    <div class="vintage-modal" style="max-width:480px; padding:22px;">
+    <div class="vintage-modal" style="max-width:480px; padding:20px;">
         <button class="close-modal" onclick="closeHelpModal()">&times;</button>
         <div class="modal-header">
             <h3 style="font-family:'Orbitron'; color:var(--cyber-gold); display:flex; align-items:center; justify-content:center; gap:8px;">
-                ℹ️ ДОВІДКА ТА ІНСТРУКЦІЯ
+                ℹ️ ІНТЕРАКТИВНА ДОВІДКА
             </h3>
         </div>
 
-        <div style="display:flex; flex-direction:column; gap:12px; margin-top:12px; font-size:0.8rem; color:#fff; text-align:left;">
-            <!-- Studio Info -->
-            <div style="background:rgba(18,25,38,0.8); border:1px solid var(--cyber-blue); border-radius:12px; padding:12px;">
+        <div style="display:flex; flex-direction:column; gap:10px; margin-top:10px; font-size:0.8rem; color:#fff; text-align:left;">
+            <!-- Studio Contacts Capsule -->
+            <div style="background:rgba(18,25,38,0.85); border:1px solid var(--cyber-blue); border-radius:12px; padding:12px;">
                 <div style="font-family:'Orbitron'; color:var(--cyber-blue); font-weight:bold; font-size:0.85rem; margin-bottom:4px;">💈 VOVAN BEAUTY STUDIO</div>
                 <div style="color:var(--text-sub); font-size:0.75rem;">15 Promenade des Anglais, 06000 Nice, France 🇫🇷</div>
                 <div style="color:var(--cyber-gold); font-size:0.72rem; margin-top:4px;">⏰ Графік роботи: Пн-Нд 09:00 - 21:00</div>
             </div>
+
+            <!-- FAQ SECTION -->
+            <div style="background:rgba(18,25,38,0.85); border:1px solid rgba(255,215,0,0.3); border-radius:12px; padding:12px;">
+                <div style="font-family:'Orbitron'; color:var(--cyber-gold); font-weight:bold; font-size:0.85rem; margin-bottom:8px;">❓ Популярні запитання (FAQ):</div>
+                
+                <details style="margin-bottom:6px; cursor:pointer;">
+                    <summary style="font-size:0.78rem; font-weight:bold; color:#fff;">🎟 Як записатися чи перенести візит?</summary>
+                    <div style="font-size:0.72rem; color:var(--text-sub); padding:6px 0 0 10px;">
+                        Натисніть кнопку <b>«⚡ ЗАПИСАТИСЯ ДО МАЙСТРА»</b>, оберіть послугу, майстра (VOVAN чи MEGAN AI) та вільний час. Для перенесення зв'яжіться з адміном.
+                    </div>
+                </details>
+
+                <details style="margin-bottom:6px; cursor:pointer;">
+                    <summary style="font-size:0.78rem; font-weight:bold; color:#fff;">💳 Які способи оплати підтримуються?</summary>
+                    <div style="font-size:0.72rem; color:var(--text-sub); padding:6px 0 0 10px;">
+                        Приймаємо: <b>Apple Pay, Google Pay, Bank Cards, TON Crypto</b> та готівку у салоні.
+                    </div>
+                </details>
+
+                <details style="cursor:pointer;">
+                    <summary style="font-size:0.78rem; font-weight:bold; color:#fff;">📍 Де припаркувати авто біля студії?</summary>
+                    <div style="font-size:0.72rem; color:var(--text-sub); padding:6px 0 0 10px;">
+                        Підземний паркінг <b>Parking Palais de la Méditerranée</b> за 50 метрів від студії на Promenade des Anglais.
+                    </div>
+                </details>
+            </div>
+
+            <!-- DIRECT TELEGRAM SUPPORT BUTTON -->
+            <button class="cyber-unified-btn" style="width:100%; padding:10px; background:linear-gradient(135deg, var(--cyber-blue) 0%, #0055b3 100%); font-weight:bold;" onclick="openTelegramSupport()">
+                💬 НАПИСАТИ АДМІНІСТРАТОРУ У TELEGRAM
+            </button>
+        </div>
+    </div>
+</div>
 
             <!-- How to Book -->
             <div style="background:rgba(18,25,38,0.8); border:1px solid rgba(255,215,0,0.3); border-radius:12px; padding:12px;">
@@ -887,18 +921,7 @@
                 </div>
             </div>
 
-            <!-- Author Signature -->
-            <div style="text-align:center; padding:8px; background:rgba(255,215,0,0.1); border-radius:8px; border:1px solid var(--cyber-gold);">
-                <div style="font-family:'Orbitron'; font-size:0.75rem; color:var(--cyber-gold); font-weight:900;">👑 АВТОР РОЗРОБКИ: ПОТАПОВ В.М. • NICE 🇫🇷</div>
-            </div>
 
-            <!-- Close Action Button -->
-            <button class="cyber-unified-btn" style="width:100%; margin-top:8px; padding:12px;" onclick="closeHelpModal()">
-                ✕ ЗАКРИТИ ДОВІДКУ
-            </button>
-        </div>
-    </div>
-</div>
 
 
 <!-- 🛒 МАРКЕТ КОШИК МОДАЛЬНЕ ВІКНО -->

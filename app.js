@@ -1505,3 +1505,13 @@ const tg = window.Telegram.WebApp;
         if (modal) modal.classList.remove('active');
         if (typeof closeModal === 'function') closeModal();
     };
+
+    // ℹ️ TELEGRAM SUPPORT DIRECT LINK
+    window.openTelegramSupport = function() {
+        if (typeof triggerHaptic === 'function') triggerHaptic('medium');
+        if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.openTelegramLink) {
+            window.Telegram.WebApp.openTelegramLink('https://t.me/VOVAN_BEAUTY_SUPPORT');
+        } else {
+            window.open('https://t.me/VOVAN_BEAUTY_SUPPORT', '_blank');
+        }
+    };
