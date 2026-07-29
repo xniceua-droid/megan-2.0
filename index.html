@@ -532,7 +532,10 @@
                     <button class="action-btn-sm btn-payout" onclick="payMasterSalary()">💵 Виплатити ЗП</button>
                 </div>
 
-                <h4 style="font-family:'Orbitron'; color:var(--cyber-blue); font-size:0.85rem; margin-bottom:10px;">📅 РОЗКЛАД ТА СЛОТИ (TIMELINE)</h4>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                    <h4 style="font-family:'Orbitron'; color:var(--cyber-blue); font-size:0.85rem; margin:0;">📅 РОЗКЛАД ТА СЛОТИ</h4>
+                    <button class="action-btn-sm" onclick="openMasterTimelineModal()" style="padding:4px 10px; font-size:0.7rem; background:rgba(255,215,0,0.15); border:1px solid var(--cyber-gold); color:var(--cyber-gold); border-radius:10px; font-weight:bold;">📊 LIVE ТАЙМЛАЙН</button>
+                </div>
                 <div id="master-schedule-list"></div>
             </div>
         </div>
@@ -1158,6 +1161,22 @@
         </div>
 
         <button class="cyber-unified-btn" style="width:100%; padding:12px; background:linear-gradient(135deg, var(--cyber-blue) 0%, #0055b3 100%); font-weight:bold;" onclick="confirmServiceDetailBooking()">⚡ ЗАПИСАТИСЯ НА ЦЮ ПОСЛУГУ</button>
+    </div>
+</div>
+
+
+<!-- 📅 ТАЙМЛАЙН ЗМІНИ МАЙСТРА МОДАЛЬНЕ ВІКНО -->
+<div id="master-timeline-modal" class="modal-overlay">
+    <div class="vintage-modal" style="max-width:440px; text-align:center;">
+        <button class="close-modal" onclick="closeMasterTimelineModal()">&times;</button>
+        <h3 style="font-family:'Orbitron'; color:var(--cyber-gold); margin-bottom:4px;">📅 LIVE ТАЙМЛАЙН ЗМІНИ</h3>
+        <div style="font-size:0.75rem; color:var(--text-sub); margin-bottom:12px;">Візуальний погодинний графік записів на сьогодні</div>
+
+        <div style="display:flex; flex-direction:column; gap:6px; max-height:260px; overflow-y:auto; padding-right:4px; margin-bottom:14px;" id="master-timeline-hours-container">
+            <!-- Timeline hours populated dynamically -->
+        </div>
+
+        <button class="cyber-unified-btn" style="width:100%; padding:10px;" onclick="closeMasterTimelineModal()">👍 ЗАКРИТИ ТАЙМЛАЙН</button>
     </div>
 </div>
 

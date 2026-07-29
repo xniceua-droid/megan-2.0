@@ -1582,3 +1582,48 @@ const tg = window.Telegram.WebApp;
         }
         if (typeof openModal === 'function') openModal();
     };
+
+    // 📅 MASTER LIVE TIMELINE LOGIC
+    window.openMasterTimelineModal = function() {
+        if (typeof triggerHaptic === 'function') triggerHaptic('medium');
+        if (typeof playCyberAudioFx === 'function') playCyberAudioFx('click');
+
+        const modal = document.getElementById('master-timeline-modal');
+        const container = document.getElementById('master-timeline-hours-container');
+        
+        if (container) {
+            const hours = ['09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00'];
+            const db = getLocalDB();
+            let html = '';
+
+            hours.forEach(h => {
+                const order = db.orders.find(o => o.Date && o.Date.includes(h));
+                if (order) {
+                    html += `
+                    <div style="background:#121926; border:1px solid rgba(0,162,255,0.3); border-radius:10px; padding:8px 12px; display:flex; justify-content:space-between; align-items:center;">
+                        <span style="font-family:'Orbitron'; font-size:0.8rem; color:var(--cyber-blue); font-weight:bold;">${h}</span>
+                        <div style="text-align:right;">
+                            <div style="font-size:0.8rem; font-weight:bold; color:#fff;">${order.Client} (${order.Service})</div>
+                            <div style="font-size:0.68rem; color:var(--accent-green);">🟢 Зайнято (${order.Price} €)</div>
+                        </div>
+                    </div>`;
+                } else {
+                    html += `
+                    <div style="background:rgba(255,255,255,0.02); border:1px dashed rgba(255,255,255,0.1); border-radius:10px; padding:8px 12px; display:flex; justify-content:space-between; align-items:center;">
+                        <span style="font-family:'Orbitron'; font-size:0.8rem; color:var(--text-sub);">${h}</span>
+                        <span style="font-size:0.72rem; color:var(--text-sub);">⚪ Вільний слот</span>
+                    </div>`;
+                }
+            });
+
+            container.innerHTML = html;
+        }
+
+        if (modal) modal.classList.add('active');
+    };
+
+    window.closeMasterTimelineModal = function() {
+        if (typeof triggerHaptic === 'function') triggerHaptic('light');
+        const modal = document.getElementById('master-timeline-modal');
+        if (modal) modal.classList.remove('active');
+    };
