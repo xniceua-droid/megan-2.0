@@ -1376,5 +1376,31 @@
     </div>
 </div>
 
+
+<!-- 🧾 ФРАНЦУЗЬКИЙ ЧЕК / FACTURE (TVA 20%) МОДАЛЬНЕ ВІКНО -->
+<div id="receipt-generator-modal" class="modal-overlay">
+    <div class="vintage-modal" style="max-width:440px; text-align:center;">
+        <button class="close-modal" onclick="closeReceiptGenModal()">&times;</button>
+        <h3 style="font-family:'Orbitron'; color:var(--cyber-gold); margin-bottom:4px;">🧾 FACTURE / ЧЕК (FRANCE 🇫🇷)</h3>
+        <p style="font-size:0.75rem; color:var(--text-sub); margin-bottom:12px;">Генерація офіційного чека з TVA 20%</p>
+
+        <div style="background:#fff; color:#000; border-radius:10px; padding:15px; font-family:monospace; text-align:left; font-size:0.75rem; margin-bottom:14px; border:2px dashed #000; box-shadow:0 0 15px rgba(255,255,255,0.2);">
+            <div style="text-align:center; font-weight:bold; font-size:0.9rem;">VOVAN BEAUTY STUDIO</div>
+            <div style="text-align:center; font-size:0.68rem; color:#555;">15 Promenade des Anglais, 06000 Nice</div>
+            <div style="text-align:center; font-size:0.68rem; color:#555;">SIRET: 889 123 456 00018 • TVA: FR45889123456</div>
+            <hr style="border:0; border-top:1px dashed #000; margin:8px 0;">
+            <div>КЛІЄНТ: <span id="fac-client-name">Олена С.</span></div>
+            <div>ДАТА: <span id="fac-date-str">29/07/2026 14:30</span></div>
+            <hr style="border:0; border-top:1px dashed #000; margin:8px 0;">
+            <div style="display:flex; justify-content:space-between;"><span>Стрижка Cyber Style</span><span>40.00 €</span></div>
+            <div style="display:flex; justify-content:space-between; color:#555; font-size:0.68rem;"><span>в т.ч. TVA 20%:</span><span>6.67 €</span></div>
+            <hr style="border:0; border-top:1px dashed #000; margin:8px 0;">
+            <div style="display:flex; justify-content:space-between; font-weight:bold; font-size:0.9rem;"><span>МЕРСІ / TOTAL TTC:</span><span>40.00 €</span></div>
+        </div>
+
+        <button class="cyber-unified-btn" style="width:100%; padding:10px;" onclick="printFrenchInvoice()">🖨️ НАДРУКУВАТИ / ЗБЕРЕГТИ FACTURE</button>
+    </div>
+</div>
+
 </body>
 </html>

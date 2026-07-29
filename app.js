@@ -1915,3 +1915,33 @@ const tg = window.Telegram.WebApp;
 
         if (typeof populateCRM === 'function') populateCRM();
     };
+
+    // 🧾 FRENCH FACTURE & RECEIPT GENERATOR LOGIC
+    window.openReceiptGenModal = function() {
+        if (typeof triggerHaptic === 'function') triggerHaptic('medium');
+        if (typeof playCyberAudioFx === 'function') playCyberAudioFx('click');
+
+        const modal = document.getElementById('receipt-generator-modal');
+        const now = new Date();
+        const dateStr = String(now.getDate()).padStart(2, '0') + '/' + String(now.getMonth() + 1).padStart(2, '0') + '/' + now.getFullYear() + ' ' + String(now.getHours()).padStart(2, '0') + ':' + String(now.getMinutes()).padStart(2, '0');
+
+        const dateEl = document.getElementById('fac-date-str');
+        if (dateEl) dateEl.innerText = dateStr;
+
+        if (modal) modal.classList.add('active');
+    };
+
+    window.closeReceiptGenModal = function() {
+        if (typeof triggerHaptic === 'function') triggerHaptic('light');
+        const modal = document.getElementById('receipt-generator-modal');
+        if (modal) modal.classList.remove('active');
+    };
+
+    window.printFrenchInvoice = function() {
+        if (typeof triggerHaptic === 'function') triggerHaptic('success');
+        if (typeof playCyberAudioFx === 'function') playCyberAudioFx('success');
+
+        if (typeof showCyberToast === 'function') showCyberToast('Офіційний Facture (TVA 20%) згенеровано!', '🧾');
+        window.print();
+        window.closeReceiptGenModal();
+    };
