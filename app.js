@@ -1515,3 +1515,35 @@ const tg = window.Telegram.WebApp;
             window.open('https://t.me/VOVAN_BEAUTY_SUPPORT', '_blank');
         }
     };
+
+    // 💎 TON CRYPTO PAYMENT LOGIC
+    window.payWithTonWallet = function() {
+        if (typeof triggerHaptic === 'function') triggerHaptic('medium');
+        if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.openTelegramLink) {
+            window.Telegram.WebApp.openTelegramLink('https://t.me/wallet');
+        } else {
+            window.open('https://t.me/wallet', '_blank');
+        }
+        if (typeof showCyberToast === 'function') showCyberToast('Відкриваємо Telegram Wallet (TON)... 💎', '🚀');
+    };
+
+    // 🎨 LIVE ACCENT THEME SWITCHER
+    window.setAccentTheme = function(themeName) {
+        if (typeof triggerHaptic === 'function') triggerHaptic('medium');
+        if (typeof playCyberAudioFx === 'function') playCyberAudioFx('click');
+
+        const root = document.documentElement;
+        if (themeName === 'gold') {
+            root.style.setProperty('--cyber-blue', '#ffd700');
+            root.style.setProperty('--blue-glow', 'rgba(255,215,0,0.6)');
+            if (typeof showCyberToast === 'function') showCyberToast('Тема змінена: Золото 👑', '✨');
+        } else if (themeName === 'cyan') {
+            root.style.setProperty('--cyber-blue', '#00a2ff');
+            root.style.setProperty('--blue-glow', 'rgba(0,162,255,0.6)');
+            if (typeof showCyberToast === 'function') showCyberToast('Тема змінена: Блакитний 💎', '✨');
+        } else if (themeName === 'green') {
+            root.style.setProperty('--cyber-blue', '#00e676');
+            root.style.setProperty('--blue-glow', 'rgba(0,230,118,0.6)');
+            if (typeof showCyberToast === 'function') showCyberToast('Тема змінена: Неон 🧪', '✨');
+        }
+    };
