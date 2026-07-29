@@ -1445,3 +1445,35 @@ const tg = window.Telegram.WebApp;
         if (typeof playCyberAudioFx === 'function') playCyberAudioFx('success');
         if (typeof showCyberToast === 'function') showCyberToast('Сертифікат на ' + window.currentGiftAmountVal + '€ успішно оформлено!', '🎁');
     };
+
+    // 🍾 VIP BAR CATEGORY FILTER LOGIC
+    window.filterBarCategory = function(cat, el) {
+        if (typeof triggerHaptic === 'function') triggerHaptic('light');
+        if (typeof playCyberAudioFx === 'function') playCyberAudioFx('click');
+
+        document.querySelectorAll('#page-bar .cyber-chip').forEach(c => {
+            c.classList.remove('active');
+            c.style.background = 'rgba(255,255,255,0.05)';
+            c.style.borderColor = 'rgba(255,255,255,0.15)';
+            c.style.color = 'var(--text-sub)';
+        });
+
+        if (el) {
+            el.classList.add('active');
+            el.style.background = 'rgba(255,215,0,0.2)';
+            el.style.borderColor = 'var(--cyber-gold)';
+            el.style.color = 'var(--cyber-gold)';
+        }
+
+        const cards = document.querySelectorAll('#page-bar .bar-card');
+        cards.forEach(card => {
+            const cardCat = card.getAttribute('data-bar-cat') || 'coffee';
+            if (cat === 'all' || cardCat === cat) {
+                card.style.display = 'block';
+                card.style.opacity = '1';
+            } else {
+                card.style.display = 'none';
+                card.style.opacity = '0';
+            }
+        });
+    };

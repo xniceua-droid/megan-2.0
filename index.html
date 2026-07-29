@@ -202,30 +202,48 @@
     <!-- 2. VIP БАР -->
     <div id="page-bar" class="page-section">
         <div class="admin-card" style="padding:15px;">
-            <h3 style="font-family:'Orbitron'; color:var(--cyber-gold); text-align:center; margin-bottom:12px;" data-i18n="bar-title">🍾 VIP БАР В КРІСЛО</h3>
+            <h3 style="font-family:'Orbitron'; color:var(--cyber-gold); text-align:center; margin-bottom:6px;" data-i18n="bar-title">🍾 VIP БАР В КРІСЛО (NICE)</h3>
+            <p style="font-size:0.75rem; color:var(--text-sub); text-align:center; margin-bottom:12px;">Подача елітних напоїв безпосередньо під час обслуговування</p>
+
+            <!-- ⚡ COMPLIMENTARY BANNER -->
+            <div style="background:rgba(0,230,118,0.12); border:1px solid var(--accent-green); border-radius:12px; padding:8px 12px; text-align:center; margin-bottom:12px;">
+                <span style="font-size:0.75rem; color:var(--accent-green); font-weight:bold;">✨ Для всіх клієнтів студії Кава, Чай та Matcha — 0 € (Безкоштовно!)</span>
+            </div>
+
+            <!-- 🍾 BAR CATEGORY FILTER CHIPS -->
+            <div style="display:flex; gap:6px; overflow-x:auto; padding-bottom:10px; margin-bottom:12px; scrollbar-width:none;">
+                <div class="cyber-chip active" onclick="filterBarCategory('all', this)" style="white-space:nowrap; background:rgba(255,215,0,0.2); border:1px solid var(--cyber-gold); padding:5px 10px; border-radius:14px; font-size:0.72rem; font-weight:bold; cursor:pointer; color:var(--cyber-gold);">🍾 Усі напої</div>
+                <div class="cyber-chip" onclick="filterBarCategory('champagne', this)" style="white-space:nowrap; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.15); padding:5px 10px; border-radius:14px; font-size:0.72rem; font-weight:bold; cursor:pointer; color:var(--text-sub);">🥂 Шампанське</div>
+                <div class="cyber-chip" onclick="filterBarCategory('alcohol', this)" style="white-space:nowrap; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.15); padding:5px 10px; border-radius:14px; font-size:0.72rem; font-weight:bold; cursor:pointer; color:var(--text-sub);">🥃 Спиртне</div>
+                <div class="cyber-chip" onclick="filterBarCategory('coffee', this)" style="white-space:nowrap; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.15); padding:5px 10px; border-radius:14px; font-size:0.72rem; font-weight:bold; cursor:pointer; color:var(--text-sub);">☕ Кава & Чай (Free)</div>
+            </div>
+
             <div class="bar-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
-                <div class="bar-card" style="background:rgba(11,16,25,0.85); border:1px solid rgba(255,215,0,0.3); border-radius:14px; padding:10px; text-align:center;">
+                <div class="bar-card" data-bar-cat="champagne" style="background:rgba(11,16,25,0.85); border:1px solid rgba(255,215,0,0.3); border-radius:14px; padding:10px; text-align:center;">
                     <img src="bar_champagne.jpg" alt="Dom Pérignon" style="width:100%; height:85px; object-fit:cover; border-radius:8px; margin-bottom:6px;">
                     <div class="bar-title" style="font-family:'Orbitron'; font-size:0.8rem; color:#fff; font-weight:800;">Dom Pérignon</div>
                     <div class="bar-price" style="font-family:'Orbitron'; font-size:0.9rem; color:var(--cyber-gold); font-weight:900; margin:3px 0 8px 0;">45 €</div>
-                    <button class="cyber-unified-btn" onclick="orderDrink('Dom Pérignon')" data-i18n="btn-order-drink">🥂 В крісло</button>
+                    <button class="cyber-unified-btn" onclick="orderDrink('Dom Pérignon Champagne')" data-i18n="btn-order-drink">🥂 В крісло</button>
                 </div>
-                <div class="bar-card" style="background:rgba(11,16,25,0.85); border:1px solid rgba(255,215,0,0.3); border-radius:14px; padding:10px; text-align:center;">
+
+                <div class="bar-card" data-bar-cat="champagne" style="background:rgba(11,16,25,0.85); border:1px solid rgba(255,215,0,0.3); border-radius:14px; padding:10px; text-align:center;">
                     <img src="icon_bar.jpg" alt="Moët & Chandon" style="width:100%; height:85px; object-fit:cover; border-radius:8px; margin-bottom:6px;">
                     <div class="bar-title" style="font-family:'Orbitron'; font-size:0.8rem; color:#fff; font-weight:800;">Moët & Chandon</div>
                     <div class="bar-price" style="font-family:'Orbitron'; font-size:0.9rem; color:var(--cyber-gold); font-weight:900; margin:3px 0 8px 0;">35 €</div>
                     <button class="cyber-unified-btn" onclick="orderDrink('Moët & Chandon')" data-i18n="btn-order-drink">🥂 В крісло</button>
                 </div>
-                <div class="bar-card" style="background:rgba(11,16,25,0.85); border:1px solid rgba(0,162,255,0.3); border-radius:14px; padding:10px; text-align:center;">
+
+                <div class="bar-card" data-bar-cat="alcohol" style="background:rgba(11,16,25,0.85); border:1px solid rgba(0,162,255,0.3); border-radius:14px; padding:10px; text-align:center;">
                     <img src="bar_whiskey.jpg" alt="Whiskey Chivas" style="width:100%; height:85px; object-fit:cover; border-radius:8px; margin-bottom:6px;">
                     <div class="bar-title" style="font-family:'Orbitron'; font-size:0.8rem; color:#fff; font-weight:800;">Whiskey Chivas</div>
                     <div class="bar-price" style="font-family:'Orbitron'; font-size:0.9rem; color:var(--cyber-blue); font-weight:900; margin:3px 0 8px 0;">15 €</div>
-                    <button class="cyber-unified-btn" onclick="orderDrink('Whiskey Chivas')">🥃 В крісло</button>
+                    <button class="cyber-unified-btn" onclick="orderDrink('Whiskey Chivas (12y)')">🥃 В крісло</button>
                 </div>
-                <div class="bar-card" style="background:rgba(11,16,25,0.85); border:1px solid rgba(0,230,118,0.3); border-radius:14px; padding:10px; text-align:center;">
+
+                <div class="bar-card" data-bar-cat="coffee" style="background:rgba(11,16,25,0.85); border:1px solid rgba(0,230,118,0.3); border-radius:14px; padding:10px; text-align:center;">
                     <img src="bar_coffee.jpg" alt="Cyber Espresso" style="width:100%; height:85px; object-fit:cover; border-radius:8px; margin-bottom:6px;">
                     <div class="bar-title" style="font-family:'Orbitron'; font-size:0.8rem; color:#fff; font-weight:800;">Cyber Espresso</div>
-                    <div class="bar-price" style="font-family:'Orbitron'; font-size:0.9rem; color:var(--accent-green); font-weight:900; margin:3px 0 8px 0;">5 € (Free)</div>
+                    <div class="bar-price" style="font-family:'Orbitron'; font-size:0.9rem; color:var(--accent-green); font-weight:900; margin:3px 0 8px 0;">0 € (Free)</div>
                     <button class="cyber-unified-btn" onclick="orderDrink('Cyber Espresso')">☕ В крісло</button>
                 </div>
             </div>
