@@ -2067,8 +2067,10 @@ window.addEventListener('load', () => setTimeout(hidePreloaderSmooth, 800));
 
 
 
-window.pickMasterCard = typeof pickMasterCard !== 'undefined' ? pickMasterCard : function(){};
-window.pickServiceChip = typeof pickServiceChip !== 'undefined' ? pickServiceChip : function(){};
+// 👈 FORCE DEFINE — без guardів (правильні функції нижче на ~2122/2144)
+window.pickMasterCard = null; // скинути щоб || guard нижче працював
+window.pickServiceChip = null; // скинути щоб || guard нижче працював
+
 window.closeConciergeModal = typeof closeConciergeModal !== 'undefined' ? closeConciergeModal : function(){};
 window.confirmConcierge = typeof confirmConcierge !== 'undefined' ? confirmConcierge : function(){};
 window.openSettingsModal = typeof openSettingsModal !== 'undefined' ? openSettingsModal : function(){};
@@ -2119,55 +2121,81 @@ window.closeQRModal = window.closeQRModal || function() {
 };
 
 // 💈 Pick Master Card (для вибору майстра в booking modal)
-window.pickMasterCard = window.pickMasterCard || function(masterName, el) {
+// 👈 Вибір майстра — завжди актуальна версія
+window.pickMasterCard = function(masterName, el) {
     if (typeof triggerHaptic === 'function') triggerHaptic('light');
-    document.querySelectorAll('#barber-picker-container .cyber-picker-btn').forEach(b => {
+    document.querySelectorAll('#barber-picker-container .cyber-picker-btn').forEach(function(b) {
         b.classList.remove('active');
         b.style.borderColor = 'rgba(255,255,255,0.15)';
         b.style.background = 'rgba(255,255,255,0.05)';
+        b.style.color = 'var(--text-sub, #8b9ab5)';
     });
     if (el) {
         el.classList.add('active');
         el.style.borderColor = 'var(--cyber-gold)';
-        el.style.background = 'rgba(255,215,0,0.15)';
+        el.style.background = 'rgba(255,215,0,0.2)';
+        el.style.color = '#fff';
     }
-    const selectEl = document.getElementById('select-barber');
+    var selectEl = document.getElementById('select-barber');
     if (selectEl) {
-        for (let opt of selectEl.options) {
-            if (opt.text.includes(masterName)) { selectEl.value = opt.value; break; }
+        for (var i = 0; i < selectEl.options.length; i++) {
+            if (selectEl.options[i].value === masterName || selectEl.options[i].text.indexOf(masterName) !== -1) {
+                selectEl.selectedIndex = i;
+                break;
+            }
         }
     }
-    if (typeof checkAvailableSlots === 'function') checkAvailableSlots();
+    window.selectedMasterText = masterName;
+    if (typeof checkAvailableSlots === 'function') { try { checkAvailableSlots(); } catch(e) {} }
 };
 
-// 🎟️ Pick Service Chip
-window.pickServiceChip = window.pickServiceChip || function(serviceName, el) {
+
+// ✂️ Вибір послуги — завжди актуальна версія
+window.pickServiceChip = function(serviceName, el) {
     if (typeof triggerHaptic === 'function') triggerHaptic('light');
-    document.querySelectorAll('#service-chips-container .cyber-chip').forEach(b => {
+    document.querySelectorAll('#service-chips-container .cyber-chip').forEach(function(b) {
         b.classList.remove('active');
         b.style.borderColor = 'rgba(255,255,255,0.15)';
-        b.style.background = 'rgba(255,255,255,0.05)';
+        b.style.background = 'rgba(13,21,34,0.85)';
+        b.style.color = 'var(--text-sub, #8b9ab5)';
     });
     if (el) {
         el.classList.add('active');
-        el.style.borderColor = 'var(--cyber-blue)';
-        el.style.background = 'rgba(0,162,255,0.15)';
+        el.style.borderColor = 'var(--cyber-gold)';
+        el.style.background = 'linear-gradient(135deg, rgba(255,215,0,0.18) 0%, rgba(0,162,255,0.18) 100%)';
+        el.style.color = '#fff';
     }
-    const serviceSelect = document.getElementById('select-service');
+    var serviceSelect = document.getElementById('select-service');
     if (serviceSelect) {
-        for (let opt of serviceSelect.options) {
-            if (opt.text.includes(serviceName)) { serviceSelect.value = opt.value; break; }
+        for (var i = 0; i < serviceSelect.options.length; i++) {
+            if (serviceSelect.options[i].value === serviceName) {
+                serviceSelect.selectedIndex = i;
+                break;
+            }
         }
     }
+    window.selectedServiceText = serviceName;
 };
 
-// ⏰ Select Time Slot
-window.selectTimeSlot = window.selectTimeSlot || function(time, el) {
+
+// ⏰ Вибір слоту часу
+window.selectTimeSlot = function(time, el) {
     if (typeof triggerHaptic === 'function') triggerHaptic('light');
-    document.querySelectorAll('.slot-btn').forEach(s => s.classList.remove('selected'));
-    if (el) el.classList.add('selected');
-    if (typeof window !== 'undefined') window.selectedTimeText = time;
+    document.querySelectorAll('.slot-btn').forEach(function(s) {
+        s.classList.remove('selected');
+        s.style.background = '';
+        s.style.color = '';
+        s.style.fontWeight = '';
+    });
+    if (el) {
+        el.classList.add('selected');
+        el.style.background = 'rgba(0,162,255,0.3)';
+        el.style.color = '#fff';
+        el.style.fontWeight = '900';
+    }
+    window.selectedTimeText = time;
 };
+
 
 // 📅 Select Date Card
 window.selectDateCard = window.selectDateCard || function(date, el) {
