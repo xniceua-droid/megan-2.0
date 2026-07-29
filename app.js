@@ -1664,3 +1664,36 @@ const tg = window.Telegram.WebApp;
         
         window.closeWarehouseModal();
     };
+
+    // 🤖 AI SCANNER MODAL LOGIC
+    window.startAiScannerModal = function() {
+        if (typeof triggerHaptic === 'function') triggerHaptic('medium');
+        if (typeof playCyberAudioFx === 'function') playCyberAudioFx('click');
+
+        const modal = document.getElementById('ai-scanner-modal');
+        const resBox = document.getElementById('ai-modal-result-box');
+        const scanText = document.getElementById('ai-modal-scan-text');
+
+        if (resBox) resBox.style.display = 'none';
+        if (scanText) scanText.innerText = 'СКАНУВАННЯ СИМЕТРІЇ (98%)...';
+
+        if (modal) modal.classList.add('active');
+
+        setTimeout(() => {
+            if (typeof triggerHaptic === 'function') triggerHaptic('success');
+            if (typeof playCyberAudioFx === 'function') playCyberAudioFx('success');
+            if (resBox) resBox.style.display = 'block';
+            if (scanText) scanText.innerText = 'СКАНУВАННЯ ЗАВЕРШЕНО ✅';
+        }, 2200);
+    };
+
+    window.closeAiScannerModal = function() {
+        if (typeof triggerHaptic === 'function') triggerHaptic('light');
+        const modal = document.getElementById('ai-scanner-modal');
+        if (modal) modal.classList.remove('active');
+    };
+
+    window.confirmAiScanBooking = function() {
+        window.closeAiScannerModal();
+        if (typeof openModal === 'function') openModal();
+    };
