@@ -1,33 +1,83 @@
 
 // 🤖 TELEGRAM AUTO-FILL HELPER
+
+// 🤖 ROBUST TELEGRAM USER EXTRACTOR (SDK + initData query string + localStorage cache)
+function getTelegramUser() {
+    try {
+        if (window.Telegram && window.Telegram.WebApp) {
+            const tg = window.Telegram.WebApp;
+            if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
+                return tg.initDataUnsafe.user;
+            }
+            if (tg.initData) {
+                const params = new URLSearchParams(tg.initData);
+                const userJson = params.get('user');
+                if (userJson) return JSON.parse(decodeURIComponent(userJson));
+            }
+        }
+    } catch(e) {}
+    try {
+        const urlParams = new URLSearchParams(window.location.search);
+        const userParam = urlParams.get('user');
+        if (userParam) return JSON.parse(decodeURIComponent(userParam));
+    } catch(e) {}
+    return null;
+}
+window.getTelegramUser = getTelegramUser;
+
 function autoFillTelegramUserData() {
     try {
-        const tgUser = (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe)
-            ? window.Telegram.WebApp.initDataUnsafe.user
-            : null;
-        
+        const user = getTelegramUser();
         const nameEl = document.getElementById('client-name');
         const phoneEl = document.getElementById('client-phone');
         const banner = document.getElementById('tg-autofill-banner');
         
-        if (tgUser) {
-            const fullName = [tgUser.first_name || '', tgUser.last_name || ''].filter(Boolean).join(' ');
-            if (nameEl && (!nameEl.value || nameEl.value.trim() === '')) {
-                nameEl.value = fullName || tgUser.first_name || '';
+        let filledName = '';
+        let filledPhone = '';
+
+        if (user) {
+            filledName = [user.first_name || '', user.last_name || ''].filter(Boolean).join(' ');
+            if (!filledName) filledName = user.first_name || user.username || '';
+
+            if (user.phone_number) {
+                filledPhone = user.phone_number;
+            } else if (user.username) {
+                filledPhone = '@' + user.username;
+            } else if (user.id) {
+                filledPhone = 'TG:' + user.id;
             }
-            if (phoneEl && (!phoneEl.value || phoneEl.value.trim() === '')) {
-                const contact = tgUser.phone_number 
-                    ? tgUser.phone_number 
-                    : (tgUser.username ? '@' + tgUser.username : (tgUser.id ? 'TG:' + tgUser.id : ''));
-                phoneEl.value = contact;
-            }
-            if (banner) banner.style.display = 'flex';
+
+            if (filledName) localStorage.setItem('megan_user_name', filledName);
+            if (filledPhone) localStorage.setItem('megan_user_phone', filledPhone);
         } else {
-            if (banner) banner.style.display = 'none';
+            filledName = localStorage.getItem('megan_user_name') || '';
+            filledPhone = localStorage.getItem('megan_user_phone') || '';
+        }
+
+        if (nameEl && filledName && (!nameEl.value || nameEl.value.trim() === '')) {
+            nameEl.value = filledName;
+        }
+
+        if (phoneEl && filledPhone && (!phoneEl.value || phoneEl.value.trim() === '')) {
+            phoneEl.value = filledPhone;
+        }
+
+        if (banner) {
+            if (filledName || filledPhone) {
+                banner.style.display = 'flex';
+                banner.innerHTML = `
+                    <span style="font-size:1.1rem;">🤖</span>
+                    <div style="flex:1;">
+                        <div style="font-size:0.72rem; color:var(--cyber-blue); font-weight:800;">Дані з Telegram підставлено!</div>
+                        <div style="font-size:0.65rem; color:var(--text-sub);">${filledName} ${filledPhone ? '• ' + filledPhone : ''}</div>
+                    </div>
+                `;
+            }
         }
     } catch(e) {}
 }
 window.autoFillTelegramUserData = autoFillTelegramUserData;
+
 // ⚡ КРИТИЧНИЙ ЗАХИСТ: безпечна ініціалізація Telegram WebApp API
 // Якщо SDK не завантажено (браузер, помилка мережі) — скрипт НЕ падає
 let tg;
@@ -2515,3 +2565,17 @@ window.resetAppSettings = window.resetAppSettings || function() {
         setTimeout(function() { location.reload(); }, 1000);
     }
 };
+
+
+// ⚡ Immediate & Polling Telegram WebApp User Data Auto-Fill
+document.addEventListener('DOMContentLoaded', function() {
+    if (typeof autoFillTelegramUserData === 'function') {
+        autoFillTelegramUserData();
+        var count = 0;
+        var t = setInterval(function() {
+            autoFillTelegramUserData();
+            count++;
+            if (count >= 10) clearInterval(t);
+        }, 500);
+    }
+});

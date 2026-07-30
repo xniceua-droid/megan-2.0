@@ -1413,17 +1413,54 @@
     window.openModal = function() {
         var modal = document.getElementById('booking-modal');
         if (modal) { modal.style.display = 'flex'; modal.classList.add('active'); }
-        // 🤖 Автозаповнення з Telegram
+
+        // 🤖 Robust Telegram User Auto-fill (multi-source: SDK, initData query, localStorage)
         try {
-            var tgU = window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe
-                ? window.Telegram.WebApp.initDataUnsafe.user : null;
+            var tgUser = null;
+            if (window.Telegram && window.Telegram.WebApp) {
+                var tg = window.Telegram.WebApp;
+                if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
+                    tgUser = tg.initDataUnsafe.user;
+                } else if (tg.initData) {
+                    try {
+                        var p = new URLSearchParams(tg.initData);
+                        var u = p.get('user');
+                        if (u) tgUser = JSON.parse(decodeURIComponent(u));
+                    } catch(err1) {}
+                }
+            }
+            if (!tgUser) {
+                try {
+                    var qParams = new URLSearchParams(window.location.search);
+                    var uParam = qParams.get('user');
+                    if (uParam) tgUser = JSON.parse(decodeURIComponent(uParam));
+                } catch(err2) {}
+            }
+
             var nameEl = document.getElementById('client-name');
             var phoneEl = document.getElementById('client-phone');
-            if (tgU && nameEl && !nameEl.value) {
-                nameEl.value = ((tgU.first_name || '') + ' ' + (tgU.last_name || '')).trim();
+            var banner = document.getElementById('tg-autofill-banner');
+
+            var fName = '', fPhone = '';
+            if (tgUser) {
+                fName = ((tgUser.first_name || '') + ' ' + (tgUser.last_name || '')).trim();
+                if (!fName) fName = tgUser.username || '';
+                fPhone = tgUser.phone_number ? tgUser.phone_number : (tgUser.username ? '@' + tgUser.username : (tgUser.id ? 'TG:' + tgUser.id : ''));
+                if (fName) localStorage.setItem('megan_user_name', fName);
+                if (fPhone) localStorage.setItem('megan_user_phone', fPhone);
+            } else {
+                fName = localStorage.getItem('megan_user_name') || '';
+                fPhone = localStorage.getItem('megan_user_phone') || '';
             }
-            if (tgU && phoneEl && !phoneEl.value) {
-                phoneEl.value = tgU.username ? '@' + tgU.username : (tgU.id ? 'TG:' + tgU.id : '');
+
+            if (nameEl && fName && (!nameEl.value || nameEl.value.trim() === '')) nameEl.value = fName;
+            if (phoneEl && fPhone && (!phoneEl.value || phoneEl.value.trim() === '')) phoneEl.value = fPhone;
+
+            if (banner) {
+                if (fName || fPhone) {
+                    banner.style.display = 'flex';
+                    banner.innerHTML = '<span style="font-size:1.1rem;">🤖</span><div style="flex:1;"><div style="font-size:0.72rem; color:var(--cyber-blue); font-weight:800;">Дані з Telegram підставлено!</div><div style="font-size:0.65rem; color:var(--text-sub);">' + fName + (fPhone ? ' • ' + fPhone : '') + '</div></div>';
+                }
             }
         } catch(e) {}
         // 📅 Генерація дат якщо порожньо
