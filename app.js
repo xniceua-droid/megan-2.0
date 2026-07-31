@@ -565,8 +565,10 @@ window.addEventListener('load', () => setTimeout(hidePreloaderSmooth, 800));
     }
 
     
-    // 💼 ENTERPRISE CRM 2026 OVERHAUL WITH FULL FILTERING & STYLES
+    
+    // 💼 ENTERPRISE CRM 2026 - ULTIMATE DESIGN & FUNNEL ENGINE
     window.selectedCrmMasterFilter = window.selectedCrmMasterFilter || 'all';
+    window.selectedCrmTierFilter = window.selectedCrmTierFilter || 'all';
 
     window.setCrmMasterFilter = function(masterName, el) {
         if (typeof triggerHaptic === 'function') triggerHaptic('light');
@@ -584,6 +586,25 @@ window.addEventListener('load', () => setTimeout(hidePreloaderSmooth, 800));
             el.style.color = '#fff';
         }
         populateCRM();
+    };
+
+    window.setCrmTierFilter = function(tierName, el) {
+        if (typeof triggerHaptic === 'function') triggerHaptic('light');
+        window.selectedCrmTierFilter = tierName;
+        document.querySelectorAll('#crm-tier-filter-chips .cyber-chip').forEach(b => {
+            b.style.background = 'rgba(255,255,255,0.05)';
+            b.style.borderColor = 'rgba(255,255,255,0.15)';
+            b.style.color = 'var(--text-sub)';
+            b.classList.remove('active');
+        });
+        if (el) {
+            el.classList.add('active');
+            el.style.background = 'rgba(255,215,0,0.2)';
+            el.style.borderColor = 'var(--cyber-gold)';
+            el.style.color = '#fff';
+        }
+        const db = getLocalDB();
+        populateClientsBase(db.orders);
     };
 
     function populateCRM() {
@@ -616,41 +637,65 @@ window.addEventListener('load', () => setTimeout(hidePreloaderSmooth, 800));
         filteredOrders.forEach(o => {
             totalRevenueSum += o.Price || 0;
             
-            let statusBadge = '<span style="background:rgba(0,162,255,0.2); color:var(--cyber-blue); border:1px solid var(--cyber-blue); font-size:0.62rem; padding:2px 6px; border-radius:8px; font-weight:800;">🆕 НОВИЙ</span>';
+            let statusBadge = '<span style="background:rgba(0,162,255,0.2); color:var(--cyber-blue); border:1px solid var(--cyber-blue); font-size:0.62rem; padding:2px 7px; border-radius:8px; font-weight:800; display:inline-flex; align-items:center; gap:4px;"><span>🆕</span> НОВИЙ</span>';
             let borderColor = 'var(--cyber-blue)';
+            let glowColor = 'rgba(0,162,255,0.15)';
             
             if (o.Status === 'Підтверджено') {
-                statusBadge = '<span style="background:rgba(255,215,0,0.2); color:var(--cyber-gold); border:1px solid var(--cyber-gold); font-size:0.62rem; padding:2px 6px; border-radius:8px; font-weight:800;">⚡ ПІДТВЕРДЖЕНО</span>';
+                statusBadge = '<span style="background:rgba(255,215,0,0.2); color:var(--cyber-gold); border:1px solid var(--cyber-gold); font-size:0.62rem; padding:2px 7px; border-radius:8px; font-weight:800; display:inline-flex; align-items:center; gap:4px;"><span>⚡</span> ПІДТВЕРДЖЕНО</span>';
                 borderColor = 'var(--cyber-gold)';
+                glowColor = 'rgba(255,215,0,0.15)';
             } else if (o.Status === 'Завершено') {
-                statusBadge = '<span style="background:rgba(0,230,118,0.2); color:var(--accent-green); border:1px solid var(--accent-green); font-size:0.62rem; padding:2px 6px; border-radius:8px; font-weight:800;">✅ ЗАВЕРШЕНО</span>';
+                statusBadge = '<span style="background:rgba(0,230,118,0.2); color:var(--accent-green); border:1px solid var(--accent-green); font-size:0.62rem; padding:2px 7px; border-radius:8px; font-weight:800; display:inline-flex; align-items:center; gap:4px;"><span>✅</span> ЗАВЕРШЕНО</span>';
                 borderColor = 'var(--accent-green)';
+                glowColor = 'rgba(0,230,118,0.15)';
             }
 
-            const phoneDisplay = o.Phone ? `<div style="font-size:0.7rem; color:var(--cyber-blue); margin-top:2px; font-weight:600;">📱 ${o.Phone}</div>` : '';
+            // Quick Telegram or Phone contact link
+            let contactBtn = '';
+            if (o.Phone) {
+                if (o.Phone.startsWith('@')) {
+                    contactBtn = `<a href="https://t.me/${o.Phone.replace('@','')}" target="_blank" onclick="event.stopPropagation()" style="display:inline-flex; align-items:center; gap:3px; background:rgba(0,162,255,0.15); border:1px solid var(--cyber-blue); color:var(--cyber-blue); text-decoration:none; padding:2px 6px; border-radius:6px; font-size:0.65rem; font-weight:700;">💬 TG</a>`;
+                } else if (o.Phone.startsWith('+') || /^\d+$/.test(o.Phone)) {
+                    contactBtn = `<a href="tel:${o.Phone}" onclick="event.stopPropagation()" style="display:inline-flex; align-items:center; gap:3px; background:rgba(0,230,118,0.15); border:1px solid var(--accent-green); color:var(--accent-green); text-decoration:none; padding:2px 6px; border-radius:6px; font-size:0.65rem; font-weight:700;">📞 Зателефонувати</a>`;
+                }
+            }
+
+            const phoneDisplay = o.Phone ? `<div style="display:flex; align-items:center; gap:6px; margin-top:3px;"><span style="font-size:0.7rem; color:var(--text-sub);">📱 ${o.Phone}</span> ${contactBtn}</div>` : '';
+            const commentSnippet = o.Comment ? `<div style="font-size:0.68rem; color:var(--cyber-gold); font-style:italic; margin-top:4px; background:rgba(255,215,0,0.06); padding:4px 8px; border-radius:6px; border-left:2px solid var(--cyber-gold);">💬 "${o.Comment}"</div>` : '';
 
             const cardHtml = `
-            <div style="background:linear-gradient(135deg, rgba(18,25,38,0.95) 0%, rgba(10,15,25,0.98) 100%); border:1px solid rgba(255,255,255,0.08); border-left:4px solid ${borderColor}; border-radius:12px; padding:12px; margin-bottom:10px; box-shadow:0 6px 16px rgba(0,0,0,0.6); transition:all 0.25s ease;">
+            <div style="background:linear-gradient(135deg, rgba(18,25,38,0.96) 0%, rgba(8,12,20,0.98) 100%); border:1px solid rgba(255,255,255,0.08); border-left:4px solid ${borderColor}; border-radius:14px; padding:12px; margin-bottom:12px; box-shadow:0 6px 18px rgba(0,0,0,0.6), inset 0 0 15px ${glowColor}; transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1);" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
                 <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:6px;">
                     <div>
-                        <div style="font-weight:800; color:#fff; font-size:0.88rem; letter-spacing:0.3px;">${o.Client}</div>
+                        <div style="font-weight:900; color:#fff; font-size:0.9rem; letter-spacing:0.3px; display:flex; align-items:center; gap:6px;">
+                            <span style="display:inline-block; width:22px; height:22px; border-radius:50%; background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); text-align:center; line-height:20px; font-size:0.7rem;">👤</span>
+                            ${o.Client}
+                        </div>
                         ${phoneDisplay}
                     </div>
                     <div style="text-align:right;">
-                        <div style="font-family:'Orbitron'; font-size:0.92rem; color:var(--cyber-gold); font-weight:900;">${o.Price} €</div>
-                        <div style="margin-top:2px;">${statusBadge}</div>
+                        <div style="font-family:'Orbitron'; font-size:0.98rem; color:var(--cyber-gold); font-weight:900; text-shadow:0 0 10px rgba(255,215,0,0.3);">${o.Price} €</div>
+                        <div style="margin-top:3px;">${statusBadge}</div>
                     </div>
                 </div>
-                <div style="font-size:0.75rem; color:var(--text-sub); margin-top:6px; background:rgba(0,0,0,0.3); padding:5px 8px; border-radius:6px; border:1px solid rgba(255,255,255,0.04);">✂️ ${o.Service}</div>
+                
+                <div style="font-size:0.75rem; color:#fff; margin-top:8px; background:rgba(0,0,0,0.4); padding:6px 10px; border-radius:8px; border:1px solid rgba(255,255,255,0.05); display:flex; justify-content:space-between; align-items:center;">
+                    <span>✂️ ${o.Service}</span>
+                    <span style="font-size:0.65rem; color:var(--cyber-blue); background:rgba(0,162,255,0.12); padding:1px 6px; border-radius:6px; font-weight:700;">${o.Payment || 'В салоні'}</span>
+                </div>
+                ${commentSnippet}
+                
                 <div style="display:flex; justify-content:space-between; font-size:0.7rem; color:var(--text-sub); margin-top:8px; padding-top:6px; border-top:1px dashed rgba(255,255,255,0.08);">
                     <span>👑 ${o.Master}</span>
                     <span>📅 ${o.Date}</span>
                 </div>
-                <div style="display:flex; gap:5px; margin-top:10px;">
-                    ${o.Status === 'Новий' ? `<button class="action-btn-sm" style="flex:1; padding:6px 4px; font-size:0.68rem; font-weight:800; background:rgba(0,162,255,0.2); border:1px solid var(--cyber-blue); color:#fff; border-radius:8px; cursor:pointer;" onclick="updateOrderStatus(${o.id}, 'Підтверджено')">⚡ Підтвердити</button>` : ''}
-                    ${o.Status !== 'Завершено' ? `<button class="action-btn-sm" style="flex:1; padding:6px 4px; font-size:0.68rem; font-weight:800; background:rgba(0,230,118,0.2); border:1px solid var(--accent-green); color:#fff; border-radius:8px; cursor:pointer;" onclick="updateOrderStatus(${o.id}, 'Завершено')">✅ Завершити</button>` : ''}
-                    <button class="action-btn-sm" style="padding:6px 9px; font-size:0.7rem; background:rgba(255,215,0,0.15); border:1px solid var(--cyber-gold); color:var(--cyber-gold); border-radius:8px; cursor:pointer;" onclick="editOrderModal(${o.id})" title="Редагувати">✏️</button>
-                    <button class="action-btn-sm" style="padding:6px 9px; font-size:0.7rem; background:rgba(255,42,95,0.15); border:1px solid var(--accent-red); color:var(--accent-red); border-radius:8px; cursor:pointer;" onclick="deleteOrder(${o.id})" title="Видалити">🗑️</button>
+                
+                <div style="display:flex; gap:6px; margin-top:10px;">
+                    ${o.Status === 'Новий' ? `<button class="action-btn-sm" style="flex:1; padding:7px 6px; font-size:0.7rem; font-weight:800; background:linear-gradient(135deg, rgba(0,162,255,0.3) 0%, rgba(0,162,255,0.15) 100%); border:1px solid var(--cyber-blue); color:#fff; border-radius:8px; cursor:pointer; box-shadow:0 0 10px rgba(0,162,255,0.3);" onclick="updateOrderStatus(${o.id}, 'Підтверджено')">⚡ Підтвердити</button>` : ''}
+                    ${o.Status !== 'Завершено' ? `<button class="action-btn-sm" style="flex:1; padding:7px 6px; font-size:0.7rem; font-weight:800; background:linear-gradient(135deg, rgba(0,230,118,0.3) 0%, rgba(0,230,118,0.15) 100%); border:1px solid var(--accent-green); color:#fff; border-radius:8px; cursor:pointer; box-shadow:0 0 10px rgba(0,230,118,0.3);" onclick="updateOrderStatus(${o.id}, 'Завершено')">✅ Завершити</button>` : ''}
+                    <button class="action-btn-sm" style="padding:7px 10px; font-size:0.72rem; background:rgba(255,215,0,0.15); border:1px solid var(--cyber-gold); color:var(--cyber-gold); border-radius:8px; cursor:pointer;" onclick="editOrderModal(${o.id})" title="Редагувати">✏️</button>
+                    <button class="action-btn-sm" style="padding:7px 10px; font-size:0.72rem; background:rgba(255,42,95,0.15); border:1px solid var(--accent-red); color:var(--accent-red); border-radius:8px; cursor:pointer;" onclick="deleteOrder(${o.id})" title="Видалити">🗑️</button>
                 </div>
             </div>`;
 
@@ -659,9 +704,9 @@ window.addEventListener('load', () => setTimeout(hidePreloaderSmooth, 800));
             else { countDone++; htmlDone += cardHtml; }
         });
 
-        colNew.innerHTML = htmlNew || '<div style="font-size:0.75rem; color:var(--text-sub); text-align:center; padding:20px; background:rgba(0,0,0,0.2); border-radius:10px; border:1px dashed rgba(255,255,255,0.08);">Порожньо</div>';
-        colConf.innerHTML = htmlConf || '<div style="font-size:0.75rem; color:var(--text-sub); text-align:center; padding:20px; background:rgba(0,0,0,0.2); border-radius:10px; border:1px dashed rgba(255,255,255,0.08);">Порожньо</div>';
-        colDone.innerHTML = htmlDone || '<div style="font-size:0.75rem; color:var(--text-sub); text-align:center; padding:20px; background:rgba(0,0,0,0.2); border-radius:10px; border:1px dashed rgba(255,255,255,0.08);">Порожньо</div>';
+        colNew.innerHTML = htmlNew || '<div style="font-size:0.78rem; color:var(--text-sub); text-align:center; padding:25px 10px; background:rgba(0,0,0,0.25); border-radius:12px; border:1px dashed rgba(0,162,255,0.2);">🏜️ Нових заявок немає</div>';
+        colConf.innerHTML = htmlConf || '<div style="font-size:0.78rem; color:var(--text-sub); text-align:center; padding:25px 10px; background:rgba(0,0,0,0.25); border-radius:12px; border:1px dashed rgba(255,215,0,0.2);">⏳ Очікують на візит</div>';
+        colDone.innerHTML = htmlDone || '<div style="font-size:0.78rem; color:var(--text-sub); text-align:center; padding:25px 10px; background:rgba(0,0,0,0.25); border-radius:12px; border:1px dashed rgba(0,230,118,0.2);">🎉 Завершених поки немає</div>';
 
         document.getElementById('count-new').innerText = countNew;
         document.getElementById('count-conf').innerText = countConf;
@@ -670,10 +715,16 @@ window.addEventListener('load', () => setTimeout(hidePreloaderSmooth, 800));
         const statTotal = document.getElementById('crm-stat-total');
         const statRevenue = document.getElementById('crm-stat-revenue');
         const statDone = document.getElementById('crm-stat-done');
+        const statAvgCheck = document.getElementById('crm-stat-avg');
 
         if (statTotal) statTotal.innerText = filteredOrders.length;
         if (statRevenue) statRevenue.innerText = totalRevenueSum + ' €';
         if (statDone) statDone.innerText = countDone;
+        
+        if (statAvgCheck) {
+            const avg = filteredOrders.length > 0 ? Math.round(totalRevenueSum / filteredOrders.length) : 0;
+            statAvgCheck.innerText = avg + ' €';
+        }
 
         // Populate Clients LTV Base
         populateClientsBase(db.orders);
@@ -696,41 +747,62 @@ window.addEventListener('load', () => setTimeout(hidePreloaderSmooth, 800));
         });
 
         let html = '';
-        Object.keys(clientMap).forEach(name => {
+        const clientNames = Object.keys(clientMap);
+        
+        clientNames.forEach(name => {
             const c = clientMap[name];
             let tierBadge = '🥉 Bronze';
             let tierColor = 'var(--text-sub)';
+            let tierIcon = '🥉';
             let nextProgress = Math.min(100, Math.round((c.total / 150) * 100));
 
-            if (c.total >= 300) { tierBadge = '💎 Diamond VIP'; tierColor = 'var(--accent-purple)'; nextProgress = 100; }
-            else if (c.total >= 150) { tierBadge = '👑 Gold VIP'; tierColor = 'var(--cyber-gold)'; nextProgress = Math.min(100, Math.round((c.total / 300) * 100)); }
-            else if (c.total >= 80) { tierBadge = '🥈 Silver VIP'; tierColor = 'var(--cyber-blue)'; nextProgress = Math.min(100, Math.round((c.total / 150) * 100)); }
+            if (c.total >= 300) {
+                tierBadge = '💎 Diamond VIP'; tierColor = 'var(--accent-purple)'; tierIcon = '💎'; nextProgress = 100;
+            } else if (c.total >= 150) {
+                tierBadge = '👑 Gold VIP'; tierColor = 'var(--cyber-gold)'; tierIcon = '👑'; nextProgress = Math.min(100, Math.round((c.total / 300) * 100));
+            } else if (c.total >= 80) {
+                tierBadge = '🥈 Silver VIP'; tierColor = 'var(--cyber-blue)'; tierIcon = '🥈'; nextProgress = Math.min(100, Math.round((c.total / 150) * 100));
+            }
+
+            // Filter by tier
+            if (window.selectedCrmTierFilter && window.selectedCrmTierFilter !== 'all') {
+                if (window.selectedCrmTierFilter === 'vip' && c.total < 80) return;
+                if (window.selectedCrmTierFilter === 'gold' && c.total < 150) return;
+            }
 
             html += `
-            <div style="background:linear-gradient(135deg, rgba(14,22,35,0.9) 0%, rgba(8,12,20,0.95) 100%); border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:12px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center; cursor:pointer; box-shadow:0 4px 12px rgba(0,0,0,0.4); transition:all 0.2s;" onclick="openCrmClientModal('${name}', ${c.total}, ${c.count}, '${tierBadge}')">
+            <div style="background:linear-gradient(135deg, rgba(14,22,35,0.96) 0%, rgba(8,12,20,0.98) 100%); border:1px solid rgba(255,255,255,0.08); border-radius:14px; padding:12px 14px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center; cursor:pointer; box-shadow:0 4px 14px rgba(0,0,0,0.4); transition:all 0.25s ease;" onmouseover="this.style.borderColor='${tierColor}'" onmouseout="this.style.borderColor='rgba(255,255,255,0.08)'" onclick="openCrmClientModal('${name}', ${c.total}, ${c.count}, '${tierBadge}')">
                 <div style="flex:1;">
                     <div style="display:flex; align-items:center; gap:8px;">
-                        <span style="font-weight:800; color:#fff; font-size:0.88rem;">${name}</span>
-                        ${c.phone ? `<span style="font-size:0.68rem; color:var(--cyber-blue); background:rgba(0,162,255,0.12); padding:1px 6px; border-radius:6px;">📱 ${c.phone}</span>` : ''}
+                        <span style="font-size:1.1rem;">${tierIcon}</span>
+                        <span style="font-weight:900; color:#fff; font-size:0.92rem; letter-spacing:0.2px;">${name}</span>
+                        ${c.phone ? `<span style="font-size:0.68rem; color:var(--cyber-blue); background:rgba(0,162,255,0.12); border:1px solid rgba(0,162,255,0.3); padding:1px 7px; border-radius:8px; font-weight:700;">📱 ${c.phone}</span>` : ''}
                     </div>
-                    <div style="font-size:0.72rem; color:var(--text-sub); margin-top:4px;">Візитів: <b>${c.count}</b> • Останній: ${c.lastDate}</div>
+                    <div style="font-size:0.73rem; color:var(--text-sub); margin-top:5px; display:flex; align-items:center; gap:10px;">
+                        <span>Візитів: <b style="color:#fff;">${c.count}</b></span>
+                        <span>Останній: <b style="color:var(--cyber-blue);">${c.lastDate}</b></span>
+                    </div>
                     
                     <!-- LTV Progress bar -->
-                    <div style="width:100%; max-width:180px; height:4px; background:rgba(255,255,255,0.1); border-radius:4px; margin-top:6px; overflow:hidden;">
-                        <div style="width:${nextProgress}%; height:100%; background:${tierColor}; transition:width 0.4s ease;"></div>
+                    <div style="margin-top:8px; display:flex; align-items:center; gap:8px;">
+                        <div style="flex:1; max-width:180px; height:5px; background:rgba(255,255,255,0.08); border-radius:6px; overflow:hidden; border:1px solid rgba(255,255,255,0.05);">
+                            <div style="width:${nextProgress}%; height:100%; background:linear-gradient(90deg, ${tierColor}, var(--cyber-gold)); border-radius:6px; transition:width 0.4s ease;"></div>
+                        </div>
+                        <span style="font-size:0.63rem; color:var(--text-sub);">${nextProgress}% VIP LTV</span>
                     </div>
                 </div>
-                <div style="text-align:right; margin-left:12px;">
-                    <div style="font-family:'Orbitron'; font-size:0.95rem; color:${tierColor}; font-weight:900;">${c.total} €</div>
-                    <div style="font-size:0.68rem; color:${tierColor}; font-weight:800; margin-top:2px;">${tierBadge}</div>
+                
+                <div style="text-align:right; margin-left:14px;">
+                    <div style="font-family:'Orbitron'; font-size:1rem; color:${tierColor}; font-weight:900; text-shadow:0 0 10px rgba(0,0,0,0.5);">${c.total} €</div>
+                    <div style="font-size:0.68rem; color:${tierColor}; font-weight:800; margin-top:3px; background:rgba(255,255,255,0.05); padding:2px 8px; border-radius:8px; border:1px solid rgba(255,255,255,0.1); display:inline-block;">${tierBadge}</div>
                 </div>
             </div>`;
         });
-        clientList.innerHTML = html || '<div style="font-size:0.75rem; color:var(--text-sub); text-align:center; padding:20px; background:rgba(0,0,0,0.2); border-radius:10px;">База порожня</div>';
+        clientList.innerHTML = html || '<div style="font-size:0.78rem; color:var(--text-sub); text-align:center; padding:25px; background:rgba(0,0,0,0.25); border-radius:12px; border:1px dashed rgba(255,255,255,0.1);">👥 Клієнтська база порожня</div>';
     }
 
 
-function updateOrderStatus(id, newStatus) {
+    function updateOrderStatus(id, newStatus) {
         const db = getLocalDB();
         const order = db.orders.find(o => o.id === id);
         if (order) {

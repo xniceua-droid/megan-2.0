@@ -455,68 +455,103 @@
         </div>
 
         <div id="erp-crm" class="erp-panel" style="display:none;">
-            <div class="admin-card" style="padding:16px 12px; background:linear-gradient(145deg, rgba(14,21,34,0.98) 0%, rgba(6,10,17,0.98) 100%); border:1px solid rgba(0,162,255,0.25); border-radius:18px; box-shadow:0 10px 30px rgba(0,0,0,0.7);">
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; padding-bottom:10px; border-bottom:1px solid rgba(0,162,255,0.2);">
-                    <div>
-                        <h3 style="font-family:'Orbitron',sans-serif; font-size:1.05rem; font-weight:900; background:linear-gradient(90deg, var(--cyber-blue), var(--cyber-gold)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; margin:0;">💼 ENTERPRISE CRM 2026</h3>
-                        <div style="font-size:0.68rem; color:var(--text-sub); margin-top:2px;">Управління клієнтами & Записова воронка</div>
-                    </div>
-                    <button class="action-btn-sm btn-receipt" style="padding:6px 12px; font-size:0.72rem; font-weight:800; background:linear-gradient(135deg, rgba(0,230,118,0.25) 0%, rgba(0,162,255,0.25) 100%); border:1px solid var(--accent-green); color:#fff; border-radius:10px; cursor:pointer;" onclick="openManualOrderModal()">➕ Створити Запис</button>
-                </div>
+            <div class="admin-card" style="padding:18px 14px; background:linear-gradient(145deg, rgba(14,21,34,0.98) 0%, rgba(6,10,17,0.99) 100%); border:1.5px solid rgba(0,162,255,0.3); border-radius:20px; box-shadow:0 12px 35px rgba(0,0,0,0.8), 0 0 20px rgba(0,162,255,0.15);">
                 
-                <!-- ⚡ MASTER FILTER CHIPS -->
-                <div id="crm-master-filter-chips" style="display:flex; gap:6px; overflow-x:auto; margin-bottom:14px; padding-bottom:4px; scrollbar-width:none;">
-                    <div class="cyber-chip active" onclick="setCrmMasterFilter('all', this)" style="white-space:nowrap; background:rgba(0,162,255,0.2); border:1px solid var(--cyber-blue); color:#fff; font-size:0.7rem; padding:6px 12px; border-radius:14px; cursor:pointer; font-weight:700;">🔥 Всі Майстри</div>
-                    <div class="cyber-chip" onclick="setCrmMasterFilter('VOVAN', this)" style="white-space:nowrap; background:rgba(255,215,0,0.08); border:1px solid rgba(255,215,0,0.25); color:var(--cyber-gold); font-size:0.7rem; padding:6px 12px; border-radius:14px; cursor:pointer; font-weight:700;">👑 VOVAN (Стиліст)</div>
-                    <div class="cyber-chip" onclick="setCrmMasterFilter('MEGAN 2.0 AI', this)" style="white-space:nowrap; background:rgba(168,85,247,0.08); border:1px solid rgba(168,85,247,0.25); color:var(--accent-purple); font-size:0.7rem; padding:6px 12px; border-radius:14px; cursor:pointer; font-weight:700;">🤖 MEGAN 2.0 AI</div>
+                <!-- 🎯 CRM HEADER & STATUS -->
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; padding-bottom:12px; border-bottom:1px solid rgba(0,162,255,0.25);">
+                    <div>
+                        <div style="display:flex; align-items:center; gap:8px;">
+                            <h3 style="font-family:'Orbitron',sans-serif; font-size:1.1rem; font-weight:900; background:linear-gradient(90deg, var(--cyber-blue), var(--cyber-gold)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; margin:0;">💼 ENTERPRISE CRM 2026</h3>
+                            <span style="background:rgba(0,230,118,0.15); border:1px solid var(--accent-green); color:var(--accent-green); font-size:0.6rem; padding:2px 7px; border-radius:10px; font-weight:800; display:inline-flex; align-items:center; gap:4px;"><span style="width:6px; height:6px; border-radius:50%; background:var(--accent-green); display:inline-block; animation:pulse 1.5s infinite;"></span> LIVE</span>
+                        </div>
+                        <div style="font-size:0.7rem; color:var(--text-sub); margin-top:3px;">Управління клієнтами & Записова воронка • VOVAN STUDIO</div>
+                    </div>
+                    <div style="display:flex; gap:6px;">
+                        <button class="action-btn-sm btn-receipt" style="padding:7px 14px; font-size:0.75rem; font-weight:800; background:linear-gradient(135deg, rgba(0,230,118,0.3) 0%, rgba(0,162,255,0.3) 100%); border:1px solid var(--accent-green); color:#fff; border-radius:12px; cursor:pointer; box-shadow:0 0 15px rgba(0,230,118,0.3);" onclick="openManualOrderModal()">➕ Створити Запис</button>
+                    </div>
                 </div>
 
-                <!-- ⚡ CRM KPI DASHBOARD CARDS -->
-                <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:8px; margin-bottom:14px;">
-                    <div style="background:linear-gradient(135deg, rgba(0,162,255,0.12) 0%, rgba(10,18,30,0.8) 100%); border-radius:12px; padding:10px 8px; text-align:center; border:1px solid rgba(0,162,255,0.3); box-shadow:0 4px 12px rgba(0,0,0,0.4);">
-                        <div style="font-size:0.65rem; color:var(--text-sub); font-weight:700;">Всього Записів</div>
-                        <div id="crm-stat-total" style="font-family:'Orbitron'; font-size:1.15rem; color:#fff; font-weight:900; margin-top:2px;">0</div>
+                <!-- ⚡ MASTER FILTER CHIPS -->
+                <div id="crm-master-filter-chips" style="display:flex; gap:6px; overflow-x:auto; margin-bottom:14px; padding-bottom:4px; scrollbar-width:none;">
+                    <div class="cyber-chip active" onclick="setCrmMasterFilter('all', this)" style="white-space:nowrap; background:rgba(0,162,255,0.25); border:1px solid var(--cyber-blue); color:#fff; font-size:0.72rem; padding:6px 14px; border-radius:14px; cursor:pointer; font-weight:800;">🔥 Всі Майстри</div>
+                    <div class="cyber-chip" onclick="setCrmMasterFilter('VOVAN', this)" style="white-space:nowrap; background:rgba(255,215,0,0.08); border:1px solid rgba(255,215,0,0.25); color:var(--cyber-gold); font-size:0.72rem; padding:6px 14px; border-radius:14px; cursor:pointer; font-weight:800;">👑 VOVAN (Стиліст)</div>
+                    <div class="cyber-chip" onclick="setCrmMasterFilter('MEGAN 2.0 AI', this)" style="white-space:nowrap; background:rgba(168,85,247,0.08); border:1px solid rgba(168,85,247,0.25); color:var(--accent-purple); font-size:0.72rem; padding:6px 14px; border-radius:14px; cursor:pointer; font-weight:800;">🤖 MEGAN 2.0 AI</div>
+                </div>
+
+                <!-- ⚡ CRM KPI DASHBOARD CARDS (4 COLUMNS) -->
+                <div style="display:grid; grid-template-columns: repeat(4, 1fr); gap:8px; margin-bottom:16px;">
+                    <div style="background:linear-gradient(135deg, rgba(0,162,255,0.14) 0%, rgba(10,18,30,0.85) 100%); border-radius:14px; padding:10px 8px; text-align:center; border:1px solid rgba(0,162,255,0.3); box-shadow:0 4px 14px rgba(0,0,0,0.5);">
+                        <div style="font-size:0.64rem; color:var(--text-sub); font-weight:700;">Всього Записів</div>
+                        <div id="crm-stat-total" style="font-family:'Orbitron'; font-size:1.2rem; color:#fff; font-weight:900; margin-top:2px;">0</div>
                     </div>
-                    <div style="background:linear-gradient(135deg, rgba(255,215,0,0.12) 0%, rgba(10,18,30,0.8) 100%); border-radius:12px; padding:10px 8px; text-align:center; border:1px solid rgba(255,215,0,0.3); box-shadow:0 4px 12px rgba(0,0,0,0.4);">
-                        <div style="font-size:0.65rem; color:var(--text-sub); font-weight:700;">Очікуваний Дохід</div>
-                        <div id="crm-stat-revenue" style="font-family:'Orbitron'; font-size:1.15rem; color:var(--cyber-gold); font-weight:900; margin-top:2px;">0 €</div>
+                    <div style="background:linear-gradient(135deg, rgba(255,215,0,0.14) 0%, rgba(10,18,30,0.85) 100%); border-radius:14px; padding:10px 8px; text-align:center; border:1px solid rgba(255,215,0,0.3); box-shadow:0 4px 14px rgba(0,0,0,0.5);">
+                        <div style="font-size:0.64rem; color:var(--text-sub); font-weight:700;">Очікуваний Вал</div>
+                        <div id="crm-stat-revenue" style="font-family:'Orbitron'; font-size:1.2rem; color:var(--cyber-gold); font-weight:900; margin-top:2px;">0 €</div>
                     </div>
-                    <div style="background:linear-gradient(135deg, rgba(0,230,118,0.12) 0%, rgba(10,18,30,0.8) 100%); border-radius:12px; padding:10px 8px; text-align:center; border:1px solid rgba(0,230,118,0.3); box-shadow:0 4px 12px rgba(0,0,0,0.4);">
-                        <div style="font-size:0.65rem; color:var(--text-sub); font-weight:700;">Завершено</div>
-                        <div id="crm-stat-done" style="font-family:'Orbitron'; font-size:1.15rem; color:var(--accent-green); font-weight:900; margin-top:2px;">0</div>
+                    <div style="background:linear-gradient(135deg, rgba(168,85,247,0.14) 0%, rgba(10,18,30,0.85) 100%); border-radius:14px; padding:10px 8px; text-align:center; border:1px solid rgba(168,85,247,0.3); box-shadow:0 4px 14px rgba(0,0,0,0.5);">
+                        <div style="font-size:0.64rem; color:var(--text-sub); font-weight:700;">Середній Чек</div>
+                        <div id="crm-stat-avg" style="font-family:'Orbitron'; font-size:1.2rem; color:var(--accent-purple); font-weight:900; margin-top:2px;">0 €</div>
+                    </div>
+                    <div style="background:linear-gradient(135deg, rgba(0,230,118,0.14) 0%, rgba(10,18,30,0.85) 100%); border-radius:14px; padding:10px 8px; text-align:center; border:1px solid rgba(0,230,118,0.3); box-shadow:0 4px 14px rgba(0,0,0,0.5);">
+                        <div style="font-size:0.64rem; color:var(--text-sub); font-weight:700;">Завершено</div>
+                        <div id="crm-stat-done" style="font-family:'Orbitron'; font-size:1.2rem; color:var(--accent-green); font-weight:900; margin-top:2px;">0</div>
                     </div>
                 </div>
 
                 <!-- 🔍 LIVE CRM SEARCH BAR -->
-                <div class="cyber-input-wrapper" style="margin-bottom:14px; background:rgba(0,0,0,0.6); border-color:rgba(0,162,255,0.35); padding:6px 12px; border-radius:12px; height:38px;">
-                    <span class="input-icon" style="font-size:0.85rem; margin-right:8px;">🔍</span>
-                    <input type="text" id="crm-search-input" placeholder="Пошук клієнта, телефону, майстра чи послуги..." oninput="populateCRM()" style="font-size:0.78rem; color:#fff; height:100%; width:100%; border:none; background:transparent; outline:none; font-family:'Montserrat',sans-serif;">
+                <div class="cyber-input-wrapper" style="margin-bottom:16px; background:rgba(0,0,0,0.65); border-color:rgba(0,162,255,0.4); padding:6px 14px; border-radius:14px; height:42px; box-shadow:0 4px 15px rgba(0,0,0,0.5);">
+                    <span class="input-icon" style="font-size:0.9rem; margin-right:10px;">🔍</span>
+                    <input type="text" id="crm-search-input" placeholder="Пошук клієнта, телефону, майстра чи послуги в реальному часі..." oninput="populateCRM()" style="font-size:0.8rem; color:#fff; height:100%; width:100%; border:none; background:transparent; outline:none; font-family:'Montserrat',sans-serif;">
                 </div>
 
-                <div style="display:flex; gap:10px; overflow-x:auto; padding-bottom:10px; scrollbar-width:none;">
-                    <div style="min-width:250px; background:rgba(255,255,255,0.02); border-radius:12px; padding:10px; border:1px solid rgba(255,255,255,0.05);">
-                        <div style="font-family:'Orbitron'; font-size:0.85rem; color:#fff; margin-bottom:10px; display:flex; justify-content:space-between;">
-                            🆕 Нові <span style="background:var(--cyber-blue); color:#000; padding:2px 6px; border-radius:10px; font-weight:bold;" id="count-new">0</span>
+                <!-- 📊 KANBAN BOARD COLUMNS -->
+                <div style="display:flex; gap:12px; overflow-x:auto; padding-bottom:12px; scrollbar-width:none;">
+                    <!-- COL 1: NEW -->
+                    <div style="min-width:270px; flex:1; background:rgba(255,255,255,0.025); border-radius:16px; padding:12px; border:1px solid rgba(0,162,255,0.2); box-shadow:0 4px 20px rgba(0,0,0,0.4);">
+                        <div style="font-family:'Orbitron',sans-serif; font-size:0.88rem; color:#fff; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center; padding-bottom:6px; border-bottom:1px solid rgba(0,162,255,0.2);">
+                            <span style="display:flex; align-items:center; gap:6px;">🆕 Нові Заявки</span>
+                            <span style="background:var(--cyber-blue); color:#000; padding:2px 8px; border-radius:12px; font-weight:900; font-size:0.75rem;" id="count-new">0</span>
                         </div>
-                        <div id="crm-col-new" style="min-height:100px;"></div>
+                        <div id="crm-col-new" style="min-height:120px;"></div>
                     </div>
-                    <div style="min-width:250px; background:rgba(255,255,255,0.02); border-radius:12px; padding:10px; border:1px solid rgba(255,255,255,0.05);">
-                        <div style="font-family:'Orbitron'; font-size:0.85rem; color:#fff; margin-bottom:10px; display:flex; justify-content:space-between;">
-                            ⚡ Підтверджені <span style="background:var(--cyber-gold); color:#000; padding:2px 6px; border-radius:10px; font-weight:bold;" id="count-conf">0</span>
+
+                    <!-- COL 2: CONFIRMED -->
+                    <div style="min-width:270px; flex:1; background:rgba(255,255,255,0.025); border-radius:16px; padding:12px; border:1px solid rgba(255,215,0,0.2); box-shadow:0 4px 20px rgba(0,0,0,0.4);">
+                        <div style="font-family:'Orbitron',sans-serif; font-size:0.88rem; color:#fff; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center; padding-bottom:6px; border-bottom:1px solid rgba(255,215,0,0.2);">
+                            <span style="display:flex; align-items:center; gap:6px;">⚡ Підтверджені</span>
+                            <span style="background:var(--cyber-gold); color:#000; padding:2px 8px; border-radius:12px; font-weight:900; font-size:0.75rem;" id="count-conf">0</span>
                         </div>
-                        <div id="crm-col-conf" style="min-height:100px;"></div>
+                        <div id="crm-col-conf" style="min-height:120px;"></div>
                     </div>
-                    <div style="min-width:250px; background:rgba(255,255,255,0.02); border-radius:12px; padding:10px; border:1px solid rgba(255,255,255,0.05);">
-                        <div style="font-family:'Orbitron'; font-size:0.85rem; color:#fff; margin-bottom:10px; display:flex; justify-content:space-between;">
-                            ✅ Завершені <span style="background:var(--accent-green); color:#000; padding:2px 6px; border-radius:10px; font-weight:bold;" id="count-done">0</span>
+
+                    <!-- COL 3: DONE -->
+                    <div style="min-width:270px; flex:1; background:rgba(255,255,255,0.025); border-radius:16px; padding:12px; border:1px solid rgba(0,230,118,0.2); box-shadow:0 4px 20px rgba(0,0,0,0.4);">
+                        <div style="font-family:'Orbitron',sans-serif; font-size:0.88rem; color:#fff; margin-bottom:12px; display:flex; justify-content:space-between; align-items:center; padding-bottom:6px; border-bottom:1px solid rgba(0,230,118,0.2);">
+                            <span style="display:flex; align-items:center; gap:6px;">✅ Завершені</span>
+                            <span style="background:var(--accent-green); color:#000; padding:2px 8px; border-radius:12px; font-weight:900; font-size:0.75rem;" id="count-done">0</span>
                         </div>
-                        <div id="crm-col-done" style="min-height:100px;"></div>
+                        <div id="crm-col-done" style="min-height:120px;"></div>
                     </div>
                 </div>
 
-                <h4 style="font-family:'Orbitron'; color:var(--cyber-blue); font-size:0.9rem; margin-top:20px; text-align:center;">👥 КЛІЄНТСЬКА БАЗА (LTV & ТІРИ)</h4>
-                <div id="crm-clients-list" style="margin-top:10px;"></div>
-                <button class="action-btn-sm btn-receipt" style="width:100%; margin-top:15px; padding:12px;" onclick="openManualOrderModal()">➕ СТВОРИТИ ЗАПИС ВРУЧНУ</button>
+                <!-- 👥 CLIENTS LTV BASE MODULE -->
+                <div style="margin-top:22px; padding-top:16px; border-top:1px solid rgba(0,162,255,0.2);">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                        <h4 style="font-family:'Orbitron',sans-serif; color:var(--cyber-blue); font-size:0.95rem; font-weight:900; margin:0; display:flex; align-items:center; gap:6px;">👥 КЛІЄНТСЬКА БАЗА (LTV & VIP РАНГИ)</h4>
+                        
+                        <div id="crm-tier-filter-chips" style="display:flex; gap:4px;">
+                            <div class="cyber-chip active" onclick="setCrmTierFilter('all', this)" style="white-space:nowrap; background:rgba(255,215,0,0.2); border:1px solid var(--cyber-gold); color:#fff; font-size:0.65rem; padding:4px 9px; border-radius:10px; cursor:pointer; font-weight:700;">Всі</div>
+                            <div class="cyber-chip" onclick="setCrmTierFilter('vip', this)" style="white-space:nowrap; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.15); color:var(--text-sub); font-size:0.65rem; padding:4px 9px; border-radius:10px; cursor:pointer; font-weight:700;">👑 VIP</div>
+                        </div>
+                    </div>
+                    
+                    <div id="crm-clients-list" style="margin-top:10px;"></div>
+                    
+                    <div style="display:flex; gap:8px; margin-top:16px;">
+                        <button class="action-btn-sm btn-receipt" style="flex:1; padding:12px; font-weight:800; font-size:0.8rem;" onclick="openManualOrderModal()">➕ СТВОРИТИ ЗАПИС ВРУЧНУ</button>
+                        <button class="action-btn-sm" style="padding:12px 16px; font-weight:800; font-size:0.8rem; background:rgba(0,162,255,0.15); border:1px solid var(--cyber-blue); color:var(--cyber-blue); border-radius:10px; cursor:pointer;" onclick="exportHTMLReport()">📄 Звіт HTML</button>
+                    </div>
+                </div>
             </div>
         </div>
 
