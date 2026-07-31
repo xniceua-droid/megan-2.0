@@ -439,17 +439,96 @@
         </div>
 
         <div id="erp-accounting" class="erp-panel" style="display:none;">
-            <div class="admin-card">
-                <h3 style="font-family:'Orbitron'; color:var(--cyber-gold);">🇫🇷 ПОДАТКИ (FRANCE)</h3>
-                <div class="form-group" style="margin-top:10px;"><label>Витрати (Оренда, Матеріали) €:</label><input type="number" id="acc-expenses" value="1200" onchange="calculateAccounting()"></div>
-                <div class="form-group" style="margin-top:10px;"><label>Електроенергія €:</label><input type="number" id="acc-electricity" value="150" onchange="calculateAccounting()"></div>
-                <div style="background:#121926; border:1px solid rgba(255,255,255,0.1); border-radius:12px; padding:15px; margin-top:15px;">
-                    <div style="display:flex; justify-content:space-between; margin-bottom:8px; font-size:0.85rem;"><span style="color:var(--text-sub);">Валовий дохід:</span> <span id="acc-gross" style="color:#fff; font-weight:bold;">0 €</span></div>
-                    <div style="display:flex; justify-content:space-between; margin-bottom:8px; font-size:0.85rem;"><span style="color:var(--text-sub);">ПДВ (TVA 20%):</span> <span id="acc-tva" style="color:var(--accent-red); font-weight:bold;">0 €</span></div>
-                    <div style="display:flex; justify-content:space-between; margin-bottom:8px; font-size:0.85rem;"><span style="color:var(--text-sub);">Соц. внески (URSSAF 22%):</span> <span id="acc-urssaf" style="color:var(--accent-red); font-weight:bold;">0 €</span></div>
-                    <div style="display:flex; justify-content:space-between; margin-bottom:8px; font-size:0.85rem;"><span style="color:var(--text-sub);">Поточні витрати:</span> <span id="acc-exp-display" style="color:var(--accent-purple); font-weight:bold;">1350 €</span></div>
-                    <hr style="border:0; border-top:1px dashed rgba(255,255,255,0.1); margin:10px 0;">
-                    <div style="display:flex; justify-content:space-between; font-size:1rem;"><span style="color:var(--cyber-gold); font-weight:bold;">ЧИСТИЙ ПРИБУТОК:</span> <span id="acc-net" style="color:var(--accent-green); font-family:'Orbitron'; font-weight:900;">0 €</span></div>
+            <div class="admin-card" style="padding:18px 14px; background:linear-gradient(145deg, rgba(14,21,34,0.98) 0%, rgba(6,10,17,0.99) 100%); border:1.5px solid rgba(255,215,0,0.3); border-radius:20px; box-shadow:0 12px 35px rgba(0,0,0,0.8), 0 0 20px rgba(255,215,0,0.15);">
+                
+                <!-- 🇫🇷 TAX HEADER & REGIME SWITCHER -->
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; padding-bottom:12px; border-bottom:1px solid rgba(255,215,0,0.25);">
+                    <div>
+                        <div style="display:flex; align-items:center; gap:8px;">
+                            <h3 style="font-family:'Orbitron',sans-serif; font-size:1.1rem; font-weight:900; background:linear-gradient(90deg, var(--cyber-gold), #fff); -webkit-background-clip:text; -webkit-text-fill-color:transparent; margin:0;">🇫🇷 ПОДАТКОВИЙ КАБІНЕТ 2026</h3>
+                            <span style="background:rgba(0,162,255,0.15); border:1px solid var(--cyber-blue); color:var(--cyber-blue); font-size:0.6rem; padding:2px 7px; border-radius:10px; font-weight:800;">FRANCE (TVA & URSSAF)</span>
+                        </div>
+                        <div style="font-size:0.7rem; color:var(--text-sub); margin-top:3px;">Розрахунок податків, соціальних внесків та Facture TTC</div>
+                    </div>
+                    <button class="action-btn-sm" style="padding:7px 12px; font-size:0.72rem; font-weight:800; background:rgba(0,162,255,0.2); border:1px solid var(--cyber-blue); color:#fff; border-radius:10px; cursor:pointer;" onclick="openFrenchInvoiceModal()">🧾 Facture TTC</button>
+                </div>
+
+                <!-- ⚡ TAX REGIME CHIPS -->
+                <div id="tax-regime-chips" style="display:flex; gap:6px; overflow-x:auto; margin-bottom:14px; padding-bottom:4px; scrollbar-width:none;">
+                    <div class="cyber-chip active" onclick="setTaxRegime('micro', this)" style="white-space:nowrap; background:rgba(255,215,0,0.2); border:1px solid var(--cyber-gold); color:#fff; font-size:0.72rem; padding:6px 14px; border-radius:14px; cursor:pointer; font-weight:800;">🇫🇷 Auto-Entrepreneur (URSSAF 21.5%)</div>
+                    <div class="cyber-chip" onclick="setTaxRegime('reel', this)" style="white-space:nowrap; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.15); color:var(--text-sub); font-size:0.72rem; padding:6px 14px; border-radius:14px; cursor:pointer; font-weight:800;">💼 SASU / EURL (IS + TVA 20%)</div>
+                </div>
+
+                <!-- ⚙️ EXPENSES INPUT FORM -->
+                <div style="background:rgba(0,0,0,0.3); border-radius:14px; padding:12px; border:1px solid rgba(255,255,255,0.06); margin-bottom:14px;">
+                    <div style="font-size:0.78rem; color:#fff; font-weight:800; margin-bottom:8px; display:flex; align-items:center; gap:6px;">⚡ Поточні витрати салону (Оренда & Комунальні):</div>
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px;">
+                        <div class="form-group" style="margin:0;">
+                            <label style="font-size:0.68rem; color:var(--text-sub);">Оренда & Матеріали (€):</label>
+                            <input type="number" id="acc-expenses" value="1200" onchange="calculateAccounting()" oninput="calculateAccounting()" style="background:#080c14; border:1px solid rgba(0,162,255,0.3); border-radius:8px; color:#fff; padding:6px 10px; font-size:0.8rem; font-weight:700; width:100%;">
+                        </div>
+                        <div class="form-group" style="margin:0;">
+                            <label style="font-size:0.68rem; color:var(--text-sub);">Електроенергія (€):</label>
+                            <input type="number" id="acc-electricity" value="150" onchange="calculateAccounting()" oninput="calculateAccounting()" style="background:#080c14; border:1px solid rgba(255,215,0,0.3); border-radius:8px; color:#fff; padding:6px 10px; font-size:0.8rem; font-weight:700; width:100%;">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 📊 TAX FINANCIAL SUMMARY CAPSULE -->
+                <div style="background:linear-gradient(135deg, rgba(18,25,38,0.95) 0%, rgba(10,15,25,0.98) 100%); border:1px solid rgba(255,215,0,0.25); border-radius:16px; padding:16px; margin-top:10px; box-shadow:0 8px 25px rgba(0,0,0,0.5);">
+                    <div style="display:flex; justify-content:space-between; margin-bottom:10px; font-size:0.88rem;">
+                        <span style="color:var(--text-sub);">Валовий дохід (CA Brut TTC):</span>
+                        <span id="acc-gross" style="color:#fff; font-family:'Orbitron'; font-weight:900;">0 €</span>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; margin-bottom:10px; font-size:0.85rem;">
+                        <span style="color:var(--text-sub);">ПДВ (TVA 20%):</span>
+                        <span id="acc-tva" style="color:var(--accent-red); font-weight:800;">0 €</span>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; margin-bottom:10px; font-size:0.85rem;">
+                        <span style="color:var(--text-sub);">Соціальні внески URSSAF (21.5%):</span>
+                        <span id="acc-urssaf" style="color:var(--accent-red); font-weight:800;">0 €</span>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; margin-bottom:10px; font-size:0.85rem;">
+                        <span style="color:var(--text-sub);">Витрати салону (Оренда + Світло):</span>
+                        <span id="acc-exp-display" style="color:var(--accent-purple); font-weight:800;">1350 €</span>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; margin-bottom:10px; font-size:0.85rem;">
+                        <span style="color:var(--text-sub);">Виплати майстрам (45%):</span>
+                        <span id="acc-master-cut" style="color:var(--cyber-blue); font-weight:800;">0 €</span>
+                    </div>
+                    <div style="display:flex; justify-content:space-between; margin-bottom:10px; font-size:0.85rem;">
+                        <span style="color:var(--text-sub);">Податок CFE / Внески:</span>
+                        <span id="acc-cfe" style="color:var(--text-sub); font-weight:800;">50 €</span>
+                    </div>
+
+                    <!-- Visual Breakdown Bar -->
+                    <div style="margin-top:12px; margin-bottom:12px;">
+                        <div style="font-size:0.68rem; color:var(--text-sub); margin-bottom:4px; display:flex; justify-content:space-between;">
+                            <span>Розподіл доходу</span>
+                            <span id="acc-margin" style="color:var(--accent-green); font-weight:800;">0% Margin</span>
+                        </div>
+                        <div style="width:100%; height:8px; background:rgba(255,255,255,0.08); border-radius:6px; overflow:hidden; display:flex;">
+                            <div id="bar-tax-urssaf" style="width:21%; height:100%; background:var(--accent-red); transition:width 0.4s ease;" title="URSSAF / TVA"></div>
+                            <div id="bar-tax-exp" style="width:30%; height:100%; background:var(--accent-purple); transition:width 0.4s ease;" title="Витрати"></div>
+                            <div id="bar-tax-net" style="width:49%; height:100%; background:var(--accent-green); transition:width 0.4s ease;" title="Чистий прибуток"></div>
+                        </div>
+                    </div>
+
+                    <hr style="border:0; border-top:1px dashed rgba(255,215,0,0.25); margin:12px 0;">
+                    
+                    <div style="display:flex; justify-content:space-between; align-items:center; font-size:1.05rem;">
+                        <span style="color:var(--cyber-gold); font-family:'Orbitron'; font-weight:900;">ЧИСТИЙ ПРИБУТОК (NET):</span>
+                        <span id="acc-net" style="color:var(--accent-green); font-family:'Orbitron'; font-weight:900; font-size:1.3rem; text-shadow:0 0 15px rgba(0,230,118,0.4);">0 €</span>
+                    </div>
+                </div>
+
+                <!-- 📋 URSSAF DECLARATION ASSISTANT -->
+                <div style="background:rgba(0,162,255,0.08); border:1px solid rgba(0,162,255,0.25); border-radius:14px; padding:12px; margin-top:14px; display:flex; align-items:center; justify-content:space-between;">
+                    <div>
+                        <div style="font-size:0.75rem; color:#fff; font-weight:800;">🇫🇷 Декларація URSSAF (Chiffre d'Affaires):</div>
+                        <div style="font-size:0.68rem; color:var(--text-sub); margin-top:2px;">Сума для подання в urssaf.fr: <b id="acc-urssaf-decl" style="color:var(--cyber-gold);">0 €</b></div>
+                    </div>
+                    <button class="action-btn-sm" style="padding:6px 12px; font-size:0.7rem; font-weight:800; background:rgba(0,162,255,0.2); border:1px solid var(--cyber-blue); color:#fff; border-radius:8px; cursor:pointer;" onclick="exportHTMLReport()">📄 Скопіювати Звіт</button>
                 </div>
             </div>
         </div>

@@ -2651,3 +2651,102 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 500);
     }
 });
+
+
+    // 🇫🇷 FRENCH TAX & ACCOUNTING ENGINE 2026 (URSSAF / TVA / SASU / MICRO-ENTREPRISE)
+    window.currentTaxRegime = window.currentTaxRegime || 'micro'; // 'micro' or 'reel'
+
+    window.setTaxRegime = function(regime, el) {
+        if (typeof triggerHaptic === 'function') triggerHaptic('light');
+        window.currentTaxRegime = regime;
+        document.querySelectorAll('#tax-regime-chips .cyber-chip').forEach(b => {
+            b.style.background = 'rgba(255,255,255,0.05)';
+            b.style.borderColor = 'rgba(255,255,255,0.15)';
+            b.style.color = 'var(--text-sub)';
+            b.classList.remove('active');
+        });
+        if (el) {
+            el.classList.add('active');
+            el.style.background = 'rgba(255,215,0,0.2)';
+            el.style.borderColor = 'var(--cyber-gold)';
+            el.style.color = '#fff';
+        }
+        calculateAccounting();
+    };
+
+    function calculateAccounting() {
+        const db = getLocalDB();
+        let gross = 0;
+        (db.orders || []).forEach(o => { if(o.Status === 'Завершено') gross += (o.Price || 0); });
+
+        const rentEl = document.getElementById('acc-expenses');
+        const elecEl = document.getElementById('acc-electricity');
+        const rentExp = rentEl ? parseFloat(rentEl.value) || 1200 : 1200;
+        const elecExp = elecEl ? parseFloat(elecEl.value) || 150 : 150;
+        const totalExpenses = rentExp + elecExp;
+
+        // French Tax calculations
+        let tva = 0;
+        let urssaf = 0;
+        let isTax = 0;
+        let cfe = 50; // Average CFE monthly allocation
+
+        if (window.currentTaxRegime === 'micro') {
+            // Micro-entreprise BIC Services: URSSAF 21.2% + CFP 0.3% = 21.5%
+            urssaf = gross * 0.215;
+            tva = gross > 36800 ? gross * 0.20 : 0; // TVA threshold check
+        } else {
+            // SASU / Régime Réel: TVA 20% + IS 15% on taxable profit
+            tva = gross * 0.20;
+            urssaf = (gross - tva) * 0.15; // Corporate Tax IS estimation
+        }
+
+        // Master cut calculation
+        const percentInput = document.getElementById('master-percent');
+        const masterPercent = percentInput ? parseInt(percentInput.value) || 45 : 45;
+        const masterCut = gross * (masterPercent / 100);
+
+        const netProfit = gross - tva - urssaf - totalExpenses - masterCut - cfe;
+        const profitMargin = gross > 0 ? Math.max(0, Math.round((netProfit / gross) * 100)) : 0;
+
+        const formatMoney = (val) => Math.round(val) + ' €';
+
+        const elGross = document.getElementById('acc-gross');
+        const elTva = document.getElementById('acc-tva');
+        const elUrssaf = document.getElementById('acc-urssaf');
+        const elExp = document.getElementById('acc-exp-display');
+        const elMasterCut = document.getElementById('acc-master-cut');
+        const elCfe = document.getElementById('acc-cfe');
+        const elNet = document.getElementById('acc-net');
+        const elMargin = document.getElementById('acc-margin');
+        const elUrssafDecl = document.getElementById('acc-urssaf-decl');
+
+        if(elGross) elGross.innerText = formatMoney(gross);
+        if(elTva) elTva.innerText = formatMoney(tva);
+        if(elUrssaf) elUrssaf.innerText = formatMoney(urssaf);
+        if(elExp) elExp.innerText = formatMoney(totalExpenses);
+        if(elMasterCut) elMasterCut.innerText = formatMoney(masterCut);
+        if(elCfe) elCfe.innerText = formatMoney(cfe);
+        if(elNet) elNet.innerText = formatMoney(netProfit);
+        if(elMargin) elMargin.innerText = profitMargin + '%';
+        if(elUrssafDecl) elUrssafDecl.innerText = formatMoney(gross);
+
+        // Director sync
+        const elDirTotal = document.getElementById('dir-total-revenue');
+        const elDirNet = document.getElementById('dir-net-profit');
+        if(elDirTotal) elDirTotal.innerText = formatMoney(gross);
+        if(elDirNet) elDirNet.innerText = formatMoney(netProfit);
+
+        // Update distribution progress bars
+        try {
+            const barUrssaf = document.getElementById('bar-tax-urssaf');
+            const barExpenses = document.getElementById('bar-tax-exp');
+            const barNet = document.getElementById('bar-tax-net');
+            if (gross > 0) {
+                if (barUrssaf) barUrssaf.style.width = Math.min(100, Math.round((urssaf / gross) * 100)) + '%';
+                if (barExpenses) barExpenses.style.width = Math.min(100, Math.round((totalExpenses / gross) * 100)) + '%';
+                if (barNet) barNet.style.width = Math.min(100, Math.max(0, Math.round((netProfit / gross) * 100))) + '%';
+            }
+        } catch(e) {}
+    }
+    window.calculateAccounting = calculateAccounting;
